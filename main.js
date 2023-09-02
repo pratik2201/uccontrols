@@ -1,1 +1,1 @@
-require('ucbuilder').registarMe(__dirname);
+require('ucbuilder').register.registarMe();
