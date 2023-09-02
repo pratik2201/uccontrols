@@ -1,0 +1,1 @@
+require('ucbuilder').register.registarMe('@uccontrols:',__dirname);

@@ -1,0 +1,23 @@
+{
+  "name": "uccontrols",
+  "version": "1.0.0",
+  "description": "show your creativity/intelligence.. do free get free  :)",
+  "main": "main.js",
+  "scripts": {     
+  },
+  "author": "ap",
+  "license": "ISC",
+  "devDependencies": {
+   
+  },
+  "dependencies": {    
+    
+  },
+  "keywords": [
+    "user controls"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pratik2201/uccontrols.git"
+  }
+}
