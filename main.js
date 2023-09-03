@@ -1,1 +1,1 @@
-require('ucbuilder').register.registarMe();
+require('ucbuilder').registar();
