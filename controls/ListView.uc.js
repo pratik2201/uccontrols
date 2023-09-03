@@ -1,8 +1,8 @@
 const { designer } = require('./ListView.uc.designer.js');
 const { propOpt } = require('@ucbuilder:/build/common.js');
-const { PageMouseEvent } = require('@ucbuilder:/appBuilder/Window/codeFile/PageManage.enum.js');
+const { PageMouseEvent } = require('@ucbuilder:/global/PageManage.enum.js');
 const { ListViewSource } = require("@uccontrols:/controls/ListView.uc.enumAndMore");
-const { listUiHandler } = require("@ucbuilder:/appBuilder/Window/codeFile/listUiHandler");
+const { listUiHandler } = require("@ucbuilder:/global/listUiHandler");
 const { commonEvent } = require('@ucbuilder:/global/commonEvent.js');
 const { TempleteNode } = require("@ucbuilder:/Template");
 
