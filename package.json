@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "description": "show your creativity/intelligence.. do free get free  :)",
   "main": "main.js",
-  "scripts": {     
-  },
+  "scripts": {},
   "author": "ap",
   "license": "ISC",
-  "devDependencies": {
-   
-  },
-  "dependencies": {    
-    
+  "dependencies": {
+    "ucbuilder": "^1.0.0-beta.0"
   },
   "keywords": [
     "user controls"
