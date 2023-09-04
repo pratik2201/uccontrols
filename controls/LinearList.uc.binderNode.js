@@ -1,7 +1,7 @@
 
 const { commonEvent } = require("@ucbuilder:/global/commonEvent");
 const { Rect } = require("@ucbuilder:/global/drawing/shapes");
-const { Templete } = require("@ucbuilder:/Template");
+const { Template } = require("@ucbuilder:/Template");
 const LinearList = require("@uccontrols:/controls/LinearList.uc");
 const { positionar } = require("@uccontrols:/controls/LinearList.uc.positionar");
 const { keyBoard } = require("@ucbuilder:/global/hardware/keyboard");
@@ -92,7 +92,7 @@ class binderNode {
         }
         // }
     }
-    /** @type {Templete}  */
+    /** @type {Template}  */
     template = undefined;
     
     _source = [];
@@ -177,7 +177,7 @@ class binderNode {
     showAt(txtboxRect) {
 
         //this.main.ucExtends.self.hidden = false;
-        this.main.lv_items.template = this.template;
+        this.main.lv_items.itemTemplate = this.template;
         this.main.source.rows = this.filteredSource;
         this.main.lv_items.Records.fillAll();
         this.main.lv_items.lvUI.currentIndex = this.main.lv_items.lvUI.currentIndex;

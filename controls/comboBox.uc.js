@@ -1,16 +1,31 @@
-const {  objectOpt } = require('@ucbuilder:/build/common.js');
+const { objectOpt } = require('@ucbuilder:/build/common.js');
 const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
-const { Templete } = require('@ucbuilder:/Template.js');
+const { Template } = require('@ucbuilder:/Template.js');
 const comboboxItem = require('@uccontrols:/controls/combobox/comboboxitem.tpt.js');
 const { keyBoard } = require('@ucbuilder:/global/hardware/keyboard.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { designer } = require('./combobox.uc.designer.js');
 class combobox extends designer {
     set source(val) { this.binder.source = val; }
-    /** @type {Templete}  */ 
-    set itemTemplete(val) { this.binder.template = val; }
-    /** @type {Templete}  */ 
-    seletectedItemTemplete = undefined;
+    get itemTemplate() {
+        if (this.binder == undefined) return undefined;
+        return this.binder.template;
+    }
+    /** @type {Template}  */
+    set itemTemplate(val) {
+        if (this.binder == undefined)
+            this.binder = this.ll_view.bindNew();
+        this.binder.template = intenseGenerator.parseTPT(val, this.ucExtends.PARENT);      
+    }
+    /** @type {Template}  */
+    _seletecteditemTemplate = undefined;
+    get seletecteditemTemplate() {
+        return this._seletecteditemTemplate;
+    }
+    set seletecteditemTemplate(value) {
+        console.log(value);
+        this._seletecteditemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);  
+    }
     set selectedIndex(val) {
         this.binder.selectedIndex = val;
         //this.ll_view.lv_items.lvUI.currentIndex = val;
@@ -28,25 +43,25 @@ class combobox extends designer {
         txtboxRect.setBy.domRect(this.ucExtends.self.getClientRects()[0]);
         this.binder.showAt(txtboxRect);
     }
-    get hasfocused(){
-        return this.ucExtends.self.contains(document.activeElement)  || 
+    get hasfocused() {
+        return this.ucExtends.self.contains(document.activeElement) ||
             this.ll_view.ucExtends.self.contains(document.activeElement);
     }
     constructor() {
         eval(designer.giveMeHug);
-        
-        /** @type {comboboxItem}  */ 
-        let tpt = intenseGenerator.generateTPT('@uccontrols:/controls/comboBox/comboboxItem.tpt',{
-            parentUc:this
-        });
-        
+        console.log(this.itemTemplate);
+        if (this.itemTemplate == undefined) {
+
+            this.itemTemplate = intenseGenerator.generateTPT('@uccontrols:/controls/comboBox/comboboxItem.tpt', {
+                parentUc: this
+            });
+        }
+        this.binder.direction = 'bottom';
         //console.log(tpt);
         //this.openOn.push('click','dblclick')
-        this.binder = this.ll_view.bindNew();
-        this.binder.direction = 'bottom';
-        this.itemTemplete = tpt;
-        
-        // this.binder.source = rootPathHandler.source;
+
+
+        // \this.binder.source = rootPathHandler.source;
         //this.binder.allowedElementList.push(this.ucExtends.self);
         //this.binder.template = this.tpt_rootitemNode;
         this.binder.bindInputBox(
@@ -71,15 +86,15 @@ class combobox extends designer {
             this.openList();
             e.stopImmediatePropagation();
         });*/
-        this.ucExtends.self.on("keyup mouseup", (e) => {            
+        this.ucExtends.self.on("keyup mouseup", (e) => {
             switch (objectOpt.getClassName(e)) {
                 case KeyboardEvent.name:
                     this.ucExtends.self.focus();
                     break;
-            }           
-            if (!this.binder.hasBound) {               
+            }
+            if (!this.binder.hasBound) {
                 this.openList();
-                
+
                 e.stopImmediatePropagation();
             }
         });
@@ -94,11 +109,12 @@ class combobox extends designer {
             let selRec = this.binder.selectedRecord;
             this.txt_editor.innerHTML = "";
             //console.log(this.binder.template);
-            if(this.seletectedItemTemplete==undefined)
-                this.txt_editor.appendChild(this.binder.template.generateNode(this.binder.selectedRecord));
-            else this.txt_editor.appendChild(this.seletectedItemTemplete.generateNode(this.binder.selectedRecord));
-                    
-                
+            console.log(this.seletecteditemTemplate);
+            if (this.seletecteditemTemplate == undefined)
+                this.txt_editor.appendChild(this.binder.template.extended.generateNode(this.binder.selectedRecord));
+            else this.txt_editor.appendChild(this.seletecteditemTemplate.generateNode(this.binder.selectedRecord));
+
+
         });
         /* this.cmd_drop.addEventListener("mouseup",()=>{
              this.txt_editor.focus();

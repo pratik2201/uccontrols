@@ -4,7 +4,8 @@ const { PageMouseEvent } = require('@ucbuilder:/global/PageManage.enum.js');
 const { ListViewSource } = require("@uccontrols:/controls/ListView.uc.enumAndMore");
 const { listUiHandler } = require("@ucbuilder:/global/listUiHandler");
 const { commonEvent } = require('@ucbuilder:/global/commonEvent.js');
-const { Templete } = require("@ucbuilder:/Template");
+const { Template } = require("@ucbuilder:/Template");
+const { intenseGenerator } = require("@ucbuilder:/intenseGenerator")
 
 class ListView extends designer {
     accessKey = propOpt.ATTR.ACCESS_KEY;
@@ -12,8 +13,14 @@ class ListView extends designer {
     /** @type {ListViewSource}  */
     get source() {   return this.lvUI.source; }
 
-    /** @type {Templete}  */
-    template = undefined;
+    /** @type {Template}  */
+    _itemTemplate = undefined;
+    get itemTemplate() {
+        return this._itemTemplate;
+    }
+    set itemTemplate(value) {
+        this._itemTemplate = intenseGenerator.parseTPT(value,this.ucExtends.PARENT);
+    }
 
     Events = {
 
@@ -56,6 +63,7 @@ class ListView extends designer {
     set SESSION_DATA(val) { this.lvUI.OPTIONS.SESSION = val; }
     constructor() {
         eval(designer.giveMeHug);
+       
         this.lvUI = new listUiHandler();
         this.lvUI.init(this.listvw1, this.container1);
         this.init();
@@ -100,10 +108,9 @@ class ListView extends designer {
         let _this = this;
         let uc = this.ucExtends.wrapperHT;
         uc.setAttribute('tabindex', -1);
-       
         this.Records.getNode = (index) => {
-          
-            return _this.template.generateNode(_this.source.rows[index]);
+            
+            return _this.itemTemplate.extended.generateNode(_this.source.rows[index]);
         }
         this.lvUI.Events.newItemGenerate.on(
             /** @param {JQuery} ele */

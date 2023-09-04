@@ -10,7 +10,7 @@ class LinearList extends designer {
 
     }
     /** @type {TempleteNode}  */
-    set template(val) { this.lv_items.template = val; }
+    set template(val) { this.lv_items.itemTemplate = val; }
     get source() { return this.lv_items.source; }
     static ATTR = {
         SOURCE: "sdta" + uniqOpt.randomNo()
