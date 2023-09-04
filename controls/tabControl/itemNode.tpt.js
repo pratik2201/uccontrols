@@ -8,7 +8,7 @@ class itemNode extends designer {
 
     constructor() {
         super(arguments);
-        
+
     }
     /** @type {tabControl}  */
     main = undefined;
@@ -63,13 +63,13 @@ class itemNode extends designer {
         }, [this.main.tabHeader]);
 
 
-        this.primary.Events.onGenerateNode = (mainnode, json) => {
+        this.extended.Events.onGenerateNode = (mainnode, json) => {
             mainnode.addEventListener("mouseup", this.mouseup_listner);
             mainnode.addEventListener("dblclick", this.dblclick_listner);
             mainnode.setAttribute("role", "tabbutton");
-           
-            let ctrls = this.primary.getAllControls(mainnode);
-           
+
+            let ctrls = this.getAllControls(mainnode);
+
             ctrls.btn_close.addEventListener("mousedown", (e) => {
                 let index = mainnode.index();
                 let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index));
@@ -111,12 +111,12 @@ class itemNode extends designer {
     dblclick_listner = (ev) => {
         let index = ev.currentTarget.index();
         let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index));
-       
-        if(this.extended.Events.onDataExport({
-            type:'uc',
-            data:uc,
-        })===true){
-            this.removeAt(index,false);
+
+        if (this.extended.Events.onDataExport({
+            type: 'uc',
+            data: uc,
+        }) === true) {
+            this.removeAt(index, false);
         }
     }
     /** @param {MouseEvent} ev */

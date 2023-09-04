@@ -4,7 +4,7 @@ const { PageMouseEvent } = require('@ucbuilder:/global/PageManage.enum.js');
 const { ListViewSource } = require("@uccontrols:/controls/ListView.uc.enumAndMore");
 const { listUiHandler } = require("@ucbuilder:/global/listUiHandler");
 const { commonEvent } = require('@ucbuilder:/global/commonEvent.js');
-const { TempleteNode } = require("@ucbuilder:/Template");
+const { Templete } = require("@ucbuilder:/Template");
 
 class ListView extends designer {
     accessKey = propOpt.ATTR.ACCESS_KEY;
@@ -12,7 +12,7 @@ class ListView extends designer {
     /** @type {ListViewSource}  */
     get source() {   return this.lvUI.source; }
 
-    /** @type {TempleteNode}  */
+    /** @type {Templete}  */
     template = undefined;
 
     Events = {

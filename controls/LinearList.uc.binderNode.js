@@ -1,7 +1,7 @@
 
 const { commonEvent } = require("@ucbuilder:/global/commonEvent");
 const { Rect } = require("@ucbuilder:/global/drawing/shapes");
-const { TempleteNode } = require("@ucbuilder:/Template");
+const { Templete } = require("@ucbuilder:/Template");
 const LinearList = require("@uccontrols:/controls/LinearList.uc");
 const { positionar } = require("@uccontrols:/controls/LinearList.uc.positionar");
 const { keyBoard } = require("@ucbuilder:/global/hardware/keyboard");
@@ -92,7 +92,7 @@ class binderNode {
         }
         // }
     }
-    /** @type {TempleteNode}  */
+    /** @type {Templete}  */
     template = undefined;
     
     _source = [];

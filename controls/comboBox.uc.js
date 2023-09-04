@@ -1,14 +1,15 @@
 const {  objectOpt } = require('@ucbuilder:/build/common.js');
 const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
-const { TempleteNode } = require('@ucbuilder:/Template.js');
+const { Templete } = require('@ucbuilder:/Template.js');
 const comboboxItem = require('@uccontrols:/controls/combobox/comboboxitem.tpt.js');
 const { keyBoard } = require('@ucbuilder:/global/hardware/keyboard.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { designer } = require('./combobox.uc.designer.js');
 class combobox extends designer {
     set source(val) { this.binder.source = val; }
+    /** @type {Templete}  */ 
     set itemTemplete(val) { this.binder.template = val; }
-    /** @type {TempleteNode}  */ 
+    /** @type {Templete}  */ 
     seletectedItemTemplete = undefined;
     set selectedIndex(val) {
         this.binder.selectedIndex = val;
@@ -39,11 +40,11 @@ class combobox extends designer {
             parentUc:this
         });
         
-        //console.log(tpt.primary);
+        //console.log(tpt);
         //this.openOn.push('click','dblclick')
         this.binder = this.ll_view.bindNew();
         this.binder.direction = 'bottom';
-        this.itemTemplete = tpt.primary;
+        this.itemTemplete = tpt;
         
         // this.binder.source = rootPathHandler.source;
         //this.binder.allowedElementList.push(this.ucExtends.self);

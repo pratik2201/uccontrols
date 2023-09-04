@@ -110,7 +110,7 @@ class tabControl extends designer {
             let tab = objectOpt.clone(tabRecord);
             tab.caption = htEle.getAttribute("x-caption"),
                 tab.SESSION = ssn;
-            let nnode = this.tpt_itemnode.primary.generateNode(tab);
+            let nnode = this.tpt_itemnode.extended.generateNode(tab);
             tab.tabButton = nnode;
             uc.ucExtends.Events.afterClose.on(() => {
                 this.SESSION_DATA.tabChild.splice(nnode.index(), 1);
