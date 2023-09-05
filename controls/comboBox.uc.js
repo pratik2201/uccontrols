@@ -23,8 +23,11 @@ class combobox extends designer {
         return this._seletecteditemTemplate;
     }
     set seletecteditemTemplate(value) {
-        console.log(value);
+        //console.log(value);
+        //console.log(        intenseGenerator.parseTPT(value, this.ucExtends.PARENT));
+        //debugger;
         this._seletecteditemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);  
+        
     }
     set selectedIndex(val) {
         this.binder.selectedIndex = val;
@@ -48,8 +51,31 @@ class combobox extends designer {
             this.ll_view.ucExtends.self.contains(document.activeElement);
     }
     constructor() {
-        eval(designer.giveMeHug);
-        console.log(this.itemTemplate);
+        //eval(designer.giveMeHug);
+        
+        
+        
+        let evalExp = /\(@([\w.]*?)\)/gim;
+        arguments[arguments.length - 1].source.beforeContentAssign = (content) => {
+            let rtrn = content.replace(evalExp,
+                (match, namespacetoObject, offset, input_string) => {
+                    return eval(namespacetoObject);
+                });
+            return rtrn;
+        };
+        super(arguments);
+        Array.from(this.ucExtends.self.attributes)
+            .filter(s => s.nodeName.startsWith("x:"))
+            .forEach(p => {
+                let atr = p.nodeName.slice(2);
+                let v = p.value.startsWith("=") ? "'" + p.value.slice(1) + "'" : p.value;
+                let cv = designer.setChildValueByNameSpace(this, atr, eval(v));
+                if (!cv)
+                    console.log("'" + atr + "' property not set from designer");
+            });
+        
+        
+        //console.log(this.itemTemplate);
         if (this.itemTemplate == undefined) {
 
             this.itemTemplate = intenseGenerator.generateTPT('@uccontrols:/controls/comboBox/comboboxItem.tpt', {
@@ -109,10 +135,10 @@ class combobox extends designer {
             let selRec = this.binder.selectedRecord;
             this.txt_editor.innerHTML = "";
             //console.log(this.binder.template);
-            console.log(this.seletecteditemTemplate);
+            //console.log(this.seletecteditemTemplate);
             if (this.seletecteditemTemplate == undefined)
                 this.txt_editor.appendChild(this.binder.template.extended.generateNode(this.binder.selectedRecord));
-            else this.txt_editor.appendChild(this.seletecteditemTemplate.generateNode(this.binder.selectedRecord));
+            else this.txt_editor.appendChild(this.seletecteditemTemplate.extended.generateNode(this.binder.selectedRecord));
 
 
         });
