@@ -86,13 +86,13 @@ class resizeHandler {
         let hasStyle = this.hasDefinedStyles;
         let offsetSize = this.nameList.offsetSize;
         //console.log(window.getComputedStyle(this.mainGrid).width);
-        let gridSize = hasStyle ? 0 : this.mainGrid[offsetSize];
+        this.gridFullSize = hasStyle ? 0 : this.mainGrid[offsetSize];
+
         //console.log(this.mainGrid.clientWidth);
-        let eqSize = gridSize / len;
+        let eqSize = this.gridFullSize / len;
         //console.log(gridSize+';'+eqSize);
         /** @type {splitterCell}  */
         let obj = undefined;
-        //
         if (hasStyle) {
 
             for (let i = 0; i < len; i++) {
@@ -126,8 +126,8 @@ class resizeHandler {
     resizerHTlist = [];
     giveResizer() {
         switch (this.spl.SESSION_DATA.type) {
-            case spliterType.COLUMN:if(!this.spl.allowResizeColumn){this.refreshView();return;}break;
-            case spliterType.ROW:if(!this.spl.allowResizeRow){this.refreshView();return;}break;
+            case spliterType.COLUMN: if (!this.spl.allowResizeColumn) { this.refreshView(); return; } break;
+            case spliterType.ROW: if (!this.spl.allowResizeRow) { this.refreshView(); return; } break;
         }
         let len = this.main.allElementHT.length;
         this.resizerHTlist.forEach(s => s.delete());
@@ -195,14 +195,14 @@ class resizeHandler {
                 let prev = measurement[index - 1];
                 let next = measurement[index];
                 let ovl = prev.size;
+                //console.log(prev.size + ' | ' + diff + ' | ' + next.size);
                 diff = (ovl + diff) <= 0 ? -ovl : diff;
-
                 diff = (next.size - diff) <= 0 ? next.size : diff;
-
+                //console.log(measurement);
                 prev.size += diff;
-                next.size -= diff;
-
-
+                //next.size -= diff;
+                next.size = rct.size[_this.nameList.size];
+                //console.log("AFTER : "+prev.size+' : '+next.size);
 
                 _this.checkAndRemoveNode(index - 1, index);
                 _this.refreshView();

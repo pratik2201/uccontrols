@@ -55,14 +55,10 @@ class Splitter extends designer {
     }
 
     loadSession() {
-
-
         this.tree.type = this.SESSION_DATA.type;
-
         this.SESSION_DATA.measurement.forEach(node => {
             let sadoNode = this.sadoNodeMoklo(this.tree);
             this.ucExtends.passElement(node);
-           
             this.mainContainer.appendChild(sadoNode.node);
             let elementHT = `<e${node.attribList}></e>`.$();
             let ucs = intenseGenerator.generateUC(node.ucPath, {
@@ -78,7 +74,7 @@ class Splitter extends designer {
             //console.log(node.session);
             ucs.ucExtends.session.setSession(node.session[""]);
         });
-
+        
         this.tree.resizer.giveResizer();
 
     }

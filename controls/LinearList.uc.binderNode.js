@@ -179,7 +179,7 @@ class binderNode {
         //this.main.ucExtends.self.hidden = false;
         this.main.lv_items.itemTemplate = this.template;
         this.main.source.rows = this.filteredSource;
-        this.main.lv_items.Records.fillAll();
+        this.main.lv_items.Records.fill();
         this.main.lv_items.lvUI.currentIndex = this.main.lv_items.lvUI.currentIndex;
         //this.main.lv_items.lvUI.currentIndex = 0;
         //window.addEventListener("mousedown", this.mousedown_focus_listner);
