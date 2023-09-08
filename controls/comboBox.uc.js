@@ -5,29 +5,28 @@ const comboboxItem = require('@uccontrols:/controls/combobox/comboboxitem.tpt.js
 const { keyBoard } = require('@ucbuilder:/global/hardware/keyboard.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { designer } = require('./combobox.uc.designer.js');
+/**
+* @typedef {import ("@uccontrols:/controls/LinearList.uc.binderNode").binderNode} binderNode
+*/
 class combobox extends designer {
     set source(val) { this.binder.source = val; }
     get itemTemplate() {
         if (this.binder == undefined) return undefined;
         return this.binder.template;
     }
+    /** @type {binderNode}  */
+    binder = undefined;
     /** @type {Template}  */
     set itemTemplate(val) {
         if (this.binder == undefined)
             this.binder = this.ll_view.bindNew();
-        this.binder.template = intenseGenerator.parseTPT(val, this.ucExtends.PARENT);      
+        this.binder.template = intenseGenerator.parseTPT(val, this.ucExtends.PARENT);
     }
     /** @type {Template}  */
     _seletecteditemTemplate = undefined;
-    get seletecteditemTemplate() {
-        return this._seletecteditemTemplate;
-    }
+    get seletecteditemTemplate() { return this._seletecteditemTemplate; }
     set seletecteditemTemplate(value) {
-        //console.log(value);
-        //console.log(        intenseGenerator.parseTPT(value, this.ucExtends.PARENT));
-        //debugger;
-        this._seletecteditemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);  
-        
+        this._seletecteditemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
     }
     set selectedIndex(val) {
         this.binder.selectedIndex = val;
@@ -52,9 +51,9 @@ class combobox extends designer {
     }
     constructor() {
         //eval(designer.giveMeHug);
-        
-        
-        
+
+
+
         let evalExp = /\(@([\w.]*?)\)/gim;
         arguments[arguments.length - 1].source.beforeContentAssign = (content) => {
             let rtrn = content.replace(evalExp,
@@ -73,8 +72,8 @@ class combobox extends designer {
                 if (!cv)
                     console.log("'" + atr + "' property not set from designer");
             });
-        
-        
+
+
         //console.log(this.itemTemplate);
         if (this.itemTemplate == undefined) {
 
@@ -83,13 +82,7 @@ class combobox extends designer {
             });
         }
         this.binder.direction = 'bottom';
-        //console.log(tpt);
-        //this.openOn.push('click','dblclick')
-
-
-        // \this.binder.source = rootPathHandler.source;
-        //this.binder.allowedElementList.push(this.ucExtends.self);
-        //this.binder.template = this.tpt_rootitemNode;
+       
         this.binder.bindInputBox(
             {
                 elementHT: this.ucExtends.self,

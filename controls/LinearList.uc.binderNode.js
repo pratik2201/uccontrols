@@ -1,4 +1,3 @@
-
 const { commonEvent } = require("@ucbuilder:/global/commonEvent");
 const { Rect } = require("@ucbuilder:/global/drawing/shapes");
 const { Template } = require("@ucbuilder:/Template");
@@ -39,14 +38,14 @@ class binderNode {
         this.boundElement = elementHT;
         if (bindUpDownKeys) {
             this.Events.onShow.on(() => {
-                elementHT.addEventListener("keydown", this.main.lv_items.lvUI.keydown_listner);
-                this.main.lv_items.Events.itemMouseUp.on(this.itemMouseUp_listner);
+                elementHT.addEventListener("keydown", this.main.lvUI.keydown_listner);
+                this.main.Events.itemMouseUp.on(this.itemMouseUp_listner);
                 elementHT.addEventListener("keyup", this.keyup_listner);
 
             });
             this.Events.onHide.on(() => {
-                elementHT.removeEventListener("keydown", this.main.lv_items.lvUI.keydown_listner);
-                this.main.lv_items.Events.itemMouseUp.off(this.itemMouseUp_listner);
+                elementHT.removeEventListener("keydown", this.main.lvUI.keydown_listner);
+                this.main.Events.itemMouseUp.off(this.itemMouseUp_listner);
                 elementHT.removeEventListener("keyup", this.keyup_listner);
             });
         }
@@ -70,10 +69,12 @@ class binderNode {
             }, 0);
         });
     }
+
+    
     /** @private */
     _selectedIndex = -1;
     get selectedRecord() { return this.filteredSource[this._selectedIndex]; };
-    get selectedItem() { return this.main.lv_items.Records.itemAt(this._selectedIndex); }
+    get selectedItem() { return this.main.Records.itemAt(this._selectedIndex); }
     get selectedIndex() { return this._selectedIndex; }
     set selectedIndex(val) {
         //  if (this.hasBound) {
@@ -92,6 +93,7 @@ class binderNode {
         }
         // }
     }
+
     /** @type {Template}  */
     template = undefined;
     
@@ -138,16 +140,7 @@ class binderNode {
     allowedElementList = [];
     /** @param {HTMLElement} tar */
     isOutOfTarget(tar) {
-        /* console.log(this.main.ucExtends.self.contains(tar)+'||'
-             +(this.allowedElementList.findIndex(s => s.is(tar))!=-1)+'||'
-             +this.Events.isOutOfTarget(tar)+'  =  '
- 
-             + !(
-                 this.main.ucExtends.self.contains(tar)
-              || this.allowedElementList.findIndex(s => s.is(tar))==-1
-              || this.Events.isOutOfTarget(tar))
-             );*/
-
+        
         return (!this.main.ucExtends.self.contains(tar)
             && this.allowedElementList.findIndex(s => s.is(tar)) == -1
             && this.Events.isOutOfTarget(tar));
@@ -161,7 +154,7 @@ class binderNode {
     keyup_listner = (evt) => {
         switch (evt.keyCode) {
             case keyBoard.keys.enter:
-                this.selectedIndex = this.main.lv_items.lvUI.currentIndex;
+                this.selectedIndex = this.main.lvUI.currentIndex;
                 this.hide();
                 evt.preventDefault();
                 break;
@@ -175,69 +168,16 @@ class binderNode {
     dontOpen = false;
     /** @param {Rect} txtboxRect */
     showAt(txtboxRect) {
-
-        //this.main.ucExtends.self.hidden = false;
-        this.main.lv_items.itemTemplate = this.template;
+        this.main.itemTemplate = this.template;
+        console.log('here');
         this.main.source.rows = this.filteredSource;
-        this.main.lv_items.Records.fill();
-        this.main.lv_items.lvUI.currentIndex = this.main.lv_items.lvUI.currentIndex;
-        //this.main.lv_items.lvUI.currentIndex = 0;
-        //window.addEventListener("mousedown", this.mousedown_focus_listner);
-        //window.addEventListener("focusin", this.mousedown_focus_listner);
-        //this.main.lv_items.listvw1.addEventListener('keyup', this.keyup_listner);
+        this.main.Records.fill();
+        this.main.lvUI.currentIndex = this.main.lvUI.currentIndex;
+        
         this.hasBound = true;
         this.selectedIndex = this.selectedIndex;
         this.Events.onShow.fire();
         this.position.show(txtboxRect);
-
-
-        /*let styles = {
-            'left': `${txtboxRect.left}px`,
-            'top': `${txtboxRect.top}px`,
-            'width': `${txtboxRect.width}px`,
-            'height': `${txtboxRect.height}px`,
-            'visibility': 'visible',
-        };
-
-        let bodyRect = new Rect();
-        bodyRect.initByDOMRect(document.body.getClientRects()[0]);
-
-        let dockRect = new Rect();
-        dockRect.initByDOMRect(this.main.ucExtends.self.getClientRects()[0]);
-        let tbFlowDetail = txtboxRect.getOverFlowDetail(bodyRect);
-        switch (this.direction) {
-            case 'bottom': dockRect.location.initPointByVal(txtboxRect.left, txtboxRect.bottom); break;
-            case 'right':
-                console.log(tbFlowDetail);
-                dockRect.location.initPointByVal(txtboxRect.right, txtboxRect.top);
-                break;
-            case 'left': dockRect.location.initPointByVal(txtboxRect.left - dockRect.width, txtboxRect.top); break;
-            case 'top': dockRect.location.initPointByVal(txtboxRect.left, txtboxRect.top - dockRect.height); break;
-        }
-        //dockRect.location.initPointByVal(txtboxRect.left,txtboxRect.top);
-
-        let overFlowDetail = dockRect.getOverFlowDetail(bodyRect);
-        document.body.appendChild(this.main.ucExtends.self);
-        switch (this.direction) {
-            case 'bottom':
-                styles.top = (txtboxRect.bottom) + "px";
-
-                break;
-            case 'right':
-                styles.left = (txtboxRect.right) + "px";
-                break;
-        }
-        console.log(overFlowDetail.right);
-        if (overFlowDetail.bottom > 0)
-            delete styles.height;
-        else
-            styles.height = overFlowDetail.bottomSize + "px";
-        if (overFlowDetail.right > 0)
-            delete styles.width;
-        else
-            styles.width = overFlowDetail.rightSize + "px";
-        Object.assign(this.main.ucExtends.self.style, styles);
-        */
 
     }
     verticalMinHeight = 15;

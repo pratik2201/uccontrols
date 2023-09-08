@@ -12,48 +12,16 @@ class ListView extends designer {
 
     /** @type {ListViewSource}  */
     get source() {   return this.lvUI.source; }
-
-    /** @type {Template}  */
-    _itemTemplate = undefined;
+    lvUI = new listUiHandler();
+    
     get itemTemplate() {
-        return this._itemTemplate;
+        return this.lvUI.itemTemplate;
     }
     set itemTemplate(value) {
-        this._itemTemplate = intenseGenerator.parseTPT(value,this.ucExtends.PARENT);
+        this.lvUI.itemTemplate = intenseGenerator.parseTPT(value,this.ucExtends.PARENT);
     }
-
-    Events = {
-
-        /**
-         * @type {{on:(callback = (
-         *          index:number,
-         *          evt:MouseEvent
-         * ) =>{})} & commonEvent}
-         */
-        itemDoubleClick: new commonEvent(),
-
-        /**
-         * @type {{on:(callback = (
-         *          index:number,
-         *          evt:MouseEvent
-         * ) =>{})} & commonEvent}
-         */
-        itemMouseDown: new commonEvent(),
-
-        /**
-         * 
-         * @type {{on:(callback = (
-         *          index:number,
-         *          evt:MouseEvent
-         * ) =>{})} & commonEvent}
-         */
-        itemMouseUp: new commonEvent(),
-
-
-        _this:()=> this,
-        get currentItemIndexChange(){ return this._this().lvUI.Events.currentItemIndexChange; },
-        get newItemGenerate(){ return this._this().lvUI.Events.newItemGenerate; }
-    };
+    get Events (){ return this.lvUI.Events; }
+    
 
     //get listviewEvents() { return this.pageMng.PageManage_extended.Events; }
 
@@ -64,8 +32,7 @@ class ListView extends designer {
     constructor() {
         eval(designer.giveMeHug);
        
-        this.lvUI = new listUiHandler();
-        this.lvUI.init(this.listvw1, this.container1);
+        this.lvUI.init(this.listvw1, this.scroller1);
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {
             setTimeout(() => {
@@ -76,24 +43,7 @@ class ListView extends designer {
         this.Events.currentItemIndexChange.on((oindex, nindex, evt, evtType) => {
             if (evtType == 'Mouse') this.ucExtends.session.onModify();
         });
-        this.listvw1.addEventListener("dblclick", (e) => {
-            let itm = this.Records.getItemFromChild(e.target);
-            if (itm != null) {
-                this.Events.itemDoubleClick.fire(this.lvUI.currentIndex,e);
-            }
-        });
-        this.listvw1.addEventListener("mousedown", (e) => {
-            let itm = this.Records.getItemFromChild(e.target);
-            if (itm != null) {
-                this.Events.itemMouseDown.fire(this.lvUI.currentIndex,e);
-            }
-        });
-        this.listvw1.addEventListener("mouseup", (e) => {
-            let itm = this.Records.getItemFromChild(e.target);
-            if (itm != null) {
-                this.Events.itemMouseUp.fire(this.lvUI.currentIndex,e);
-            }
-        });
+        
     }
     get Records(){ return this.lvUI.Records; }
 
@@ -108,10 +58,7 @@ class ListView extends designer {
         let _this = this;
         let uc = this.ucExtends.wrapperHT;
         uc.setAttribute('tabindex', -1);
-        this.Records.getNode = (index) => {
-            
-            return _this.itemTemplate.extended.generateNode(_this.source.rows[index]);
-        }
+        
         this.lvUI.Events.newItemGenerate.on(
             /** @param {JQuery} ele */
             (ele, index) => {
