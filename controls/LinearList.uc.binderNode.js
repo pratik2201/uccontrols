@@ -16,6 +16,7 @@ class binderNode {
      */
     itemMouseUp_listner = (index, evt) => {
         this.selectedIndex = index;
+       
         this.hide();
         this.dontOpen = true;
         this.boundElement.focus();
@@ -37,7 +38,9 @@ class binderNode {
     } = {}) => {
         this.boundElement = elementHT;
         if (bindUpDownKeys) {
+           
             this.Events.onShow.on(() => {
+              
                 elementHT.addEventListener("keydown", this.main.lvUI.keydown_listner);
                 this.main.Events.itemMouseUp.on(this.itemMouseUp_listner);
                 elementHT.addEventListener("keyup", this.keyup_listner);
@@ -50,12 +53,14 @@ class binderNode {
             });
         }
         if (bindFocusEvents) {
+           
             elementHT.addEventListener("focusin", (e) => {
                 let txtboxRect = new Rect();
                 txtboxRect.setBy.domRect(e.target.getClientRects()[0]);
                 this.showAt(txtboxRect);
             });
             elementHT.addEventListener("mousedown", (e) => {
+               
                 if (!document.activeElement.is(e.target) || this.hasBound) return;
                 let txtboxRect = new Rect();
                 txtboxRect.setBy.domRect(e.target.getClientRects()[0]);
@@ -89,6 +94,7 @@ class binderNode {
             node = this.selectedItem;
             if (node != undefined)
                 node.setAttribute('is-selected', '1');
+                console.log('changed');
             this.Events.selectedIndexChange.fire(val, oIndex);
         }
         // }

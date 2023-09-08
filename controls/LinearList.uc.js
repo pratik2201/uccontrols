@@ -14,39 +14,9 @@ class LinearList extends designer {
     set itemTemplate(value) {
         this.lvUI.itemTemplate = intenseGenerator.parseTPT(value,this.ucExtends.PARENT);
     }
-    get Records(){ return this.lvUI.Records; }
-    Events = {
-
-        /**
-         * @type {{on:(callback = (
-         *          index:number,
-         *          evt:MouseEvent
-         * ) =>{})} & commonEvent}
-         */
-        itemDoubleClick: new commonEvent(),
-
-        /**
-         * @type {{on:(callback = (
-         *          index:number,
-         *          evt:MouseEvent
-         * ) =>{})} & commonEvent}
-         */
-        itemMouseDown: new commonEvent(),
-
-        /**
-         * 
-         * @type {{on:(callback = (
-         *          index:number,
-         *          evt:MouseEvent
-         * ) =>{})} & commonEvent}
-         */
-        itemMouseUp: new commonEvent(),
-
-
-        _this:()=> this,
-        get currentItemIndexChange(){ return this._this().lvUI.Events.currentItemIndexChange; },
-        get newItemGenerate(){ return this._this().lvUI.Events.newItemGenerate; }
-    };
+    get Records(){ return this.lvUI.Records;  }
+    get Events() { return this.lvUI.Events; }
+    
     lvUI = new listUiHandler();
 
    
