@@ -16,14 +16,19 @@ class binderNode {
      */
     itemMouseUp_listner = (index, evt) => {
         this.selectedIndex = index;
-       
         this.hide();
         this.dontOpen = true;
         this.boundElement.focus();
         this.dontOpen = false;
+        this.hasMouseDownedOnItem = false;
         evt.stopImmediatePropagation();
 
     }
+    /**
+     * @param {number} index 
+     * @param {MouseEvent} evt 
+     */
+    itemMouseDown_listner = (index, evt) => { this.hasMouseDownedOnItem = true; }
     /**
      * @param {{
      *  elementHT :HTMLElement,
@@ -38,44 +43,40 @@ class binderNode {
     } = {}) => {
         this.boundElement = elementHT;
         if (bindUpDownKeys) {
-           
             this.Events.onShow.on(() => {
-              
                 elementHT.addEventListener("keydown", this.main.lvUI.keydown_listner);
                 this.main.Events.itemMouseUp.on(this.itemMouseUp_listner);
+                this.main.Events.itemMouseDown.on(this.itemMouseDown_listner);
                 elementHT.addEventListener("keyup", this.keyup_listner);
-
             });
             this.Events.onHide.on(() => {
                 elementHT.removeEventListener("keydown", this.main.lvUI.keydown_listner);
                 this.main.Events.itemMouseUp.off(this.itemMouseUp_listner);
+                this.main.Events.itemMouseDown.off(this.itemMouseDown_listner);
                 elementHT.removeEventListener("keyup", this.keyup_listner);
             });
         }
         if (bindFocusEvents) {
-           
+
             elementHT.addEventListener("focusin", (e) => {
                 let txtboxRect = new Rect();
                 txtboxRect.setBy.domRect(e.target.getClientRects()[0]);
                 this.showAt(txtboxRect);
             });
             elementHT.addEventListener("mousedown", (e) => {
-               
+
                 if (!document.activeElement.is(e.target) || this.hasBound) return;
                 let txtboxRect = new Rect();
                 txtboxRect.setBy.domRect(e.target.getClientRects()[0]);
                 this.showAt(txtboxRect);
             });
         }
-
         elementHT.addEventListener("blur", (e) => {
-            setTimeout(() => {
-                this.mousedown_focus_listner(e);
-            }, 0);
+            this.mousedown_focus_listner(e);
         });
     }
 
-    
+
     /** @private */
     _selectedIndex = -1;
     get selectedRecord() { return this.filteredSource[this._selectedIndex]; };
@@ -94,7 +95,7 @@ class binderNode {
             node = this.selectedItem;
             if (node != undefined)
                 node.setAttribute('is-selected', '1');
-                console.log('changed');
+            console.log('changed');
             this.Events.selectedIndexChange.fire(val, oIndex);
         }
         // }
@@ -102,7 +103,7 @@ class binderNode {
 
     /** @type {Template}  */
     template = undefined;
-    
+
     _source = [];
     filteredSource = [];
     set source(val) {
@@ -144,12 +145,16 @@ class binderNode {
     };
     /** @type {HTMLElement[]}  */
     allowedElementList = [];
+    hasMouseDownedOnItem = false;
     /** @param {HTMLElement} tar */
     isOutOfTarget(tar) {
-        
-        return (!this.main.ucExtends.self.contains(tar)
+        let res = (!this.hasMouseDownedOnItem && 
+            !this.main.ucExtends.self.contains(tar)
             && this.allowedElementList.findIndex(s => s.is(tar)) == -1
             && this.Events.isOutOfTarget(tar));
+        console.log(tar);
+        console.log(res);
+        return res;
     }
     /**  @param {MouseEvent|FocusEvent} e  */
     mousedown_focus_listner = (e) => {
@@ -179,7 +184,7 @@ class binderNode {
         this.main.source.rows = this.filteredSource;
         this.main.Records.fill();
         this.main.lvUI.currentIndex = this.main.lvUI.currentIndex;
-        
+
         this.hasBound = true;
         this.selectedIndex = this.selectedIndex;
         this.Events.onShow.fire();

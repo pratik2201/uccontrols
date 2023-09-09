@@ -50,29 +50,10 @@ class combobox extends designer {
             this.ll_view.ucExtends.self.contains(document.activeElement);
     }
     constructor() {
-        //eval(designer.giveMeHug);
-
-
-
-        let evalExp = /\(@([\w.]*?)\)/gim;
-        arguments[arguments.length - 1].source.beforeContentAssign = (content) => {
-            let rtrn = content.replace(evalExp,
-                (match, namespacetoObject, offset, input_string) => {
-                    return eval(namespacetoObject);
-                });
-            return rtrn;
-        };
-        super(arguments);
-        Array.from(this.ucExtends.self.attributes)
-            .filter(s => s.nodeName.startsWith("x:"))
-            .forEach(p => {
-                let atr = p.nodeName.slice(2);
-                let v = p.value.startsWith("=") ? "'" + p.value.slice(1) + "'" : p.value;
-                let cv = designer.setChildValueByNameSpace(this, atr, eval(v));
-                if (!cv)
-                    console.log("'" + atr + "' property not set from designer");
-            });
-
+        eval(designer.giveMeHug);
+        
+        if (this.binder == undefined)
+            this.binder = this.ll_view.bindNew();
 
         //console.log(this.itemTemplate);
         if (this.itemTemplate == undefined) {
@@ -82,13 +63,14 @@ class combobox extends designer {
             });
         }
         this.binder.direction = 'bottom';
-       
+
         this.binder.bindInputBox(
             {
                 elementHT: this.ucExtends.self,
                 bindFocusEvents: false
             }
         );
+        
         this.binder.Events.onShow.on(() => {
             this.cmd_drop.setAttribute('isopened', true);
         });
