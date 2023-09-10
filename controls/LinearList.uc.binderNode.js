@@ -15,12 +15,13 @@ class binderNode {
      * @param {MouseEvent} evt 
      */
     itemMouseUp_listner = (index, evt) => {
-        this.selectedIndex = index;
-        this.hide();
+        this.hasMouseDownedOnItem = false;
         this.dontOpen = true;
         this.boundElement.focus();
         this.dontOpen = false;
-        this.hasMouseDownedOnItem = false;
+        this.hide();
+        if (this.selectedIndex != index)
+            this.selectedIndex = index;
         evt.stopImmediatePropagation();
 
     }
@@ -47,13 +48,14 @@ class binderNode {
                 elementHT.addEventListener("keydown", this.main.lvUI.keydown_listner);
                 this.main.Events.itemMouseUp.on(this.itemMouseUp_listner);
                 this.main.Events.itemMouseDown.on(this.itemMouseDown_listner);
-                elementHT.addEventListener("keyup", this.keyup_listner);
+                elementHT.addEventListener("keydown", this.keyup_listner);
+                this.boundElement.focus();
             });
             this.Events.onHide.on(() => {
                 elementHT.removeEventListener("keydown", this.main.lvUI.keydown_listner);
                 this.main.Events.itemMouseUp.off(this.itemMouseUp_listner);
                 this.main.Events.itemMouseDown.off(this.itemMouseDown_listner);
-                elementHT.removeEventListener("keyup", this.keyup_listner);
+                elementHT.removeEventListener("keydown", this.keyup_listner);
             });
         }
         if (bindFocusEvents) {
@@ -86,21 +88,24 @@ class binderNode {
         //  if (this.hasBound) {
         /** @type {HTMLElement}  */
         let node = undefined;
-        if (val >= 0 && val <= this.filteredSource.length) {
+        if (val >= 0 && val < this.filteredSource.length) {
             let oIndex = this.selectedIndex;
             node = this.selectedItem;
             if (node != undefined)
                 node.setAttribute('is-selected', '0');
             this._selectedIndex = val;
+
             node = this.selectedItem;
             if (node != undefined)
                 node.setAttribute('is-selected', '1');
-            console.log('changed');
-            this.Events.selectedIndexChange.fire(val, oIndex);
+            //console.log('changed');
+            if (this.fireSelectedIndexChangeEvent)
+                this.Events.selectedIndexChange.fire(val, oIndex);
+            else this.fireSelectedIndexChangeEvent = true;
         }
         // }
     }
-
+    fireSelectedIndexChangeEvent = true;
     /** @type {Template}  */
     template = undefined;
 
@@ -148,30 +153,28 @@ class binderNode {
     hasMouseDownedOnItem = false;
     /** @param {HTMLElement} tar */
     isOutOfTarget(tar) {
-        let res = (!this.hasMouseDownedOnItem && 
+        let res = (!this.hasMouseDownedOnItem &&
             !this.main.ucExtends.self.contains(tar)
             && this.allowedElementList.findIndex(s => s.is(tar)) == -1
             && this.Events.isOutOfTarget(tar));
-        console.log(tar);
-        console.log(res);
+        //console.log(tar);
+        //console.log(res);
         return res;
     }
     /**  @param {MouseEvent|FocusEvent} e  */
     mousedown_focus_listner = (e) => {
-
         if (this.isOutOfTarget(document.activeElement)) this.hide();
     }
     /** @param {KeyboardEvent} evt */
     keyup_listner = (evt) => {
         switch (evt.keyCode) {
             case keyBoard.keys.enter:
+                this.fireSelectedIndexChangeEvent = true;
                 this.selectedIndex = this.main.lvUI.currentIndex;
                 this.hide();
                 evt.preventDefault();
                 break;
         }
-        //this.selectedIndex = index;
-        //this.hide();
     }
     hasBound = false;
     get direction() { return this.position.direction; }
@@ -180,7 +183,7 @@ class binderNode {
     /** @param {Rect} txtboxRect */
     showAt(txtboxRect) {
         this.main.itemTemplate = this.template;
-        console.log('here');
+        //console.log('here');
         this.main.source.rows = this.filteredSource;
         this.main.Records.fill();
         this.main.lvUI.currentIndex = this.main.lvUI.currentIndex;
@@ -188,6 +191,7 @@ class binderNode {
         this.hasBound = true;
         this.selectedIndex = this.selectedIndex;
         this.Events.onShow.fire();
+
         this.position.show(txtboxRect);
 
     }
@@ -196,6 +200,7 @@ class binderNode {
     hide() {
         this.hasBound = false;
         this.Events.onHide.fire();
+
         //setTimeout(() => {
         Object.assign(this.main.ucExtends.self.style, {
             'visibility': 'collapse',

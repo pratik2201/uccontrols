@@ -63,6 +63,7 @@ class positionar {
         }
 
         let overFlowDetail = this.dockRect.getOverFlowDetail(this.bodyRect);
+        
         document.body.appendChild(this.dockHT);
         switch (direction) {
             case 'top':
@@ -88,9 +89,9 @@ class positionar {
                     this.styles.width = overFlowDetail.rightSize + "px";
                 break;
         }
-        console.log(overFlowDetail.right);
-
-
+       //   console.log(overFlowDetail.right);
+      // console.log(this.styles.visibility);
+      //  console.log(this.dockHT);
         Object.assign(this.dockHT.style, this.styles);
     }
 }

@@ -14,6 +14,7 @@ class combobox extends designer {
         if (this.binder == undefined) return undefined;
         return this.binder.template;
     }
+    
     /** @type {binderNode}  */
     binder = undefined;
     /** @type {Template}  */
@@ -28,6 +29,7 @@ class combobox extends designer {
     set seletecteditemTemplate(value) {
         this._seletecteditemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
     }
+    get selectedIndex() { return this.binder.selectedIndex; }
     set selectedIndex(val) {
         this.binder.selectedIndex = val;
         //this.ll_view.lv_items.lvUI.currentIndex = val;
@@ -42,8 +44,10 @@ class combobox extends designer {
     isOpeinig = false;
     openList() {
         let txtboxRect = new Rect();
-        txtboxRect.setBy.domRect(this.ucExtends.self.getClientRects()[0]);
+        txtboxRect.setBy.domRect(this.ucExtends.self.getClientRects()[0]);      
+          
         this.binder.showAt(txtboxRect);
+        this.ll_view.lvUI.currentIndex = this.selectedIndex;
     }
     get hasfocused() {
         return this.ucExtends.self.contains(document.activeElement) ||
@@ -51,7 +55,7 @@ class combobox extends designer {
     }
     constructor() {
         eval(designer.giveMeHug);
-        
+
         if (this.binder == undefined)
             this.binder = this.ll_view.bindNew();
 
@@ -70,7 +74,7 @@ class combobox extends designer {
                 bindFocusEvents: false
             }
         );
-        
+
         this.binder.Events.onShow.on(() => {
             this.cmd_drop.setAttribute('isopened', true);
         });
@@ -87,39 +91,41 @@ class combobox extends designer {
             this.openList();
             e.stopImmediatePropagation();
         });*/
-        this.ucExtends.self.on("keyup mouseup", (e) => {
-            switch (objectOpt.getClassName(e)) {
-                case KeyboardEvent.name:
-                    this.ucExtends.self.focus();
+        this.ucExtends.self.addEventListener("keydown", (e) => {
+            switch (e.keyCode) {
+                case keyBoard.keys.space:
+                    this.openComboByEvent(e);
+                    break;
+                case keyBoard.keys.up:
+                    this.binder.fireSelectedIndexChangeEvent = !this.binder.hasBound;
+                    this.selectedIndex--;
+                    break;
+                case keyBoard.keys.down:
+                    this.binder.fireSelectedIndexChangeEvent = !this.binder.hasBound;
+                    this.selectedIndex++;
                     break;
             }
-            if (!this.binder.hasBound) {
-                this.openList();
+        });
+        this.ucExtends.self.addEventListener("mouseup", this.openComboByEvent);
+        this.cmd_drop.addEventListener("mouseup", this.openComboByEvent);
+        this.txt_editor.addEventListener("mouseup", this.openComboByEvent);
 
-                e.stopImmediatePropagation();
-            }
-        });
-        this.ucExtends.self.addEventListener("keyup", (e) => {
-            if (e.keyCode == keyBoard.keys.space) {
-                if (this.binder.hasBound) { this.binder.hide(); return; }
-                this.openList();
-                e.preventDefault();
-            }
-        });
         this.binder.Events.selectedIndexChange.on((ninex, oindex) => {
-            let selRec = this.binder.selectedRecord;
-            this.txt_editor.innerHTML = "";
-            //console.log(this.binder.template);
-            //console.log(this.seletecteditemTemplate);
-            if (this.seletecteditemTemplate == undefined)
-                this.txt_editor.appendChild(this.binder.template.extended.generateNode(this.binder.selectedRecord));
-            else this.txt_editor.appendChild(this.seletecteditemTemplate.extended.generateNode(this.binder.selectedRecord));
-
-
+            this.changeSelectedText();
         });
-        /* this.cmd_drop.addEventListener("mouseup",()=>{
-             this.txt_editor.focus();
-         })*/
+    }
+    openComboByEvent = (e) => {
+
+        if (!this.binder.hasBound) {
+            this.openList();
+            e.stopImmediatePropagation();
+        }
+    }
+    changeSelectedText() {
+        this.txt_editor.innerHTML = "";
+        if (this.seletecteditemTemplate == undefined)
+            this.txt_editor.appendChild(this.binder.template.extended.generateNode(this.binder.selectedRecord));
+        else this.txt_editor.appendChild(this.seletecteditemTemplate.extended.generateNode(this.binder.selectedRecord));
     }
 }
 module.exports = combobox;

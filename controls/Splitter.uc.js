@@ -120,7 +120,7 @@ class Splitter extends designer {
      */
     navuGridMoklo(type = spliterType.NOT_DEFINED) {
         /** @type {HTMLElement}  */
-        let elementHT = `<Splitter x:SESSION_DATA.type="'${type}'"  ${this.myPropertiesText}  ></Splitter>`.$();
+        let elementHT = `<Splitter x.SESSION_DATA.type="'${type}'"  ${this.myPropertiesText}  ></Splitter>`.$();
         elementHT.setAttribute("x:generateNode", false);
         /** @type {Splitter}  */
         let uc = intenseGenerator.generateUC("@uccontrols:/controls/Splitter.uc.html", {
