@@ -31,9 +31,6 @@ class combobox extends designer {
     get selectedIndex() { return this.binder.selectedIndex; }
     set selectedIndex(val) {
         this.binder.selectedIndex = val;
-        //this.ll_view.lv_items.lvUI.currentIndex = val;
-        //this.binder.template.extended.generateNode(val);
-        //this.binder.selectedIndex
     }
     /** @type {"click"|"dblclick"|"focus"|"enterKey"|"spacebarKey"}  */
     static openOptions = "click"
@@ -85,11 +82,7 @@ class combobox extends designer {
             if (this.binder.hasBound) { this.binder.hide(); return; }
             this.openList();
         });
-        /*this.cmd_drop.addEventListener("mousedown", (e) => {
-            if (this.binder.hasBound) { this.binder.hide(); return; }
-            this.openList();
-            e.stopImmediatePropagation();
-        });*/
+       
         this.ucExtends.self.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
                 case keyBoard.keys.space:
