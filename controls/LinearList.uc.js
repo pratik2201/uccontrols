@@ -1,7 +1,7 @@
 const { uniqOpt } = require('@ucbuilder:/build/common.js');
 const { commonEvent } = require('@ucbuilder:/global/commonEvent.js');
 const { TempleteNode } = require('@ucbuilder:/Template.js');
-const { binderNode } = require('@uccontrols:/controls/LinearList.uc.binderNode.js');
+const { binderNode } = require('@uccontrols:/controls/comboBox.uc.binderNode.js');
 const { listUiHandler } = require('ucbuilder/global/listUiHandler.js');
 const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { designer } = require('./LinearList.uc.designer.js');
@@ -35,12 +35,7 @@ class LinearList extends designer {
         SOURCE: "sdta" + uniqOpt.randomNo()
     }
 
-    /** @returns {binderNode}  */
-    bindNew() {
-        let binder = new binderNode();
-        binder.init(this);
-        return binder;
-    }
+   
 
 
 }

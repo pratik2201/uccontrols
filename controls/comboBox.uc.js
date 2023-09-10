@@ -5,9 +5,8 @@ const comboboxItem = require('@uccontrols:/controls/combobox/comboboxitem.tpt.js
 const { keyBoard } = require('@ucbuilder:/global/hardware/keyboard.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { designer } = require('./combobox.uc.designer.js');
-/**
-* @typedef {import ("@uccontrols:/controls/LinearList.uc.binderNode").binderNode} binderNode
-*/
+const { binderNode } = require('@uccontrols:/controls/comboBox.uc.binderNode');
+
 class combobox extends designer {
     set source(val) { this.binder.source = val; }
     get itemTemplate() {
@@ -20,7 +19,7 @@ class combobox extends designer {
     /** @type {Template}  */
     set itemTemplate(val) {
         if (this.binder == undefined)
-            this.binder = this.ll_view.bindNew();
+            this.binder = this.bindNew();
         this.binder.template = intenseGenerator.parseTPT(val, this.ucExtends.PARENT);
     }
     /** @type {Template}  */
@@ -57,7 +56,7 @@ class combobox extends designer {
         eval(designer.giveMeHug);
 
         if (this.binder == undefined)
-            this.binder = this.ll_view.bindNew();
+            this.binder = this.bindNew();
 
         //console.log(this.itemTemplate);
         if (this.itemTemplate == undefined) {
@@ -126,6 +125,13 @@ class combobox extends designer {
         if (this.seletecteditemTemplate == undefined)
             this.txt_editor.appendChild(this.binder.template.extended.generateNode(this.binder.selectedRecord));
         else this.txt_editor.appendChild(this.seletecteditemTemplate.extended.generateNode(this.binder.selectedRecord));
+    }
+
+     /** @returns {binderNode}  */
+     bindNew() {
+        let binder = new binderNode();
+        binder.init(this.ll_view);
+        return binder;
     }
 }
 module.exports = combobox;
