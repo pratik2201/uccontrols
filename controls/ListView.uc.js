@@ -1,18 +1,13 @@
 const { designer } = require('./ListView.uc.designer.js');
 const { propOpt } = require('@ucbuilder:/build/common.js');
-const { PageMouseEvent } = require('@ucbuilder:/global/PageManage.enum.js');
-const { ListViewSource } = require("@uccontrols:/controls/ListView.uc.enumAndMore");
-const { listUiHandler } = require("@ucbuilder:/global/listUiHandler");
-const { commonEvent } = require('@ucbuilder:/global/commonEvent.js');
-const { Template } = require("@ucbuilder:/Template");
 const { intenseGenerator } = require("@ucbuilder:/intenseGenerator")
 
 class ListView extends designer {
     accessKey = propOpt.ATTR.ACCESS_KEY;
 
-    /** @type {ListViewSource}  */
-    get source() {   return this.lvUI.source; }
-    lvUI = new listUiHandler();
+    get lvUI(){ return this.ll_view.lvUI; }
+    get source() { return this.lvUI.source; }
+    //lvUI = new listUiHandler();
     
     get itemTemplate() {
         return this.lvUI.itemTemplate;
@@ -32,7 +27,7 @@ class ListView extends designer {
     constructor() {
         eval(designer.giveMeHug);
        
-        this.lvUI.init(this.listvw1, this.scroller1);
+        this.lvUI.init(this.ll_view.ucExtends.self, this.scroller1);
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {
             setTimeout(() => {

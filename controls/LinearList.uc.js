@@ -26,9 +26,10 @@ class LinearList extends designer {
     /** @type {TempleteNode}  */
     constructor() {
         eval(designer.giveMeHug);
+    }
+    init(){
         this.lvUI.init(this.ucExtends.self,this.ucExtends.self);
     }
-   
     //set template(val) { this.lv_items.itemTemplate = val; }
     //get source() { return this.lv_items.source; }
     static ATTR = {

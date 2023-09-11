@@ -13,7 +13,7 @@ class combobox extends designer {
         if (this.binder == undefined) return undefined;
         return this.binder.template;
     }
-    
+
     /** @type {binderNode}  */
     binder = undefined;
     /** @type {Template}  */
@@ -40,8 +40,8 @@ class combobox extends designer {
     isOpeinig = false;
     openList() {
         let txtboxRect = new Rect();
-        txtboxRect.setBy.domRect(this.ucExtends.self.getClientRects()[0]);      
-          
+        txtboxRect.setBy.domRect(this.ucExtends.self.getClientRects()[0]);
+
         this.binder.showAt(txtboxRect);
         this.ll_view.lvUI.currentIndex = this.selectedIndex;
     }
@@ -51,7 +51,7 @@ class combobox extends designer {
     }
     constructor() {
         eval(designer.giveMeHug);
-
+        this.ll_view.init();
         if (this.binder == undefined)
             this.binder = this.bindNew();
 
@@ -82,7 +82,7 @@ class combobox extends designer {
             if (this.binder.hasBound) { this.binder.hide(); return; }
             this.openList();
         });
-       
+
         this.ucExtends.self.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
                 case keyBoard.keys.space:
@@ -120,8 +120,8 @@ class combobox extends designer {
         else this.txt_editor.appendChild(this.seletecteditemTemplate.extended.generateNode(this.binder.selectedRecord));
     }
 
-     /** @returns {binderNode}  */
-     bindNew() {
+    /** @returns {binderNode}  */
+    bindNew() {
         let binder = new binderNode();
         binder.init(this.ll_view);
         return binder;

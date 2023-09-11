@@ -1,3 +1,4 @@
+[theme="@uccontrols:/controls/ListView.uc.lview.scss"]
 [SELF_]{
     width: inherit;
     height: inherit;
@@ -24,18 +25,5 @@ scroller::-webkit-scrollbar:hover{
     visibility: visible;
 }
 
-lview:focus{
-    outline: none;
-}
-lview{
-    border: none;
-    display: inline-block;        
-    min-width: 100%;   
-    min-height: 100%;
-    width: auto;
-    height: auto;
-}
-lview > * {
-    white-space: nowrap;
-}
+
 
