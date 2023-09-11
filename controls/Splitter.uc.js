@@ -6,6 +6,9 @@ const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 
 const { designer } = require('./Splitter.uc.designer.js');
 class Splitter extends designer {
+
+    
+
     SESSION_DATA = {
 
         /** @type {splitterCell[]}  */
@@ -22,14 +25,15 @@ class Splitter extends designer {
     generateNode = true;
     constructor() {
         eval(designer.giveMeHug);
-
+        //fillGarbages();
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
         this.ucExtends.Events.loadLastSession.on(() => {
             this.loadSession();
         });
-        
+          
     }
+
     get length() {
         let len = 0;
         this.tree.allElementHT.forEach(ele => {
@@ -40,12 +44,12 @@ class Splitter extends designer {
         });
         return len;
     }
-    pushPrimaryContainer() {
+    /*pushPrimaryContainer() {
         let row = this.navoNodeMoklo(this.tree);
 
         this.tree.pushBox(row.box);
         this.tree.refresh();
-    }
+    }*/
     gapSize = 0;
     minSizeValue = 20;
     tree = new splitersGrid();
@@ -80,9 +84,9 @@ class Splitter extends designer {
     }
 
     containerList = [
-        "@uccontrols:/controls/tabControl.uc.html"
+        "@uccontrols:/controls/tabControl.uc"
     ];
-    primaryContainer = "@uccontrols:/controls/tabControl.uc.html";
+    primaryContainer = "@uccontrols:/controls/tabControl.uc";
     /** @param {splitersGrid} splGrid */
     sadoNodeMoklo(splGrid) {
         /** @type {HTMLElement}  */
