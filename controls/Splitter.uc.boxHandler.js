@@ -34,8 +34,8 @@ class boxHandler {
         this.splMain = main.main;
 
         this.node = node;
-        //
-        // console.log(this.node);
+       
+        /** @type {HTMLElement}  */ 
         this.view = (view == undefined) ? node.children.item(0) : view;
         this.drag.init(this);
         this.drag.onDropNeeded = (dir) => {

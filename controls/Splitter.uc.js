@@ -25,7 +25,7 @@ class Splitter extends designer {
     generateNode = true;
     constructor() {
         eval(designer.giveMeHug);
-        //fillGarbages();
+        this.fillGargebase();
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
         this.ucExtends.Events.loadLastSession.on(() => {
@@ -33,7 +33,17 @@ class Splitter extends designer {
         });
           
     }
-
+    fillGargebase() {
+        /*let ctrls = [];
+        let gcHt = this.ucExtends.garbageElementsHT;
+        if(gcHt.length>0){
+            while (gcHt.length != 0) {
+                let row = this.sadoNodeMoklo(this);
+                row.box.view.appendChild(gcHt[0]);
+                this.mainContainer.appendChild(row.box.node);
+            }
+        }*/
+    }
     get length() {
         let len = 0;
         this.tree.allElementHT.forEach(ele => {
@@ -74,7 +84,7 @@ class Splitter extends designer {
             sadoNode.view.appendChild(ucs.ucExtends.self);
             sadoNode.box.uc = ucs;
 
-            sadoNode.view.appendChild(ucs.ucExtends.self);
+            //sadoNode.view.appendChild(ucs.ucExtends.self);
             //console.log(node.session);
             ucs.ucExtends.session.setSession(node.session[""]);
         });
@@ -97,6 +107,7 @@ class Splitter extends designer {
         this.ucExtends.passElement(node);
         let box = new boxHandler();
         node.data('box', box);
+        
         box.init(splGrid, node, view);
         return {
             node: node,

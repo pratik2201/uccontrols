@@ -10,9 +10,7 @@ class splitersGrid {
     grid = undefined;
     /** @type {Splitter}  */
     main = undefined;
-    /** @type {{}}  */
-    data = undefined;
-
+    
     /** @type {resizeHandler}  */
     resizer = undefined;
 
@@ -23,8 +21,6 @@ class splitersGrid {
     set type(val) {
         this.resizer.type =
         this.info.type =  val;
-   
-        
     }
    
     get measurement() { return this.info.measurement; }
