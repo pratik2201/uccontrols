@@ -1,10 +1,9 @@
 const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
 const { dragHelper } = require("@ucbuilder:/global/drag/dragHelper");
 const { Usercontrol } = require("@ucbuilder:/Usercontrol");
-
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { dragHandler } = require("@uccontrols:/controls/Splitter.uc.dragHandler");
-const { dropIndictors, spliterType, splitterCell,measurementRow } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
+const { dropIndictors, measurementRow } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
 
 class boxHandler {
@@ -34,8 +33,8 @@ class boxHandler {
         this.splMain = main.main;
 
         this.node = node;
-       
-        /** @type {HTMLElement}  */ 
+
+        /** @type {HTMLElement}  */
         this.view = (view == undefined) ? node.children.item(0) : view;
         this.drag.init(this);
         this.drag.onDropNeeded = (dir) => {
@@ -49,7 +48,7 @@ class boxHandler {
     }
 
     pushData(index, halfSize, appendAfter) {
-        let nnode = this.splMain.navoNodeMoklo(this.main);
+        let nnode = this.splMain.giveReadyNode(this.main);
         let atIndex = appendAfter ? index : index - 1;
         let ns = objectOpt.clone(measurementRow);
         ns.size = halfSize;
@@ -57,12 +56,12 @@ class boxHandler {
         ns.data.ucPath = nnode.box.uc.ucExtends.fileInfo.html.rootPath;
         ns.data.attribList = controlOpt.xPropToAttr(nnode.box.uc.ucExtends.self);
         nnode.box.uc.ucExtends.session.exchangeParentWith(ns.data.session);
-        if(appendAfter){
+        if (appendAfter) {
             this.main.measurement.splice(index + 1, 0, ns);
             this.main.measurement[index].size = halfSize;
-        }else{
+        } else {
             this.main.measurement.splice(index, 0, ns);
-            this.main.measurement[index+1].size = halfSize;
+            this.main.measurement[index + 1].size = halfSize;
         }
         this.main.pushBox(nnode.box, atIndex);
         dragHelper.dragResult = nnode.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
@@ -70,11 +69,11 @@ class boxHandler {
     }
     dropH(dir) {
         switch (this.main.info.type) {
-            case spliterType.NOT_DEFINED:
-            case spliterType.COLUMN:
+            case 'notdefined':
+            case 'columns':
                 let index = this.index;
                 let len = this.main.length;
-                this.main.type = spliterType.COLUMN;
+                this.main.type = 'columns';
                 switch (dir) {
                     case dropIndictors.possiblePlaces.rightRect:
                         if (len == 0 || index == this.main.lastIndex) { // if last
@@ -94,50 +93,45 @@ class boxHandler {
                         }
                         break;
                 }
-
                 break;
             default:
-                let ngrid = this.splMain.navuGridMoklo(spliterType.COLUMN);                                
+                let ngrid = this.splMain.giveNewGrid('columns');
                 let topMeasurement = this.splMain.tree.measurement[this.node.index()].data;
-                let ndm1 = ngrid.navoNodeMoklo(ngrid.tree);
-                let ndm2 = ngrid.navoNodeMoklo(ngrid.tree);
+                let ndm1 = ngrid.giveReadyNode(ngrid.tree);
+                let ndm2 = ngrid.giveReadyNode(ngrid.tree);
                 ngrid.tree.pushBox(ndm2);
                 ngrid.tree.pushBox(ndm1);
                 this.view.appendChild(ngrid.ucExtends.self);
-                //ngrid..attribList = controlOpt.xPropToAttr(nnode.box.uc.ucExtends.self);
                 ngrid.tree.refresh();
                 topMeasurement.ucPath = ngrid.ucExtends.fileInfo.html.rootPath;
                 topMeasurement.attribList = controlOpt.xPropToAttr(ngrid.ucExtends.self);
-                 //console.log(ngrid.tree.measurement.length);
                 if (this.view.children.length != 0) {
                     switch (dir) {
                         case dropIndictors.possiblePlaces.rightRect:
                             ndm1.view.innerHTML = "";
-                            ndm1.view.appendChild(this.uc.ucExtends.self);                            
+                            ndm1.view.appendChild(this.uc.ucExtends.self);
                             dragHelper.dragResult = ndm2.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
                             this.uc.ucExtends.session.exchangeParentWith(ngrid.tree.measurement[0].data.session);
                             break;
                         case dropIndictors.possiblePlaces.leftRect:
                             ndm2.view.innerHTML = "";
-                            ndm2.view.appendChild(this.uc.ucExtends.self);                            
+                            ndm2.view.appendChild(this.uc.ucExtends.self);
                             dragHelper.dragResult = ndm1.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
                             this.uc.ucExtends.session.exchangeParentWith(ngrid.tree.measurement[1].data.session);
                             break;
                     }
                 }
                 ngrid.ucExtends.session.exchangeParentWith(topMeasurement.session);
-                
                 break;
         }
-
     }
     dropV(dir) {
         switch (this.main.info.type) {
-            case spliterType.NOT_DEFINED:
-            case spliterType.ROW:
+            case 'notdefined':
+            case 'rows':
                 let index = this.index;
                 let len = this.main.length;
-                this.main.type = spliterType.ROW;
+                this.main.type = 'rows';
 
                 switch (dir) {
                     case dropIndictors.possiblePlaces.bottomRect:
@@ -159,10 +153,10 @@ class boxHandler {
                 }
                 break;
             default:
-                let ngrid = this.splMain.navuGridMoklo(spliterType.ROW);                                
+                let ngrid = this.splMain.giveNewGrid('rows');
                 let topMeasurement = this.splMain.tree.measurement[this.node.index()].data;
-                let ndm1 = ngrid.navoNodeMoklo(ngrid.tree);
-                let ndm2 = ngrid.navoNodeMoklo(ngrid.tree);
+                let ndm1 = ngrid.giveReadyNode(ngrid.tree);
+                let ndm2 = ngrid.giveReadyNode(ngrid.tree);
                 ngrid.tree.pushBox(ndm2);
                 ngrid.tree.pushBox(ndm1);
                 this.view.appendChild(ngrid.ucExtends.self);
@@ -173,13 +167,13 @@ class boxHandler {
                     switch (dir) {
                         case dropIndictors.possiblePlaces.bottomRect:
                             ndm1.view.innerHTML = "";
-                            ndm1.view.appendChild(this.uc.ucExtends.self);                            
-                            dragHelper.dragResult =ndm2.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
+                            ndm1.view.appendChild(this.uc.ucExtends.self);
+                            dragHelper.dragResult = ndm2.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
                             this.uc.ucExtends.session.exchangeParentWith(ngrid.tree.measurement[0].data.session);
                             break;
                         case dropIndictors.possiblePlaces.topRect:
                             ndm2.view.innerHTML = "";
-                            ndm2.view.appendChild(this.uc.ucExtends.self);                            
+                            ndm2.view.appendChild(this.uc.ucExtends.self);
                             dragHelper.dragResult = ndm1.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
                             this.uc.ucExtends.session.exchangeParentWith(ngrid.tree.measurement[1].data.session);
                             break;

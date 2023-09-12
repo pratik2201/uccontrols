@@ -15,8 +15,8 @@ class Splitter extends designer {
         /** @type {measurementRow[]}  */
         measurement: [],
         attribList: "",
-        type: spliterType.NOT_DEFINED,
-
+        /** @type {spliterType}  */ 
+        type: 'notdefined',
 
     };
     allowSplitRow = true;
@@ -28,6 +28,7 @@ class Splitter extends designer {
         eval(designer.giveMeHug);
         this.resizer.measurement = this.SESSION_DATA.measurement;
         this.resizer.grid = this.mainContainer;
+        this.resizer.uc = this;
         this.resizer.bluePrint = objectOpt.clone(measurementRow);
         this.resizer.Events.onMouseDown = (pIndex, cIndex) => {
             this.resizer.isPrevCollapsable = this.resizer.allElementHT[pIndex].data('box').uc.length === 0;
@@ -88,7 +89,7 @@ class Splitter extends designer {
         this.tree.type = this.SESSION_DATA.type;
         this.resizer.measurement = this.SESSION_DATA.measurement;
         this.SESSION_DATA.measurement.forEach(cell => {
-            let sadoNode = this.sadoNodeMoklo(this.tree);
+            let sadoNode = this.givePlainNode(this.tree);
             this.ucExtends.passElement(sadoNode.node);
             this.mainContainer.appendChild(sadoNode.node);
             let elementHT = `<e${cell.data.attribList}></e>`.$();
@@ -110,7 +111,7 @@ class Splitter extends designer {
 
     }
     pushPrimaryContainer() {
-        let row = this.navoNodeMoklo(this.tree);
+        let row = this.giveReadyNode(this.tree);
 
         this.tree.pushBox(row.box);
         this.tree.refresh();
@@ -121,7 +122,7 @@ class Splitter extends designer {
     ];
     primaryContainer = "@uccontrols:/controls/tabControl.uc";
     /** @param {splitersGrid} splGrid */
-    sadoNodeMoklo(splGrid) {
+    givePlainNode(splGrid) {
         /** @type {HTMLElement}  */
         let node = '<node></node>'.$();
         /** @type {HTMLElement}  */
@@ -139,8 +140,8 @@ class Splitter extends designer {
         };
     }
     /** @param {splitersGrid} splGrid */
-    navoNodeMoklo(splGrid) {
-        let sadoNode = this.sadoNodeMoklo(splGrid);
+    giveReadyNode(splGrid) {
+        let sadoNode = this.givePlainNode(splGrid);
         let ucs = intenseGenerator.generateUC(this.primaryContainer, { parentUc: this });
 
         sadoNode.view.appendChild(ucs.ucExtends.self);
@@ -156,9 +157,9 @@ class Splitter extends designer {
      * @param {spliterType} type
      * @returns {Splitter}
      */
-    navuGridMoklo(type = spliterType.NOT_DEFINED) {
+    giveNewGrid(type = 'notdefined') {
         /** @type {HTMLElement}  */
-        let elementHT = `<Splitter x.SESSION_DATA.type="'${type}'"  ${this.myPropertiesText}  ></Splitter>`.$();
+        let elementHT = `<Splitter x.SESSION_DATA.type="=${type}"  ${this.myPropertiesText}  ></Splitter>`.$();
         elementHT.setAttribute("x:generateNode", false);
         /** @type {Splitter}  */
         let uc = intenseGenerator.generateUC("@uccontrols:/controls/Splitter.uc.html", {

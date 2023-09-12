@@ -3,6 +3,9 @@ const { Rect } = require("@ucbuilder:/global/drawing/shapes");
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 const { spliterType, splitterCell } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
+/**
+ * @typedef {import ("@ucbuilder:/Usercontrol").Usercontrol} Usercontrol
+ */
 class resizeHandler {
     static measurementRow = {
         /** @type {number}  */
@@ -24,9 +27,10 @@ class resizeHandler {
         size: 'width',
         dir: 'left',
         pagePoint: 'pageX',
+        /** @param {spliterType} type */
         setByType(type) {
             switch (type) {
-                case spliterType.COLUMN:
+                case 'columns':
                     this.offsetSize = 'offsetWidth';
                     this.splitterText = 'splitter-width';
                     this.grisTemeplate = 'grid-template-columns';
@@ -35,7 +39,7 @@ class resizeHandler {
                     this.dir = "left";
                     this.pagePoint = 'pageX';
                     break;
-                case spliterType.ROW:
+                case 'rows':
                     this.offsetSize = 'offsetHeight';
                     this.splitterText = 'splitter-height';
                     this.grisTemeplate = 'grid-template-rows';
@@ -68,14 +72,6 @@ class resizeHandler {
     /** @type {HTMLElement[]}  */
     allElementHT = undefined;
 
-
-    get spl() { return this.main.main; }
-    /**
-     *  @param {splitersGrid} main 
-     */
-    init(main) {
-        this.main = main;
-    }
     refreshView() {
         this.grid.style[this.nameList.grisTemeplate] = this.measureText;
     }
@@ -90,10 +86,17 @@ class resizeHandler {
                 .slice(0, -1)
                 .join('px ') + 'px auto';
     }
-    set type(val) {
-        this.nameList.setByType(val);
-
+    /** @type {spliterType}  */ 
+    _type = '';
+    get type() {
+        return this._type;
     }
+    set type(value) {
+        this._type = value;
+        this.nameList.setByType(value);       
+    }
+    /** @type {Usercontrol}  */ 
+    uc = undefined;
 
     /** @type {HTMLElement}  */
     static rectHT = `<resizer role="drawSelection"></resizer>`.$();
@@ -118,9 +121,11 @@ class resizeHandler {
          */
         beforeCollepse: (index, spaceAllocateIndex) => {
 
-        }
+        },
 
+        //beforePushingResizer:()=>{ return true; }
     }
+    allowResize = true;
     refresh() {
 
         let len = this.allElementHT.length;
@@ -148,16 +153,14 @@ class resizeHandler {
     /** @type {HTMLElement[]}  */
     resizerHTlist = [];
     giveResizer() {
-        switch (this.spl.SESSION_DATA.type) {
-            case spliterType.COLUMN: if (!this.spl.allowResizeColumn) { this.refreshView(); return; } break;
-            case spliterType.ROW: if (!this.spl.allowResizeRow) { this.refreshView(); return; } break;
-        }
+        if(!this.allowResize) { this.refreshView(); return; } 
+        
         let len = this.allElementHT.length;
         this.resizerHTlist.forEach(s => s.delete());
         this.resizerHTlist = [];
 
         for (let i = 1; i < len; i++) {
-            let resHt = this.spl.ucExtends.passElement(this.resizerHT.cloneNode(true));
+            let resHt = this.uc.ucExtends.passElement(this.resizerHT.cloneNode(true));
             resHt.setAttribute("role", this.nameList.dir);
             this.allElementHT[i].append(resHt);
             this.resizerHTlist.push(this.resizerHT);
@@ -180,7 +183,7 @@ class resizeHandler {
         //console.log(resizer);
         resizer.addEventListener("mousedown", (downEvt) => {
             let htEle = _this.allElementHT[index];
-            _this.spl.ucExtends.passElement(resizeHandler.rectHT);
+            _this.uc.ucExtends.passElement(resizeHandler.rectHT);
 
             document.body.appendChild(resizeHandler.rectHT);
             let rct = new Rect();
@@ -228,7 +231,7 @@ class resizeHandler {
                 _this.refreshView();
 
                 resizeHandler.rectHT.style.visibility = "collapse";
-                _this.spl.ucExtends.session.onModify();
+                _this.uc.ucExtends.session.onModify();
                 document.body.off("mousemove", mousemoveEvent);
                 document.body.off("mouseup mouseleave", mouseupEvent);
             }

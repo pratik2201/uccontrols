@@ -21,11 +21,12 @@ class dragInfo {
     onDragStart = new commonEvent();
     onDragEnd = new commonEvent();
 }
-const spliterType = Object.freeze({
+
+/*const spliterType = Object.freeze({
     NOT_DEFINED: "NOT_DEFINED",
     ROW: "ROW",
     COLUMN: "COLUMN",
-});
+});*/
 const tabChilds = {
     index: -1,
     stamp: "",
@@ -80,7 +81,8 @@ const dropIndictors = {
 module.exports = {
     dragInfo,
     dropIndictors,
-    spliterType,
+    /** @type {"notdefined"|"columns"|"rows"}  */
+    spliterType : 'notdefined',
     tabChilds,
     dragDataNode: {
         uc: undefined,
