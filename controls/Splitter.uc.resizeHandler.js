@@ -5,7 +5,14 @@ const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 const { spliterType, splitterCell } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
 
-class resizeHandler {
+class resizeHandler { 
+    /** 
+     * @type {{
+     *      size:number,
+     *      data:{}
+     * }[]}  
+     * */    
+    measurements = [];
     nameList = {
         offsetSize: 'offsetWidth',
         splitterText: 'splitter-width',
@@ -113,8 +120,9 @@ class resizeHandler {
                 /** @type {boxHandler}  */
                 let box = this.main.allElementHT[i].data('box');
                 obj = objectOpt.clone(splitterCell);
-                box.uc.ucExtends.session.exchangeParentWith(obj.session);
+                
                 obj.size = eqSize;
+                box.uc.ucExtends.session.exchangeParentWith(obj.session);
                 obj.ucPath = box.uc.ucExtends.fileInfo.html.rootPath;
                 obj.attribList = controlOpt.xPropToAttr(box.uc.ucExtends.self);
                 this.main.info.measurement[i] = obj;

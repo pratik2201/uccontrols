@@ -1,7 +1,7 @@
 const { objectOpt } = require("@ucbuilder:/build/common");
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
-const { splitterRow, spliterType } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
+const {  spliterType } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { resizeHandler } = require("@uccontrols:/controls/Splitter.uc.resizeHandler");
 
 class splitersGrid {
@@ -11,22 +11,21 @@ class splitersGrid {
     /** @type {Splitter}  */
     main = undefined;
     
-    /** @type {resizeHandler}  */
-    resizer = undefined;
+   
 
     /** @type {HTMLElement[]}  */
     allElementHT = undefined;
-    /** @type {splitterRow}  */
+    
     get info() { return this.main.SESSION_DATA; }
     set type(val) {
-        this.resizer.type =
+        this.main.resizer.type =
         this.info.type =  val;
     }
    
     get measurement() { return this.info.measurement; }
     get lastIndex() { return this.info.measurement.length - 1; }
     get length() { return this.info.measurement.length; }
-    resizer = new resizeHandler();
+    
     /** 
      * @param {HTMLElement} grid 
      * @param {Splitter} main 
@@ -39,7 +38,7 @@ class splitersGrid {
         //this.data = this.main.SESSION_DATA.record;
         this.main = main;
         this.info.attribList = this.main.myPropertiesText;
-        this.resizer.init(this);
+        this.main.resizer.init(this);
         /*if (this.info == undefined)
             this.data.splInfo = objectOpt.clone(splitterRow);*/
         
@@ -61,7 +60,7 @@ class splitersGrid {
         }
     }
     refresh() {
-        this.resizer.refresh();
+        this.main.resizer.refresh();
     }
 }
 module.exports = { splitersGrid };

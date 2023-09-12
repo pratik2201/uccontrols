@@ -1,10 +1,11 @@
 const { objectOpt, controlOpt } = require('@ucbuilder:/build/common.js');
 const { boxHandler } = require('@uccontrols:/controls/Splitter.uc.boxHandler.js');
-const { spliterType, splitterRow,splitterCell } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
+const { spliterType,splitterCell } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { splitersGrid } = require('@uccontrols:/controls/Splitter.uc.splitersGrid.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 
 const { designer } = require('./Splitter.uc.designer.js');
+const { resizeHandler } = require('@uccontrols:/controls/Splitter.uc.resizeHandler.js');
 class Splitter extends designer {
 
     
@@ -70,12 +71,12 @@ class Splitter extends designer {
 
     loadSession() {
         this.tree.type = this.SESSION_DATA.type;
-        this.SESSION_DATA.measurement.forEach(node => {
+        this.SESSION_DATA.measurement.forEach(cell => {
             let sadoNode = this.sadoNodeMoklo(this.tree);
-            this.ucExtends.passElement(node);
+            this.ucExtends.passElement(cell);
             this.mainContainer.appendChild(sadoNode.node);
-            let elementHT = `<e${node.attribList}></e>`.$();
-            let ucs = intenseGenerator.generateUC(node.ucPath, {
+            let elementHT = `<e${cell.attribList}></e>`.$();
+            let ucs = intenseGenerator.generateUC(cell.ucPath, {
                 wrapperHT: elementHT,
                 session:{ loadBySession:true },
                 parentUc: this
@@ -86,13 +87,13 @@ class Splitter extends designer {
 
             //sadoNode.view.appendChild(ucs.ucExtends.self);
             //console.log(node.session);
-            ucs.ucExtends.session.setSession(node.session[""]);
+            ucs.ucExtends.session.setSession(cell.session[""]);
         });
         
-        this.tree.resizer.giveResizer();
+        this.resizer.giveResizer();
 
     }
-
+    resizer = new resizeHandler();
     containerList = [
         "@uccontrols:/controls/tabControl.uc"
     ];

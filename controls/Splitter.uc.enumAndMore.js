@@ -25,10 +25,6 @@ const spliterType = Object.freeze({
     ROW: "ROW",
     COLUMN: "COLUMN",
 });
-const spliterCellType = Object.freeze({
-    LINK: "LINK",
-    ANOTHER: "ANOTHER",
-});
 const tabChilds = {
     index : -1,
     stamp: "",
@@ -44,13 +40,7 @@ const splitterCell = {
     /** @type {{}}  */ 
     session:{},
 };
-const splitterRow ={
-    /** @type {splitterCell[]}  */ 
-    measurement: [],
-    attribList:"",
-    //size : -1,
-    type: spliterType.NOT_DEFINED,
-}
+
 const dropIndictors = {
     /** @type {HTMLElement}  */
     leftPoll: '<drop parent="dragassets" dir="left" ></drop>'.$(),
@@ -96,8 +86,6 @@ module.exports = {
         nodeId: "",
         role: "",
     },
-    splitterCell,
-    splitterRow,
-    spliterCellType,
+    splitterCell
     
 };

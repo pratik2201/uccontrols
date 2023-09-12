@@ -4,7 +4,7 @@ const { Usercontrol } = require("@ucbuilder:/Usercontrol");
 
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { dragHandler } = require("@uccontrols:/controls/Splitter.uc.dragHandler");
-const { dropIndictors, spliterType, splitterCell, spliterCellType } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
+const { dropIndictors, spliterType, splitterCell } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
 
 class boxHandler {
@@ -67,7 +67,7 @@ class boxHandler {
         }
         this.main.pushBox(nnode.box, atIndex);
         dragHelper.dragResult = nnode.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
-        this.main.resizer.giveResizer();
+        this.splMain.resizer.giveResizer();
     }
     dropH(dir) {
         switch (this.main.info.type) {
