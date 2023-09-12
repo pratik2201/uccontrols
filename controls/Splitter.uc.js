@@ -1,6 +1,6 @@
 const { objectOpt, controlOpt } = require('@ucbuilder:/build/common.js');
 const { boxHandler } = require('@uccontrols:/controls/Splitter.uc.boxHandler.js');
-const { spliterType,splitterCell } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
+const { spliterType, splitterCell, measurementRow } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { splitersGrid } = require('@uccontrols:/controls/Splitter.uc.splitersGrid.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 
@@ -8,16 +8,16 @@ const { designer } = require('./Splitter.uc.designer.js');
 const { resizeHandler } = require('@uccontrols:/controls/Splitter.uc.resizeHandler.js');
 class Splitter extends designer {
 
-    
+
 
     SESSION_DATA = {
 
-        /** @type {splitterCell[]}  */
+        /** @type {measurementRow[]}  */
         measurement: [],
         attribList: "",
         type: spliterType.NOT_DEFINED,
 
-        
+
     };
     allowSplitRow = true;
     allowSplitColumn = true;
@@ -26,13 +26,28 @@ class Splitter extends designer {
     generateNode = true;
     constructor() {
         eval(designer.giveMeHug);
+        this.resizer.measurement = this.SESSION_DATA.measurement;
+        this.resizer.grid = this.mainContainer;
+        this.resizer.bluePrint = objectOpt.clone(measurementRow);
+        this.resizer.Events.onMouseDown = (pIndex, cIndex) => {
+            this.resizer.isPrevCollapsable = this.resizer.allElementHT[pIndex].data('box').uc.length === 0;
+            this.resizer.isNextCollapsable = this.resizer.allElementHT[cIndex].data('box').uc.length === 0;
+        };
         this.fillGargebase();
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
         this.ucExtends.Events.loadLastSession.on(() => {
             this.loadSession();
         });
-          
+        this.resizer.Events.onRefresh = (i, measurement) => {
+            /** @type {splitterCell}  */
+            let obj = measurement.data;
+            /** @type {boxHandler}  */
+            let box = this.tree.allElementHT[i].data('box');
+            box.uc.ucExtends.session.exchangeParentWith(obj.session);
+            obj.ucPath = box.uc.ucExtends.fileInfo.html.rootPath;
+            obj.attribList = controlOpt.xPropToAttr(box.uc.ucExtends.self);
+        }
     }
     fillGargebase() {
         /*let ctrls = [];
@@ -71,27 +86,34 @@ class Splitter extends designer {
 
     loadSession() {
         this.tree.type = this.SESSION_DATA.type;
+        this.resizer.measurement = this.SESSION_DATA.measurement;
         this.SESSION_DATA.measurement.forEach(cell => {
             let sadoNode = this.sadoNodeMoklo(this.tree);
-            this.ucExtends.passElement(cell);
+            this.ucExtends.passElement(sadoNode.node);
             this.mainContainer.appendChild(sadoNode.node);
-            let elementHT = `<e${cell.attribList}></e>`.$();
-            let ucs = intenseGenerator.generateUC(cell.ucPath, {
+            let elementHT = `<e${cell.data.attribList}></e>`.$();
+            let ucs = intenseGenerator.generateUC(cell.data.ucPath, {
                 wrapperHT: elementHT,
-                session:{ loadBySession:true },
+                session: { loadBySession: true },
                 parentUc: this
             });
-           
+
             sadoNode.view.appendChild(ucs.ucExtends.self);
             sadoNode.box.uc = ucs;
 
             //sadoNode.view.appendChild(ucs.ucExtends.self);
             //console.log(node.session);
-            ucs.ucExtends.session.setSession(cell.session[""]);
+            ucs.ucExtends.session.setSession(cell.data.session[""]);
         });
-        
+
         this.resizer.giveResizer();
 
+    }
+    pushPrimaryContainer() {
+        let row = this.navoNodeMoklo(this.tree);
+
+        this.tree.pushBox(row.box);
+        this.tree.refresh();
     }
     resizer = new resizeHandler();
     containerList = [
@@ -108,7 +130,7 @@ class Splitter extends designer {
         this.ucExtends.passElement(node);
         let box = new boxHandler();
         node.data('box', box);
-        
+
         box.init(splGrid, node, view);
         return {
             node: node,
@@ -120,7 +142,7 @@ class Splitter extends designer {
     navoNodeMoklo(splGrid) {
         let sadoNode = this.sadoNodeMoklo(splGrid);
         let ucs = intenseGenerator.generateUC(this.primaryContainer, { parentUc: this });
-        
+
         sadoNode.view.appendChild(ucs.ucExtends.self);
         sadoNode.box.uc = ucs;
         /**   AA LE... MOKLYO */
@@ -143,7 +165,7 @@ class Splitter extends designer {
             wrapperHT: elementHT,
             parentUc: this
         });
-       
+
         /**   AA LE... MOKLYU */
         return uc;
     }

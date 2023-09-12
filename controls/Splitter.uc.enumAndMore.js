@@ -1,4 +1,5 @@
 const { commonEvent } = require("@ucbuilder:/global/commonEvent");
+const { newObjectOpt } = require("ucbuilder/global/objectOpt");
 
 class dragInfo {
     constructor() { }
@@ -26,20 +27,25 @@ const spliterType = Object.freeze({
     COLUMN: "COLUMN",
 });
 const tabChilds = {
-    index : -1,
+    index: -1,
     stamp: "",
     filePath: "",
     fstamp: "",
     session: {},
 };
 const splitterCell = {
-    /** @type {number}  */ 
-    size : undefined,
-    ucPath:"",
-    attribList:"",
-    /** @type {{}}  */ 
-    session:{},
+   
+    ucPath: "",
+    attribList: "",
+    /** @type {{}}  */
+    session: {},
 };
+
+const measurementRow = {
+    /** @type {number}  */ 
+    size: undefined,
+    data: newObjectOpt.clone(splitterCell),
+}
 
 const dropIndictors = {
     /** @type {HTMLElement}  */
@@ -56,12 +62,12 @@ const dropIndictors = {
     /** @type {HTMLElement[]}  */
     get asArray() {
         return [dropIndictors.indictor,
-            dropIndictors.leftPoll,
-            dropIndictors.topPoll,
-            dropIndictors.rightPoll,
-            dropIndictors.bottomPoll];
+        dropIndictors.leftPoll,
+        dropIndictors.topPoll,
+        dropIndictors.rightPoll,
+        dropIndictors.bottomPoll];
     },
-    possiblePlaces : Object.freeze({
+    possiblePlaces: Object.freeze({
         leftRect: "leftRect",
         centerRect: "centerRect",
         rightRect: "rightRect",
@@ -79,13 +85,13 @@ module.exports = {
     dragDataNode: {
         uc: undefined,
         tabBx: undefined
-    },    
+    },
     tabBoxRow: {
-        /** @type {tabChilds[]}  */ 
+        /** @type {tabChilds[]}  */
         children: [],
         nodeId: "",
         role: "",
     },
-    splitterCell
-    
+    splitterCell,
+    measurementRow
 };
