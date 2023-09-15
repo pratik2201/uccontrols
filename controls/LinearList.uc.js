@@ -11,8 +11,14 @@ class LinearList extends designer {
         
         return this.lvUI.itemTemplate;
     }
+    
     set itemTemplate(value) {
-        this.lvUI.itemTemplate = intenseGenerator.parseTPT(value,this.ucExtends.PARENT);
+        this.lvUI.itemTemplate = intenseGenerator.parseTPT(value,this);
+        /** @type {string}  
+        let s = value;
+        console.log(s);*/ 
+        //if(s.includes("attributetemplate"))
+            //console.log(this.lvUI.itemTemplate.extended.stampRow.stamp+';'+this.ucExtends.stampRow.stamp);
     }
     get Records(){ return this.lvUI.Records;  }
     get Events() { return this.lvUI.Events; }
