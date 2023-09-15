@@ -1,22 +1,32 @@
-[SELF_]{
+[SELF_] {
     width: inherit;
     height: inherit;
-    display:grid;
-    grid-template-rows: max-content auto max-content;
+    display: block;
     background-color: yellowgreen;
-    border:solid 1px black;
+    border: solid 1px black;
+}
+trans-hover{
+    position: absolute;     display: inline;
+    outline: solid 1px black;
 }
 
-header,detail,footer{ display: grid; position: relative; }
-detail{  overflow: auto; }
-tbl{
-    display: grid; table-layout: fixed;
+container{
+  width: inherit;
+  height: inherit;
+  display: grid;
+  grid-template-rows: max-content auto max-content;
 }
-row{
-    display: table-row;
+header, detail, footer {
+    display: block; position: relative;  box-sizing: border-box;
 }
-cell{
-    display: table-cell;
-    height: fit-content;
-    border: solid 1px black;
+detail{ overflow: auto;  background-color: whitesmoke;  }
+tbl { 
+    width: 100%; height: 100%; box-sizing: border-box;
+    display: block; table-layout: fixed;
+}
+row { display: grid; grid-template-columns: var(--winfo); }
+cell {
+    display: block; overflow: hidden; white-space: nowrap;
+    height: fit-content; box-sizing: border-box; 
+    
 }
