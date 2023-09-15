@@ -1,0 +1,22 @@
+[SELF_]{
+    width: inherit;
+    height: inherit;
+    display:grid;
+    grid-template-rows: max-content auto max-content;
+    background-color: yellowgreen;
+    border:solid 1px black;
+}
+
+header,detail,footer{ display: grid; position: relative; }
+detail{  overflow: auto; }
+tbl{
+    display: grid; table-layout: fixed;
+}
+row{
+    display: table-row;
+}
+cell{
+    display: table-cell;
+    height: fit-content;
+    border: solid 1px black;
+}
