@@ -1,6 +1,6 @@
 const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
 const { Rect } = require("@ucbuilder:/global/drawing/shapes");
-const { gridResizer,measurementRow } = require("@ucbuilder:/global/gridResizer");
+const { gridResizer, measurementRow } = require("@ucbuilder:/global/gridResizer");
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 const { spliterType, splitterCell } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
@@ -8,42 +8,46 @@ const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid
  * @typedef {import ("@ucbuilder:/Usercontrol").Usercontrol} Usercontrol
  */
 class resizeHandler {
-    
+    gridRsz = new gridResizer();
     bluePrint = {
         /** @type {HTMLElement}  */
         size: undefined,
         data: {}
     };
-    /** @type {measurementRow[]}  */
-    measurement = [];
+
+    set measurement(value) { this.gridRsz.measurement = value; }
+    get measurement() { return this.gridRsz.measurement; }
     nameList = {
         offsetSize: 'offsetWidth',
         splitterText: 'splitter-width',
-        grisTemeplate: 'grid-template-columns',
+        //grisTemeplate: 'grid-template-columns',
         point: 'x',
         size: 'width',
         dir: 'left',
         pagePoint: 'pageX',
         /** @param {spliterType} type */
-        setByType(type) {
+        setByType: (type) => {
+            let _this = this.nameList;
             switch (type) {
                 case 'columns':
-                    this.offsetSize = 'offsetWidth';
-                    this.splitterText = 'splitter-width';
-                    this.grisTemeplate = 'grid-template-columns';
-                    this.size = 'width',
-                        this.point = 'x';
-                    this.dir = "left";
-                    this.pagePoint = 'pageX';
+                    _this.offsetSize = 'offsetWidth';
+                    _this.splitterText = 'splitter-width';
+                    this.gridRsz.templeteOf = 'grid-template-columns';
+                    //_this.grisTemeplate = 'grid-template-columns';
+                    _this.size = 'width',
+                        _this.point = 'x';
+                    _this.dir = "left";
+                    _this.pagePoint = 'pageX';
                     break;
                 case 'rows':
-                    this.offsetSize = 'offsetHeight';
-                    this.splitterText = 'splitter-height';
-                    this.grisTemeplate = 'grid-template-rows';
-                    this.size = 'height',
-                        this.point = 'y';
-                    this.dir = "top";
-                    this.pagePoint = 'pageY';
+                    _this.offsetSize = 'offsetHeight';
+                    _this.splitterText = 'splitter-height';
+                    this.gridRsz.templeteOf = 'grid-template-rows';
+                    //_this.grisTemeplate = 'grid-template-rows';
+                    _this.size = 'height',
+                        _this.point = 'y';
+                    _this.dir = "top";
+                    _this.pagePoint = 'pageY';
                     break;
 
             }
@@ -56,48 +60,33 @@ class resizeHandler {
     get main() { return this._main; }
     _main = undefined;*/
 
-    /** @type {HTMLElement}  */
-    _grid = undefined;
+   
     get grid() {
-        return this._grid;
+        return this.gridRsz.grid;
     }
     set grid(value) {
-        this._grid = value;
+        this.gridRsz.grid = value;
         this.allElementHT = value.childNodes;
     }
-
+    
     /** @type {HTMLElement[]}  */
     allElementHT = undefined;
 
-    refreshView() {
-        this.grid.style[this.nameList.grisTemeplate] = this.measureText;
-    }
-    get hasDefinedStyles() {
-        return this.grid.style[this.nameList.grisTemeplate] != "";
-    }
 
-    get measureText() {
-        return this.measurement.length <= 1 ? 'auto'
-            : this.measurement
-                .map(s => s.size)
-                .slice(0, -1)
-                .join('px ') + 'px auto';
-    }
-    /** @type {spliterType}  */ 
+    /** @type {spliterType}  */
     _type = '';
     get type() {
         return this._type;
     }
     set type(value) {
         this._type = value;
-        this.nameList.setByType(value);       
+        this.nameList.setByType(value);
     }
-    /** @type {Usercontrol}  */ 
+    /** @type {Usercontrol}  */
     uc = undefined;
 
     /** @type {HTMLElement}  */
     static rectHT = `<resizer role="drawSelection"></resizer>`.$();
-    get mainGrid() { return this.grid; }
     /** @type {HTMLElement}  */
     resizerHT = `<resizer role="left"></resizer>`.$();
     Events = {
@@ -127,10 +116,10 @@ class resizeHandler {
 
         let len = this.allElementHT.length;
         if (len == 0) { return; }
-        let hasStyle = this.hasDefinedStyles;
+        let hasStyle = this.gridRsz.hasDefinedStyles;
         let offsetSize = this.nameList.offsetSize;
 
-        this.gridFullSize = hasStyle ? 0 : this.mainGrid[offsetSize];
+        this.gridFullSize = hasStyle ? 0 : this.grid[offsetSize];
         let eqSize = this.gridFullSize / len;
         let obj = undefined;
         if (hasStyle) {
@@ -150,8 +139,8 @@ class resizeHandler {
     /** @type {HTMLElement[]}  */
     resizerHTlist = [];
     giveResizer() {
-        if(!this.allowResize) { this.refreshView(); return; } 
-        
+        if (!this.allowResize) { this.gridRsz.refreshView(); return; }
+
         let len = this.allElementHT.length;
         this.resizerHTlist.forEach(s => s.delete());
         this.resizerHTlist = [];
@@ -163,7 +152,7 @@ class resizeHandler {
             this.resizerHTlist.push(this.resizerHT);
             this.doWithIndex(resHt, i);
         }
-        this.refreshView();
+        this.gridRsz.refreshView();
     }
     /**
      * @param {number} index 
@@ -225,7 +214,7 @@ class resizeHandler {
                 next.size = rct.size[_this.nameList.size];
 
                 _this.checkAndRemoveNode(index - 1, index);
-                _this.refreshView();
+                _this.gridRsz.refreshView();
 
                 resizeHandler.rectHT.style.visibility = "collapse";
                 _this.uc.ucExtends.session.onModify();
