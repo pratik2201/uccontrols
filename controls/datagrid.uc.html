@@ -1,13 +1,13 @@
 <datagrid>
     <trans-hover role="vertical" x-name="transHoverVerticalline">
-        <resizer role="left"></resizer>
-        <resizer role="right"></resizer>
+        <resizer role="left" x-name="resizerLeft"></resizer>
+        <resizer role="right" x-name="resizerRight"></resizer>
     </trans-hover>
     <trans-hover role="horizontal" x-name="transHoverHorizontalline">
-        <resizer role="top"></resizer>
-        <resizer role="bottom"></resizer>
+        <resizer role="top" x-name="resizerTop"></resizer>
+        <resizer role="bottom" x-name="resizerBottom"></resizer>
     </trans-hover>
-    <container style="--winfo:30px 150px 100px auto;">
+    <container style="--winfo:30px 150px 100px 450px;">
         <header x-name="header">
             <tbl>
                 <row>
@@ -16,9 +16,17 @@
                     <cell>CITY</cell>
                     <cell>ADDRESS</cell>
                 </row>
+                <row style="background-color: blue;
+                border-bottom: solid 4px black;
+                        color:blanchedalmond;">
+                    <cell>ID</cell>
+                    <cell>NAME</cell>
+                    <cell>CITY</cell>
+                    <cell>ADDRESS</cell>
+                </row>
             </tbl>
         </header>
-        <detail x-name="detail">
+        <detail x-name="detail" x-tabindex="0">
 
             <tbl>
                 <row>
@@ -82,9 +90,8 @@
                     <cell>DETAIL-CELL4</cell>
                 </row>
                 <row>
-                    <cell>6</cell>
-                    <cell>DETAIL-CELL2</cell>
-                    <cell>DETAIL-CELL3</cell>
+                    <cell>---</cell>
+                    <cell style=" grid-column: 2 / span 2;">DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>
                 <row>
@@ -117,7 +124,7 @@
                     <cell>DETAIL-CELL3</cell>
                     <cell><input type="text" /></cell>
                 </row>
-                <row>
+                <row >
                     <cell>10</cell>
                     <cell>DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL3</cell>
@@ -178,4 +185,5 @@
         </footer>
 
     </container>
+   
 </datagrid>

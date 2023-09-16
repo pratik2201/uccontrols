@@ -1,5 +1,6 @@
 const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
 const { Rect } = require("@ucbuilder:/global/drawing/shapes");
+const { gridResizer,measurementRow } = require("@ucbuilder:/global/gridResizer");
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 const { spliterType, splitterCell } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
@@ -7,17 +8,13 @@ const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid
  * @typedef {import ("@ucbuilder:/Usercontrol").Usercontrol} Usercontrol
  */
 class resizeHandler {
-    static measurementRow = {
-        /** @type {number}  */
-        size: undefined,
-        data: {}
-    };
+    
     bluePrint = {
         /** @type {HTMLElement}  */
         size: undefined,
         data: {}
     };
-    /** @type {resizeHandler.measurementRow[]}  */
+    /** @type {measurementRow[]}  */
     measurement = [];
     nameList = {
         offsetSize: 'offsetWidth',
@@ -106,7 +103,7 @@ class resizeHandler {
     Events = {
         /**
          * @param {number} index 
-         * @param {resizeHandler.measurementRow} measurement 
+         * @param {measurementRow} measurement 
          */
         onRefresh: (index, measurement) => {
 

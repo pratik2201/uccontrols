@@ -5,38 +5,76 @@
     background-color: white;
     border: solid 1px black;
 }
-trans-hover{
-    position: absolute; display: block;
+
+trans-hover {
+    position: absolute;
+    display: block;
+    /*outline: solid 2px black;*/
 }
-trans-hover resizer[role="top"]{
+
+trans-hover[role="vertical"] {
+    border-top: none;
+    border-bottom: none;
+}
+
+trans-hover[role="horizontal"] {
+    border-left: none;
+    border-right: none;
+}
+
+trans-hover resizer {
+    /*background-color: brown;*/
+    padding: 1px;
+    z-index: 1;
+}
+
+input[type="text"] {
+    background-color: rgb(67, 228, 3);
+    resize: both;
+    position: relative;
+}
+
+container {
+    width: inherit;
+    height: inherit;
+    display: grid;
+    grid-template-rows: max-content auto max-content;
+}
+header,footer { overflow: hidden;}
+header,
+detail,
+footer {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+}
+
+detail {
+    overflow: auto;
+}
+
+tbl {
+    width: 100%;
+    min-width: max-content;
+
+    height: 100%;
     
+    box-sizing: border-box;
+    display: block;
 }
-trans-hover[role="vertical"]{
-    background-color: rgba(137, 43, 226, 0.250);
-   
+
+row {
+    display: grid;
+    grid-template-columns: var(--winfo);
 }
-trans-hover[role="horizontal"]{
-    background-color: rgba(205, 50, 159, 0.2);
-}
-container{
-  width: inherit;
-  height: inherit;
-  display: grid;
-  grid-template-rows: max-content auto max-content;
-}
-header, detail, footer {
-    display: block; position: relative;  box-sizing: border-box;
-}
-detail{   overflow: auto;    }
-tbl { 
-    width: 100%; height: 100%; box-sizing: border-box;
-    display: block; table-layout: fixed;
-}
-row { display: grid; grid-template-columns: var(--winfo); }
+
 cell {
-    display: block; overflow: hidden; white-space: nowrap;
-    height: fit-content; box-sizing: border-box; 
-   
-    outline: solid 1px burlywood;    
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: fit-content;
+    box-sizing: border-box;
+
+    outline: solid 1px burlywood;
     min-height: 100%;
 }
