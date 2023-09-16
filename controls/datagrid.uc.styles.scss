@@ -6,8 +6,10 @@
     border: solid 1px black;
 }
 trans-hover{
-    position: absolute;     display: inline;
-   
+    position: absolute; display: block;
+}
+trans-hover resizer[role="top"]{
+    
 }
 trans-hover[role="vertical"]{
     background-color: rgba(137, 43, 226, 0.250);
