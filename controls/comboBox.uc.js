@@ -41,7 +41,7 @@ class combobox extends designer {
     openList() {
         let txtboxRect = new Rect();
         txtboxRect.setBy.domRect(this.ucExtends.self.getClientRects()[0]);
-
+       
         this.binder.showAt(txtboxRect);
         this.ll_view.lvUI.currentIndex = this.selectedIndex;
     }

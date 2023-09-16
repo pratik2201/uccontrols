@@ -16,55 +16,60 @@ class datagrid extends designer {
         lastRow: undefined,
         columnIndex: -1,
         rowIndex: -1,
-        /** @type {DOMRect}  */ 
-        containerLayout:undefined,
+        /** @type {DOMRect}  */
+        containerLayout: undefined,
     }
     init() {
         let changed = false;
-        
-        this.detail.addEventListener("mouseover", (e) => {
-            let cell = this.getCell(e.target);
-            let row = this.getRow(cell);
-            if (cell == undefined || row == undefined) return;            
-            if (cell.is(this.overInfo.lastCell) && row.is(this.overInfo.lastRow)) return;
-            else {
-                let crect = new Rect();
-                crect.setBy.HTMLEle(cell);
-                //console.log(this.overInfo.containerLayout);
-                //let cnt = this.detail.getClientRects()[0];
-                //crect.location.Subtract(cnt);
-               // console.log(cnt);
-                Object.assign(this.transHoverTopline.style,{
-                    "left":`0px`,"right":`0px`, "top":`${row.offsetTop}px`,
-                });
-                Object.assign(this.transHoverBottomline.style,{
-                    "left":`0px`,"right":`0px`, "top":`${row.offsetTop+row.offsetHeight}px`,
-                });
-                Object.assign(this.transHoverLeftline.style,{
-                    "top":`0px`,"bottom":`0px`, "left":`${cell.offsetLeft}px`,
-                });
-                Object.assign(this.transHoverRightline.style,{
-                    "top":`0px`,"bottom":`0px`, "left":`${cell.offsetLeft+cell.offsetWidth}px`,
-                });
-                this.overInfo.lastCell = cell;
-                this.overInfo.lastRow = row;
-                /*this.overInfo.columnIndex = cell.index();
-                this.overInfo.lastCell = cell;
-                this.overInfo.rowIndex = row.index();
-                this.overInfo.lastRow = row;*/
-                //console.log(this.overInfo.rowIndex+" : "+this.overInfo.columnIndex);
-            }
+        this.detail.addEventListener("mouseenter", (e) => {
+            this.dgvDomRect.setBy.HTMLEle(this.detail);
+            this.ucExtends.self.prepend(this.transHoverHorizontalline);
+            this.ucExtends.self.prepend(this.transHoverVerticalline);
+            window.addEventListener("mousemove", this.mouseoverlistner);
+        });
 
+        this.detail.addEventListener("mouseleave", (e) => {
+            window.removeEventListener("mousemove", this.mouseoverlistner);
         });
     }
+    /** @type {Rect}  */ 
+    dgvDomRect = new Rect();
     /**
-     * @param {HTMLElement} elem 
+     * @param {MouseEvent} e 
+     */
+    mouseoverlistner = (e) => {
+        let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
+        //console.log(cell);
+        if (cell != undefined) {
+            Object.assign(this.transHoverVerticalline.style, {
+                "left": `${cell.offsetLeft+this.dgvDomRect.left}px`,
+                "width": `${cell.offsetWidth}px`,
+                "top": `${this.dgvDomRect.top}px`,
+                "height": `${this.dgvDomRect.height}px`,
+            });
+        }
+        let row = this.getRow(cell);
+        if (row != undefined) {
+            Object.assign(this.transHoverHorizontalline.style, {
+                "left": `${this.dgvDomRect.left}px`,
+                "width": `${this.dgvDomRect.width}px`,
+                "top": `${row.offsetTop+this.dgvDomRect.top-this.detail.scrollTop}px`,
+                "height": `${row.offsetHeight}px`,
+            });
+        }
+        // this.overInfo.lastCell = cell;
+        //this.overInfo.lastRow = row;
+    }
+    /**
+     * @param {HTMLElement[]} elem 
      * @returns {HTMLElement}
      */
-    getCell(elem) {
-        if (elem == undefined) return undefined;
+    getCell(elem = []) {
+        let lname = this.node.cellNodeName.toUpperCase();
+        return elem.find(s=>s.nodeName == lname);
+        /*if (elem == undefined) return undefined;
         if (elem.nodeName.toLowerCase() == this.node.cellNodeName.toLowerCase()) return elem;
-        else return this.getCell(elem.parentElement);
+        else return this.getCell(elem.parentElement);*/
     }
     /**
      * @param {HTMLElement} cell 
