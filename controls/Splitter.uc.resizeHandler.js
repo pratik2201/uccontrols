@@ -32,8 +32,6 @@ class resizeHandler {
         this.measurement = this.uc.SESSION_DATA.measurement;
         this.gridRsz.init({
             grid: uc.mainContainer,
-            container: uc.ucExtends.self,
-            uc: uc,
             nodeName: "node",
         });
         this.bluePrint = objectOpt.clone(measurementRow);

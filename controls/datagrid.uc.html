@@ -4,7 +4,7 @@
         <header x-name="header">
             <tbl>
                 <row>
-                    <cell>ID</cell>
+                    <cell>No</cell>
                     <cell>NAME</cell>
                     <cell>CITY</cell>
                     <cell>ADDRESS</cell>
@@ -20,14 +20,14 @@
             </tbl>
         </header>
         <detail x-name="detail" x-tabindex="0">
-            <trans-hover role="vertical" x-name="transHoverVerticalline">
-                <resizer role="left" x-name="resizerLeft"></resizer>
-                <resizer role="right" x-name="resizerRight"></resizer>
-            </trans-hover>
-            <trans-hover role="horizontal" x-name="transHoverHorizontalline">
-                <resizer role="top" x-name="resizerTop"></resizer>
-                <resizer role="bottom" x-name="resizerBottom"></resizer>
-            </trans-hover>
+            <!--<trans-resource>
+                <trans-hover role="horizontal" x-name="transHoverHorizontalline"></trans-hover>
+                <trans-hover role="vertical" x-name="transHoverVerticalline"></trans-hover>
+              
+            </trans-resource>-->
+            <resizer role="bottom" x-name="resizerHorizontal"></resizer>
+            <resizer role="right" x-name="resizerVertical"></resizer>
+           
             <tbl>
                 <row>
                     <cell>1</cell>
@@ -75,7 +75,7 @@
                     <cell>5</cell>
                     <cell>DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL3</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                 </row>
                 <row>
                     <cell>5</cell>
@@ -86,7 +86,7 @@
                 <row>
                     <cell>6</cell>
                     <cell>DETAIL-CELL2</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>
                 <row>
@@ -96,7 +96,7 @@
                 </row>
                 <row>
                     <cell>7</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                     <cell>DETAIL-CELL3</cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>
@@ -110,11 +110,11 @@
                     <cell>8</cell>
                     <cell>DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL3</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                 </row>
                 <row>
                     <cell>8</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                     <cell>DETAIL-CELL3</cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>
@@ -122,13 +122,13 @@
                     <cell>9</cell>
                     <cell>DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL3</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                 </row>
-                <row >
+                <row>
                     <cell>10</cell>
                     <cell>DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL3</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                 </row>
                 <row>
                     <cell>10</cell>
@@ -139,7 +139,7 @@
                 <row>
                     <cell>11</cell>
                     <cell>DETAIL-CELL2</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>
                 <row>
@@ -151,18 +151,18 @@
                 <row>
                     <cell>12</cell>
                     <cell>DETAIL-CELL2</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>
                 <row>
                     <cell>12</cell>
                     <cell>DETAIL-CELL2</cell>
                     <cell>DETAIL-CELL3</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                 </row>
                 <row>
                     <cell>13</cell>
-                    <cell><input type="text" /></cell>
+                    <cell><input type="text"></cell>
                     <cell>DETAIL-CELL3</cell>
                     <cell>DETAIL-CELL4</cell>
                 </row>

@@ -7,6 +7,7 @@ class resizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
+    
     get lastOverCell(){ return this.main.hoverEfct.lastOverCell; }
     //columnStyler = 
     /**
@@ -14,7 +15,7 @@ class resizeManage {
      */
     init(main) {
         this.main = main;
-        this.main.resizerTop.addEventListener("mousedown",(e)=>{
+       /* this.main.resizerTop.addEventListener("mousedown",(e)=>{
             console.log(this.lastOverCell);
         });
         this.main.resizerBottom.addEventListener("mousedown",(e)=>{
@@ -25,7 +26,7 @@ class resizeManage {
         });
         this.main.resizerRight.addEventListener("mousedown",(e)=>{
             console.log(this.lastOverCell);
-        });
+        });*/
     }
 
 }

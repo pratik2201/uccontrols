@@ -5,19 +5,34 @@ const datagrid = require("@uccontrols:/controls/datagrid.uc");
  */
 class hoverEffect {
     constructor() { }
-    
+    nodes = {
+        /** @type {HTMLElement}  */
+        drawHoverRect: `<trans-hover role="drawHover" x-name="transHoverVerticalline"></trans-hover>`.$(),
+        /** @type {HTMLElement}  */
+        resizerHoriz: `<resizer role="left" ></resizer>`.$(),
+        /** @type {HTMLElement}  */
+        resizerVertical: `<resizer role="bottom" ></resizer>`.$(),
+        main: () => { return this.main; },
+        init() {
+            this.drawHoverRect.appendChild(this.resizerHoriz);
+            this.drawHoverRect.appendChild(this.resizerVertical);
+            this.main().ucExtends.passElement(this.drawHoverRect);
+        }
+    }
+
     /**
      * @param {datagrid} main 
      */
     init(main) {
         this.main = main;
+        //this.nodes.init();
         this.main.detail.addEventListener("mouseenter", (e) => {
             this.dgvDomRect.setBy.HTMLEle(this.main.detail);
             this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
             this.main.detail.addEventListener("scroll", this.refreshScrollbar);
         });
         this.main.detail.addEventListener("mouseleave", (e) => {
-            //console.log('mouseleave');
+            console.log('mouseleave');
             this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
             this.main.detail.removeEventListener("scroll", this.refreshScrollbar);
         });
@@ -31,45 +46,72 @@ class hoverEffect {
     refreshScrollbar = (e) => {
         let scrollBarWidth = this.scrollBarWidth;
         this.main.header.style.marginRight =
-        this.main.footer.style.marginRight =  scrollBarWidth+"px";
+            this.main.footer.style.marginRight = scrollBarWidth + "px";
         this.main.header.scrollLeft =
-        this.main.footer.scrollLeft = this.main.detail.scrollLeft;
+            this.main.footer.scrollLeft = this.main.detail.scrollLeft;
     }
-    get scrollBarWidth(){ return this.main.detail.offsetWidth - this.main.detail.clientWidth; }
-    get scrollBarHeight(){ return this.main.detail.offsetHeight - this.main.detail.clientHeight; }
+    get scrollBarWidth() { return this.main.detail.offsetWidth - this.main.detail.clientWidth; }
+    get scrollBarHeight() { return this.main.detail.offsetHeight - this.main.detail.clientHeight; }
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
+        console.log(e);
         let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
-        if(cell==this.lastOverCell)return;
+        //console.log(cell);
+        //if (cell == this.lastOverCell) return;
         this.lastOverCell = cell;
         this.drawHoverEffect();
     }
-    hide(){
-        Object.assign(this.main.transHoverVerticalline.style, {'visibility': 'collapse' });
+    hide() {
+        // Object.assign(this.main.transHoverVerticalline.style, { 'visibility': 'collapse' });
     }
-    isShowing = false;
     drawHoverEffect = () => {
         //console.log('here');
+        /** @type {HTMLElement}  */ 
+        let row = undefined;
         let cell = this.lastOverCell;
         if (cell != undefined) {
-            Object.assign(this.main.transHoverVerticalline.style, {
-                "left": `${cell.offsetLeft}px`,
-                "width": `${cell.offsetWidth}px`,
-                "top": `${this.main.detail.scrollTop}px`,
-                "height": `${this.dgvDomRect.height-this.scrollBarHeight}px`,
-               // 'visibility': 'visible',
-            });
+            row = this.getRow(cell);
+            switch (this.main.gridRsz.fillMode) {
+                case 'fill':
+                    Object.assign(this.main.resizerVertical.style, {
+                        "left": `${cell.offsetLeft-3}px`,
+                        "width": `${1}px`,
+                        "top": `${this.main.detail.scrollTop}px`,
+                        "height": `${this.dgvDomRect.height - this.scrollBarHeight}px`,
+                        // 'visibility': 'visible',
+                    });
+                    if (row != undefined) {
+                        Object.assign(this.main.resizerHorizontal.style, {
+                            "left": `${this.main.detail.scrollLeft}px`,
+                            "width": `${this.dgvDomRect.width - this.scrollBarWidth}px`,
+                            "top": `${row.offsetTop-3}px`,
+                            "height": `${1}px`,
+                        });
+                    }
+
+                    break;
+                case 'unfill':
+                    Object.assign(this.main.resizerVertical.style, {
+                        "left": `${cell.offsetLeft+cell.offsetWidth-3}px`,
+                        "width": `${1}px`,
+                        "top": `${this.main.detail.scrollTop}px`,
+                        "height": `${this.dgvDomRect.height - this.scrollBarHeight}px`,
+                        // 'visibility': 'visible',
+                    });
+                   
+                    if (row != undefined) {
+                        Object.assign(this.main.resizerHorizontal.style, {
+                            "left": `${this.main.detail.scrollLeft}px`,
+                            "width": `${this.dgvDomRect.width - this.scrollBarWidth}px`,
+                            "top": `${row.offsetTop+row.offsetHeight-3}px`,
+                            "height": `${1}px`,
+                        });
+                    }
+
+
+                    break;
+            }
         }
-        let row = this.getRow(cell);
-        if (row != undefined) {
-            Object.assign(this.main.transHoverHorizontalline.style, {
-                "left": `${this.main.detail.scrollLeft}px`,
-                "width": `${this.dgvDomRect.width-this.scrollBarWidth}px`,
-                "top": `${row.offsetTop}px`,
-                "height": `${row.offsetHeight}px`,
-            });
-        }
-        this.isShowing = false;
     }
 
     /**
@@ -89,8 +131,9 @@ class hoverEffect {
      */
     getRow(cell) {
         if (cell == undefined) return undefined;
-        if (cell.nodeName.toLowerCase() == this.main.node.rowNodeName.toLowerCase()) return cell;
-        else return this.getRow(cell.parentElement);
+        return cell.parentElement;
+        /*if (cell.nodeName.toLowerCase() == this.main.node.rowNodeName.toLowerCase()) return cell;
+        else return this.getRow(cell.parentElement);*/
     }
 }
 module.exports = { hoverEffect };
