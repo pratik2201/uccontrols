@@ -85,8 +85,16 @@ class resizeHandler {
     /** @type {Usercontrol}  */
     uc = undefined;
 
-    /** @type {HTMLElement}  */
-    static rectHT = `<resizer role="drawSelection"></resizer>`.$();
+    
+
+    get rectHT() {
+        return gridResizer.rectHT;
+    }
+    set rectHT(value) {
+        gridResizer.rectHT = value;
+    }
+
+    
     /** @type {HTMLElement}  */
     resizerHT = `<resizer role="left"></resizer>`.$();
     Events = {
