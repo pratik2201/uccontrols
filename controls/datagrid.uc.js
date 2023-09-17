@@ -6,6 +6,7 @@ class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
         this.init();
+        this.container1.style.setProperty("--winfo","30px 150px 100px 450px");
     }
     node = {
         rowNodeName: "ROW",

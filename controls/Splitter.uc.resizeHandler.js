@@ -17,50 +17,15 @@ class resizeHandler {
 
     set measurement(value) { this.gridRsz.measurement = value; }
     get measurement() { return this.gridRsz.measurement; }
-    nameList = {
-        offsetSize: 'offsetWidth',
-        splitterText: 'splitter-width',
-        //grisTemeplate: 'grid-template-columns',
-        point: 'x',
-        size: 'width',
-        dir: 'left',
-        pagePoint: 'pageX',
-        /** @param {spliterType} type */
-        setByType: (type) => {
-            let _this = this.nameList;
-            switch (type) {
-                case 'columns':
-                    _this.offsetSize = 'offsetWidth';
-                    _this.splitterText = 'splitter-width';
-                    this.gridRsz.templeteOf = 'grid-template-columns';
-                    //_this.grisTemeplate = 'grid-template-columns';
-                    _this.size = 'width',
-                        _this.point = 'x';
-                    _this.dir = "left";
-                    _this.pagePoint = 'pageX';
-                    break;
-                case 'rows':
-                    _this.offsetSize = 'offsetHeight';
-                    _this.splitterText = 'splitter-height';
-                    this.gridRsz.templeteOf = 'grid-template-rows';
-                    //_this.grisTemeplate = 'grid-template-rows';
-                    _this.size = 'height',
-                        _this.point = 'y';
-                    _this.dir = "top";
-                    _this.pagePoint = 'pageY';
-                    break;
-
-            }
-        }
-    }
+   
     constructor() {
-
+        this.gridRsz.fillMode = 'fill';
     }
     /** @type {splitersGrid}  
     get main() { return this._main; }
     _main = undefined;*/
 
-   
+
     get grid() {
         return this.gridRsz.grid;
     }
@@ -68,7 +33,7 @@ class resizeHandler {
         this.gridRsz.grid = value;
         this.allElementHT = value.childNodes;
     }
-    
+
     /** @type {HTMLElement[]}  */
     allElementHT = undefined;
 
@@ -80,23 +45,15 @@ class resizeHandler {
     }
     set type(value) {
         this._type = value;
-        this.nameList.setByType(value);
+        switch(value){
+            case "columns":this.gridRsz.nameList.setByType('grid-template-columns');break;
+            case "rows":this.gridRsz.nameList.setByType('grid-template-rows');break;
+        }
+        
     }
     /** @type {Usercontrol}  */
     uc = undefined;
 
-    
-
-    get rectHT() {
-        return gridResizer.rectHT;
-    }
-    set rectHT(value) {
-        gridResizer.rectHT = value;
-    }
-
-    
-    /** @type {HTMLElement}  */
-    resizerHT = `<resizer role="left"></resizer>`.$();
     Events = {
         /**
          * @param {number} index 
@@ -125,7 +82,7 @@ class resizeHandler {
         let len = this.allElementHT.length;
         if (len == 0) { return; }
         let hasStyle = this.gridRsz.hasDefinedStyles;
-        let offsetSize = this.nameList.offsetSize;
+        let offsetSize = this.gridRsz.nameList.offsetSize;
 
         this.gridFullSize = hasStyle ? 0 : this.grid[offsetSize];
         let eqSize = this.gridFullSize / len;
@@ -154,10 +111,10 @@ class resizeHandler {
         this.resizerHTlist = [];
 
         for (let i = 1; i < len; i++) {
-            let resHt = this.uc.ucExtends.passElement(this.resizerHT.cloneNode(true));
-            resHt.setAttribute("role", this.nameList.dir);
+            let resHt = this.uc.ucExtends.passElement(gridResizer.resizerHT.cloneNode(true));
+            resHt.setAttribute("role", this.gridRsz.nameList.dir);
             this.allElementHT[i].append(resHt);
-            this.resizerHTlist.push(this.resizerHT);
+            this.resizerHTlist.push(resHt);
             this.doWithIndex(resHt, i);
         }
         this.gridRsz.refreshView();
@@ -177,22 +134,22 @@ class resizeHandler {
         //console.log(resizer);
         resizer.addEventListener("mousedown", (downEvt) => {
             let htEle = _this.allElementHT[index];
-            _this.uc.ucExtends.passElement(resizeHandler.rectHT);
+            _this.uc.ucExtends.passElement(gridResizer.rectHT);
 
-            document.body.appendChild(resizeHandler.rectHT);
+            document.body.appendChild(gridResizer.rectHT);
             let rct = new Rect();
-            Object.assign(resizeHandler.rectHT.style, rct.applyHT.all());
-            resizeHandler.rectHT.style.visibility = "visible";
-            lpos = downEvt[_this.nameList.pagePoint];
+            Object.assign(gridResizer.rectHT.style, rct.applyHT.all());
+            gridResizer.rectHT.style.visibility = "visible";
+            lpos = downEvt[_this.gridRsz.nameList.pagePoint];
             rct.setBy.domRect(htEle.getClientRects()[0]);
-            rct.applyHT.all(resizeHandler.rectHT);
-            let oval = rct.location[_this.nameList.point];
-            let osz = rct.size[_this.nameList.size];
+            rct.applyHT.all(gridResizer.rectHT);
+            let oval = rct.location[_this.gridRsz.nameList.point];
+            let osz = rct.size[_this.gridRsz.nameList.size];
             let diff = 0;
             this.Events.onMouseDown(index - 1, index);
 
             function mousemoveEvent(moveEvt) {
-                let cpos = moveEvt[_this.nameList.pagePoint];
+                let cpos = moveEvt[_this.gridRsz.nameList.pagePoint];
                 diff = cpos - lpos;
 
                 if ((prevSize + diff) <= _this.minSizeForCollapse && _this.isPrevCollapsable) {
@@ -201,10 +158,10 @@ class resizeHandler {
                     diff += nextSize - diff;
                 }
 
-                rct.location[_this.nameList.point] = oval + diff;
-                rct.size[_this.nameList.size] = (osz - diff);
+                rct.location[_this.gridRsz.nameList.point] = oval + diff;
+                rct.size[_this.gridRsz.nameList.size] = (osz - diff);
 
-                Object.assign(resizeHandler.rectHT.style, rct.applyHT.all());
+                Object.assign(gridResizer.rectHT.style, rct.applyHT.all());
             }
 
             prevSize = this.measurement[index - 1].size;
@@ -219,12 +176,12 @@ class resizeHandler {
                 diff = (ovl + diff) <= 0 ? -ovl : diff;
                 diff = (next.size - diff) <= 0 ? next.size : diff;
                 prev.size += diff;
-                next.size = rct.size[_this.nameList.size];
+                next.size = rct.size[_this.gridRsz.nameList.size];
 
                 _this.checkAndRemoveNode(index - 1, index);
                 _this.gridRsz.refreshView();
 
-                resizeHandler.rectHT.style.visibility = "collapse";
+                gridResizer.rectHT.style.visibility = "collapse";
                 _this.uc.ucExtends.session.onModify();
                 document.body.off("mousemove", mousemoveEvent);
                 document.body.off("mouseup mouseleave", mouseupEvent);

@@ -1,13 +1,6 @@
 <datagrid>
-    <trans-hover role="vertical" x-name="transHoverVerticalline">
-        <resizer role="left" x-name="resizerLeft"></resizer>
-        <resizer role="right" x-name="resizerRight"></resizer>
-    </trans-hover>
-    <trans-hover role="horizontal" x-name="transHoverHorizontalline">
-        <resizer role="top" x-name="resizerTop"></resizer>
-        <resizer role="bottom" x-name="resizerBottom"></resizer>
-    </trans-hover>
-    <container style="--winfo:30px 150px 100px 450px;">
+    
+    <container x-name="container1">
         <header x-name="header">
             <tbl>
                 <row>
@@ -27,7 +20,14 @@
             </tbl>
         </header>
         <detail x-name="detail" x-tabindex="0">
-
+            <trans-hover role="vertical" x-name="transHoverVerticalline">
+                <resizer role="left" x-name="resizerLeft"></resizer>
+                <resizer role="right" x-name="resizerRight"></resizer>
+            </trans-hover>
+            <trans-hover role="horizontal" x-name="transHoverHorizontalline">
+                <resizer role="top" x-name="resizerTop"></resizer>
+                <resizer role="bottom" x-name="resizerBottom"></resizer>
+            </trans-hover>
             <tbl>
                 <row>
                     <cell>1</cell>

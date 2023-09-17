@@ -12,35 +12,36 @@ class hoverEffect {
      */
     init(main) {
         this.main = main;
-        this.main.ucExtends.self.addEventListener("mouseenter", (e) => {
-            console.log('enter');
+        this.main.detail.addEventListener("mouseenter", (e) => {
             this.dgvDomRect.setBy.HTMLEle(this.main.detail);
-            window.addEventListener("mousemove", this.mouseoverlistner);
+            this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
             this.main.detail.addEventListener("scroll", this.refreshScrollbar);
         });
-        this.main.ucExtends.self.addEventListener("mouseleave", (e) => {
-            console.log('leave');
-            window.removeEventListener("mousemove", this.mouseoverlistner);
+        this.main.detail.addEventListener("mouseleave", (e) => {
+            //console.log('mouseleave');
+            this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
             this.main.detail.removeEventListener("scroll", this.refreshScrollbar);
         });
-        this.main.resizerTop.addEventListener("mousedown",(e)=>{
-            console.log(this.lastOverCell);
-        });        
-    }
 
+    }
+    
     /** @type {HTMLElement}  */
     lastOverCell = undefined;
     /** @param {Event} e  */
     refreshScrollbar = (e) => {
-        let scrollBarWidth = this.main.detail.offsetWidth - this.main.detail.clientWidth;
+        let scrollBarWidth = this.scrollBarWidth;
         this.main.header.style.marginRight =
         this.main.footer.style.marginRight =  scrollBarWidth+"px";
         this.main.header.scrollLeft =
         this.main.footer.scrollLeft = this.main.detail.scrollLeft;
     }
+    get scrollBarWidth(){ return this.main.detail.offsetWidth - this.main.detail.clientWidth; }
+    get scrollBarHeight(){ return this.main.detail.offsetHeight - this.main.detail.clientHeight; }
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
-        this.lastOverCell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
+        let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
+        if(cell==this.lastOverCell)return;
+        this.lastOverCell = cell;
         this.drawHoverEffect();
     }
     hide(){
@@ -52,21 +53,20 @@ class hoverEffect {
         let cell = this.lastOverCell;
         if (cell != undefined) {
             Object.assign(this.main.transHoverVerticalline.style, {
-                "left": `${cell.offsetLeft + this.dgvDomRect.left}px`,
+                "left": `${cell.offsetLeft}px`,
                 "width": `${cell.offsetWidth}px`,
-                "top": `${this.dgvDomRect.top}px`,
-                "height": `${this.dgvDomRect.height}px`,
+                "top": `${this.main.detail.scrollTop}px`,
+                "height": `${this.dgvDomRect.height-this.scrollBarHeight}px`,
                // 'visibility': 'visible',
             });
         }
         let row = this.getRow(cell);
         if (row != undefined) {
             Object.assign(this.main.transHoverHorizontalline.style, {
-                "left": `${this.dgvDomRect.left}px`,
-                "width": `${this.dgvDomRect.width}px`,
-                "top": `${row.offsetTop + this.dgvDomRect.top - this.main.detail.scrollTop}px`,
+                "left": `${this.main.detail.scrollLeft}px`,
+                "width": `${this.dgvDomRect.width-this.scrollBarWidth}px`,
+                "top": `${row.offsetTop}px`,
                 "height": `${row.offsetHeight}px`,
-               // 'visibility': 'visible',
             });
         }
         this.isShowing = false;
