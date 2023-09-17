@@ -5,8 +5,7 @@ const datagrid = require("@uccontrols:/controls/datagrid.uc");
  */
 class hoverEffect {
     constructor() { }
-    /** @type {Rect}  */
-    dgvDomRect = new Rect();
+    
     /**
      * @param {datagrid} main 
      */
@@ -24,7 +23,8 @@ class hoverEffect {
         });
 
     }
-    
+    /** @type {Rect}  */
+    dgvDomRect = new Rect();
     /** @type {HTMLElement}  */
     lastOverCell = undefined;
     /** @param {Event} e  */

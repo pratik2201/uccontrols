@@ -1,6 +1,8 @@
 const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
 const { Rect } = require("@ucbuilder:/global/drawing/shapes");
-const { gridResizer, measurementRow } = require("@ucbuilder:/global/gridResizer");
+const { gridResizer } = require("@ucbuilder:/global/gridResizer");
+const Splitter = require("@uccontrols:/controls/Splitter.uc");
+const { measurementRow } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 const { spliterType, splitterCell } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
@@ -9,6 +11,7 @@ const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid
  */
 class resizeHandler {
     gridRsz = new gridResizer();
+    /** @type {measurementRow}  */
     bluePrint = {
         /** @type {HTMLElement}  */
         size: undefined,
@@ -17,22 +20,33 @@ class resizeHandler {
 
     set measurement(value) { this.gridRsz.measurement = value; }
     get measurement() { return this.gridRsz.measurement; }
-   
+
     constructor() {
         this.gridRsz.fillMode = 'fill';
     }
-    /** @type {splitersGrid}  
-    get main() { return this._main; }
-    _main = undefined;*/
-
-
+    /** @type {Splitter}  */
+    uc = undefined;
+    /** @param {Splitter} uc */
+    init(uc) {
+        this.uc = uc;
+        this.measurement = this.uc.SESSION_DATA.measurement;
+        this.gridRsz.init({
+            grid: uc.mainContainer,
+            container: uc.ucExtends.self,
+            uc: uc,
+            nodeName: "node",
+        });
+        this.bluePrint = objectOpt.clone(measurementRow);
+        this.allElementHT = this.grid.childNodes;
+        this.Events.onMouseDown = (pIndex, cIndex) => {
+            this.isPrevCollapsable = this.allElementHT[pIndex].data('box').uc.length === 0;
+            this.isNextCollapsable = this.allElementHT[cIndex].data('box').uc.length === 0;
+        };
+    }
     get grid() {
-        return this.gridRsz.grid;
+        return this.gridRsz.options.grid;
     }
-    set grid(value) {
-        this.gridRsz.grid = value;
-        this.allElementHT = value.childNodes;
-    }
+
 
     /** @type {HTMLElement[]}  */
     allElementHT = undefined;
@@ -45,14 +59,12 @@ class resizeHandler {
     }
     set type(value) {
         this._type = value;
-        switch(value){
-            case "columns":this.gridRsz.nameList.setByType('grid-template-columns');break;
-            case "rows":this.gridRsz.nameList.setByType('grid-template-rows');break;
+        switch (value) {
+            case "columns": this.gridRsz.nameList.setByType('grid-template-columns'); break;
+            case "rows": this.gridRsz.nameList.setByType('grid-template-rows'); break;
         }
-        
     }
-    /** @type {Usercontrol}  */
-    uc = undefined;
+
 
     Events = {
         /**
@@ -105,13 +117,11 @@ class resizeHandler {
     resizerHTlist = [];
     giveResizer() {
         if (!this.allowResize) { this.gridRsz.refreshView(); return; }
-
         let len = this.allElementHT.length;
         this.resizerHTlist.forEach(s => s.delete());
         this.resizerHTlist = [];
-
         for (let i = 1; i < len; i++) {
-            let resHt = this.uc.ucExtends.passElement(gridResizer.resizerHT.cloneNode(true));
+            let resHt = this.uc.ucExtends.passElement(resizeHandler.resizerHT.cloneNode(true));
             resHt.setAttribute("role", this.gridRsz.nameList.dir);
             this.allElementHT[i].append(resHt);
             this.resizerHTlist.push(resHt);
@@ -119,6 +129,10 @@ class resizeHandler {
         }
         this.gridRsz.refreshView();
     }
+    /** @type {HTMLElement}  */
+    static resizerHT = `<resizer role="left"></resizer>`.$();
+    /** @type {HTMLElement}  */
+    static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
     /**
      * @param {number} index 
      * @param {HTMLElement} resizer 
@@ -134,15 +148,15 @@ class resizeHandler {
         //console.log(resizer);
         resizer.addEventListener("mousedown", (downEvt) => {
             let htEle = _this.allElementHT[index];
-            _this.uc.ucExtends.passElement(gridResizer.rectHT);
+            _this.uc.ucExtends.passElement(resizeHandler.drawSelectionHT);
 
-            document.body.appendChild(gridResizer.rectHT);
+            document.body.appendChild(resizeHandler.drawSelectionHT);
             let rct = new Rect();
-            Object.assign(gridResizer.rectHT.style, rct.applyHT.all());
-            gridResizer.rectHT.style.visibility = "visible";
+            Object.assign(resizeHandler.drawSelectionHT.style, rct.applyHT.all());
+            resizeHandler.drawSelectionHT.style.visibility = "visible";
             lpos = downEvt[_this.gridRsz.nameList.pagePoint];
             rct.setBy.domRect(htEle.getClientRects()[0]);
-            rct.applyHT.all(gridResizer.rectHT);
+            rct.applyHT.all(resizeHandler.drawSelectionHT);
             let oval = rct.location[_this.gridRsz.nameList.point];
             let osz = rct.size[_this.gridRsz.nameList.size];
             let diff = 0;
@@ -161,7 +175,7 @@ class resizeHandler {
                 rct.location[_this.gridRsz.nameList.point] = oval + diff;
                 rct.size[_this.gridRsz.nameList.size] = (osz - diff);
 
-                Object.assign(gridResizer.rectHT.style, rct.applyHT.all());
+                Object.assign(resizeHandler.drawSelectionHT.style, rct.applyHT.all());
             }
 
             prevSize = this.measurement[index - 1].size;
@@ -181,7 +195,7 @@ class resizeHandler {
                 _this.checkAndRemoveNode(index - 1, index);
                 _this.gridRsz.refreshView();
 
-                gridResizer.rectHT.style.visibility = "collapse";
+                resizeHandler.drawSelectionHT.style.visibility = "collapse";
                 _this.uc.ucExtends.session.onModify();
                 document.body.off("mousemove", mousemoveEvent);
                 document.body.off("mouseup mouseleave", mouseupEvent);

@@ -37,6 +37,16 @@ view {
     bottom: -1px;
     border: solid 1px blueviolet;
 }
+/*resizer[role="drawSelection"] {
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+resizer[role="left"] {
+    width: 2px;
+    background-color: transparent;
+    border-left: solid 1px black;    
+}*/
 
 
 resizer[role="top"] {
@@ -68,8 +78,8 @@ resizer[role="top"]:hover {
 }
 
 resizer[role="drawSelection"] {
-    background: rgba(255, 255, 255, 0.289);
-    outline:dashed 1px black;
+    background: rgba(255, 255, 255, 0.589);
+    outline:dashed 1px black; z-index: 0;
     box-sizing: border-box;
 }
 

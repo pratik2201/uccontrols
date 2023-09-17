@@ -26,14 +26,8 @@ class Splitter extends designer {
     generateNode = true;
     constructor() {
         eval(designer.giveMeHug);
-        this.resizer.measurement = this.SESSION_DATA.measurement;
-        this.resizer.grid = this.mainContainer;
-        this.resizer.uc = this;
-        this.resizer.bluePrint = objectOpt.clone(measurementRow);
-        this.resizer.Events.onMouseDown = (pIndex, cIndex) => {
-            this.resizer.isPrevCollapsable = this.resizer.allElementHT[pIndex].data('box').uc.length === 0;
-            this.resizer.isNextCollapsable = this.resizer.allElementHT[cIndex].data('box').uc.length === 0;
-        };
+        this.resizer.init(this);
+       
         this.fillGargebase();
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
