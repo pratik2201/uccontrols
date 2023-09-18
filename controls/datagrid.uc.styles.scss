@@ -74,7 +74,6 @@ tbl {
 
 row {
     display: grid;    
- 
     grid-template-columns: var(--winfo);
 }
 cell {
@@ -87,7 +86,8 @@ cell {
     min-height: 100%;
 }
 
-cell:nth-child(1),
+
+/*cell:nth-child(1),
 cell:nth-child(2){
     position: sticky;
     background-color: white;
@@ -99,4 +99,4 @@ cell:nth-child(1){
 
 cell:nth-child(2){
     left: 30px;
-}
+}*/

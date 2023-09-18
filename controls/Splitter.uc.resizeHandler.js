@@ -1,6 +1,7 @@
 const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
-const { Rect } = require("@ucbuilder:/global/drawing/shapes");
+const { Rect, Point } = require("@ucbuilder:/global/drawing/shapes");
 const { gridResizer } = require("@ucbuilder:/global/gridResizer");
+const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { measurementRow } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
@@ -138,67 +139,65 @@ class resizeHandler {
     doWithIndex(resizer, index) {
         let _this = this;
         /** @type {number}  */
-        let lpos = undefined;
-        let measurement = _this.measurement;
-        let prevSize = -1;
-        let nextSize = -1;
-
-        //console.log(resizer);
-        resizer.addEventListener("mousedown", (downEvt) => {
-            let htEle = _this.allElementHT[index];
-            _this.uc.ucExtends.passElement(resizeHandler.drawSelectionHT);
-
-            document.body.appendChild(resizeHandler.drawSelectionHT);
-            let rct = new Rect();
-            Object.assign(resizeHandler.drawSelectionHT.style, rct.applyHT.all());
-            resizeHandler.drawSelectionHT.style.visibility = "visible";
-            lpos = downEvt[_this.gridRsz.nameList.pagePoint];
-            rct.setBy.domRect(htEle.getClientRects()[0]);
-            rct.applyHT.all(resizeHandler.drawSelectionHT);
-            let oval = rct.location[_this.gridRsz.nameList.point];
-            let osz = rct.size[_this.gridRsz.nameList.size];
-            let diff = 0;
-            this.Events.onMouseDown(index - 1, index);
-
-            function mousemoveEvent(moveEvt) {
-                let cpos = moveEvt[_this.gridRsz.nameList.pagePoint];
-                diff = cpos - lpos;
-
-                if ((prevSize + diff) <= _this.minSizeForCollapse && _this.isPrevCollapsable) {
-                    diff -= prevSize + diff;
-                } else if ((nextSize - diff) <= _this.minSizeForCollapse && _this.isNextCollapsable) {
-                    diff += nextSize - diff;
+        //let lpos = undefined;
+        //let measurement = _this.measurement;
+        let selectionRect = new Rect(); 
+        let selection_oldPoint = 0;
+        let selection_oldSize = 0;
+        /**  @type {measurementRow} */
+        let prevNode = undefined;
+        /**  @type {measurementRow} */
+        let nextNode = undefined;
+        let mouseMv = new mouseForMove();
+        let xy_text = _this.gridRsz.nameList.point;
+        let size_text = _this.gridRsz.nameList.size;
+        mouseMv.bind(resizer, {
+            onDown: (e, dpoint) => {
+                let htEle = _this.allElementHT[index];
+                _this.uc.ucExtends.passElement(resizeHandler.drawSelectionHT);
+                document.body.appendChild(resizeHandler.drawSelectionHT);
+                Object.assign(resizeHandler.drawSelectionHT.style, selectionRect.applyHT.all());
+                resizeHandler.drawSelectionHT.style.visibility = "visible";
+                selectionRect.setBy.domRect(htEle.getClientRects()[0]);
+                selectionRect.applyHT.all(resizeHandler.drawSelectionHT);
+                selection_oldPoint = selectionRect.location[xy_text];
+                selection_oldSize = selectionRect.size[size_text];
+                this.Events.onMouseDown(index - 1, index);
+                prevNode = this.measurement[index - 1];
+                nextNode =  this.measurement[index];
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                e.preventDefault();
+            },
+            onMove: (e, diff) => {
+                let dval = diff[xy_text];
+                if ((prevNode.size + dval) <= _this.minSizeForCollapse && _this.isPrevCollapsable) {
+                    diff[xy_text] -= prevNode.size + dval;
+                } else if ((nextNode.size - dval) <= _this.minSizeForCollapse && _this.isNextCollapsable) {
+                    diff[xy_text] += nextNode.size - dval;
                 }
-
-                rct.location[_this.gridRsz.nameList.point] = oval + diff;
-                rct.size[_this.gridRsz.nameList.size] = (osz - diff);
-
-                Object.assign(resizeHandler.drawSelectionHT.style, rct.applyHT.all());
-            }
-
-            prevSize = this.measurement[index - 1].size;
-            nextSize = this.measurement[index].size;
-            document.body.on("mousemove", mousemoveEvent);
-            document.body.on("mouseup mouseleave", mouseupEvent);
-
-            function mouseupEvent(moveEvt) {
-                let prev = measurement[index - 1];
-                let next = measurement[index];
-                let ovl = prev.size;
-                diff = (ovl + diff) <= 0 ? -ovl : diff;
-                diff = (next.size - diff) <= 0 ? next.size : diff;
-                prev.size += diff;
-                next.size = rct.size[_this.gridRsz.nameList.size];
-
+                dval = diff[xy_text];
+                selectionRect.location[xy_text] = selection_oldPoint + dval;
+                selectionRect.size[size_text] = selection_oldSize - dval;
+                Object.assign(resizeHandler.drawSelectionHT.style, selectionRect.applyHT.all());
+                e.stopImmediatePropagation();
+                e.stopPropagation();
+                e.preventDefault();
+            },
+            onUp: (e, diff) => {                
+                let ovl = prevNode.size;
+                let dval = diff[xy_text];
+                dval = (ovl + dval) <= 0 ? -ovl : dval;
+                dval = (nextNode.size - dval) <= 0 ? nextNode.size : dval;
+                prevNode.size += dval;
+                nextNode.size = selectionRect.size[_this.gridRsz.nameList.size];
                 _this.checkAndRemoveNode(index - 1, index);
                 _this.gridRsz.refreshView();
-
                 resizeHandler.drawSelectionHT.style.visibility = "collapse";
                 _this.uc.ucExtends.session.onModify();
-                document.body.off("mousemove", mousemoveEvent);
-                document.body.off("mouseup mouseleave", mouseupEvent);
             }
-        });
+        })
+       
     }
     /**
      * @param {number} index item index to remove

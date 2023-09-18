@@ -26,13 +26,13 @@ class hoverEffect {
     init(main) {
         this.main = main;
         //this.nodes.init();
-        this.main.detail.addEventListener("mouseenter", (e) => {
+        this.main.detail.addEventListener("mouseenter", (e) => {            
             this.dgvDomRect.setBy.HTMLEle(this.main.detail);
             this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
             this.main.detail.addEventListener("scroll", this.refreshScrollbar);
         });
         this.main.detail.addEventListener("mouseleave", (e) => {
-            console.log('mouseleave');
+            
             this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
             this.main.detail.removeEventListener("scroll", this.refreshScrollbar);
         });
@@ -55,7 +55,7 @@ class hoverEffect {
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
         let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
-         if (cell == this.lastOverCell) return;
+        if (cell == this.lastOverCell) return;
         this.lastOverCell = cell;
         this.drawHoverEffect();
     }
@@ -64,25 +64,27 @@ class hoverEffect {
     }
     drawHoverEffect = () => {
         //console.log('here');
-        /** @type {HTMLElement}  */ 
+        /** @type {HTMLElement}  */
         let row = undefined;
         let cell = this.lastOverCell;
         if (cell != undefined) {
             row = this.getRow(cell);
             switch (this.main.gridRsz.fillMode) {
                 case 'fill':
-                    Object.assign(this.main.resizerVertical.style, {
-                        "left": `${cell.offsetLeft-3}px`,
-                        "width": `${1}px`,
-                        "top": `${this.main.detail.scrollTop}px`,
-                        "height": `${this.dgvDomRect.height - this.scrollBarHeight}px`,
-                        // 'visibility': 'visible',
-                    });
+                    if (cell.previousElementSibling != null) {
+                        Object.assign(this.main.resizerVertical.style, {
+                            "left": `${cell.offsetLeft - 3}px`,
+                            "width": `${1}px`,
+                            "top": `${this.main.detail.scrollTop}px`,
+                            "height": `${this.dgvDomRect.height - this.scrollBarHeight}px`,
+                            // 'visibility': 'visible',
+                        });
+                    }
                     if (row != undefined) {
                         Object.assign(this.main.resizerHorizontal.style, {
                             "left": `${this.main.detail.scrollLeft}px`,
-                            "width": `${this.dgvDomRect.width - this.scrollBarWidth}px`,
-                            "top": `${row.offsetTop-3}px`,
+                            "width": `${this.dgvDomRect.width - this.scrollBarWidth - 5}px`,
+                            "top": `${row.offsetTop - 3}px`,
                             "height": `${1}px`,
                         });
                     }
@@ -90,18 +92,18 @@ class hoverEffect {
                     break;
                 case 'unfill':
                     Object.assign(this.main.resizerVertical.style, {
-                        "left": `${cell.offsetLeft+cell.offsetWidth-3}px`,
+                        "left": `${cell.offsetLeft + cell.offsetWidth - 3}px`,
                         "width": `${1}px`,
                         "top": `${this.main.detail.scrollTop}px`,
                         "height": `${this.dgvDomRect.height - this.scrollBarHeight}px`,
                         // 'visibility': 'visible',
                     });
-                   
+
                     if (row != undefined) {
                         Object.assign(this.main.resizerHorizontal.style, {
                             "left": `${this.main.detail.scrollLeft}px`,
                             "width": `${this.dgvDomRect.width - this.scrollBarWidth}px`,
-                            "top": `${row.offsetTop+row.offsetHeight-3}px`,
+                            "top": `${row.offsetTop + row.offsetHeight - 3}px`,
                             "height": `${1}px`,
                         });
                     }
