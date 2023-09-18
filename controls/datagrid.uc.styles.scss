@@ -31,7 +31,7 @@ resizer:hover {
 
 resizer {
     padding: 2px;
-    z-index: 1;
+    z-index: 3;
 }
 
 input[type="text"] {
@@ -73,16 +73,30 @@ tbl {
 }
 
 row {
-    display: grid;
+    display: grid;    
+ 
     grid-template-columns: var(--winfo);
 }
-
 cell {
     display: block;
-    height: fit-content;
+    height: fit-content;  
     overflow: hidden;
     box-sizing: border-box;
     padding-left: 5px;
     outline: solid 1px burlywood;
     min-height: 100%;
+}
+
+cell:nth-child(1),
+cell:nth-child(2){
+    position: sticky;
+    background-color: white;
+    z-index: 1;
+}
+cell:nth-child(1){
+    left: 0px;
+}
+
+cell:nth-child(2){
+    left: 30px;
 }

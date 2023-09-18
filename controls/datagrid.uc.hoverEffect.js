@@ -54,10 +54,8 @@ class hoverEffect {
     get scrollBarHeight() { return this.main.detail.offsetHeight - this.main.detail.clientHeight; }
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
-        console.log(e);
         let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
-        //console.log(cell);
-        //if (cell == this.lastOverCell) return;
+         if (cell == this.lastOverCell) return;
         this.lastOverCell = cell;
         this.drawHoverEffect();
     }
