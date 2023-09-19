@@ -1,6 +1,6 @@
 const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
 const { Rect, Point } = require("@ucbuilder:/global/drawing/shapes");
-const { gridResizer } = require("@ucbuilder:/global/gridResizer");
+const { gridResizer, namingConversion } = require("@ucbuilder:/global/gridResizer");
 const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { measurementRow } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
@@ -11,6 +11,8 @@ const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid
  * @typedef {import ("@ucbuilder:/Usercontrol").Usercontrol} Usercontrol
  */
 class resizeHandler {
+    /** @type {namingConversion}  */
+    nameList = undefined;
     gridRsz = new gridResizer();
     /** @type {measurementRow}  */
     bluePrint = {
@@ -59,8 +61,14 @@ class resizeHandler {
     set type(value) {
         this._type = value;
         switch (value) {
-            case "columns": this.gridRsz.nameList.setByType('grid-template-columns'); break;
-            case "rows": this.gridRsz.nameList.setByType('grid-template-rows'); break;
+            case "columns":
+                this.nameList = gridResizer.getConvertedNames('grid-template-columns');
+                this.gridRsz.gridTemplate = this.nameList.gridTemplate;
+                break;
+            case "rows":
+                this.nameList = gridResizer.getConvertedNames('grid-template-rows');
+                this.gridRsz.gridTemplate = this.nameList.gridTemplate;
+                break;
         }
     }
 
@@ -93,7 +101,7 @@ class resizeHandler {
         let len = this.allElementHT.length;
         if (len == 0) { return; }
         let hasStyle = this.gridRsz.hasDefinedStyles;
-        let offsetSize = this.gridRsz.nameList.offsetSize;
+        let offsetSize = this.nameList.offsetSize;
 
         this.gridFullSize = hasStyle ? 0 : this.grid[offsetSize];
         let eqSize = this.gridFullSize / len;
@@ -121,7 +129,7 @@ class resizeHandler {
         this.resizerHTlist = [];
         for (let i = 1; i < len; i++) {
             let resHt = this.uc.ucExtends.passElement(resizeHandler.resizerHT.cloneNode(true));
-            resHt.setAttribute("role", this.gridRsz.nameList.dir);
+            resHt.setAttribute("role", this.nameList.dir);
             this.allElementHT[i].append(resHt);
             this.resizerHTlist.push(resHt);
             this.doWithIndex(resHt, i);
@@ -141,7 +149,7 @@ class resizeHandler {
         /** @type {number}  */
         //let lpos = undefined;
         //let measurement = _this.measurement;
-        let selectionRect = new Rect(); 
+        let selectionRect = new Rect();
         let selection_oldPoint = 0;
         let selection_oldSize = 0;
         /**  @type {measurementRow} */
@@ -149,8 +157,8 @@ class resizeHandler {
         /**  @type {measurementRow} */
         let nextNode = undefined;
         let mouseMv = new mouseForMove();
-        let xy_text = _this.gridRsz.nameList.point;
-        let size_text = _this.gridRsz.nameList.size;
+        let xy_text = _this.nameList.point;
+        let size_text = _this.nameList.size;
         mouseMv.bind(resizer, {
             onDown: (e, dpoint) => {
                 let htEle = _this.allElementHT[index];
@@ -164,10 +172,7 @@ class resizeHandler {
                 selection_oldSize = selectionRect.size[size_text];
                 this.Events.onMouseDown(index - 1, index);
                 prevNode = this.measurement[index - 1];
-                nextNode =  this.measurement[index];
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                e.preventDefault();
+                nextNode = this.measurement[index];
             },
             onMove: (e, diff) => {
                 let dval = diff[xy_text];
@@ -180,24 +185,22 @@ class resizeHandler {
                 selectionRect.location[xy_text] = selection_oldPoint + dval;
                 selectionRect.size[size_text] = selection_oldSize - dval;
                 Object.assign(resizeHandler.drawSelectionHT.style, selectionRect.applyHT.all());
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                e.preventDefault();
+
             },
-            onUp: (e, diff) => {                
+            onUp: (e, diff) => {
                 let ovl = prevNode.size;
                 let dval = diff[xy_text];
                 dval = (ovl + dval) <= 0 ? -ovl : dval;
                 dval = (nextNode.size - dval) <= 0 ? nextNode.size : dval;
                 prevNode.size += dval;
-                nextNode.size = selectionRect.size[_this.gridRsz.nameList.size];
+                nextNode.size = selectionRect.size[_this.nameList.size];
                 _this.checkAndRemoveNode(index - 1, index);
                 _this.gridRsz.refreshView();
                 resizeHandler.drawSelectionHT.style.visibility = "collapse";
                 _this.uc.ucExtends.session.onModify();
             }
         })
-       
+
     }
     /**
      * @param {number} index item index to remove

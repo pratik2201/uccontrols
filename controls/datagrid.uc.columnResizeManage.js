@@ -1,5 +1,7 @@
 const { Rect } = require("@uccontrols:/../ucbuilder/global/drawing/shapes");
 const datagrid = require("@uccontrols:/controls/datagrid.uc");
+const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
+const { gridResizer } = require("@uccontrols:/../ucbuilder/global/gridResizer");
 /**
  * @typedef {import ("@uccontrols:/controls/datagrid.uc").datagrid} datagrid
  */
@@ -7,19 +9,28 @@ class columnResizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
-
+    
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
-
+    nameList = gridResizer.getConvertedNames('grid-template-columns');
     /**
      * @param {datagrid} main 
      */
     init(main) {
         this.main = main;
-        this.main.resizerVertical.addEventListener("mousedown", (e) => {
-            switch (this.main.keepMeasurementOf) {
-                case 'columnOnly':
-                case 'both':
-                    break;
+        let isCaptured = false;
+        let mouseMv = new mouseForMove();
+        mouseMv.bind(this.main.resizerVertical, {
+            onDown: (e, dpoint) => {
+                isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
+                if(isCaptured){
+                    console.log('s');
+                }
+            },
+            onMove: (e, diff) => {
+
+            },
+            onUp: (e, diff) => {
+
             }
         });
     }
