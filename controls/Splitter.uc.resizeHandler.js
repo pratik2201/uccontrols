@@ -25,7 +25,7 @@ class resizeHandler {
     get measurement() { return this.gridRsz.measurement; }
 
     constructor() {
-        this.gridRsz.fillMode = 'fill';
+        this.gridRsz.resizeMode = 'slider';
     }
     /** @type {Splitter}  */
     uc = undefined;
@@ -139,7 +139,7 @@ class resizeHandler {
     /** @type {HTMLElement}  */
     static resizerHT = `<resizer role="left"></resizer>`.$();
     /** @type {HTMLElement}  */
-    static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
+    static drawSelectionHT = `<splitter-resizer-abc role="drawSelection"></splitter-resizer-abc>`.$();
     /**
      * @param {number} index 
      * @param {HTMLElement} resizer 
@@ -168,6 +168,7 @@ class resizeHandler {
                 resizeHandler.drawSelectionHT.style.visibility = "visible";
                 selectionRect.setBy.domRect(htEle.getClientRects()[0]);
                 selectionRect.applyHT.all(resizeHandler.drawSelectionHT);
+                
                 selection_oldPoint = selectionRect.location[xy_text];
                 selection_oldSize = selectionRect.size[size_text];
                 this.Events.onMouseDown(index - 1, index);

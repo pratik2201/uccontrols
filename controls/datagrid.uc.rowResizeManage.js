@@ -1,4 +1,5 @@
 const { Rect } = require("@uccontrols:/../ucbuilder/global/drawing/shapes");
+const { gridResizer } = require("@uccontrols:/../ucbuilder/global/gridResizer");
 const datagrid = require("@uccontrols:/controls/datagrid.uc");
 /**
  * @typedef {import ("@uccontrols:/controls/datagrid.uc").datagrid} datagrid
@@ -7,7 +8,7 @@ class rowResizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
-    
+    gridRsz = new gridResizer();
     get lastOverCell(){ return this.main.hoverEfct.lastOverCell; }
      
     /**

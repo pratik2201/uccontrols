@@ -28,11 +28,16 @@ trans-hover[role="horizontal"] {
 resizer:hover {
     background-color: rgba(0, 0, 0, 0.199);
 }
-
+resizer[sub-role="cell"] { 
+    box-sizing: border-box; padding: 2px; width: 1px; height: 1px; }
 resizer {
-    padding: 2px;
-    z-index: 3;
+    z-index: 3;  
 }
+resizer[role="drawSelection"]{
+    background-color: rgba(255, 250, 80, 0.199);
+    border: dashed 1px black; box-sizing: border-box;
+}
+
 
 input[type="text"] {
     background-color: rgb(67, 228, 3);

@@ -7,8 +7,9 @@ const { designer } = require('./datagrid.uc.designer.js');
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
-        this.init();
-        this.container1.style.setProperty("--winfo", "30px 150px 100px auto");        
+        this.init();        
+       
+        this.container1.style.setProperty("--winfo", "30px 150px 100px auto");
     }
     /** @type {"columnOnly"|"rowsOnly"|"both"} */
     keepMeasurementOf = 'columnOnly';
@@ -17,7 +18,7 @@ class datagrid extends designer {
         rowNodeName: "ROW",
         cellNodeName: "CELL"
     }
-   
+
     overInfo = {
         /** @type {HTMLElement}  */
         lastCell: undefined,
@@ -28,13 +29,16 @@ class datagrid extends designer {
         /** @type {DOMRect}  */
         containerLayout: undefined,
     }
-    gridRsz = new gridResizer();
+    /** @type {DOMRect}  */
+    dgvRect = undefined;
     hoverEfct = new hoverEffect();
     colsResizeMng = new columnResizeManage();
     rowsResizeMng = new rowResizeManage();
+
     init() {
         let changed = false;
-        this.gridRsz.fillMode = 'fill';
+        this.colsResizeMng.gridRsz.resizeMode = 'slider';
+        this.rowsResizeMng.gridRsz.resizeMode = 'unfill';
         this.hoverEfct.init(this);
         this.colsResizeMng.init(this);
         this.rowsResizeMng.init(this);
