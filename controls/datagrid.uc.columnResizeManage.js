@@ -10,6 +10,11 @@ class columnResizeManage {
     /** @type {Rect}  */
     dgvDomRect = new Rect();
     
+    
+    
+    /** @type {HTMLElement}  */
+    static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
+    
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     /**
@@ -24,6 +29,15 @@ class columnResizeManage {
                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
                 if(isCaptured){
                     console.log('s');
+                    this.uc.ucExtends.passElement(datagrid.drawSelectionHT);
+
+                    document.body.appendChild(resizeHandler.drawSelectionHT);
+                    let rct = new Rect();
+                    Object.assign(resizeHandler.drawSelectionHT.style, rct.applyHT.all());
+                    resizeHandler.drawSelectionHT.style.visibility = "visible";
+                    lpos = downEvt[_this.gridRsz.nameList.pagePoint];
+                    rct.setBy.domRect(htEle.getClientRects()[0]);
+                    rct.applyHT.all(resizeHandler.drawSelectionHT);
                 }
             },
             onMove: (e, diff) => {
