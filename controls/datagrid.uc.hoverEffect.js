@@ -30,17 +30,17 @@ class hoverEffect {
      */
     init(main) {
         this.main = main;
-        this.main.detail.addEventListener("mouseenter", (e) => {
-            this.detailRect.setBy.HTMLEle(this.main.detail);
+        this.main.detailSectionHT.addEventListener("mouseenter", (e) => {
+            this.detailRect.setBy.HTMLEle(this.main.detailSectionHT);
             this.main.dgvRect = this.main.ucExtends.self.getClientRects()[0];
             this.VertialResizerClientSize = this.main.resizerVertical.getClientRects()[0];
             this.HorizontalResizerClientSize = this.main.resizerHorizontal.getClientRects()[0];
             this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
-            this.main.detail.addEventListener("scroll", this.refreshScrollbar);
+            this.main.detailSectionHT.addEventListener("scroll", this.refreshScrollbar);
         });
-        this.main.detail.addEventListener("mouseleave", (e) => {
+        this.main.detailSectionHT.addEventListener("mouseleave", (e) => {
             this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
-            this.main.detail.removeEventListener("scroll", this.refreshScrollbar);
+            this.main.detailSectionHT.removeEventListener("scroll", this.refreshScrollbar);
         });
 
     }
@@ -52,13 +52,13 @@ class hoverEffect {
     refreshScrollbar = (e) => {
         let scrollBarWidth = this.scrollBarWidth;
        
-        this.main.header.style.marginRight =
-            this.main.footer.style.marginRight = scrollBarWidth + "px";
-        this.main.header.scrollLeft =
-            this.main.footer.scrollLeft = this.main.detail.scrollLeft;
+        this.main.headerSectionHT.style.marginRight =
+            this.main.footerSectionHT.style.marginRight = scrollBarWidth + "px";
+        this.main.headerSectionHT.scrollLeft =
+            this.main.footerSectionHT.scrollLeft = this.main.detailSectionHT.scrollLeft;
     }
-    get scrollBarWidth() { return this.main.detail.offsetWidth - this.main.detail.clientWidth; }
-    get scrollBarHeight() { return this.main.detail.offsetHeight - this.main.detail.clientHeight; }
+    get scrollBarWidth() { return this.main.detailSectionHT.offsetWidth - this.main.detailSectionHT.clientWidth; }
+    get scrollBarHeight() { return this.main.detailSectionHT.offsetHeight - this.main.detailSectionHT.clientHeight; }
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
         let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
@@ -82,7 +82,7 @@ class hoverEffect {
                         Object.assign(this.main.resizerVertical.style, {
                             "left": `${cell.offsetLeft}px`,
                             //"width": `${1}px`,
-                            "top": `${this.main.detail.scrollTop}px`,
+                            "top": `${this.main.detailSectionHT.scrollTop}px`,
                             "height": `${this.detailRect.height - this.scrollBarHeight}px`,
                             // 'visibility': 'visible',
                         });
@@ -92,7 +92,7 @@ class hoverEffect {
                     Object.assign(this.main.resizerVertical.style, {
                         "left": `${cell.offsetLeft + cell.offsetWidth-this.VertialResizerClientSize.width}px`,
                         //"width": `${1}px`,
-                        "top": `${this.main.detail.scrollTop}px`,
+                        "top": `${this.main.detailSectionHT.scrollTop}px`,
                         "height": `${this.detailRect.height - this.scrollBarHeight}px`,
                         // 'visibility': 'visible',
                     });
@@ -103,7 +103,7 @@ class hoverEffect {
                     case 'slider':
                         if (row.previousElementSibling != null) {
                             Object.assign(this.main.resizerHorizontal.style, {
-                                "left": `${this.main.detail.scrollLeft}px`,
+                                "left": `${this.main.detailSectionHT.scrollLeft}px`,
                                 "width": `${this.detailRect.width - this.scrollBarWidth - 5}px`,
                                 "top": `${row.offsetTop - 3}px`,
                                 //"height": `${1}px`,
@@ -112,7 +112,7 @@ class hoverEffect {
                         break;
                     case 'unfill':
                         Object.assign(this.main.resizerHorizontal.style, {
-                            "left": `${this.main.detail.scrollLeft}px`,
+                            "left": `${this.main.detailSectionHT.scrollLeft}px`,
                             "width": `${this.detailRect.width - this.scrollBarWidth}px`,
                             "top": `${row.offsetTop + row.offsetHeight - 3}px`,
                             //"height": `${1}px`,

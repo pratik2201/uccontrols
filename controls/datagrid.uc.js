@@ -4,13 +4,32 @@ const { rowResizeManage } = require('@uccontrols:/controls/datagrid.uc.rowResize
 const { Rect } = require('ucbuilder/global/drawing/shapes.js');
 const { gridResizer } = require('ucbuilder/global/gridResizer.js');
 const { designer } = require('./datagrid.uc.designer.js');
+const { listUiHandler } = require('@ucbuilder:/global/listUiHandler.js');
+const { intenseGenerator } = require('@uccontrols:/../ucbuilder/intenseGenerator.js');
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
         this.init();        
        
-        this.container1.style.setProperty("--winfo", "30px 150px 100px auto");
+        this.container1.style.setProperty("--winfo", "30px 30px 260px 20px 100px auto");
+        
+        this.detail.init(this.detailGridHT1,this.detailSectionHT);
+        this.header.init(this.headerGridHT1,this.headerSectionHT);
+        this.footer.init(this.footerGridHT1,this.footerSectionHT);
     }
+    get detailItemTemplate() { return this.detail.itemTemplate; }
+    set detailItemTemplate(value) {  this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); }
+
+    get headerItemTemplate() { return this.header.itemTemplate; }
+    set headerItemTemplate(value) {  this.header.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); }
+
+    get footerItemTemplate() { return this.footer.itemTemplate; }
+    set footerItemTemplate(value) {  this.footer.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); }
+
+
+    header = new listUiHandler();
+    detail = new listUiHandler();
+    footer = new listUiHandler();
     /** @type {"columnOnly"|"rowsOnly"|"both"} */
     keepMeasurementOf = 'columnOnly';
 
@@ -18,7 +37,7 @@ class datagrid extends designer {
         rowNodeName: "ROW",
         cellNodeName: "CELL"
     }
-   
+    
     /** @type {HTMLElement}  */
     static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
     overInfo = {

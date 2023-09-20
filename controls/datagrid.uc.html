@@ -1,7 +1,7 @@
 <datagrid>
     <container x-name="container1">
-        <header x-name="header">
-            <tbl>
+        <header x-name="headerSectionHT">
+            <tbl  x-name="headerGridHT1">
                 <row>
                     <cell>No</cell>
                     <cell>NAME</cell>
@@ -19,10 +19,10 @@
                 </row>
             </tbl>
         </header>
-        <detail x-name="detail" x-tabindex="0">          
+        <detail x-name="detailSectionHT" x-tabindex="0">          
             <resizer role="bottom" sub-role="cell" x-name="resizerHorizontal" ></resizer>
             <resizer role="right" sub-role="cell"  x-name="resizerVertical" ></resizer>           
-            <tbl>
+            <tbl  x-name="detailGridHT1">
                 <row>
                     <cell>1</cell>
                     <cell>DETAIL-CELL2</cell>
@@ -173,10 +173,10 @@
             </tbl>
 
         </detail>
-        <footer x-name="footer">
-            <tbl>
+        <footer x-name="footerSectionHT">
+            <tbl  x-name="footerGridHT1">
                 <row>
-                    <cell style=" grid-column: 1 / span 3;">Total</cell>
+                    <cell style=" grid-column: 1 / span 5;">Total</cell>
                     <cell style="text-align: right;">5,51,35,545.00</cell>
                 </row>
             </tbl>
