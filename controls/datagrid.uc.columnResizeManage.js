@@ -8,16 +8,7 @@ class columnResizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
-<<<<<<< HEAD
 
-=======
-    
-    
-    
-    /** @type {HTMLElement}  */
-    static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
-    
->>>>>>> 6e4abeba935df8b63d775314600c6b9bf5e22372
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
@@ -36,7 +27,6 @@ class columnResizeManage {
             onDown: (e, dpoint) => {
                 let htEle = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
-<<<<<<< HEAD
                 if (htEle == undefined) return false;
                 if (isCaptured) {
                     isSliderMode = this.isSliderMode;
@@ -49,19 +39,6 @@ class columnResizeManage {
                     selectionRect.height = this.main.dgvRect.height
                     selectionBackupRect.setBy.rect(selectionRect);
                     Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
-=======
-                if(isCaptured){
-                    console.log('s');
-                    this.uc.ucExtends.passElement(datagrid.drawSelectionHT);
-
-                    document.body.appendChild(resizeHandler.drawSelectionHT);
-                    let rct = new Rect();
-                    Object.assign(resizeHandler.drawSelectionHT.style, rct.applyHT.all());
-                    resizeHandler.drawSelectionHT.style.visibility = "visible";
-                    lpos = downEvt[_this.gridRsz.nameList.pagePoint];
-                    rct.setBy.domRect(htEle.getClientRects()[0]);
-                    rct.applyHT.all(resizeHandler.drawSelectionHT);
->>>>>>> 6e4abeba935df8b63d775314600c6b9bf5e22372
                 }
                 else return false;
             },
