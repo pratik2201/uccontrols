@@ -1,23 +1,33 @@
 const { hoverEffect } = require('@uccontrols:/controls/datagrid.uc.hoverEffect.js');
 const { columnResizeManage } = require('@uccontrols:/controls/datagrid.uc.columnResizeManage.js');
 const { rowResizeManage } = require('@uccontrols:/controls/datagrid.uc.rowResizeManage');
-const { Rect } = require('ucbuilder/global/drawing/shapes.js');
-const { gridResizer } = require('ucbuilder/global/gridResizer.js');
+const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
+const { gridResizer } = require('@ucbuilder:/global/gridResizer.js');
 const { designer } = require('./datagrid.uc.designer.js');
 const { listUiHandler } = require('@ucbuilder:/global/listUiHandler.js');
 const { Template } = require('@ucbuilder:/Template');
-const { intenseGenerator } = require('@uccontrols:/../ucbuilder/intenseGenerator.js');
+const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
-
         this.init();
-        this.container1.style.setProperty("--winfo", "30px 30px 260px 20px 100px 450px");
-        this.detail.init(this.detailGridHT1, this.detailSectionHT);
-        // this.header.init(this.headerGridHT1, this.headerSectionHT);
-        // this.footer.init(this.footerGridHT1, this.footerSectionHT);
+        this.container1.style.setProperty("--xxxxwinfo", "150px 200px 120px 250px 100px 80px 350px");
+        this.detail.init(this.detailGridHT1, this.pagercntnr1);
     }
+
+
+    _paging = true;
+    get paging() {
+        return this._paging;
+    }
+    set paging(value) {
+        this._paging = value;
+        //this.pagecntnr1.setAttribute('paging',value);
+    }
+
+
+    //set
     get detailItemTemplate() { return this.detail.itemTemplate; }
     set detailItemTemplate(value) { this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); }
 
@@ -51,7 +61,6 @@ class datagrid extends designer {
     get footerItemTemplate() { return this._footerItemTemplate; }
     set footerItemTemplate(value) {
         this._footerItemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);;
-
     }
 
     detail = new listUiHandler();
