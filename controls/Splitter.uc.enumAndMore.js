@@ -1,5 +1,5 @@
 const { commonEvent } = require("@ucbuilder:/global/commonEvent");
-const { newObjectOpt } = require("ucbuilder/global/objectOpt");
+const { newObjectOpt } = require("@ucbuilder:/global/objectOpt");
 
 class dragInfo {
     constructor() { }
