@@ -4,7 +4,7 @@ const { rowResizeManage } = require('@uccontrols:/controls/datagrid.uc.rowResize
 const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
 const { gridResizer } = require('@ucbuilder:/global/gridResizer.js');
 const { designer } = require('./datagrid.uc.designer.js');
-const { scrollerLV } = require('@ucbuilder:/global/listUI/scrollerLV');
+const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
 const { Template } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
@@ -63,7 +63,7 @@ class datagrid extends designer {
         this._footerItemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);;
     }
 
-    detail = new scrollerLV();
+    detail = new pagerLV();
     /** @type {"columnOnly"|"rowsOnly"|"both"} */
     keepMeasurementOf = 'columnOnly';
 

@@ -40,10 +40,9 @@ class ListView extends designer {
         });
         
     }
-    get Records(){ return this.lvUI.Records; }
-
+    get lvUiRecords(){ return this.lvUI.Records; }
+    get currentRecord(){ return this.lvUI.source[this.lvUI.OPTIONS.SESSION.currentIndex]; }
     init() {
-
         this.initListView();
     }
 
