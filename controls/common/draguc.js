@@ -15,25 +15,25 @@ const dragMode = Object.freeze({
 });
 class dragUc {
     resizer = {
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         left: `<resizer role="left"></resizer>`.$(),
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         top: `<resizer role="top"></resizer>`.$(),
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         right: `<resizer role="right"></resizer>`.$(),
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         bottom: `<resizer role="bottom"></resizer>`.$(),
 
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         topleft: `<corner role="topleft"></corner>`.$(),
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         topright: `<corner role="topright"></corner>`.$(),
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         bottomleft: `<corner role="bottomleft"></corner>`.$(),
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         bottomright: `<corner role="bottomright"></corner>`.$(),
 
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         rect: `<resizer role="drawSelection"></resizer>`.$(),
         /** @param {"block":"none"} val */
         cssDisplay(val) {
@@ -73,7 +73,7 @@ class dragUc {
                 }
         },
         /**
-         * @param {HTMLElement} ele 
+         * @param {container} ele 
          * @returns {dragMode}
          */
         getMode(ele) {
@@ -95,16 +95,16 @@ class dragUc {
     }
     allowMove = true;
     allowResize = true;
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     containerHT = undefined;
 
     /** @type {CSSStyleDeclaration}  */
     containerStyle = undefined;
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     titleHT = [];
     /**
-     * @param {HTMLElement} containerHT 
-     * @param {HTMLElement[]} titleHT 
+     * @param {container} containerHT 
+     * @param {container[]} titleHT 
      */
     init(containerHT, ...titleHT) {
         this.containerHT = containerHT;
@@ -118,7 +118,7 @@ class dragUc {
     }
     /**
      * 
-     * @param {HTMLElement} ele
+     * @param {container} ele
      * @returns {dragMode}
      */
     getMode(ele) {

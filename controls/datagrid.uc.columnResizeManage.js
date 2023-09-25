@@ -23,9 +23,10 @@ class columnResizeManage {
         let mouseMv = new mouseForMove();
         let selectionRect = new Rect();
         
-        let /** @type {HTMLElement}  */ rightCell,
-        /** @type {HTMLElement}  */ leftCell;
+        let /** @type {container}  */ rightCell,
+        /** @type {container}  */ leftCell;
         let selectionBackupRect = new Rect();
+        
         mouseMv.bind(this.main.resizerVertical, {
             onDown: (e, dpoint) => {
                 rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));

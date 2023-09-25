@@ -36,7 +36,7 @@ resizer[sub-role="cell"] {
     height: 1px;
 }
 
-resizer {
+resizer[role="right"] {
     z-index: 3;
 }
 
@@ -80,7 +80,7 @@ tbl {
     height: 100%;
     box-sizing: border-box;
     display: grid;
-    grid-auto-rows: 16px;
+    grid-auto-rows: max-content;
 }
 
 pagercntnr{

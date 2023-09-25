@@ -1,13 +1,13 @@
 const dropIndictors = {
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     leftPoll: '<drop  dir="left" ></drop>'.$(),
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     rightPoll: '<drop  dir="right" ></drop>'.$(),
 
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     indictor: '<indicator  dir="none" ></indicator>'.$(),
 
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     get asArray() {
         return [dropIndictors.indictor,
         dropIndictors.leftPoll,

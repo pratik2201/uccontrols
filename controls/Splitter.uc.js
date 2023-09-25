@@ -117,9 +117,9 @@ class Splitter extends designer {
     primaryContainer = "@uccontrols:/controls/tabControl.uc";
     /** @param {splitersGrid} splGrid */
     givePlainNode(splGrid) {
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         let node = '<node></node>'.$();
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         let view = '<view></view>'.$();
         node.appendChild(view);
         this.ucExtends.passElement(node);
@@ -152,7 +152,7 @@ class Splitter extends designer {
      * @returns {Splitter}
      */
     giveNewGrid(type = 'notdefined') {
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         let elementHT = `<Splitter x.SESSION_DATA.type="=${type}"  ${this.myPropertiesText}  ></Splitter>`.$();
         elementHT.setAttribute("x:generateNode", false);
         /** @type {Splitter}  */

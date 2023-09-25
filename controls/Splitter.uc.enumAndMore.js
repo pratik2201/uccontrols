@@ -49,18 +49,18 @@ const measurementRow = {
 }
 
 const dropIndictors = {
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     leftPoll: '<drop parent="dragassets" dir="left" ></drop>'.$(),
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     rightPoll: '<drop parent="dragassets" dir="right" ></drop>'.$(),
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     topPoll: '<drop parent="dragassets" dir="top" ></drop>'.$(),
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     bottomPoll: '<drop parent="dragassets" dir="bottom" ></drop>'.$(),
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     indictor: '<indicator parent="dragassets" dir="none" ></indicator>'.$(),
 
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     get asArray() {
         return [dropIndictors.indictor,
         dropIndictors.leftPoll,

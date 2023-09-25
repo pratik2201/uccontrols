@@ -57,7 +57,7 @@ class Movable extends designer {
         this.ucExtends.session.autoLoadSession = true;
 
         this.parentUCExt = this.ucExtends.PARENT.ucExtends;
-        /** @type {HTMLElement}  */ 
+        /** @type {container}  */ 
         this.parentElementHT = this.parentUCExt.wrapperHT;
 
         this.drag.finalRect = this.SESSION_DATA.rect;

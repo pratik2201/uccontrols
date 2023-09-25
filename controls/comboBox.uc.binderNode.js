@@ -32,7 +32,7 @@ class binderNode {
     itemMouseDown_listner = (index, evt) => { this.hasMouseDownedOnItem = true; }
     /**
      * @param {{
-     *  elementHT :HTMLElement,
+     *  elementHT :container,
      *  bindUpDownKeys :boolean,
      *  bindFocusEvents :boolean
      * }} param0 
@@ -86,7 +86,7 @@ class binderNode {
     get selectedIndex() { return this._selectedIndex; }
     set selectedIndex(val) {
         //  if (this.hasBound) {
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         let node = undefined;
         if (val >= 0 && val < this.filteredSource.length) {
             let oIndex = this.selectedIndex;
@@ -145,13 +145,13 @@ class binderNode {
          * ) =>{})} & commonEvent}
          */
         onHide: new commonEvent(),
-        /** @param {HTMLElement} target  @returns */
+        /** @param {container} target  @returns */
         isOutOfTarget: (target) => { return true; },
     };
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     allowedElementList = [];
     hasMouseDownedOnItem = false;
-    /** @param {HTMLElement} tar */
+    /** @param {container} tar */
     isOutOfTarget(tar) {
         let res = (!this.hasMouseDownedOnItem &&
             !this.main.ucExtends.self.contains(tar)

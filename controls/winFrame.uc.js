@@ -12,7 +12,7 @@ class winFrame extends designer {
     set backgroundOpacity(val) { this._backgroundOpacity = val > 1 ? val / 1000 : val }
     get backgroundOpacity() { return this._backgroundOpacity; }
 
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     static transperency = "<transperencyBack></transperencyBack>".$();
     static hasInitedTransperency = false;
     /** @type {Boolean} */
@@ -104,7 +104,7 @@ class winFrame extends designer {
     }
     /**
      * @param {{
-     * defaultFocusAt:HTMLElement
+     * defaultFocusAt:container
      * }} param0 
      */
     showDialog({ defaultFocusAt = undefined } = {}) {

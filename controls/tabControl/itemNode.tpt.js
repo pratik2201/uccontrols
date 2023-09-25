@@ -24,14 +24,14 @@ class itemNode extends designer {
         }
     }
     draging = new dragHelper();
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     static dragHereElement = "<ele></ele>".$();
     /** @param {tabControl} main */
     init(main) {
         this.main = main;
 
         this.draging.dragEnter((ev) => {
-            /** @type {HTMLElement}  */
+            /** @type {container}  */
             let ht = ev.target;
             ht = ht.closest(`[role="tabbutton"]`);
             if (ht != undefined) {

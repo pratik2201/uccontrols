@@ -47,8 +47,8 @@ class singleSplitter extends designer {
         }
     }
     /**
-     * @param {HTMLElement} node 
-     * @returns {HTMLElement}
+     * @param {container} node 
+     * @returns {container}
      */
     GIB_ME_NODE(node) {
         let nnode = this.nodeHT.cloneNode(true);
@@ -78,15 +78,15 @@ class singleSplitter extends designer {
         this.init();
     }
 
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     allElementHT = undefined;
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     nodeHT = `<node></node>`.$();
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     viewHT = `<view></view>`.$();
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     resizerHT = `<resizer role="left"></resizer>`.$();
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     static rectHT = `<resizer role="drawSelection"></resizer>`.$();
 
     init() {
@@ -99,7 +99,7 @@ class singleSplitter extends designer {
         return this.mainGrid.style[this.nameList.grisTemeplate]!=""; 
     }
     get measureText() { return this.SESSION_DATA.measurement.slice(0, -1).join('px ') + 'px auto'; }
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     resizerHTlist = [];
     reCalculateMeasure() {
         this.ucExtends.find("resizer").forEach(s => s.delete());
@@ -126,7 +126,7 @@ class singleSplitter extends designer {
     }
     /**
      * @param {number} index 
-     * @param {HTMLElement} resizer 
+     * @param {container} resizer 
      */
     doWithIndex(resizer, index) {
         let _this = this;

@@ -6,14 +6,14 @@ const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
  */
 class splitersGrid {
     constructor() { }
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     grid = undefined;
     /** @type {Splitter}  */
     main = undefined;
 
 
 
-    /** @type {HTMLElement[]}  */
+    /** @type {container[]}  */
     allElementHT = undefined;
 
     get info() { return this.main.SESSION_DATA; }
@@ -37,7 +37,7 @@ class splitersGrid {
     get length() { return this.info.measurement.length; }
 
     /** 
-     * @param {HTMLElement} grid 
+     * @param {container} grid 
      * @param {Splitter} main 
      */
     init(grid, main) {

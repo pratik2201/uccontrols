@@ -72,12 +72,12 @@ class datagrid extends designer {
         cellNodeName: "CELL"
     }
 
-    /** @type {HTMLElement}  */
+    /** @type {container}  */
     static drawSelectionHT = `<resizer role="drawSelection" ></resizer>`.$();
     overInfo = {
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         lastCell: undefined,
-        /** @type {HTMLElement}  */
+        /** @type {container}  */
         lastRow: undefined,
         columnIndex: -1,
         rowIndex: -1,
