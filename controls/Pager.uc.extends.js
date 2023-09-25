@@ -188,7 +188,6 @@ class Pager_extends {
                 }*/
             },
             /**
-             * 
              * @param {number} index 
              * @returns {JQuery}
              */

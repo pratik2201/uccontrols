@@ -80,6 +80,7 @@ tbl {
     height: 100%;
     box-sizing: border-box;
     display: grid;
+    grid-auto-rows: 16px;
 }
 
 pagercntnr{

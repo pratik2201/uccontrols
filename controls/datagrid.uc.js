@@ -48,7 +48,7 @@ class datagrid extends designer {
     /** @param {datagrid.dgvFillArgs} params */
     fill(params) {
         let args = newObjectOpt.copyProps(params, datagrid.dgvFillArgs);
-        this.detail.Records.fill();
+        this.detail.nodes.fill();
         if (args.addHeader) {
             this.headerGridHT1.appendChild(this.headerItemTemplate.extended.generateNode(args.headerRow));
         }

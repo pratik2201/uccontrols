@@ -185,7 +185,7 @@ class binderNode {
         this.main.itemTemplate = this.template;
         //console.log('here');
         this.main.source.rows = this.filteredSource;
-        this.main.Records.fill();
+        this.main.nodes.fill();
         this.main.lvUI.currentIndex = this.main.lvUI.currentIndex;
 
         this.hasBound = true;
