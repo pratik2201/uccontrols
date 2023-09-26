@@ -1,0 +1,44 @@
+:root{
+   
+    scrollbar {
+        position: absolute;    
+        background-color: #00000025;
+        display: grid;        
+        border-radius: 5px;
+        border: solid 1px #00000010;
+    }
+    scrollbar scroller{
+        background-color: #0000003b; box-sizing: border-box;
+        border-radius: 5px; width: inherit;  height: inherit;
+        padding: 1px; position: absolute;
+    }
+    scrollbar track{
+        width: inherit;  height: inherit;
+    }
+    scrollbar:hover{
+        background-color: #ffffff;
+        border-color:black;
+    }   
+    scrollbar:hover scroller{ background-color: blue; }
+    scrollbar[dir="v"]{
+        right: 10px;
+        top: 15px;
+        bottom: 20px;
+        width: 9px;
+        grid-template-rows: max-content auto max-content;
+    }
+    
+    scrollbar[dir="h"]{
+        bottom: 10px;
+        left: 15px;
+        right: 20px;
+        height: 9px;
+        grid-template-columns: max-content auto max-content;
+    }
+    scrollbar[dir="v"] scroller{
+        height: 30px; 
+    }
+    scrollbar[dir="h"] scroller{
+        width:60px; 
+    }
+}

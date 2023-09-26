@@ -12,8 +12,9 @@ class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
         this.init();
-        this.container1.style.setProperty("--xxxxwinfo", "150px 200px 120px 250px 100px 80px 350px");
-        this.detail.init(this.detailGridHT1, this.pagercntnr1);
+        this.container1.style.setProperty("--xxxxwinfo", "20px 150px 200px 120px 250px 100px 80px 350px");
+        this.detail.init(this.detailGridHT1, this.pagercntnr1,this);
+        
     }
 
 
