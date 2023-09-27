@@ -1,39 +1,86 @@
 :root{
-   
+    /*scrollbar * {
+        opacity: inherit;
+    }
+    scrollbar scroller{ opacity: 1!important; }*/
     scrollbar {
         position: absolute;    
-        background-color: #00000025;
+        background-color: #ffffff;
         display: grid;        
-        border-radius: 5px;
-        border: solid 1px #00000010;
+        opacity: 0.7; border-radius: 5px;
+        box-sizing: border-box;
+        border: solid 1px #000000; 
+    }  
+    /*scrollbar{
+        animation-duration: 1s;
+        animation-direction: normal;
+        animation-play-state: running;
+        animation-timing-function: ease-in;
+        animation-iteration-count: 1;
     }
+    scrollbar[blink="0"]{
+        animation-name: blinkme;
+    }
+    @keyframes blinkme {
+        0%{ opacity: 0; }
+        100%{ opacity: 1; }
+    }*/
+    scrollbar:hover,
+    scrollbar[active="1"]{
+        opacity: 1;
+    }   
+    scrollbar:hover scroller,
+    scrollbar[active="1"] scroller{ background-color: blue; }
     scrollbar scroller{
         background-color: #0000003b; box-sizing: border-box;
-        border-radius: 5px; width: inherit;  height: inherit;
-        padding: 1px; position: absolute;
+        border-radius: 5px; width: 100%;  height: 100%;
+        padding: 1px; position: relative;  display: block;
     }
     scrollbar track{
-        width: inherit;  height: inherit;
+        width: 100%;  height: 100%; display: block; position: relative;
     }
-    scrollbar:hover{
-        background-color: #ffffff;
-        border-color:black;
-    }   
-    scrollbar:hover scroller{ background-color: blue; }
+    track scroller-text{
+        position: absolute; display: block;    width: max-content;
+        border-radius: 2px;     padding: 2px; font-size: small;
+        background-color: blue; color: yellow;
+    }
+    scrollbar[dir="v"] track scroller-text{
+        left: -40px;
+    }
+    track scroller-text[role="begin"]{
+        top: -10px;
+    }    
+    track scroller-text[role="end"]{
+        top: 10px;
+    }
     scrollbar[dir="v"]{
-        right: 10px;
-        top: 15px;
-        bottom: 20px;
-        width: 9px;
+        right: 2px;
+        top: 2px;
+        bottom: 13px;
+        width: 12px;
         grid-template-rows: max-content auto max-content;
-    }
-    
+    }    
     scrollbar[dir="h"]{
-        bottom: 10px;
-        left: 15px;
-        right: 20px;
-        height: 9px;
+        bottom: 2px;
+        left: 2px;
+        right: 13px;
+        height: 12px;
         grid-template-columns: max-content auto max-content;
+    }
+    scrollbar begin-btn,
+    scrollbar end-btn{
+        box-sizing: border-box;
+        background-color: green;
+        display: block;  position: relative;
+        
+    }
+    scrollbar[dir="v"] begin-btn,
+    scrollbar[dir="v"] end-btn{
+        height: 15px; 
+    }
+    scrollbar[dir="h"] begin-btn,
+    scrollbar[dir="h"] end-btn{
+        width: 15px; 
     }
     scrollbar[dir="v"] scroller{
         height: 30px; 

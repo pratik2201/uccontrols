@@ -99,6 +99,7 @@ class hoverEffect {
                     break;
             }
             if (row != undefined) {
+                return;
                 switch (this.main.rowsResizeMng.gridRsz.resizeMode) {
                     case 'slider':
                         if (row.previousElementSibling != null) {
