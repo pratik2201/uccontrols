@@ -13,7 +13,12 @@ class datagrid extends designer {
         eval(designer.giveMeHug);
         this.init();
         this.container1.style.setProperty("--xxxxwinfo", "20px 150px 200px 120px 250px 100px 80px 350px");
+        let cbox = this.detail.scroller.scrollBox;
+        this.hscrollbar1.appendChild(cbox.hScrollbar.scrollbar);
+        this.vscrollbar1.appendChild(cbox.vScrollbar.scrollbar);
         this.detail.init(this.detailGridHT1, this.pagercntnr1,this);
+        this.ucExtends.passElement(cbox.hScrollbar.scrollbar);
+        this.ucExtends.passElement(cbox.vScrollbar.scrollbar);
         
     }
 
@@ -73,12 +78,12 @@ class datagrid extends designer {
         cellNodeName: "CELL"
     }
 
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     static drawSelectionHT = `<resizer role="drawSelection" ></resizer>`.$();
     overInfo = {
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         lastCell: undefined,
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         lastRow: undefined,
         columnIndex: -1,
         rowIndex: -1,

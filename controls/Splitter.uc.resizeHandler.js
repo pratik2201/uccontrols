@@ -16,7 +16,7 @@ class resizeHandler {
     gridRsz = new gridResizer();
     /** @type {measurementRow}  */
     bluePrint = {
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         size: undefined,
         data: {}
     };
@@ -136,13 +136,13 @@ class resizeHandler {
         }
         this.gridRsz.refreshView();
     }
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     static resizerHT = `<resizer role="left"></resizer>`.$();
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     static drawSelectionHT = `<splitter-resizer-abc role="drawSelection"></splitter-resizer-abc>`.$();
     /**
      * @param {number} index 
-     * @param {container} resizer 
+     * @param {HTMLElement} resizer 
      */
     doWithIndex(resizer, index) {
         let _this = this;

@@ -67,19 +67,16 @@
         height: 12px;
         grid-template-columns: max-content auto max-content;
     }
-    scrollbar begin-btn,
-    scrollbar end-btn{
+    scrollbar scroller-btn {
         box-sizing: border-box;
         background-color: green;
         display: block;  position: relative;
         
     }
-    scrollbar[dir="v"] begin-btn,
-    scrollbar[dir="v"] end-btn{
+    scrollbar[dir="v"] scroller-btn{
         height: 15px; 
     }
-    scrollbar[dir="h"] begin-btn,
-    scrollbar[dir="h"] end-btn{
+    scrollbar[dir="h"] scroller-btn{
         width: 15px; 
     }
     scrollbar[dir="v"] scroller{

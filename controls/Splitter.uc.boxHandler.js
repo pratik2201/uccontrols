@@ -25,8 +25,8 @@ class boxHandler {
     }
     /** 
     * @param {splitersGrid} main 
-    * @param {container} node 
-    * @param {container} view 
+    * @param {HTMLElement} node 
+    * @param {HTMLElement} view 
     */
     init(main, node, view) {
         this.main = main;
@@ -34,7 +34,7 @@ class boxHandler {
 
         this.node = node;
 
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         this.view = (view == undefined) ? node.children.item(0) : view;
         this.drag.init(this);
         this.drag.onDropNeeded = (dir) => {

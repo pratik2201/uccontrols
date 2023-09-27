@@ -15,25 +15,25 @@ const dragMode = Object.freeze({
 });
 class dragUc {
     resizer = {
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         left: `<resizer role="left"></resizer>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         top: `<resizer role="top"></resizer>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         right: `<resizer role="right"></resizer>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         bottom: `<resizer role="bottom"></resizer>`.$(),
 
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         topleft: `<corner role="topleft"></corner>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         topright: `<corner role="topright"></corner>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         bottomleft: `<corner role="bottomleft"></corner>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         bottomright: `<corner role="bottomright"></corner>`.$(),
 
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         rect: `<resizer role="drawSelection"></resizer>`.$(),
         /** @param {"block":"none"} val */
         cssDisplay(val) {
@@ -73,7 +73,7 @@ class dragUc {
                 }
         },
         /**
-         * @param {container} ele 
+         * @param {HTMLElement} ele 
          * @returns {dragMode}
          */
         getMode(ele) {
@@ -95,7 +95,7 @@ class dragUc {
     }
     allowMove = true;
     allowResize = true;
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     containerHT = undefined;
 
     /** @type {CSSStyleDeclaration}  */
@@ -103,7 +103,7 @@ class dragUc {
     /** @type {container[]}  */
     titleHT = [];
     /**
-     * @param {container} containerHT 
+     * @param {HTMLElement} containerHT 
      * @param {container[]} titleHT 
      */
     init(containerHT, ...titleHT) {
@@ -118,7 +118,7 @@ class dragUc {
     }
     /**
      * 
-     * @param {container} ele
+     * @param {HTMLElement} ele
      * @returns {dragMode}
      */
     getMode(ele) {

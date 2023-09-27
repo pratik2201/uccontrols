@@ -1,10 +1,10 @@
 const dropIndictors = {
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     leftPoll: '<drop  dir="left" ></drop>'.$(),
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     rightPoll: '<drop  dir="right" ></drop>'.$(),
 
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     indictor: '<indicator  dir="none" ></indicator>'.$(),
 
     /** @type {container[]}  */

@@ -86,7 +86,7 @@ class binderNode {
     get selectedIndex() { return this._selectedIndex; }
     set selectedIndex(val) {
         //  if (this.hasBound) {
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         let node = undefined;
         if (val >= 0 && val < this.filteredSource.length) {
             let oIndex = this.selectedIndex;
@@ -145,13 +145,13 @@ class binderNode {
          * ) =>{})} & commonEvent}
          */
         onHide: new commonEvent(),
-        /** @param {container} target  @returns */
+        /** @param {HTMLElement} target  @returns */
         isOutOfTarget: (target) => { return true; },
     };
     /** @type {container[]}  */
     allowedElementList = [];
     hasMouseDownedOnItem = false;
-    /** @param {container} tar */
+    /** @param {HTMLElement} tar */
     isOutOfTarget(tar) {
         let res = (!this.hasMouseDownedOnItem &&
             !this.main.ucExtends.self.contains(tar)

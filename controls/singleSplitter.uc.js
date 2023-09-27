@@ -47,8 +47,8 @@ class singleSplitter extends designer {
         }
     }
     /**
-     * @param {container} node 
-     * @returns {container}
+     * @param {HTMLElement} node 
+     * @returns {HTMLElement}
      */
     GIB_ME_NODE(node) {
         let nnode = this.nodeHT.cloneNode(true);
@@ -80,13 +80,13 @@ class singleSplitter extends designer {
 
     /** @type {container[]}  */
     allElementHT = undefined;
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     nodeHT = `<node></node>`.$();
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     viewHT = `<view></view>`.$();
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     resizerHT = `<resizer role="left"></resizer>`.$();
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     static rectHT = `<resizer role="drawSelection"></resizer>`.$();
 
     init() {
@@ -126,7 +126,7 @@ class singleSplitter extends designer {
     }
     /**
      * @param {number} index 
-     * @param {container} resizer 
+     * @param {HTMLElement} resizer 
      */
     doWithIndex(resizer, index) {
         let _this = this;

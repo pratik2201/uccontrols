@@ -7,7 +7,7 @@ const { designer } = require('./tabControl.uc.designer.js');
 const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
 const tabRecord = {
     caption: "",
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     tabButton: undefined,
     /** @type {tabChilds}  */
     SESSION: undefined,

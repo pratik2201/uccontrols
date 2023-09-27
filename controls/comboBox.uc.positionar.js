@@ -7,14 +7,14 @@ class positionar {
     }
     bodyRect = new Rect();
     dockRect = new Rect();
-    /** @param {container} dockHT */
+    /** @param {HTMLElement} dockHT */
     init(dockHT){
         this.dockHT = dockHT;
     }
     minSizeDifference = 100;
     
     /**
-     * @param {container} dockHT 
+     * @param {HTMLElement} dockHT 
      * @param {Rect} txtboxRect 
      */
     show(txtboxRect) {
@@ -34,7 +34,7 @@ class positionar {
     }
     /**
      * 
-     * @param {container} this.txtboxRect 
+     * @param {HTMLElement} this.txtboxRect 
      * @param {"left"|"top"|"right"|"bottom"} direction 
      */
     doprocess(direction = 'bottom'){

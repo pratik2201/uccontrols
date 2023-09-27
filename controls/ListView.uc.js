@@ -53,7 +53,7 @@ class ListView extends designer {
         uc.setAttribute('tabindex', -1);
         
         this.lvUI.Events.newItemGenerate.on(
-            /** @param {container} ele */
+            /** @param {HTMLElement} ele */
             (ele, index) => {
                 ele.setAttribute("x-tabindex", index);
             });

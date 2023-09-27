@@ -6,11 +6,11 @@ const datagrid = require("@uccontrols:/controls/datagrid.uc");
 class hoverEffect {
     constructor() { }
     nodes = {
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         drawHoverRect: `<trans-hover role="drawHover" x-name="transHoverVerticalline"></trans-hover>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         resizerHoriz: `<resizer role="left" ></resizer>`.$(),
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         resizerVertical: `<resizer role="bottom" ></resizer>`.$(),
         main: () => { return this.main; },
         init() {
@@ -19,7 +19,7 @@ class hoverEffect {
             this.main().ucExtends.passElement(this.drawHoverRect);
         }
     }
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
     /** @type {DOMRect}  */ 
     VertialResizerClientSize = undefined;
@@ -46,7 +46,7 @@ class hoverEffect {
     }
     /** @type {Rect}  */
     detailRect = new Rect();
-    /** @type {container}  */
+    /** @type {HTMLElement}  */
     lastOverCell = undefined;
     /** @param {Event} e  */
     refreshScrollbar = (e) => {
@@ -70,7 +70,7 @@ class hoverEffect {
         // Object.assign(this.main.transHoverVerticalline.style, { 'visibility': 'collapse' });
     }
     drawHoverEffect = () => {
-        /** @type {container}  */
+        /** @type {HTMLElement}  */
         let row = undefined;
         let cell = this.lastOverCell;
         if (cell != undefined) {
@@ -126,7 +126,7 @@ class hoverEffect {
 
     /**
      * @param {container[]} elem 
-     * @returns {container}
+     * @returns {HTMLElement}
      */
     getCell(elem = []) {
         let lname = this.main.node.cellNodeName.toUpperCase();
@@ -136,8 +136,8 @@ class hoverEffect {
         else return this.getCell(elem.parentElement);*/
     }
     /**
-     * @param {container} cell 
-     * @returns {container}
+     * @param {HTMLElement} cell 
+     * @returns {HTMLElement}
      */
     getRow(cell) {
         if (cell == undefined) return undefined;
