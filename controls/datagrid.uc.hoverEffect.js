@@ -36,13 +36,13 @@ class hoverEffect {
             this.VertialResizerClientSize = this.main.resizerVertical.getClientRects()[0];
             this.HorizontalResizerClientSize = this.main.resizerHorizontal.getClientRects()[0];
             this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
-            this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
+           
         });
         this.main.pagercntnr1.addEventListener("mouseleave", (e) => {
             this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
-            this.main.pagercntnr1.removeEventListener("scroll", this.refreshScrollbar);
-        }); 
-
+            
+         }); 
+        this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
     }
     /** @type {Rect}  */
     detailRect = new Rect();
@@ -50,7 +50,7 @@ class hoverEffect {
     lastOverCell = undefined;
     /** @param {Event} e  */
     refreshScrollbar = (e) => {
-        let scrollBarWidth = this.scrollBarWidth;
+       let scrollBarWidth = this.scrollBarWidth;
        
         this.main.headerSectionHT.style.marginRight =
             this.main.footerSectionHT.style.marginRight = scrollBarWidth + "px";

@@ -8,17 +8,20 @@ const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
 const { Template } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
+/** @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll */
+
+
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
         this.init();
         this.container1.style.setProperty("--xxxxwinfo", "20px 150px 200px 120px 250px 100px 80px 350px");
         let cbox = this.detail.scroller.scrollBox;
-        this.hscrollbar1.appendChild(cbox.hScrollbar.scrollbar);
-        this.vscrollbar1.appendChild(cbox.vScrollbar.scrollbar);
+        this.hscrollbar1.appendChild(cbox.hScrollbar.nodes.scrollbar);
+        this.vscrollbar1.appendChild(cbox.vScrollbar.nodes.scrollbar);
         this.detail.init(this.detailGridHT1, this.pagercntnr1,this);
-        this.ucExtends.passElement(cbox.hScrollbar.scrollbar);
-        this.ucExtends.passElement(cbox.vScrollbar.scrollbar);
+        this.ucExtends.passElement(cbox.hScrollbar.nodes.scrollbar);
+        this.ucExtends.passElement(cbox.vScrollbar.nodes.scrollbar);
         
     }
 
