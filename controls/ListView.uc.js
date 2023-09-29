@@ -1,12 +1,13 @@
 const { designer } = require('./ListView.uc.designer.js');
 const { propOpt } = require('@ucbuilder:/build/common.js');
 const { intenseGenerator } = require("@ucbuilder:/intenseGenerator");
-const { scrollerLV } = require('ucbuilder/global/listUI/scrollerLV.js');
+const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
+/** @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll */
 
 class ListView extends designer {
     
     accessKey = propOpt.ATTR.ACCESS_KEY;
-    lvUI = new scrollerLV();
+    lvUI = new pagerLV();
     get source() { return this.lvUI.source; }
     
     get itemTemplate() {
@@ -24,10 +25,19 @@ class ListView extends designer {
     set SESSION_DATA(val) { this.lvUI.OPTIONS.SESSION = val; }
     constructor() {
         eval(designer.giveMeHug);
-        this.lvUI.init(this.ll_view, this.scroller1);
+       
+        let cbox = this.lvUI.scroller.scrollBox;
+        this.hscrollbar1.appendChild(cbox.hScrollbar.nodes.scrollbar);
+        this.vscrollbar1.appendChild(cbox.vScrollbar.nodes.scrollbar);
+        this.lvUI.init(this.ll_view, this.scroller1,this);
+        this.ucExtends.passElement(cbox.hScrollbar.nodes.scrollbar);
+        this.ucExtends.passElement(cbox.vScrollbar.nodes.scrollbar);
+
+
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {
             setTimeout(() => {
+              
                 this.lvUI.currentIndex = this.SESSION_DATA.currentIndex;
             }, 1);
         });
