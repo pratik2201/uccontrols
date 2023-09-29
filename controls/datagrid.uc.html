@@ -1,22 +1,19 @@
 <datagrid>
-    <maincontainer>
-        <container x-name="container1">
+    <maincontainer x-name="container1" tabindex="-1">
+        <container>
             <header x-name="headerSectionHT">
                 <tbl x-name="headerGridHT1"></tbl>
             </header>
-            <detail x-name="detailSectionHT" paging="true">
-                <pagercntnr x-name="pagercntnr1" tabindex="-1">
-                    <resizer role="bottom" sub-role="cell" x-name="resizerHorizontal"></resizer>
-                    <resizer role="right" sub-role="cell" x-name="resizerVertical"></resizer>
-                    <tbl x-name="detailGridHT1"></tbl>
-                </pagercntnr>
+            <detail x-name="pagercntnr1" paging="true">
+                <resizer role="bottom" sub-role="cell" x-name="resizerHorizontal"></resizer>
+                <resizer role="right" sub-role="cell" x-name="resizerVertical"></resizer>
+                <tbl x-name="detailGridHT1"></tbl>
             </detail>
             <footer x-name="footerSectionHT">
                 <tbl x-name="footerGridHT1"></tbl>
             </footer>
         </container>
-        <vscrollbar dir="v" x-name="vscrollbar1"></vscrollbar>        
-        <hscrollbar dir="h" x-name="hscrollbar1"></hscrollbar>      
-        <span style="background-color: tomato;" ></span> 
+        <vscrollbar dir="v" x-name="vscrollbar1"></vscrollbar>
+        <hscrollbar dir="h" x-name="hscrollbar1"></hscrollbar>
     </maincontainer>
 </datagrid>

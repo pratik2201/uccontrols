@@ -1,12 +1,12 @@
 const { designer } = require('./ListView.uc.designer.js');
 const { propOpt } = require('@ucbuilder:/build/common.js');
-const { intenseGenerator } = require("@ucbuilder:/intenseGenerator")
+const { intenseGenerator } = require("@ucbuilder:/intenseGenerator");
+const { scrollerLV } = require('ucbuilder/global/listUI/scrollerLV.js');
 
 class ListView extends designer {
     
     accessKey = propOpt.ATTR.ACCESS_KEY;
-     
-    get lvUI(){ return this.ll_view.lvUI; }
+    lvUI = new scrollerLV();
     get source() { return this.lvUI.source; }
     
     get itemTemplate() {
@@ -24,7 +24,7 @@ class ListView extends designer {
     set SESSION_DATA(val) { this.lvUI.OPTIONS.SESSION = val; }
     constructor() {
         eval(designer.giveMeHug);
-        this.lvUI.init(this.ll_view.ucExtends.self, this.scroller1);
+        this.lvUI.init(this.ll_view, this.scroller1);
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {
             setTimeout(() => {

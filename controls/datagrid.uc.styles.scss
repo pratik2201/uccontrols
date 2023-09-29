@@ -5,22 +5,8 @@
     background-color: white;
     border: solid 1px black;
 }
-hscrollbar,vscrollbar{
-    position: relative;
-    display: block;
-    width:  12px;
-    height: 12px;
-}
-vscrollbar{ height: 100%;}
-hscrollbar{ width: 100%;}
-vscrollbar scrollbar,
-hscrollbar scrollbar{
-    top: 0px!important; left: 0px!important; right: 0px!important; bottom: 0px!important;
-    border-radius: 0px; 
-}
 
-
-maincontainer{
+maincontainer {
     width: 100%;
     height: 100%;
     display: grid;
@@ -28,12 +14,76 @@ maincontainer{
     grid-template-columns: auto max-content;
     grid-template-rows: auto max-content;
 }
+
 container {
     width: 100%;
     height: 100%;
     display: grid;
     grid-template-rows: max-content auto max-content;
 }
+
+hscrollbar,
+vscrollbar {
+    position: relative;
+    display: block;
+    width: 12px;
+    height: 12px;
+}
+
+vscrollbar {
+    height: 100%;
+}
+
+hscrollbar {
+    width: 100%;
+    grid-column: 1 / span 2;
+}
+
+scrollbar {
+    position: relative;
+    height: 100%;
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    border-radius: 0px;
+}
+
+header,
+detail,
+footer {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+}
+
+detail {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+tbl {
+    width: 100%;
+    min-width: max-content;
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-auto-rows: max-content;
+}
+
+
+
+
+
+
+
+
+
 
 trans-hover {
     position: absolute;
@@ -81,45 +131,3 @@ input[type="text"] {
     resize: both;
     position: relative;
 }
-
-
-
-header,
-footer,
-detail {
-    overflow: hidden;
-}
-
-header,
-detail,
-footer {
-    display: block;
-    position: relative;
-    box-sizing: border-box; display: block;
-}
-
-tbl {
-    width: 100%;
-    min-width: max-content;
-    height: 100%;
-    box-sizing: border-box;
-    display: grid;
-    grid-auto-rows: max-content;
-}
-
-pagercntnr{
-    display:block;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-}
-
-/*detail[paging="true"] {
-    display: grid;
-    grid-template-rows: max-content auto max-content;        
-}
-detail[paging="false"]{
-    display: block;
-}
-detail[paging="false"] move{ visibility: collapse; }*/

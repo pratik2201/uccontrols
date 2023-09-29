@@ -44,9 +44,7 @@ class datagrid extends designer {
     _headerItemTemplate = undefined;
     get headerItemTemplate() { return this._headerItemTemplate; }
     set headerItemTemplate(value) {
-        console.log(value);
         this._headerItemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
-
     }
     static dgvFillArgs = {
         addHeader: true,

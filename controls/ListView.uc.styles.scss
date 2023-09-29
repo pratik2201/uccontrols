@@ -18,6 +18,14 @@ scroller{
     display: block; 
     box-sizing: border-box;
 }
+tbl{
+    width: 100%;
+    min-width: max-content;
+    height: 100%;
+    box-sizing: border-box;
+    display: block;
+    /*grid-auto-rows: max-content;*/
+}
 scroller::-webkit-scrollbar{
     visibility:collapse;
 }
