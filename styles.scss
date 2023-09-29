@@ -1,16 +1,19 @@
-:root{
+:root {
+
     /*scrollbar * {
         opacity: inherit;
     }
     scrollbar scroller{ opacity: 1!important; }*/
     scrollbar {
-        position: absolute;    
+        position: absolute;
         background-color: #ffffff;
-        display: grid;        
-        opacity: 0.7; border-radius: 5px;
+        display: grid;
+        opacity: 0.7;
+        border-radius: 5px;
         box-sizing: border-box;
-        border: solid 1px #000000; 
-    }  
+        border: solid 1px #000000;
+    }
+
     /*scrollbar{
         animation-duration: 1s;
         animation-direction: normal;
@@ -26,63 +29,90 @@
         100%{ opacity: 1; }
     }*/
     scrollbar:hover,
-    scrollbar[active="1"]{
+    scrollbar[active="1"] {
         opacity: 1;
-    }   
+    }
+
     scrollbar:hover scroller,
-    scrollbar[active="1"] scroller{ background-color: blue; }
-    scrollbar scroller{
-        background-color: #0000003b; box-sizing: border-box;
-        border-radius: 5px; width: 100%;  height: 100%;
-        padding: 1px; position: relative;  display: block;
+    scrollbar[active="1"] scroller {
+        background-color: blue;
     }
-    scrollbar track{
-        width: 100%;  height: 100%; display: block; position: relative;
+
+    scrollbar scroller {
+        background-color: #0000003b;
+        box-sizing: border-box;
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        padding: 1px;
+        position: relative;
+        display: block;
     }
-    track scroller-text{
-        position: absolute; display: block;    width: max-content;
-        border-radius: 2px;     padding: 2px; font-size: small;
-        background-color: blue; color: yellow;
+
+    scrollbar track {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: relative;
     }
-    scrollbar[dir="v"] track scroller-text{
-        left: -40px;
+
+    track scroller-text {
+        position: absolute;
+        display: block;
+        font-size: xx-small;
+        background-color: black;
+        color: yellow;
+        font-weight: bold;
+        border: dotted 1px black;
+        right: 0px;        
+        min-width: 8px;
+        transform-origin: center;
+        transform: rotate(360deg);
     }
-    track scroller-text[role="begin"]{
-        top: -10px;
-    }    
-    track scroller-text[role="end"]{
-        top: 10px;
+    track scroller-text[role="begin"] {
+        top: -12px;
     }
-    scrollbar[dir="v"]{
+    track scroller-text[role="end"] {
+        bottom: -12px;
+    }
+
+    scrollbar[dir="v"] {
         right: 2px;
         top: 2px;
         bottom: 13px;
         width: 12px;
         grid-template-rows: max-content auto max-content;
-    }    
-    scrollbar[dir="h"]{
+    }
+
+    scrollbar[dir="h"] {
         bottom: 2px;
         left: 2px;
         right: 13px;
         height: 12px;
         grid-template-columns: max-content auto max-content;
     }
+
     scrollbar scroller-btn {
         box-sizing: border-box;
         background-color: green;
-        display: block;  position: relative;
-        
+        display: block;
+        position: relative;
+
     }
-    scrollbar[dir="v"] scroller-btn{
-        height: 15px; 
+
+    scrollbar[dir="v"] scroller-btn {
+        height: 15px;
     }
-    scrollbar[dir="h"] scroller-btn{
-        width: 15px; 
+
+    scrollbar[dir="h"] scroller-btn {
+        width: 15px;
     }
-    scrollbar[dir="v"] scroller{
-        height: 30px; 
+
+    scrollbar[dir="v"] scroller {
+        height: 30px;
     }
-    scrollbar[dir="h"] scroller{
-        width:60px; 
+
+    scrollbar[dir="h"] scroller {
+        width: 60px;
     }
 }

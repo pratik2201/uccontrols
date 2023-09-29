@@ -167,7 +167,7 @@ class dragUc {
                     cntnrSize = new Size(parseFloat(real.width), parseFloat(real.height)),
                     downPos = new Point(evt.clientX, evt.clientY);
                 controlRect.setBy.style(real);
-                selectRect.setBy.point(controlRect);
+                selectRect.setBy.rect(controlRect);
                 selectRect.size.width -= 5;
                 selectRect.size.height -= 5;
                 selectRect.location.x = 0;
