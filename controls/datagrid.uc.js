@@ -8,21 +8,35 @@ const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
 const { Template } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
-/** @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll */
-
+/** 
+ * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll
+ * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll").simpleScroll} simpleScroll
+ */
 
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
         this.init();
         this.container1.style.setProperty("--xxxxwinfo", "20px 150px 200px 120px 250px 100px 80px 350px");
+
         let cbox = this.detail.scroller.scrollBox;
-        this.hscrollbar1.appendChild(cbox.hScrollbar.nodes.scrollbar);
-        this.vscrollbar1.appendChild(cbox.vScrollbar.nodes.scrollbar);
-        this.detail.init(this.detailGridHT1, this.pagercntnr1,this);
-        this.ucExtends.passElement(cbox.hScrollbar.nodes.scrollbar);
-        this.ucExtends.passElement(cbox.vScrollbar.nodes.scrollbar);
+        let hnodes = cbox.hScrollbar.nodes;
+        let vnodes = cbox.vScrollbar.nodes;
+        hnodes.scrollbar = hnodes.scrollbar.$();
+        vnodes.scrollbar = vnodes.scrollbar.$();
+        vnodes.beginText = this.begin_scroll_text;
+        vnodes.endText = this.end_scroll_text;
+        this.hscrollbar1.appendChild(hnodes.scrollbar);
+        this.vscrollbar1.appendChild(vnodes.scrollbar);
+        this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
         
+       
+        this.detail.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
+            this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
+            this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
+        }
+        this.ucExtends.passElement(hnodes.scrollbar);
+        this.ucExtends.passElement(vnodes.scrollbar);
     }
 
 

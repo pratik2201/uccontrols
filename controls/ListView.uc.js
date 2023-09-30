@@ -2,7 +2,10 @@ const { designer } = require('./ListView.uc.designer.js');
 const { propOpt } = require('@ucbuilder:/build/common.js');
 const { intenseGenerator } = require("@ucbuilder:/intenseGenerator");
 const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
-/** @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll */
+/** 
+ * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll
+ * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll").simpleScroll} simpleScroll
+ */
 
 class ListView extends designer {
 
@@ -25,14 +28,22 @@ class ListView extends designer {
     set SESSION_DATA(val) { this.lvUI.OPTIONS.SESSION = val; }
     constructor() {
         eval(designer.giveMeHug);
-
         let cbox = this.lvUI.scroller.scrollBox;
-        this.hscrollbar1.appendChild(cbox.hScrollbar.nodes.scrollbar);
-        this.vscrollbar1.appendChild(cbox.vScrollbar.nodes.scrollbar);
+        let hnodes = cbox.hScrollbar.nodes;
+        let vnodes = cbox.vScrollbar.nodes;
+        hnodes.scrollbar = hnodes.scrollbar.$();
+        vnodes.scrollbar = vnodes.scrollbar.$();
+        vnodes.beginText = this.begin_scroll_text;
+        vnodes.endText = this.end_scroll_text;
+        this.hscrollbar1.appendChild(hnodes.scrollbar);
+        this.vscrollbar1.appendChild(vnodes.scrollbar);
         this.lvUI.init(this.ll_view, this.scroller1, this);
-        this.ucExtends.passElement(cbox.hScrollbar.nodes.scrollbar);
-        this.ucExtends.passElement(cbox.vScrollbar.nodes.scrollbar);
-
+        this.ucExtends.passElement(hnodes.scrollbar);
+        this.ucExtends.passElement(vnodes.scrollbar);
+        this.lvUI.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
+            this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
+            this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
+        }
 
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {

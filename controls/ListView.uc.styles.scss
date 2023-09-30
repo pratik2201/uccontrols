@@ -4,10 +4,24 @@
     height: inherit;
     display: grid;
     box-sizing:border-box;
-    position: relative;
+    position: relative;    
     grid-template-columns: auto max-content;
     grid-template-rows: auto max-content;
 }
+container{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-rows: max-content auto max-content;
+}
+scroll-text{
+    display: block;
+    padding: 3px;
+    background-color: white;
+    color: red;
+    font-style: italic;
+}
+
 hscrollbar,
 vscrollbar {
     position: relative;
@@ -21,7 +35,7 @@ vscrollbar {
 }
 
 hscrollbar {
-    width: 100%;
+    width: 100%;  grid-column: 1/span 2;
 }
 
 scrollbar {
@@ -34,7 +48,7 @@ scrollbar {
     border-radius: 0px;
 }
 
-container{
+pagecntnr{
     overflow: hidden;
     position: relative;
     width: 100%;
