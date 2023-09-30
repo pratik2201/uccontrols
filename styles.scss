@@ -1,9 +1,12 @@
 :root {
-
-    /*scrollbar * {
-        opacity: inherit;
+    scroll-text{
+        display: block;
+        background-color: white;
+        color: #1e52bc;
+        font-weight: bold;
+        font-style: italic;
     }
-    scrollbar scroller{ opacity: 1!important; }*/
+    
     scrollbar {
         position: absolute;
         background-color: #ffffff;
@@ -14,20 +17,7 @@
         border: solid 1px #000000;
     }
 
-    /*scrollbar{
-        animation-duration: 1s;
-        animation-direction: normal;
-        animation-play-state: running;
-        animation-timing-function: ease-in;
-        animation-iteration-count: 1;
-    }
-    scrollbar[blink="0"]{
-        animation-name: blinkme;
-    }
-    @keyframes blinkme {
-        0%{ opacity: 0; }
-        100%{ opacity: 1; }
-    }*/
+    
     scrollbar:hover,
     scrollbar[active="1"] {
         opacity: 1;

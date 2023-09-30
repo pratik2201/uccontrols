@@ -41,16 +41,15 @@ class ListView extends designer {
         this.ucExtends.passElement(hnodes.scrollbar);
         this.ucExtends.passElement(vnodes.scrollbar);
         this.lvUI.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
-            this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
-            this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
+            this.begin_scroll_text.innerText = b == 0 ? "    " : "▲ " + b + "";
+            this.end_scroll_text.innerText = e == 0 ? "    " : "▼ " + e + "";
         }
 
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {
-            setTimeout(() => {
-
+            /*setTimeout(() => {
                 this.lvUI.currentIndex = this.SESSION_DATA.currentIndex;
-            }, 1);
+            }, 1);*/
         });
 
         this.Events.currentItemIndexChange.on((oindex, nindex, evt, evtType) => {

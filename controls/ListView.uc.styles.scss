@@ -1,26 +1,47 @@
-/*[theme="@uccontrols:/controls/ListView.uc.lview.scss"]*/
-[SELF_]{
+[SELF_] {
     width: inherit;
     height: inherit;
     display: grid;
-    box-sizing:border-box;
-    position: relative;    
+    box-sizing: border-box;
+    position: relative;
     grid-template-columns: auto max-content;
-    grid-template-rows: auto max-content;
+    grid-template-rows: max-content auto max-content max-content;
 }
-container{
+
+vscrollbar {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+}
+
+
+
+scroll-text[role="begin"] {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+pagecntnr {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+scroll-text[role="end"] {
+    grid-column: 1;
+    grid-row: 3;
+}
+hscrollbar {
+    grid-column: 1 / span 2;
+    grid-row: 4;
+}
+
+/*container{
     display: grid;
     width: 100%;
     height: 100%;
+    position: relative;
     grid-template-rows: max-content auto max-content;
-}
-scroll-text{
-    display: block;
-    padding: 3px;
-    background-color: white;
-    color: red;
-    font-style: italic;
-}
+}*/
+
 
 hscrollbar,
 vscrollbar {
@@ -35,7 +56,8 @@ vscrollbar {
 }
 
 hscrollbar {
-    width: 100%;  grid-column: 1/span 2;
+    width: 100%;
+    grid-column: 1/span 2;
 }
 
 scrollbar {
@@ -48,16 +70,17 @@ scrollbar {
     border-radius: 0px;
 }
 
-pagecntnr{
+pagecntnr {
     overflow: hidden;
     position: relative;
     width: 100%;
     height: 100%;
     max-width: 100%;
-    max-height: 100%;   
-    display: block; 
+    max-height: 100%;
+    display: block;
     box-sizing: border-box;
 }
+
 /*scroller::-webkit-scrollbar{
     visibility:collapse;
 }
@@ -66,14 +89,11 @@ scroller::-webkit-scrollbar:hover{
 }*/
 
 
-tbl{
+tbl {
     width: 100%;
-    min-width: max-content;
+    min-width: 100%;
     height: 100%;
     box-sizing: border-box;
     display: grid;
     grid-auto-rows: max-content;
 }
-
-
-
