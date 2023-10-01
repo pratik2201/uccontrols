@@ -18,15 +18,16 @@ class columnResizeManage {
      */
     init(main) {
         this.main = main;
+        this.columnGridStylePera = "--xxinfo" + this.main.ucExtends.stampRow.stamp;
         let isCaptured = false;
         let isSliderMode = this.gridRsz.resizeMode == 'fill';
         let mouseMv = new mouseForMove();
         let selectionRect = new Rect();
-        
+
         let /** @type {HTMLElement}  */ rightCell,
         /** @type {HTMLElement}  */ leftCell;
         let selectionBackupRect = new Rect();
-        
+
         mouseMv.bind(this.main.resizerVertical, {
             onDown: (e, dpoint) => {
                 rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
@@ -50,19 +51,20 @@ class columnResizeManage {
                 if (!isSliderMode)
                     selectionRect.width = selectionBackupRect.width + diff.x;
                 else {
-                    diff.x = Math.min(diff.x,rightCell.offsetWidth);
+                    diff.x = Math.min(diff.x, rightCell.offsetWidth);
                     selectionRect.left = selectionBackupRect.left + diff.x;
                     selectionRect.width = selectionBackupRect.width - diff.x;
-                }                
+                }
                 Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
             },
             onUp: (e, diff) => {
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
+                console.log(this.main.ucExtends.self);
                 console.log(diff);
             }
         });
     }
-    
+
 
 }
 module.exports = { columnResizeManage };
