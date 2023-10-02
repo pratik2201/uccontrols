@@ -25,7 +25,7 @@
 
     scrollbar:hover scroller,
     scrollbar[active="1"] scroller {
-        background-color: blue;
+        background-color: rgb(15, 8, 12);
     }
 
     scrollbar scroller {
@@ -81,10 +81,13 @@
         height: 12px;
         grid-template-columns: max-content auto max-content;
     }
-
+    scrollbar scroller-btn:hover{
+        
+        background-color: rgba(29, 149, 170, 0.411);
+    }
     scrollbar scroller-btn {
         box-sizing: border-box;
-        background-color: green;
+        background-color: rgb(29, 149, 170);
         display: block;
         position: relative;
 
