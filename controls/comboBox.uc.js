@@ -16,13 +16,13 @@ class combobox extends designer {
 
     /** @type {binderNode}  */
     binder = undefined;
-    /** @type {Template}  */
+    /** @type {TemplateNode}  */
     set itemTemplate(val) {
         if (this.binder == undefined)
             this.binder = this.bindNew();
         this.binder.template = intenseGenerator.parseTPT(val, this.ucExtends.PARENT);
     }
-    /** @type {Template}  */
+    /** @type {TemplateNode}  */
     _seletecteditemTemplate = undefined;
     get seletecteditemTemplate() { return this._seletecteditemTemplate; }
     set seletecteditemTemplate(value) {

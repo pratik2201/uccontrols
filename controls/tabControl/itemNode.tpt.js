@@ -18,7 +18,7 @@ class itemNode extends designer {
                 tarEle.appendChild(s);
                 s.style.visibility = "visible";
             });
-            this.extended.stampRow.passElement(dropIndictors.asArray);
+            this.primary.extended.stampRow.passElement(dropIndictors.asArray);
         } else {
             dropIndictors.asArray.forEach(s => s.style.visibility = "hidden");
         }
@@ -63,7 +63,7 @@ class itemNode extends designer {
         }, [this.main.tabHeader]);
 
 
-        this.extended.Events.onGenerateNode = (mainnode, json) => {
+        this.primary.extended.Events.onGenerateNode = (mainnode, json) => {
             mainnode.addEventListener("mouseup", this.mouseup_listner);
             mainnode.addEventListener("dblclick", this.dblclick_listner);
             mainnode.setAttribute("role", "tabbutton");
@@ -112,7 +112,7 @@ class itemNode extends designer {
         let index = ev.currentTarget.index();
         let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index));
 
-        if (this.extended.Events.onDataExport({
+        if (this.primary.extended.Events.onDataExport({
             type: 'uc',
             data: uc,
         }) === true) {

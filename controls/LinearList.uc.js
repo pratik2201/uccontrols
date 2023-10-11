@@ -1,5 +1,5 @@
 const { uniqOpt } = require('@ucbuilder:/build/common.js');
-const { TempleteNode } = require('@ucbuilder:/Template.js');
+const { TemplateNode } = require('@ucbuilder:/Template.js');
 const { scrollerLV } = require('@ucbuilder:/global/listUI/scrollerLV');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { designer } = require('./LinearList.uc.designer.js');
@@ -23,7 +23,7 @@ class LinearList extends designer {
     get source() {   return this.lvUI.source; }
 
 
-    /** @type {TempleteNode}  */
+    /** @type {TemplateNode}  */
     constructor() {
         eval(designer.giveMeHug);
     }

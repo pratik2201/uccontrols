@@ -5,7 +5,7 @@ const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
 const { gridResizer } = require('@ucbuilder:/global/gridResizer.js');
 const { designer } = require('./datagrid.uc.designer.js');
 const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
-const { Template } = require('@ucbuilder:/Template');
+const { Template, TemplateNode } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
 /** 
@@ -54,7 +54,7 @@ class datagrid extends designer {
     get detailItemTemplate() { return this.detail.itemTemplate; }
     set detailItemTemplate(value) { this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); }
 
-    /** @type {Template}  */
+    /** @type {TemplateNode}  */
     _headerItemTemplate = undefined;
     get headerItemTemplate() { return this._headerItemTemplate; }
     set headerItemTemplate(value) {
@@ -77,7 +77,7 @@ class datagrid extends designer {
             this.footerGridHT1.appendChild(this.footerItemTemplate.extended.generateNode(args.footerRow));
         }
     }
-    /** @type {Template}  */
+    /** @type {TemplateNode}  */
     _footerItemTemplate = undefined;
     get footerItemTemplate() { return this._footerItemTemplate; }
     set footerItemTemplate(value) {
