@@ -68,7 +68,7 @@ class itemNode extends designer {
             mainnode.addEventListener("dblclick", this.dblclick_listner);
             mainnode.setAttribute("role", "tabbutton");
 
-            let ctrls = this.getAllControls(mainnode);
+            let ctrls = this.primary.getAllControls(mainnode);
 
             ctrls.btn_close.addEventListener("mousedown", (e) => {
                 let index = mainnode.index();
