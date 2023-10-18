@@ -28,7 +28,7 @@ class ListView extends designer {
     set SESSION_DATA(val) { this.lvUI.OPTIONS.SESSION = val; }
     constructor() {
         eval(designer.giveMeHug);
-        let cbox = this.lvUI.scroller.scrollBox;
+         let cbox = this.lvUI.scroller.scrollBox;
         let hnodes = cbox.hScrollbar.nodes;
         let vnodes = cbox.vScrollbar.nodes;
         hnodes.scrollbar = hnodes.scrollbar.$();
