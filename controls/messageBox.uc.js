@@ -101,7 +101,7 @@ class messageBox extends designer {
             }
         })
         /*this.ucExtends.Events.loaded.on(() => {
-            //setTimeout(() => {
+            //timeoutCall.start(() => {
                 let ele = this.ucExtends.find(`[role="${defaultFocus}"]`);
                 if (ele.length == 1) ele[0].focus();
            //  },1000);

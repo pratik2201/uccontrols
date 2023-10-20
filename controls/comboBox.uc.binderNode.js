@@ -201,7 +201,7 @@ class binderNode {
         this.hasBound = false;
         this.Events.onHide.fire();
 
-        //setTimeout(() => {
+        //timeoutCall.start(() => {
         Object.assign(this.main.ucExtends.self.style, {
             'visibility': 'collapse',
         });

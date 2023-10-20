@@ -5,7 +5,7 @@
     box-sizing: border-box;
     position: relative;
     grid-template-columns: auto max-content;
-    grid-template-rows: max-content auto max-content max-content;
+    grid-template-rows: max-content  minmax(auto,100%) max-content max-content;
 }
 
 vscrollbar {
@@ -96,4 +96,6 @@ tbl {
     box-sizing: border-box;
     display: grid;
     grid-auto-rows: max-content;
+
+    align-self:flex-start;
 }

@@ -4,6 +4,7 @@ const { ucStates } = require('@ucbuilder:/enumAndMore');
 const { controlOpt } = require('@ucbuilder:/build/common.js');
 const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
 const { winManager } = require('@uccontrols:/controls/winFrame.uc.winManager.js');
+const { timeoutCall } = require("@ucbuilder:/global/timeoutCall");
 
 class winFrame extends designer {
 
@@ -114,7 +115,7 @@ class winFrame extends designer {
         ResourcesUC.contentHT.append(this.parentElementHT);
         //this.parentUCExt.Events.activate.fire();
         // console.log('showDialog');
-        setTimeout(() => {
+        timeoutCall.start(() => {
             if (defaultFocusAt == undefined) {
                 ResourcesUC.tabMng.moveNext(this.ucExtends.self);
             } else {

@@ -52,7 +52,11 @@ class datagrid extends designer {
 
     //set
     get detailItemTemplate() { return this.detail.itemTemplate; }
-    set detailItemTemplate(value) { this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); }
+    set detailItemTemplate(value) { 
+        this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); 
+        //let node = this.detail.itemTemplate.extended.generateNode({});
+        //this.detail.nodes.itemSize.update(node);
+    }
 
     /** @type {TemplateNode}  */
     _headerItemTemplate = undefined;
@@ -63,13 +67,15 @@ class datagrid extends designer {
     static dgvFillArgs = {
         addHeader: true,
         headerRow: {},
+        fillDetail:true,
         addFooter: false,
         footerRow: {},
     };
     /** @param {datagrid.dgvFillArgs} params */
     fill(params) {
         let args = newObjectOpt.copyProps(params, datagrid.dgvFillArgs);
-        this.detail.nodes.fill();
+        if(args.fillDetail)
+            this.detail.nodes.fill();
         if (args.addHeader) {
             this.headerGridHT1.appendChild(this.headerItemTemplate.extended.generateNode(args.headerRow));
         }
