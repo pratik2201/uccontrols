@@ -8,7 +8,14 @@ class columnResizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
-
+    /**
+     * @param {string} txt 
+     * @returns {[]}
+     */
+    getArFromText(txt) {
+        let ar = txt.split(/ +/).map(s=>parseFloat(s));
+        return ar;
+    }
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
@@ -59,8 +66,11 @@ class columnResizeManage {
             },
             onUp: (e, diff) => {
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
-                console.log(this.main.ucExtends.self);
+                let sval = this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo');
+                console.log(sval);
                 console.log(diff);
+                console.log(this.getArFromText(sval));
+                //return this
             }
         });
     }
