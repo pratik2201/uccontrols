@@ -16,9 +16,8 @@ const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
-        this.init();
         this.ucExtends.self.style.setProperty("--xxxxwinfo", "20px      40px 150px 200px 120px 250px 100px 80px 350px");
-
+        this.init();
         let cbox = this.detail.scroller.scrollBox;
         let hnodes = cbox.hScrollbar.nodes;
         let vnodes = cbox.vScrollbar.nodes;

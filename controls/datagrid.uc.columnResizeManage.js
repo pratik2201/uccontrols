@@ -13,13 +13,15 @@ class columnResizeManage {
      * @returns {[]}
      */
     getArFromText(txt) {
-        let ar = txt.split(/ +/).map(s=>parseFloat(s));
+        let ar = txt.split(/ +/).map(s => parseFloat(s));
         return ar;
     }
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
     gridRsz = new gridResizer();
+
+    measurement = [];
     /**
      * @param {datagrid} main 
      */
@@ -37,6 +39,8 @@ class columnResizeManage {
 
         mouseMv.bind(this.main.resizerVertical, {
             onDown: (e, dpoint) => {
+                this.measurement = this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
+                //console.log(window.getComputedStyle(this.main.ucExtends.self));
                 rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
                 if (rightCell == undefined) return false;
@@ -66,15 +70,29 @@ class columnResizeManage {
             },
             onUp: (e, diff) => {
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
-                let sval = this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo');
-                console.log(sval);
-                console.log(diff);
-                console.log(this.getArFromText(sval));
+                leftCell = rightCell.previousElementSibling;
+                if (leftCell != null) {
+                    let lIndex = leftCell.index();
+                    let rIndex = rightCell.index();
+                    let dval = diff.x;
+                    this.measurement[lIndex] += dval;
+                    this.measurement[rIndex] -= dval;
+                    this.main.ucExtends.self
+                            .style.setProperty("--xxxxwinfo", this.measureText);
+                }
                 //return this
             }
         });
     }
-
+    get measureText() {
+        return this.measurement.length <= 1 ? 'auto'
+            : this.measurement
+                .join('px ') + 'px';
+        /* return this.measurement.length <= 1 ? 'auto'
+             : this.measurement
+                 .slice(0, -1)
+                 .join('px ') + 'px auto';*/
+    }
 
 }
 module.exports = { columnResizeManage };
