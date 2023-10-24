@@ -40,7 +40,6 @@ class columnResizeManage {
         mouseMv.bind(this.main.resizerVertical, {
             onDown: (e, dpoint) => {
                 this.measurement = this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
-                //console.log(window.getComputedStyle(this.main.ucExtends.self));
                 rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
                 if (rightCell == undefined) return false;
@@ -70,16 +69,41 @@ class columnResizeManage {
             },
             onUp: (e, diff) => {
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
-                leftCell = rightCell.previousElementSibling;
+                let rIndex = rightCell.index();
+                let lIndex = rIndex - 1;
+                let dval = diff.x;
+                let counter = 0;
+                let increate = Math.sign(dval);
+                let index = rIndex;
+                let newsizeval = 0;
+                console.log('wwwww > '+diff.x);
+                dval = Math.abs(dval);
+                do {
+                    newsizeval = this.measurement[index];
+                    let vtc = Math.min(newsizeval, dval);
+                    this.measurement[index] -= vtc;
+                    console.log(" ===> " + dval );
+                    dval -= vtc;
+                    console.log(index + " : " + dval );
+                    index += increate;
+                    if (counter++ == 8) break;
+                } while (dval > 0);
+                if(increate===1){
+                    this.measurement[lIndex] += Math.abs(diff.x);
+                }
+                this.main.ucExtends.self
+                    .style.setProperty("--xxxxwinfo", this.measureText);
+                /*leftCell = rightCell.previousElementSibling;
                 if (leftCell != null) {
                     let lIndex = leftCell.index();
                     let rIndex = rightCell.index();
                     let dval = diff.x;
                     this.measurement[lIndex] += dval;
                     this.measurement[rIndex] -= dval;
+                    console.log(dval);
                     this.main.ucExtends.self
                             .style.setProperty("--xxxxwinfo", this.measureText);
-                }
+                }*/
                 //return this
             }
         });
