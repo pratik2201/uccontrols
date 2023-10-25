@@ -20,7 +20,7 @@ class columnResizeManage {
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
     gridRsz = new gridResizer();
-
+    /** @type {{ size:number , backup:number }[]}  */ 
     measurement = [];
     /**
      * @param {datagrid} main 
@@ -61,7 +61,7 @@ class columnResizeManage {
                 if (!isSliderMode)
                     selectionRect.width = selectionBackupRect.width + diff.x;
                 else {
-                    diff.x = Math.min(diff.x, rightCell.offsetWidth);
+                    //diff.x = Math.min(diff.x, rightCell.offsetWidth);
                     selectionRect.left = selectionBackupRect.left + diff.x;
                     selectionRect.width = selectionBackupRect.width - diff.x;
                 }
