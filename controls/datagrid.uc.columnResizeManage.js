@@ -3,24 +3,34 @@ const datagrid = require("@uccontrols:/controls/datagrid.uc");
 const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
 const { gridResizer } = require("@uccontrols:/../ucbuilder/global/gridResizer");
 const { hoverEffect } = require("@uccontrols:/controls/datagrid.uc.hoverEffect");
-
+/**
+ * @typedef {{ size:number , backup:number }} measurementNode
+ */
 class columnResizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
     /**
      * @param {string} txt 
-     * @returns {[]}
+     * @returns {measurementNode[]}
      */
     getArFromText(txt) {
-        let ar = txt.split(/ +/).map(s => parseFloat(s));
-        return ar;
+        let ar = txt
+            .split(/ +/);
+        if (this.measurement.length != ar.length) {
+            this.measurement = ar.map((s) => { let sz = parseFloat(s); return { size: sz, backup: sz } });
+        }else{
+            for (let i = 0; i < ar.length; i++) {
+                const row = this.measurement[i];
+                row.size = ar[i];
+            }
+        }
     }
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
     gridRsz = new gridResizer();
-    /** @type {{ size:number , backup:number }[]}  */ 
+    /** @type {measurementNode[]}  */
     measurement = [];
     /**
      * @param {datagrid} main 
@@ -39,7 +49,7 @@ class columnResizeManage {
 
         mouseMv.bind(this.main.resizerVertical, {
             onDown: (e, dpoint) => {
-                this.measurement = this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
+                this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
                 rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
                 if (rightCell == undefined) return false;
@@ -75,21 +85,22 @@ class columnResizeManage {
                 let counter = 0;
                 let increate = Math.sign(dval);
                 let index = rIndex;
-                let newsizeval = 0;
-                console.log('wwwww > '+diff.x);
+                /** @type {measurementNode}  */ 
+                let newsizeval = undefined;
+                console.log('wwwww > ' + diff.x);
                 dval = Math.abs(dval);
                 do {
                     newsizeval = this.measurement[index];
-                    let vtc = Math.min(newsizeval, dval);
-                    this.measurement[index] -= vtc;
-                    console.log(" ===> " + dval );
+                    let vtc = Math.min(newsizeval.size, dval);
+                    this.measurement[index].size -= vtc;
+                    console.log(" ===> " + dval);
                     dval -= vtc;
-                    console.log(index + " : " + dval );
+                    console.log(index + " : " + dval);
                     index += increate;
                     if (counter++ == 8) break;
                 } while (dval > 0);
-                if(increate===1){
-                    this.measurement[lIndex] += Math.abs(diff.x);
+                if (increate === 1) {
+                    this.measurement[lIndex].size += Math.abs(diff.x);
                 }
                 this.main.ucExtends.self
                     .style.setProperty("--xxxxwinfo", this.measureText);
@@ -109,8 +120,9 @@ class columnResizeManage {
         });
     }
     get measureText() {
+        console.log(this.measurement);
         return this.measurement.length <= 1 ? 'auto'
-            : this.measurement
+            : (this.measurement.map(s=>s.size))
                 .join('px ') + 'px';
         /* return this.measurement.length <= 1 ? 'auto'
              : this.measurement
