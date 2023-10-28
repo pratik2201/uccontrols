@@ -22,7 +22,7 @@ class columnResizeManage {
         }else{
             for (let i = 0; i < ar.length; i++) {
                 const row = this.measurement[i];
-                row.size = ar[i];
+                row.size =  parseFloat(ar[i]);
             }
         }
     }
@@ -64,6 +64,7 @@ class columnResizeManage {
                     selectionRect.height = this.main.dgvRect.height
                     selectionBackupRect.setBy.rect(selectionRect);
                     Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
+                    leftCell = rightCell.previousElementSibling;
                 }
                 else return false;
             },
@@ -71,50 +72,55 @@ class columnResizeManage {
                 if (!isSliderMode)
                     selectionRect.width = selectionBackupRect.width + diff.x;
                 else {
-                    //diff.x = Math.min(diff.x, rightCell.offsetWidth);
+                    if(diff.x>0)
+                        diff.x = Math.min(diff.x, rightCell.offsetWidth);
+                    else
+                        diff.x = Math.max(diff.x, (leftCell.offsetWidth*-1));
                     selectionRect.left = selectionBackupRect.left + diff.x;
                     selectionRect.width = selectionBackupRect.width - diff.x;
                 }
                 Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
             },
             onUp: (e, diff) => {
-                hoverEffect.drawSelectionHT.style.visibility = "collapse";
+                /*
                 let rIndex = rightCell.index();
                 let lIndex = rIndex - 1;
                 let dval = diff.x;
                 let counter = 0;
                 let increate = Math.sign(dval);
                 let index = rIndex;
-                /** @type {measurementNode}  */ 
+                //* type measurementNode  *
                 let newsizeval = undefined;
-                console.log('wwwww > ' + diff.x);
                 dval = Math.abs(dval);
                 do {
                     newsizeval = this.measurement[index];
                     let vtc = Math.min(newsizeval.size, dval);
-                    this.measurement[index].size -= vtc;
-                    console.log(" ===> " + dval);
+                    newsizeval.size -= vtc;
+                    //console.log(" ===> " + dval +" : "+vtc);
                     dval -= vtc;
-                    console.log(index + " : " + dval);
+                    //console.log(index + " : " + dval);
                     index += increate;
                     if (counter++ == 8) break;
                 } while (dval > 0);
+                //console.log(increate);
                 if (increate === 1) {
                     this.measurement[lIndex].size += Math.abs(diff.x);
-                }
+                }else this.measurement[lIndex].size -= Math.abs(diff.x);
                 this.main.ucExtends.self
-                    .style.setProperty("--xxxxwinfo", this.measureText);
-                /*leftCell = rightCell.previousElementSibling;
+                    .style.setProperty("--xxxxwinfo", this.measureText);*/
+                leftCell = rightCell.previousElementSibling;
                 if (leftCell != null) {
                     let lIndex = leftCell.index();
                     let rIndex = rightCell.index();
                     let dval = diff.x;
-                    this.measurement[lIndex] += dval;
-                    this.measurement[rIndex] -= dval;
-                    console.log(dval);
+                    this.measurement[lIndex].size += dval;
+                    this.measurement[rIndex].size -= dval;
+
+                    console.log(this.measureText);
                     this.main.ucExtends.self
                             .style.setProperty("--xxxxwinfo", this.measureText);
-                }*/
+                }
+                hoverEffect.drawSelectionHT.style.visibility = "collapse";
                 //return this
             }
         });

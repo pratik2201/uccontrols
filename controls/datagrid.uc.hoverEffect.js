@@ -130,7 +130,13 @@ class hoverEffect {
      */
     getCell(elem = []) {
         let lname = this.main.node.cellNodeName.toUpperCase();
-        return elem.find(s => s.nodeName == lname);
+        //console.log(elem);
+        let fele = elem.find(s => s.nodeName == lname);
+        if(fele==undefined)return undefined;
+        else{
+            console.log(fele.previousElementSibling.offsetWidth);
+        }
+        return fele;
         /*if (elem == undefined) return undefined;
         if (elem.nodeName.toLowerCase() == this.node.cellNodeName.toLowerCase()) return elem;
         else return this.getCell(elem.parentElement);*/
