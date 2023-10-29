@@ -134,7 +134,7 @@ class hoverEffect {
         let fele = elem.find(s => s.nodeName == lname);
         if(fele==undefined)return undefined;
         else{
-            console.log(fele.previousElementSibling.offsetWidth);
+            //console.log(fele.previousElementSibling.offsetWidth);
         }
         return fele;
         /*if (elem == undefined) return undefined;

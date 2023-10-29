@@ -19,10 +19,10 @@ class columnResizeManage {
             .split(/ +/);
         if (this.measurement.length != ar.length) {
             this.measurement = ar.map((s) => { let sz = parseFloat(s); return { size: sz, backup: sz } });
-        }else{
+        } else {
             for (let i = 0; i < ar.length; i++) {
                 const row = this.measurement[i];
-                row.size =  parseFloat(ar[i]);
+                row.size = parseFloat(ar[i]);
             }
         }
     }
@@ -45,90 +45,85 @@ class columnResizeManage {
 
         let /** @type {HTMLElement}  */ rightCell,
         /** @type {HTMLElement}  */ leftCell;
-        let selectionBackupRect = new Rect();
-
+        let _rightselectionBackupRect = new Rect();
+        let _leftselectionBackupRect = new Rect();
+        let isShiftkey = false;
         mouseMv.bind(this.main.resizerVertical, {
             onDown: (e, dpoint) => {
                 this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
                 rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
                 if (rightCell == undefined) return false;
+                leftCell = rightCell.previousElementSibling;
                 if (isCaptured) {
                     isSliderMode = this.isSliderMode;
                     this.main.ucExtends.passElement(hoverEffect.drawSelectionHT);
                     document.body.appendChild(hoverEffect.drawSelectionHT);
                     hoverEffect.drawSelectionHT.style.visibility = "visible";
+
                     selectionRect.setBy.domRect(rightCell.getClientRects()[0]);
-                    selectionRect.top = this.main.dgvRect.top;
                     selectionRect.width = rightCell.offsetWidth;
-                    selectionRect.height = this.main.dgvRect.height
-                    selectionBackupRect.setBy.rect(selectionRect);
-                    Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
-                    leftCell = rightCell.previousElementSibling;
+                    selectionRect.top = this.main.dgvRect.top;
+                    selectionRect.height = this.main.dgvRect.height;
+
+                    _rightselectionBackupRect.setBy.rect(selectionRect);
+                    _leftselectionBackupRect.setBy.rect(_rightselectionBackupRect);
+                    _leftselectionBackupRect.width = leftCell.offsetWidth;
+                    let lccr = leftCell.getClientRects()[0];
+                    _leftselectionBackupRect.left = lccr.left;
+                    //Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
                 }
                 else return false;
             },
             onMove: (e, diff) => {
-                if (!isSliderMode)
-                    selectionRect.width = selectionBackupRect.width + diff.x;
-                else {
-                    if(diff.x>0)
+                if (!e.shiftKey) {
+                    /*if (diff.x > 0)
                         diff.x = Math.min(diff.x, rightCell.offsetWidth);
                     else
-                        diff.x = Math.max(diff.x, (leftCell.offsetWidth*-1));
-                    selectionRect.left = selectionBackupRect.left + diff.x;
-                    selectionRect.width = selectionBackupRect.width - diff.x;
+                        diff.x = Math.max(diff.x, (leftCell.offsetWidth * -1));*/
+                    selectionRect.left = _leftselectionBackupRect.left ;
+                    selectionRect.width = _leftselectionBackupRect.width + diff.x;
+
+                    /*selectionRect.width = leftCell.offsetWidth + diff.x;                    
+                    selectionRect.left = _rightselectionBackupRect.left + diff.x;*/
+                } else {
+                    if (diff.x > 0)
+                        diff.x = Math.min(diff.x, rightCell.offsetWidth);
+                    else
+                        diff.x = Math.max(diff.x, (leftCell.offsetWidth * -1));
+                    selectionRect.left = _rightselectionBackupRect.left + diff.x;
+                    selectionRect.width = _rightselectionBackupRect.width - diff.x;
                 }
                 Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
             },
             onUp: (e, diff) => {
-                /*
-                let rIndex = rightCell.index();
-                let lIndex = rIndex - 1;
-                let dval = diff.x;
-                let counter = 0;
-                let increate = Math.sign(dval);
-                let index = rIndex;
-                //* type measurementNode  *
-                let newsizeval = undefined;
-                dval = Math.abs(dval);
-                do {
-                    newsizeval = this.measurement[index];
-                    let vtc = Math.min(newsizeval.size, dval);
-                    newsizeval.size -= vtc;
-                    //console.log(" ===> " + dval +" : "+vtc);
-                    dval -= vtc;
-                    //console.log(index + " : " + dval);
-                    index += increate;
-                    if (counter++ == 8) break;
-                } while (dval > 0);
-                //console.log(increate);
-                if (increate === 1) {
-                    this.measurement[lIndex].size += Math.abs(diff.x);
-                }else this.measurement[lIndex].size -= Math.abs(diff.x);
-                this.main.ucExtends.self
-                    .style.setProperty("--xxxxwinfo", this.measureText);*/
                 leftCell = rightCell.previousElementSibling;
                 if (leftCell != null) {
-                    let lIndex = leftCell.index();
-                    let rIndex = rightCell.index();
+                    let lIndex, rIndex;
+                    lIndex = leftCell.index();
+                    rIndex = rightCell.index();
                     let dval = diff.x;
                     this.measurement[lIndex].size += dval;
-                    this.measurement[rIndex].size -= dval;
-
-                    console.log(this.measureText);
+                    if (e.shiftKey)
+                        this.measurement[rIndex].size -= dval;
                     this.main.ucExtends.self
-                            .style.setProperty("--xxxxwinfo", this.measureText);
+                        .style.setProperty("--xxxxwinfo", this.measureText);
                 }
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
                 //return this
             }
         });
     }
+    getPrevIndex(index) {
+        let rm = this.measurement;
+        index--;
+        for (; index >= 0 && rm[index].size == 0; index--);
+        return index;
+    }
     get measureText() {
-        console.log(this.measurement);
+        // console.log(this.measurement);
         return this.measurement.length <= 1 ? 'auto'
-            : (this.measurement.map(s=>s.size))
+            : (this.measurement.map(s => s.size))
                 .join('px ') + 'px';
         /* return this.measurement.length <= 1 ? 'auto'
              : this.measurement
