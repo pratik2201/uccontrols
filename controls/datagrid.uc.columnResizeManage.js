@@ -59,7 +59,6 @@ class columnResizeManage {
                     isSliderMode = this.isSliderMode;
                     this.main.ucExtends.passElement(hoverEffect.drawSelectionHT);
                     document.body.appendChild(hoverEffect.drawSelectionHT);
-                    hoverEffect.drawSelectionHT.style.visibility = "visible";
 
                     selectionRect.setBy.domRect(rightCell.getClientRects()[0]);
                     selectionRect.width = rightCell.offsetWidth;
@@ -71,7 +70,10 @@ class columnResizeManage {
                     _leftselectionBackupRect.width = leftCell.offsetWidth;
                     let lccr = leftCell.getClientRects()[0];
                     _leftselectionBackupRect.left = lccr.left;
-                    //Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
+                    let pos =  selectionRect.applyHT.all();
+                    pos.left = pos.top = pos.width = pos.height = '0px';
+                    pos.visibility = 'visible';
+                    Object.assign(hoverEffect.drawSelectionHT.style, pos);
                 }
                 else return false;
             },
