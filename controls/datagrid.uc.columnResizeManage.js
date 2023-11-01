@@ -112,6 +112,7 @@ class columnResizeManage {
                         .style.setProperty("--xxxxwinfo", this.measureText);
                 }
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
+                this.main.ucExtends.self.focus();
                 //return this
             }
         });

@@ -50,8 +50,7 @@ class hoverEffect {
     lastOverCell = undefined;
     /** @param {Event} e  */
     refreshScrollbar = (e) => {
-       let scrollBarWidth = this.scrollBarWidth;
-       
+        let scrollBarWidth = this.scrollBarWidth;
         this.main.headerSectionHT.style.marginRight =
             this.main.footerSectionHT.style.marginRight = scrollBarWidth + "px";
         this.main.headerSectionHT.scrollLeft =
@@ -75,7 +74,6 @@ class hoverEffect {
         let cell = this.lastOverCell;
         if (cell != undefined) {
             row = this.getRow(cell);
-            //console.log(this.VertialResizerClientSize.width);
             switch (this.main.colsResizeMng.gridRsz.resizeMode) {
                 case 'slider':
                     if (cell.previousElementSibling != null) {
@@ -130,12 +128,11 @@ class hoverEffect {
      */
     getCell(elem = []) {
         let lname = this.main.node.cellNodeName.toUpperCase();
-        //console.log(elem);
         let fele = elem.find(s => s.nodeName == lname);
-        if(fele==undefined)return undefined;
+        /*if(fele==undefined)return undefined;
         else{
             //console.log(fele.previousElementSibling.offsetWidth);
-        }
+        }*/
         return fele;
         /*if (elem == undefined) return undefined;
         if (elem.nodeName.toLowerCase() == this.node.cellNodeName.toLowerCase()) return elem;
