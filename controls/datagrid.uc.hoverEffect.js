@@ -5,20 +5,7 @@ const datagrid = require("@uccontrols:/controls/datagrid.uc");
  */
 class hoverEffect {
     constructor() { }
-    nodes = {
-        /** @type {HTMLElement}  */
-        drawHoverRect: `<trans-hover role="drawHover" x-name="transHoverVerticalline"></trans-hover>`.$(),
-        /** @type {HTMLElement}  */
-        resizerHoriz: `<resizer role="left" ></resizer>`.$(),
-        /** @type {HTMLElement}  */
-        resizerVertical: `<resizer role="bottom" ></resizer>`.$(),
-        main: () => { return this.main; },
-        init() {
-            this.drawHoverRect.appendChild(this.resizerHoriz);
-            this.drawHoverRect.appendChild(this.resizerVertical);
-            this.main().ucExtends.passElement(this.drawHoverRect);
-        }
-    }
+   
     /** @type {HTMLElement}  */
     static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
     /** @type {DOMRect}  */ 
@@ -74,17 +61,16 @@ class hoverEffect {
         let cell = this.lastOverCell;
         if (cell != undefined) {
             row = this.getRow(cell);
-            switch (this.main.colsResizeMng.gridRsz.resizeMode) {
+            if (cell.previousElementSibling != null) {
+                Object.assign(this.main.resizerVertical.style, {
+                    "left": `${cell.offsetLeft}px`,
+                    "top": `${this.main.pagercntnr1.scrollTop}px`,
+                    "height": `${this.detailRect.height - this.scrollBarHeight}px`,
+                });
+            }
+            /* switch (this.main.colsResizeMng.gridRsz.resizeMode) {
                 case 'slider':
-                    if (cell.previousElementSibling != null) {
-                        Object.assign(this.main.resizerVertical.style, {
-                            "left": `${cell.offsetLeft}px`,
-                            //"width": `${1}px`,
-                            "top": `${this.main.pagercntnr1.scrollTop}px`,
-                            "height": `${this.detailRect.height - this.scrollBarHeight}px`,
-                            // 'visibility': 'visible',
-                        });
-                    }
+                    
                     break;
                 case 'unfill':
                     Object.assign(this.main.resizerVertical.style, {
@@ -95,7 +81,7 @@ class hoverEffect {
                         // 'visibility': 'visible',
                     });
                     break;
-            }
+            }*/
             if (row != undefined) {
                 return;
                 switch (this.main.rowsResizeMng.gridRsz.resizeMode) {
