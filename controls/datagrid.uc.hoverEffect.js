@@ -1,17 +1,18 @@
 const { Rect } = require("@uccontrols:/../ucbuilder/global/drawing/shapes");
 const datagrid = require("@uccontrols:/controls/datagrid.uc");
+const { Point } = require("ucbuilder/global/drawing/shapes");
 /**
  * @typedef {import ("@uccontrols:/controls/datagrid.uc").datagrid} datagrid
  */
 class hoverEffect {
     constructor() { }
-   
+
     /** @type {HTMLElement}  */
     static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
-    /** @type {DOMRect}  */ 
+    /** @type {DOMRect}  */
     VertialResizerClientSize = undefined;
-       /** @type {DOMRect}  */ 
-    HorizontalResizerClientSize  = undefined;
+    /** @type {DOMRect}  */
+    HorizontalResizerClientSize = undefined;
     /**
      * @param {datagrid} main 
      */
@@ -19,23 +20,41 @@ class hoverEffect {
         this.main = main;
         this.main.pagercntnr1.addEventListener("mouseenter", (e) => {
             this.detailRect.setBy.HTMLEle(this.main.pagercntnr1);
+            let cliRect = this.main.pagercntnr1.getClientRects()[0];
+            this.parentOffset.setBy.value(cliRect.x, cliRect.y);
             this.main.dgvRect = this.main.ucExtends.self.getClientRects()[0];
             this.VertialResizerClientSize = this.main.resizerVertical.getClientRects()[0];
             this.HorizontalResizerClientSize = this.main.resizerHorizontal.getClientRects()[0];
-            this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
-            //this.main.ucExtends.self.addEventListener("mousemove", this.mousemovelistner);
-           
+
+            //this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
+            this.main.ucExtends.self.addEventListener("mousemove", this.mousemovelistner);
+            this.hasMouseEntered = true;
         });
         this.main.pagercntnr1.addEventListener("mouseleave", (e) => {
-            this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
-            //this.main.ucExtends.self.removeEventListener("mousemove", this.mousemovelistner);
-            
-         }); 
+            this.hasMouseEntered = false;
+            //this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
+            this.main.ucExtends.self.removeEventListener("mousemove", this.mousemovelistner);
+
+        });
         this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
     }
+    parentOffset = new Point();
+    hasMouseEntered = false;
+    hasCheckingCollission = false;
     /** @param {MouseEvent} e  */
     mousemovelistner = (e) => {
-        console.log(e.clientX+":"+e.clientY);
+        if (this.hasCheckingCollission) return;
+        this.hasCheckingCollission = true;
+        setTimeout(() => {
+            if (!this.hasMouseEntered) return;
+            let x = e.clientX - this.parentOffset.x;
+            let y = e.clientY - this.parentOffset.y;
+            let hasCollission = this.main.colsResizeMng.hasCollission(x);
+            this.hasCheckingCollission = false;
+            if (hasCollission) {
+                this.main.ucExtends.self.style.cursor = 'e-resize';
+            }else this.main.ucExtends.self.style.cursor = '';
+        }, 1);
     }
     /** @type {Rect}  */
     detailRect = new Rect();
@@ -53,7 +72,7 @@ class hoverEffect {
     get scrollBarHeight() { return this.main.pagercntnr1.offsetHeight - this.main.pagercntnr1.clientHeight; }
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
-        
+
         let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
         if (cell == this.lastOverCell) return;
         this.lastOverCell = cell;
@@ -67,7 +86,7 @@ class hoverEffect {
         let row = undefined;
         let cell = this.lastOverCell;
         if (cell != undefined) {
-            row = this.getRow(cell);    
+            row = this.getRow(cell);
             //console.log(cell);        
             if (cell.previousElementSibling != null) {
                 Object.assign(this.main.resizerVertical.style, {

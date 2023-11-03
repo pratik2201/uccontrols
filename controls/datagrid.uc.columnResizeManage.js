@@ -3,13 +3,39 @@ const datagrid = require("@uccontrols:/controls/datagrid.uc");
 const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
 const { gridResizer } = require("@uccontrols:/../ucbuilder/global/gridResizer");
 const { hoverEffect } = require("@uccontrols:/controls/datagrid.uc.hoverEffect");
-/**
- * @typedef {{ size:number , backup:number }} measurementNode
- */
+class measurementNode {
+    /** @type {number}  */
+    size = 0;
+    /** @type {number}  */
+    backup = 0;
+    /** @type {number}  */
+    runningSize = 0;
+
+    get minVal() { return this.runningSize - 2; }
+    get maxVal() { return this.runningSize + 2; }
+
+    hasCollission(val) {
+        return val >= this.minVal && val <= this.maxVal;
+    }
+}
+
 class columnResizeManage {
     constructor() { }
     /** @type {Rect}  */
     dgvDomRect = new Rect();
+    updateAr() {
+        let counter = 0;
+        this.measurement.forEach((row) => {
+            counter += row.size;
+            row.runningSize = counter;
+        });
+    }
+    hasCollission(val){
+        for (let i = 0; i < this.measurement.length; i++) {
+            if(this.measurement[i].hasCollission(val)){ return true; }
+        }
+        return false;
+    }
     /**
      * @param {string} txt 
      * @returns {measurementNode[]}
@@ -18,13 +44,23 @@ class columnResizeManage {
         let ar = txt
             .split(/ +/);
         if (this.measurement.length != ar.length) {
-            this.measurement = ar.map((s) => { let sz = parseFloat(s); return { size: sz, backup: sz } });
+            let rtrn = undefined;
+            this.measurement.length = 0;
+            ar.forEach((s) => {
+                let sz = parseFloat(s);
+                rtrn = new measurementNode();
+                rtrn.size = sz;
+                rtrn.backup = sz;
+                this.measurement.push(rtrn);
+            });
+            this.updateAr();
         } else {
             for (let i = 0; i < ar.length; i++) {
                 const row = this.measurement[i];
                 row.size = parseFloat(ar[i]);
             }
         }
+        console.log(this.measurement);
     }
     get lastOverCell() { return this.main.hoverEfct.lastOverCell; }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
@@ -70,7 +106,7 @@ class columnResizeManage {
                     _leftselectionBackupRect.width = leftCell.offsetWidth;
                     let lccr = leftCell.getClientRects()[0];
                     _leftselectionBackupRect.left = lccr.left;
-                    let pos =  selectionRect.applyHT.all();
+                    let pos = selectionRect.applyHT.all();
                     pos.left = pos.top = pos.width = pos.height = '0px';
                     pos.visibility = 'visible';
                     Object.assign(hoverEffect.drawSelectionHT.style, pos);
@@ -83,7 +119,7 @@ class columnResizeManage {
                         diff.x = Math.min(diff.x, rightCell.offsetWidth);
                     else
                         diff.x = Math.max(diff.x, (leftCell.offsetWidth * -1));*/
-                    selectionRect.left = _leftselectionBackupRect.left ;
+                    selectionRect.left = _leftselectionBackupRect.left;
                     selectionRect.width = _leftselectionBackupRect.width + diff.x;
 
                     /*selectionRect.width = leftCell.offsetWidth + diff.x;                    
@@ -108,6 +144,7 @@ class columnResizeManage {
                     this.measurement[lIndex].size += dval;
                     if (e.shiftKey)
                         this.measurement[rIndex].size -= dval;
+                    this.updateAr();
                     this.main.ucExtends.self
                         .style.setProperty("--xxxxwinfo", this.measureText);
                 }
@@ -116,6 +153,7 @@ class columnResizeManage {
                 //return this
             }
         });
+        this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
     }
     getPrevIndex(index) {
         let rm = this.measurement;
