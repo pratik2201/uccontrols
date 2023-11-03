@@ -23,13 +23,19 @@ class hoverEffect {
             this.VertialResizerClientSize = this.main.resizerVertical.getClientRects()[0];
             this.HorizontalResizerClientSize = this.main.resizerHorizontal.getClientRects()[0];
             this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
+            //this.main.ucExtends.self.addEventListener("mousemove", this.mousemovelistner);
            
         });
         this.main.pagercntnr1.addEventListener("mouseleave", (e) => {
             this.main.ucExtends.self.removeEventListener("mouseover", this.mouseoverlistner);
+            //this.main.ucExtends.self.removeEventListener("mousemove", this.mousemovelistner);
             
          }); 
         this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
+    }
+    /** @param {MouseEvent} e  */
+    mousemovelistner = (e) => {
+        console.log(e.clientX+":"+e.clientY);
     }
     /** @type {Rect}  */
     detailRect = new Rect();
@@ -47,6 +53,7 @@ class hoverEffect {
     get scrollBarHeight() { return this.main.pagercntnr1.offsetHeight - this.main.pagercntnr1.clientHeight; }
     /** @param {MouseEvent} e  */
     mouseoverlistner = (e) => {
+        
         let cell = this.getCell(document.elementsFromPoint(e.clientX, e.clientY));
         if (cell == this.lastOverCell) return;
         this.lastOverCell = cell;
@@ -60,7 +67,8 @@ class hoverEffect {
         let row = undefined;
         let cell = this.lastOverCell;
         if (cell != undefined) {
-            row = this.getRow(cell);
+            row = this.getRow(cell);    
+            //console.log(cell);        
             if (cell.previousElementSibling != null) {
                 Object.assign(this.main.resizerVertical.style, {
                     "left": `${cell.offsetLeft}px`,
