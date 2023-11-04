@@ -21,11 +21,10 @@ class hoverEffect {
         this.main.pagercntnr1.addEventListener("mouseenter", (e) => {
             this.detailRect.setBy.HTMLEle(this.main.pagercntnr1);
             let cliRect = this.main.pagercntnr1.getClientRects()[0];
-            this.parentOffset.setBy.value(cliRect.x, cliRect.y);
+            this.parentOffset.setBy.value(cliRect.x-this.main.pagercntnr1.scrollLeft, cliRect.y-this.main.pagercntnr1.scrollTop);
             this.main.dgvRect = this.main.ucExtends.self.getClientRects()[0];
             this.VertialResizerClientSize = this.main.resizerVertical.getClientRects()[0];
             this.HorizontalResizerClientSize = this.main.resizerHorizontal.getClientRects()[0];
-
             //this.main.ucExtends.self.addEventListener("mouseover", this.mouseoverlistner);
             this.main.ucExtends.self.addEventListener("mousemove", this.mousemovelistner);
             this.hasMouseEntered = true;
@@ -39,6 +38,7 @@ class hoverEffect {
         this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
     }
     parentOffset = new Point();
+    lastColumnIndex = -1;
     hasMouseEntered = false;
     hasCheckingCollission = false;
     /** @param {MouseEvent} e  */
@@ -46,14 +46,12 @@ class hoverEffect {
         if (this.hasCheckingCollission) return;
         this.hasCheckingCollission = true;
         setTimeout(() => {
+            this.hasCheckingCollission = false;
             if (!this.hasMouseEntered) return;
             let x = e.clientX - this.parentOffset.x;
             let y = e.clientY - this.parentOffset.y;
-            let hasCollission = this.main.colsResizeMng.hasCollission(x);
-            this.hasCheckingCollission = false;
-            if (hasCollission) {
-                this.main.ucExtends.self.style.cursor = 'e-resize';
-            }else this.main.ucExtends.self.style.cursor = '';
+            this.collissionResult = this.main.colsResizeMng.hasCollission(x);
+            this.main.ucExtends.self.style.cursor = (this.collissionResult.hasCollied) ? 'e-resize' : '';
         }, 1);
     }
     /** @type {Rect}  */

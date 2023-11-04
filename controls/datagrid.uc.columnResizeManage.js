@@ -11,6 +11,8 @@ class measurementNode {
     /** @type {number}  */
     runningSize = 0;
 
+    get prevRunningSize() { return this.runningSize - this.size; }
+
     get minVal() { return this.runningSize - 2; }
     get maxVal() { return this.runningSize + 2; }
 
@@ -30,11 +32,12 @@ class columnResizeManage {
             row.runningSize = counter;
         });
     }
-    hasCollission(val){
+    hasCollission(val) {
+        let rtrn = { hasCollied: false, index: -1, };
         for (let i = 0; i < this.measurement.length; i++) {
-            if(this.measurement[i].hasCollission(val)){ return true; }
+            if (this.measurement[i].hasCollission(val)) { rtrn.hasCollied = true; rtrn.index = i; break; }
         }
-        return false;
+        return rtrn;
     }
     /**
      * @param {string} txt 
@@ -78,64 +81,109 @@ class columnResizeManage {
         let isSliderMode = this.gridRsz.resizeMode == 'fill';
         let mouseMv = new mouseForMove();
         let selectionRect = new Rect();
-
+        let leftIndex = 0, rightIndex = 0;
         let /** @type {HTMLElement}  */ rightCell,
         /** @type {HTMLElement}  */ leftCell;
         let _rightselectionBackupRect = new Rect();
         let _leftselectionBackupRect = new Rect();
+        /** @type {measurementNode}  */
+        let rightNode,/** @type {measurementNode}  */ leftNode;
         let isShiftkey = false;
-        mouseMv.bind(this.main.resizerVertical, {
-            onDown: (e, dpoint) => {
+        /** @type {DOMRect}  */
+        let pagerOffset;
+        let isResizing = false;
+        mouseMv.bind(this.main.detailGridHT1, {
+            onDown: (evt, dpoint) => {
                 this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
-                rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(e.clientX, e.clientY));
-                isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
-                if (rightCell == undefined) return false;
-                leftCell = rightCell.previousElementSibling;
-                if (isCaptured) {
-                    isSliderMode = this.isSliderMode;
+                pagerOffset = this.main.pagercntnr1.getClientRects()[0];
+                pagerOffset.x-=this.main.pagercntnr1.scrollLeft;
+                pagerOffset.y-=this.main.pagercntnr1.scrollTop;
+                if (this.main.hoverEfct.collissionResult.hasCollied) {
+                    leftIndex = this.main.hoverEfct.collissionResult.index;
+                    rightIndex = leftIndex + 1;
                     this.main.ucExtends.passElement(hoverEffect.drawSelectionHT);
                     document.body.appendChild(hoverEffect.drawSelectionHT);
+                    rightNode = this.measurement[rightIndex];
+                    leftNode = this.measurement[leftIndex];
 
-                    selectionRect.setBy.domRect(rightCell.getClientRects()[0]);
-                    selectionRect.width = rightCell.offsetWidth;
-                    selectionRect.top = this.main.dgvRect.top;
-                    selectionRect.height = this.main.dgvRect.height;
+                    _leftselectionBackupRect.location.x = pagerOffset.left + leftNode.prevRunningSize;
+                    _leftselectionBackupRect.location.y = pagerOffset.top;
+                    _leftselectionBackupRect.size.height = pagerOffset.height;
+                    _leftselectionBackupRect.size.width = leftNode.size;
 
-                    _rightselectionBackupRect.setBy.rect(selectionRect);
-                    _leftselectionBackupRect.setBy.rect(_rightselectionBackupRect);
-                    _leftselectionBackupRect.width = leftCell.offsetWidth;
-                    let lccr = leftCell.getClientRects()[0];
-                    _leftselectionBackupRect.left = lccr.left;
-                    let pos = selectionRect.applyHT.all();
+                    _rightselectionBackupRect.location.x = pagerOffset.left + rightNode.prevRunningSize;
+                    _rightselectionBackupRect.location.y = pagerOffset.top;
+                    _rightselectionBackupRect.size.height = pagerOffset.height;
+                    _rightselectionBackupRect.size.width = rightNode.size;
+
+
+                    let pos = _rightselectionBackupRect.applyHT.all();
+                    selectionRect.setBy.rect(_leftselectionBackupRect);
                     pos.left = pos.top = pos.width = pos.height = '0px';
                     pos.visibility = 'visible';
                     Object.assign(hoverEffect.drawSelectionHT.style, pos);
+                    isResizing = true;
                 }
-                else return false;
+
+                /* rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(evt.clientX, evt.clientY));
+                 isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
+                 if (rightCell == undefined) return false;
+                 leftCell = rightCell.previousElementSibling;
+                 if (isCaptured) {
+                     isSliderMode = this.isSliderMode;
+                     this.main.ucExtends.passElement(hoverEffect.drawSelectionHT);
+                     document.body.appendChild(hoverEffect.drawSelectionHT);
+ 
+                     selectionRect.setBy.domRect(rightCell.getClientRects()[0]);
+                     selectionRect.width = rightCell.offsetWidth;
+                     selectionRect.top = this.main.dgvRect.top;
+                     selectionRect.height = this.main.dgvRect.height;
+ 
+                     _rightselectionBackupRect.setBy.rect(selectionRect);
+                     _leftselectionBackupRect.setBy.rect(_rightselectionBackupRect);
+                     _leftselectionBackupRect.width = leftCell.offsetWidth;
+                     let lccr = leftCell.getClientRects()[0];
+                     _leftselectionBackupRect.left = lccr.left;
+                     let pos = selectionRect.applyHT.all();
+                     pos.left = pos.top = pos.width = pos.height = '0px';
+                     pos.visibility = 'visible';
+                     Object.assign(hoverEffect.drawSelectionHT.style, pos);
+                 }
+                 else return false;*/
             },
             onMove: (e, diff) => {
                 if (!e.shiftKey) {
-                    /*if (diff.x > 0)
-                        diff.x = Math.min(diff.x, rightCell.offsetWidth);
-                    else
-                        diff.x = Math.max(diff.x, (leftCell.offsetWidth * -1));*/
-                    selectionRect.left = _leftselectionBackupRect.left;
-                    selectionRect.width = _leftselectionBackupRect.width + diff.x;
+                    /* diff.x =  (diff.x > 0)?Math.min(diff.x, rightCell.offsetWidth) : Math.max(diff.x, (leftCell.offsetWidth * -1)); */
+                    // selectionRect.left = _leftselectionBackupRect.left;
+                    selectionRect.width = leftNode.size + diff.x;
+
 
                     /*selectionRect.width = leftCell.offsetWidth + diff.x;                    
                     selectionRect.left = _rightselectionBackupRect.left + diff.x;*/
                 } else {
-                    if (diff.x > 0)
-                        diff.x = Math.min(diff.x, rightCell.offsetWidth);
-                    else
-                        diff.x = Math.max(diff.x, (leftCell.offsetWidth * -1));
-                    selectionRect.left = _rightselectionBackupRect.left + diff.x;
-                    selectionRect.width = _rightselectionBackupRect.width - diff.x;
+                    //diff.x = (diff.x > 0) ? Math.min(diff.x, rightCell.offsetWidth) : Math.max(diff.x, (leftCell.offsetWidth * -1));
+
+                    selectionRect.left = (pagerOffset.left + rightNode.prevRunningSize) + diff.x;
+                    selectionRect.width = rightNode.size - diff.x;
+                    //selectionRect.left = _rightselectionBackupRect.left + diff.x;
+                    //selectionRect.width = _rightselectionBackupRect.width - diff.x;
                 }
                 Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
             },
             onUp: (e, diff) => {
-                leftCell = rightCell.previousElementSibling;
+                if (isResizing) {
+                    let dval = diff.x;
+                    leftNode.size += dval;
+                    if (e.shiftKey)
+                        rightNode.size -= dval;
+                    this.updateAr();
+                    this.main.ucExtends.self
+                        .style.setProperty("--xxxxwinfo", this.measureText);
+                    hoverEffect.drawSelectionHT.style.visibility = "collapse";
+                    this.main.ucExtends.self.focus();
+                }
+                isResizing = false;
+                /*leftCell = rightCell.previousElementSibling;
                 if (leftCell != null) {
                     let lIndex, rIndex;
                     lIndex = leftCell.index();
@@ -149,7 +197,7 @@ class columnResizeManage {
                         .style.setProperty("--xxxxwinfo", this.measureText);
                 }
                 hoverEffect.drawSelectionHT.style.visibility = "collapse";
-                this.main.ucExtends.self.focus();
+                this.main.ucExtends.self.focus();*/
                 //return this
             }
         });
