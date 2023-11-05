@@ -84,8 +84,7 @@ class columnResizeManage {
         let leftIndex = 0, rightIndex = 0;
         let /** @type {HTMLElement}  */ rightCell,
         /** @type {HTMLElement}  */ leftCell;
-        let _rightselectionBackupRect = new Rect();
-        let _leftselectionBackupRect = new Rect();
+
         /** @type {measurementNode}  */
         let rightNode,/** @type {measurementNode}  */ leftNode;
         let isShiftkey = false;
@@ -96,8 +95,8 @@ class columnResizeManage {
             onDown: (evt, dpoint) => {
                 this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
                 pagerOffset = this.main.pagercntnr1.getClientRects()[0];
-                pagerOffset.x-=this.main.pagercntnr1.scrollLeft;
-                pagerOffset.y-=this.main.pagercntnr1.scrollTop;
+                pagerOffset.x -= this.main.pagercntnr1.scrollLeft;
+                pagerOffset.y -= this.main.pagercntnr1.scrollTop;
                 if (this.main.hoverEfct.collissionResult.hasCollied) {
                     leftIndex = this.main.hoverEfct.collissionResult.index;
                     rightIndex = leftIndex + 1;
@@ -105,26 +104,15 @@ class columnResizeManage {
                     document.body.appendChild(hoverEffect.drawSelectionHT);
                     rightNode = this.measurement[rightIndex];
                     leftNode = this.measurement[leftIndex];
-
-                    _leftselectionBackupRect.location.x = pagerOffset.left + leftNode.prevRunningSize;
-                    _leftselectionBackupRect.location.y = pagerOffset.top;
-                    _leftselectionBackupRect.size.height = pagerOffset.height;
-                    _leftselectionBackupRect.size.width = leftNode.size;
-
-                    _rightselectionBackupRect.location.x = pagerOffset.left + rightNode.prevRunningSize;
-                    _rightselectionBackupRect.location.y = pagerOffset.top;
-                    _rightselectionBackupRect.size.height = pagerOffset.height;
-                    _rightselectionBackupRect.size.width = rightNode.size;
-
-
-                    let pos = _rightselectionBackupRect.applyHT.all();
-                    selectionRect.setBy.rect(_leftselectionBackupRect);
+                    selectionRect.location.y = pagerOffset.top;
+                    selectionRect.size.height = pagerOffset.height;
+                    selectionRect.location.x = pagerOffset.left + leftNode.prevRunningSize;
+                    let pos = selectionRect.applyHT.all();
                     pos.left = pos.top = pos.width = pos.height = '0px';
                     pos.visibility = 'visible';
                     Object.assign(hoverEffect.drawSelectionHT.style, pos);
                     isResizing = true;
                 }
-
                 /* rightCell = this.main.hoverEfct.getCell(document.elementsFromPoint(evt.clientX, evt.clientY));
                  isCaptured = this.main.keepMeasurementOf == 'columnOnly' || this.main.keepMeasurementOf == 'both';
                  if (rightCell == undefined) return false;
@@ -156,15 +144,16 @@ class columnResizeManage {
                     /* diff.x =  (diff.x > 0)?Math.min(diff.x, rightCell.offsetWidth) : Math.max(diff.x, (leftCell.offsetWidth * -1)); */
                     // selectionRect.left = _leftselectionBackupRect.left;
                     selectionRect.width = leftNode.size + diff.x;
-
-
                     /*selectionRect.width = leftCell.offsetWidth + diff.x;                    
                     selectionRect.left = _rightselectionBackupRect.left + diff.x;*/
                 } else {
-                    //diff.x = (diff.x > 0) ? Math.min(diff.x, rightCell.offsetWidth) : Math.max(diff.x, (leftCell.offsetWidth * -1));
-
-                    selectionRect.left = (pagerOffset.left + rightNode.prevRunningSize) + diff.x;
-                    selectionRect.width = rightNode.size - diff.x;
+                    if (rightNode == undefined) 
+                        selectionRect.width = leftNode.size + diff.x;
+                    else {
+                        diff.x = (diff.x > 0) ? Math.min(diff.x, rightNode.size) : Math.max(diff.x, (leftNode.size * -1));
+                        selectionRect.left = (pagerOffset.left + rightNode.prevRunningSize) + diff.x;
+                        selectionRect.width = rightNode.size - diff.x;
+                    }
                     //selectionRect.left = _rightselectionBackupRect.left + diff.x;
                     //selectionRect.width = _rightselectionBackupRect.width - diff.x;
                 }
@@ -174,7 +163,7 @@ class columnResizeManage {
                 if (isResizing) {
                     let dval = diff.x;
                     leftNode.size += dval;
-                    if (e.shiftKey)
+                    if (e.shiftKey && rightNode != undefined)
                         rightNode.size -= dval;
                     this.updateAr();
                     this.main.ucExtends.self
