@@ -21,21 +21,38 @@ class datagrid extends designer {
         let cbox = this.detail.scroller.scrollBox;
         let hnodes = cbox.hScrollbar.nodes;
         let vnodes = cbox.vScrollbar.nodes;
-        hnodes.scrollbar = hnodes.scrollbar.$();
-        vnodes.scrollbar = vnodes.scrollbar.$();
+        // hnodes.scrollbar = hnodes.scrollbar.$();
+         vnodes.scrollbar = vnodes.scrollbar.$();
         vnodes.beginText = this.begin_scroll_text;
         vnodes.endText = this.end_scroll_text;
-        this.hscrollbar1.appendChild(hnodes.scrollbar);
-        this.vscrollbar1.appendChild(vnodes.scrollbar);
+       //   this.hscrollbar1.appendChild(hnodes.scrollbar);
+          this.vscrollbar1.appendChild(vnodes.scrollbar);
         this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
-        
-       
+
+
         this.detail.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
             this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
             this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
         }
         this.ucExtends.passElement(hnodes.scrollbar);
         this.ucExtends.passElement(vnodes.scrollbar);
+
+        /** @type {HTMLElement}  */
+        let szr = this.hscrollbar1.children[0];
+        new ResizeObserver((e, obs) => {
+            Object.assign(szr.style, {
+                "width": this.detailGridHT1.offsetWidth + "px"
+            });
+            console.log(szr);
+        }).observe(this.detailGridHT1, { box: "border-box" });
+        
+        
+        this.hscrollbar1.addEventListener("scroll", (e) => {
+            this.pagercntnr1.scrollLeft =
+                this.headerSectionHT.scrollLeft =
+                this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
+        });
+
     }
 
 
@@ -51,8 +68,8 @@ class datagrid extends designer {
 
     //set
     get detailItemTemplate() { return this.detail.itemTemplate; }
-    set detailItemTemplate(value) { 
-        this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT); 
+    set detailItemTemplate(value) {
+        this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
         //let node = this.detail.itemTemplate.extended.generateNode({});
         //this.detail.nodes.itemSize.update(node);
     }
@@ -66,14 +83,14 @@ class datagrid extends designer {
     static dgvFillArgs = {
         addHeader: true,
         headerRow: {},
-        fillDetail:true,
+        fillDetail: true,
         addFooter: false,
         footerRow: {},
     };
     /** @param {datagrid.dgvFillArgs} params */
     fill(params) {
         let args = newObjectOpt.copyProps(params, datagrid.dgvFillArgs);
-        if(args.fillDetail)
+        if (args.fillDetail)
             this.detail.nodes.fill();
         if (args.addHeader) {
             this.headerGridHT1.appendChild(this.headerItemTemplate.extended.generateNode(args.headerRow));
