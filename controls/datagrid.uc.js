@@ -9,6 +9,7 @@ const { Template, TemplateNode } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
 const { simpleScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll');
+const { newPagerScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/newPagerScroll');
 /** 
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll").simpleScroll} simpleScroll
@@ -21,24 +22,41 @@ class datagrid extends designer {
         this.init();
         let cbox = this.detail.scroller.scrollBox;
         //let hnodes = cbox.hScrollbar.nodes;
-        let vnodes = cbox.vScrollbar.nodes;
+        //let vnodes = cbox.vScrollbar.nodes;
         // hnodes.scrollbar = hnodes.scrollbar.$();
         //vnodes.scrollbar = vnodes.scrollbar.$();
-        vnodes.beginText = this.begin_scroll_text;
-        vnodes.endText = this.end_scroll_text;
+        //vnodes.beginText = this.begin_scroll_text;
+        //vnodes.endText = this.end_scroll_text;
        //   this.hscrollbar1.appendChild(hnodes.scrollbar);
        //   this.vscrollbar1.appendChild(vnodes.scrollbar);
         this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
 
         let hscroller = new simpleScroll('h');
         hscroller.init(this.detail,this.hscrollbar1);
+        hscroller.Event.onScroll.on((e)=>{
+            this.headerSectionHT.scrollLeft =
+            this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
+        });
 
-        this.detail.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
+        let vscroller = new newPagerScroll('v');
+        vscroller.elementNode.beginText = this.begin_scroll_text;
+        vscroller.elementNode.endText = this.end_scroll_text;
+        vscroller.init(this.detail,this.vscrollbar1);
+        vscroller.Events.onChangeHiddenCount.on((b, e) => {
+            console.log(b+";"+e);
             this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
             this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
-        }
+        });
+        /*hscroller.Event.onScroll.on((e)=>{
+            this.headerSectionHT.scrollLeft =
+            this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
+        });*/
+        /*this.detail.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
+            this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
+            this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
+        }*/
         //this.ucExtends.passElement(hnodes.scrollbar);
-        this.ucExtends.passElement(vnodes.scrollbar);
+       // this.ucExtends.passElement(vnodes.scrollbar);
 
 
         

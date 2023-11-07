@@ -35,7 +35,7 @@ class hoverEffect {
             this.main.ucExtends.self.removeEventListener("mousemove", this.mousemovelistner);
 
         });
-        this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
+        //this.main.pagercntnr1.addEventListener("scroll", this.refreshScrollbar);
     }
     parentOffset = new Point();
     lastColumnIndex = -1;
@@ -58,14 +58,14 @@ class hoverEffect {
     detailRect = new Rect();
     /** @type {HTMLElement}  */
     lastOverCell = undefined;
-    /** @param {Event} e  */
+    /** 
     refreshScrollbar = (e) => {
         let scrollBarWidth = this.scrollBarWidth;
         this.main.headerSectionHT.style.marginRight =
             this.main.footerSectionHT.style.marginRight = scrollBarWidth + "px";
         this.main.headerSectionHT.scrollLeft =
             this.main.footerSectionHT.scrollLeft = this.main.pagercntnr1.scrollLeft;
-    }
+    }*/
     get scrollBarWidth() { return this.main.pagercntnr1.offsetWidth - this.main.pagercntnr1.clientWidth; }
     get scrollBarHeight() { return this.main.pagercntnr1.offsetHeight - this.main.pagercntnr1.clientHeight; }
     /** @param {MouseEvent} e  */
