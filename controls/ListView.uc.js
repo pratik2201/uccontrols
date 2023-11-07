@@ -2,6 +2,7 @@ const { designer } = require('./ListView.uc.designer.js');
 const { propOpt } = require('@ucbuilder:/build/common.js');
 const { intenseGenerator } = require("@ucbuilder:/intenseGenerator");
 const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
+const { simpleScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll');
 /** 
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll").simpleScroll} simpleScroll
@@ -29,16 +30,21 @@ class ListView extends designer {
     constructor() {
         eval(designer.giveMeHug);
          let cbox = this.lvUI.scroller.scrollBox;
-        let hnodes = cbox.hScrollbar.nodes;
+        // this.lvUI.scroller.scrollBox.hScrollbar;
+        //let hnodes = cbox.hScrollbar.nodes;
         let vnodes = cbox.vScrollbar.nodes;
-        hnodes.scrollbar = hnodes.scrollbar.$();
+        //hnodes.scrollbar = hnodes.scrollbar.$();
         vnodes.scrollbar = vnodes.scrollbar.$();
         vnodes.beginText = this.begin_scroll_text;
         vnodes.endText = this.end_scroll_text;
-        this.hscrollbar1.appendChild(hnodes.scrollbar);
+        //this.hscrollbar1.appendChild(hnodes.scrollbar);
         this.vscrollbar1.appendChild(vnodes.scrollbar);
         this.lvUI.init(this.ll_view, this.scroller1, this);
-        this.ucExtends.passElement(hnodes.scrollbar);
+
+        let hscroller = new simpleScroll('h');
+        hscroller.init(this.lvUI,this.hscrollbar1);
+
+       // this.ucExtends.passElement(hnodes.scrollbar);
         this.ucExtends.passElement(vnodes.scrollbar);
         this.lvUI.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
             this.begin_scroll_text.innerText = b == 0 ? "   " : "▲ " + b + "";

@@ -8,6 +8,7 @@ const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
 const { Template, TemplateNode } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
+const { simpleScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll');
 /** 
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll").simpleScroll} simpleScroll
@@ -19,40 +20,28 @@ class datagrid extends designer {
         this.ucExtends.self.style.setProperty("--xxxxwinfo", "20px      40px 150px 200px 120px 250px 100px 80px 350px");
         this.init();
         let cbox = this.detail.scroller.scrollBox;
-        let hnodes = cbox.hScrollbar.nodes;
+        //let hnodes = cbox.hScrollbar.nodes;
         let vnodes = cbox.vScrollbar.nodes;
         // hnodes.scrollbar = hnodes.scrollbar.$();
-         vnodes.scrollbar = vnodes.scrollbar.$();
+        //vnodes.scrollbar = vnodes.scrollbar.$();
         vnodes.beginText = this.begin_scroll_text;
         vnodes.endText = this.end_scroll_text;
        //   this.hscrollbar1.appendChild(hnodes.scrollbar);
-          this.vscrollbar1.appendChild(vnodes.scrollbar);
+       //   this.vscrollbar1.appendChild(vnodes.scrollbar);
         this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
 
+        let hscroller = new simpleScroll('h');
+        hscroller.init(this.detail,this.hscrollbar1);
 
         this.detail.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
             this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
             this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
         }
-        this.ucExtends.passElement(hnodes.scrollbar);
+        //this.ucExtends.passElement(hnodes.scrollbar);
         this.ucExtends.passElement(vnodes.scrollbar);
 
-        /** @type {HTMLElement}  */
-        let szr = this.hscrollbar1.children[0];
-        new ResizeObserver((e, obs) => {
-            Object.assign(szr.style, {
-                "width": this.detailGridHT1.offsetWidth + "px"
-            });
-            console.log(szr);
-        }).observe(this.detailGridHT1, { box: "border-box" });
-        
-        
-        this.hscrollbar1.addEventListener("scroll", (e) => {
-            this.pagercntnr1.scrollLeft =
-                this.headerSectionHT.scrollLeft =
-                this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
-        });
 
+        
     }
 
 
