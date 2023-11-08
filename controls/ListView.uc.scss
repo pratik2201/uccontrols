@@ -29,10 +29,7 @@ scroll-text[role="end"] {
     grid-column: 1;
     grid-row: 3;
 }
-hscrollbar {
-    grid-column: 1 / span 2;
-    grid-row: 4;
-}
+
 
 /*container{
     display: grid;
@@ -57,9 +54,9 @@ vscrollbar {
 
 hscrollbar {
     width: 100%;
-    grid-column: 1/span 2;
+    grid-column: 1/span 1;
+    grid-row: 4;
 }
-
 scrollbar {
     position: relative;
     height: 100%;

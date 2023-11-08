@@ -43,7 +43,6 @@ class datagrid extends designer {
         vscroller.elementNode.endText = this.end_scroll_text;
         vscroller.init(this.detail,this.vscrollbar1);
         vscroller.Events.onChangeHiddenCount.on((b, e) => {
-            console.log(b+";"+e);
             this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
             this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
         });
