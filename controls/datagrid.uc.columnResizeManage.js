@@ -63,7 +63,7 @@ class columnResizeManage {
                 row.size = parseFloat(ar[i]);
             }
         }
-        console.log(this.measurement);
+       // console.log(this.measurement);
     }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
