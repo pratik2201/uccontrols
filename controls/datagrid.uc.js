@@ -18,7 +18,6 @@ const { newPagerScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/
 class datagrid extends designer {
     constructor() {
         eval(designer.giveMeHug);
-        this.ucExtends.self.style.setProperty("--xxxxwinfo", "20px      40px 150px 200px 120px 250px 100px 80px 350px");
         this.init();
         let cbox = this.detail.scroller.scrollBox;
         //let hnodes = cbox.hScrollbar.nodes;

@@ -63,7 +63,7 @@ class columnResizeManage {
                 row.size = parseFloat(ar[i]);
             }
         }
-       // console.log(this.measurement);
+        // console.log(this.measurement);
     }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
     get isSliderMode() { return this.gridRsz.resizeMode === 'slider'; }
@@ -92,7 +92,8 @@ class columnResizeManage {
         let isResizing = false;
         mouseMv.bind(this.main.detailGridHT1, {
             onDown: (evt, dpoint) => {
-                this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
+
+                this.getArFromText(this.cssVar);
                 pagerOffset = this.main.pagercntnr1.getClientRects()[0];
                 pagerOffset.x -= this.main.pagercntnr1.scrollLeft;
                 pagerOffset.y -= this.main.pagercntnr1.scrollTop;
@@ -117,7 +118,7 @@ class columnResizeManage {
                 if (!e.shiftKey) {
                     selectionRect.width = leftNode.size + diff.x;
                 } else {
-                    if (rightNode == undefined) 
+                    if (rightNode == undefined)
                         selectionRect.width = leftNode.size + diff.x;
                     else {
                         diff.x = (diff.x > 0) ? Math.min(diff.x, rightNode.size) : Math.max(diff.x, (leftNode.size * -1));
@@ -134,16 +135,28 @@ class columnResizeManage {
                     if (e.shiftKey && rightNode != undefined)
                         rightNode.size -= dval;
                     this.updateAr();
-                    this.main.ucExtends.self
-                        .style.setProperty("--xxxxwinfo", this.measureText);
+                   
+                    this.cssVar = this.measureText;
                     hoverEffect.drawSelectionHT.style.visibility = "collapse";
                     this.main.ucExtends.self.focus();
                 }
                 isResizing = false;
             }
         });
-        this.getArFromText(this.main.ucExtends.self.style.getPropertyValue('--xxxxwinfo'));
     }
+    _varName = "gridsize";
+    get varName() {
+        return this._varName;
+    }
+    set varName(value) {
+        this._varName = value;
+        let cssvr = this.cssVar;
+        if(this.cssVar == ''){
+            console.log('style is emenpy');
+        }
+    }
+    get cssVar() { return this.main.detail.itemTemplate.extended.getCSS_localVar(this.varName); }
+    set cssVar(val) { this.main.detail.itemTemplate.extended.setCSS_localVar(this.varName, val);}
     getPrevIndex(index) {
         let rm = this.measurement;
         index--;
@@ -153,7 +166,7 @@ class columnResizeManage {
     get measureText() {
         return this.measurement.length <= 1 ? 'auto'
             : (this.measurement.map(s => s.size))
-                .join('px ') + 'px';        
+                .join('px ') + 'px';
     }
 
 }
