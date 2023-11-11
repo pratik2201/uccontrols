@@ -150,10 +150,10 @@ class columnResizeManage {
     }
     set varName(value) {
         this._varName = value;
-        let cssvr = this.cssVar;
+       /* let cssvr = this.cssVar;
         if(this.cssVar == ''){
             console.log('style is emenpy');
-        }
+        } */
     }
     get cssVar() { return this.main.detail.itemTemplate.extended.getCSS_localVar(this.varName); }
     set cssVar(val) { this.main.detail.itemTemplate.extended.setCSS_localVar(this.varName, val);}
