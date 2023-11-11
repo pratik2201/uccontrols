@@ -70,7 +70,14 @@ class datagrid extends designer {
         //this.pagecntnr1.setAttribute('paging',value);
     }
 
+    get varName() {
+        return this.colsResizeMng.varName;
+    }
+    set varName(value) {
+        this.colsResizeMng.varName = value;
+    }
 
+    
     //set
     get detailItemTemplate() { return this.detail.itemTemplate; }
     set detailItemTemplate(value) {
