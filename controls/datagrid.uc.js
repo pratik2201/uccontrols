@@ -1,11 +1,7 @@
-const { hoverEffect } = require('@uccontrols:/controls/datagrid.uc.hoverEffect.js');
 const { columnResizeManage } = require('@uccontrols:/controls/datagrid.uc.columnResizeManage.js');
-const { rowResizeManage } = require('@uccontrols:/controls/datagrid.uc.rowResizeManage');
-const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
-const { gridResizer } = require('@ucbuilder:/global/gridResizer.js');
 const { designer } = require('./datagrid.uc.designer.js');
 const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
-const { Template, TemplateNode } = require('@ucbuilder:/Template');
+const { TemplateNode } = require('@ucbuilder:/Template');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { newObjectOpt } = require('@ucbuilder:/global/objectOpt.js');
 const { simpleScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll');
@@ -129,19 +125,13 @@ class datagrid extends designer {
         /** @type {DOMRect}  */
         containerLayout: undefined,
     }
-    /** @type {DOMRect}  */
-    dgvRect = undefined;
-    hoverEfct = new hoverEffect();
+   
     colsResizeMng = new columnResizeManage();
-    rowsResizeMng = new rowResizeManage();
 
     init() {
         let changed = false;
         this.colsResizeMng.gridRsz.resizeMode = 'slider';
-        this.rowsResizeMng.gridRsz.resizeMode = 'unfill';
-        this.hoverEfct.init(this);
         this.colsResizeMng.init(this);
-        this.rowsResizeMng.init(this);
 
     }
 

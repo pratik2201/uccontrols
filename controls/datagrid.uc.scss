@@ -91,49 +91,6 @@ tbl {
     grid-auto-rows: max-content;
 }
 
-
-
-
-
-
-
-
-
-
-trans-hover {
-    position: absolute;
-    display: block;
-    outline: solid 1px black;
-    z-index: 0;
-}
-
-trans-hover[role="vertical"] {
-    border-top: none;
-    border-bottom: none;
-    background-color: rgba(20, 220, 80, 0.199);
-}
-
-trans-hover[role="horizontal"] {
-    border-left: none;
-    border-right: none;
-    background-color: rgba(220, 20, 60, 0.199);
-}
-
-resizer:hover {
-    background-color: rgba(0, 0, 0, 0.199);
-}
-
-resizer[sub-role="cell"] {
-    box-sizing: border-box;
-    padding: 2px;
-    width: 1px;
-    height: 1px;
-}
-
-/*resizer[role="right"] {
-    z-index: 3;
-}*/
-
 resizer[role="drawSelection"] {
     background-color: rgba(255, 250, 80, 0.199);
     border: dashed 1px black;

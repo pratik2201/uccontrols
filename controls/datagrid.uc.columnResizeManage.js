@@ -2,7 +2,7 @@ const { Rect } = require("@uccontrols:/../ucbuilder/global/drawing/shapes");
 const datagrid = require("@uccontrols:/controls/datagrid.uc");
 const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
 const { gridResizer } = require("@uccontrols:/../ucbuilder/global/gridResizer");
-const { hoverEffect } = require("@uccontrols:/controls/datagrid.uc.hoverEffect");
+const { Point } = require("ucbuilder/global/drawing/shapes");
 class measurementNode {
     /** @type {number}  */
     size = 0;
@@ -23,8 +23,11 @@ class measurementNode {
 
 class columnResizeManage {
     constructor() { }
-    /** @type {Rect}  */
-    dgvDomRect = new Rect();
+    
+    
+    /** @type {HTMLElement}  */
+    static drawSelectionHT = `<resizer role="drawSelection"></resizer>`.$();
+
     updateAr() {
         let counter = 0;
         this.measurement.forEach((row) => {
@@ -75,7 +78,6 @@ class columnResizeManage {
      */
     init(main) {
         this.main = main;
-        this.columnGridStylePera = "--xxinfo" + this.main.ucExtends.stampRow.stamp;
         let isCaptured = false;
         let isSliderMode = this.gridRsz.resizeMode == 'fill';
         let mouseMv = new mouseForMove();
@@ -90,18 +92,18 @@ class columnResizeManage {
         /** @type {DOMRect}  */
         let pagerOffset;
         let isResizing = false;
-        mouseMv.bind(this.main.detailGridHT1, {
+        mouseMv.bind(this.main.ucExtends.self, {
             onDown: (evt, dpoint) => {
 
                 this.fillArrFromText(this.varValue);
                 pagerOffset = this.main.pagercntnr1.getClientRects()[0];
                 pagerOffset.x -= this.main.pagercntnr1.scrollLeft;
                 pagerOffset.y -= this.main.pagercntnr1.scrollTop;
-                if (this.main.hoverEfct.collissionResult.hasCollied) {
-                    leftIndex = this.main.hoverEfct.collissionResult.index;
+                if (this.collissionResult.hasCollied) {
+                    leftIndex = this.collissionResult.index;
                     rightIndex = leftIndex + 1;
-                    this.main.ucExtends.passElement(hoverEffect.drawSelectionHT);
-                    document.body.appendChild(hoverEffect.drawSelectionHT);
+                    this.main.ucExtends.passElement(columnResizeManage.drawSelectionHT);
+                    document.body.appendChild(columnResizeManage.drawSelectionHT);
                     rightNode = this.measurement[rightIndex];
                     leftNode = this.measurement[leftIndex];
                     selectionRect.location.y = pagerOffset.top;
@@ -110,7 +112,7 @@ class columnResizeManage {
                     let pos = selectionRect.applyHT.all();
                     pos.left = pos.top = pos.width = pos.height = '0px';
                     pos.visibility = 'visible';
-                    Object.assign(hoverEffect.drawSelectionHT.style, pos);
+                    Object.assign(columnResizeManage.drawSelectionHT.style, pos);
                     isResizing = true;
                 }
             },
@@ -126,7 +128,7 @@ class columnResizeManage {
                         selectionRect.width = rightNode.size - diff.x;
                     }
                 }
-                Object.assign(hoverEffect.drawSelectionHT.style, selectionRect.applyHT.all());
+                Object.assign(columnResizeManage.drawSelectionHT.style, selectionRect.applyHT.all());
             },
             onUp: (e, diff) => {
                 if (isResizing) {
@@ -137,27 +139,50 @@ class columnResizeManage {
                     this.updateAr();
                    
                     this.varValue = this.measureText;
-                    hoverEffect.drawSelectionHT.style.visibility = "collapse";
+                    columnResizeManage.drawSelectionHT.style.visibility = "collapse";
                     this.main.ucExtends.self.focus();
                 }
                 isResizing = false;
             }
         });
+
+
+
+
+
+        this.main.pagercntnr1.addEventListener("mouseenter", (e) => {
+            let cliRect = this.main.pagercntnr1.getClientRects()[0];
+            this.parentOffset.setBy.value(cliRect.x-this.main.pagercntnr1.scrollLeft, cliRect.y-this.main.pagercntnr1.scrollTop);
+           // this.main.dgvRect = this.main.ucExtends.self.getClientRects()[0];
+            this.main.ucExtends.self.addEventListener("mousemove", this.mousemovelistner);
+            this.hasMouseEntered = true;
+        });
+        this.main.pagercntnr1.addEventListener("mouseleave", (e) => {
+            this.hasMouseEntered = false;
+            this.main.ucExtends.self.removeEventListener("mousemove", this.mousemovelistner);
+        });
+    }
+    parentOffset = new Point();
+    hasMouseEntered = false;
+    isCheckingHoverCollission = false;
+    collissionResult = { hasCollied: false, index: -1 };
+    /** @param {MouseEvent} e  */
+    mousemovelistner = (e) => {
+        if (this.isCheckingHoverCollission) return;
+        this.isCheckingHoverCollission = true;
+        setTimeout(() => {
+            this.isCheckingHoverCollission = false;
+            if (!this.hasMouseEntered) return;
+            let x = e.clientX - this.parentOffset.x;
+            this.collissionResult = this.main.colsResizeMng.hasCollission(x);
+            this.main.ucExtends.self.style.cursor = (this.collissionResult.hasCollied) ? 'e-resize' : '';
+        }, 1);
     }
     _varName = "gridsize";
-    get varName() {
-        return this._varName;
-    }
-    set varName(value) {
-        this._varName = value;
-       /* let cssvr = this.cssVar;
-        if(this.cssVar == ''){
-            console.log('style is emenpy');
-        } */
-    }
+    get varName() { return this._varName; }
+    set varName(value) { this._varName = value; }
     get varValue() { return this.main.detail.itemTemplate.extended.getCSS_localVar(this.varName); }
-    set varValue(val) { 
-        this.main.detail.itemTemplate.extended.setCSS_localVar(this.varName, val);}
+    set varValue(val) {  this.main.detail.itemTemplate.extended.setCSS_localVar(this.varName, val); }
     getPrevIndex(index) {
         let rm = this.measurement;
         index--;
