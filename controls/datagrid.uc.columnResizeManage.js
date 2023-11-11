@@ -43,7 +43,7 @@ class columnResizeManage {
      * @param {string} txt 
      * @returns {measurementNode[]}
      */
-    getArFromText(txt) {
+    fillArrFromText(txt) {
         let ar = txt
             .split(/ +/);
         if (this.measurement.length != ar.length) {
@@ -93,7 +93,7 @@ class columnResizeManage {
         mouseMv.bind(this.main.detailGridHT1, {
             onDown: (evt, dpoint) => {
 
-                this.getArFromText(this.cssVar);
+                this.fillArrFromText(this.varValue);
                 pagerOffset = this.main.pagercntnr1.getClientRects()[0];
                 pagerOffset.x -= this.main.pagercntnr1.scrollLeft;
                 pagerOffset.y -= this.main.pagercntnr1.scrollTop;
@@ -136,7 +136,7 @@ class columnResizeManage {
                         rightNode.size -= dval;
                     this.updateAr();
                    
-                    this.cssVar = this.measureText;
+                    this.varValue = this.measureText;
                     hoverEffect.drawSelectionHT.style.visibility = "collapse";
                     this.main.ucExtends.self.focus();
                 }
@@ -155,8 +155,9 @@ class columnResizeManage {
             console.log('style is emenpy');
         } */
     }
-    get cssVar() { return this.main.detail.itemTemplate.extended.getCSS_localVar(this.varName); }
-    set cssVar(val) { this.main.detail.itemTemplate.extended.setCSS_localVar(this.varName, val);}
+    get varValue() { return this.main.detail.itemTemplate.extended.getCSS_localVar(this.varName); }
+    set varValue(val) { 
+        this.main.detail.itemTemplate.extended.setCSS_localVar(this.varName, val);}
     getPrevIndex(index) {
         let rm = this.measurement;
         index--;

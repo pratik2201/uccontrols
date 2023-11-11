@@ -20,14 +20,7 @@ class datagrid extends designer {
         eval(designer.giveMeHug);
         this.init();
         let cbox = this.detail.scroller.scrollBox;
-        //let hnodes = cbox.hScrollbar.nodes;
-        //let vnodes = cbox.vScrollbar.nodes;
-        // hnodes.scrollbar = hnodes.scrollbar.$();
-        //vnodes.scrollbar = vnodes.scrollbar.$();
-        //vnodes.beginText = this.begin_scroll_text;
-        //vnodes.endText = this.end_scroll_text;
-       //   this.hscrollbar1.appendChild(hnodes.scrollbar);
-       //   this.vscrollbar1.appendChild(vnodes.scrollbar);
+        
         this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
 
         let hscroller = new simpleScroll('h');
@@ -45,16 +38,7 @@ class datagrid extends designer {
             this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
             this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
         });
-        /*hscroller.Event.onScroll.on((e)=>{
-            this.headerSectionHT.scrollLeft =
-            this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
-        });*/
-        /*this.detail.scroller.scrollBox.vScrollbar.Events.onChangeHiddenCount = (b, e) => {
-            this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
-            this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
-        }*/
-        //this.ucExtends.passElement(hnodes.scrollbar);
-       // this.ucExtends.passElement(vnodes.scrollbar);
+        
 
 
         
@@ -76,7 +60,13 @@ class datagrid extends designer {
     set varName(value) {
         this.colsResizeMng.varName = value;
     }
-
+    get varValue() {
+        return this.colsResizeMng.varValue;
+    }
+    set varValue(value) {
+        
+        this.colsResizeMng.varValue = value;
+    }
     
     //set
     get detailItemTemplate() { return this.detail.itemTemplate; }
