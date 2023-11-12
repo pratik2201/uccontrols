@@ -16,28 +16,35 @@ class datagrid extends designer {
         eval(designer.giveMeHug);
         this.init();
         let cbox = this.detail.scroller.scrollBox;
-        
+
         this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
 
         let hscroller = new simpleScroll('h');
-        hscroller.init(this.detail,this.hscrollbar1);
-        hscroller.Event.onScroll.on((e)=>{
+        hscroller.init(this.detail, this.hscrollbar1);
+        hscroller.Event.onScroll.on((e) => {
             this.headerSectionHT.scrollLeft =
-            this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
+                this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
         });
-
+        this.pagercntnr1.addEventListener("scroll", (e) => {
+            this.headerSectionHT.scrollLeft =
+                this.footerSectionHT.scrollLeft =
+                this.pagercntnr1.scrollLeft = this.hscrollbar1.scrollLeft;
+        });
+        /*this.colsResizeMng.Events.onResizing.on((evt, diff) => {
+            this.pagercntnr1.scrollLeft = this.hscrollbar1.scrollLeft;
+        });*/
         let vscroller = new newPagerScroll('v');
         vscroller.elementNode.beginText = this.begin_scroll_text;
         vscroller.elementNode.endText = this.end_scroll_text;
-        vscroller.init(this.detail,this.vscrollbar1);
+        vscroller.init(this.detail, this.vscrollbar1);
         vscroller.Events.onChangeHiddenCount.on((b, e) => {
             this.begin_scroll_text.innerText = b == 0 ? "" : "▲ " + b + "";
             this.end_scroll_text.innerText = e == 0 ? "" : "▼ " + e + "";
         });
-        
 
 
-        
+
+
     }
 
 
@@ -60,10 +67,10 @@ class datagrid extends designer {
         return this.colsResizeMng.varValue;
     }
     set varValue(value) {
-        
+
         this.colsResizeMng.varValue = value;
     }
-    
+
     //set
     get detailItemTemplate() { return this.detail.itemTemplate; }
     set detailItemTemplate(value) {
@@ -125,12 +132,11 @@ class datagrid extends designer {
         /** @type {DOMRect}  */
         containerLayout: undefined,
     }
-   
+
     colsResizeMng = new columnResizeManage();
 
     init() {
         let changed = false;
-        this.colsResizeMng.gridRsz.resizeMode = 'slider';
         this.colsResizeMng.init(this);
 
     }
