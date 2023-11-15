@@ -22,7 +22,7 @@ class measurementNode {
     }
 }
 
-class columnResizeManage {
+class resizeManage {
     constructor() { }
 
 
@@ -194,7 +194,7 @@ class columnResizeManage {
             this.isCheckingHoverCollission = false;
             if (!this.hasMouseEntered) return;
             let x = e.clientX - this.parentOffset.x;
-            this.collissionResult = this.main.colsResizeMng.hasCollission(x);
+            this.collissionResult = this.main.resizer.hasCollission(x);
             this.main.ucExtends.self.style.cursor = (this.collissionResult.hasCollied) ? 'e-resize' : '';
         }, 1);
     }
@@ -220,4 +220,4 @@ class columnResizeManage {
                 .join('px ') + 'px';
     }
 }
-module.exports = { columnResizeManage };
+module.exports = { resizeManage };

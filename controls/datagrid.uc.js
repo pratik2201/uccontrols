@@ -1,4 +1,4 @@
-const { columnResizeManage } = require('@uccontrols:/controls/datagrid.uc.columnResizeManage.js');
+const { resizeManage } = require('@uccontrols:/controls/datagrid.uc.resizeManage.js');
 const { designer } = require('./datagrid.uc.designer.js');
 const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
 const { TemplateNode } = require('@ucbuilder:/Template');
@@ -54,37 +54,39 @@ class datagrid extends designer {
     }
     set paging(value) {
         this._paging = value;
-        //this.pagecntnr1.setAttribute('paging',value);
     }
 
     get varName() {
-        return this.colsResizeMng.varName;
+        return this.resizer.varName;
     }
     set varName(value) {
-        this.colsResizeMng.varName = value;
+        this.resizer.varName = value;
     }
     get varValue() {
-        return this.colsResizeMng.varValue;
+        return this.resizer.varValue;
     }
     set varValue(value) {
-
-        this.colsResizeMng.varValue = value;
+        this.resizer.varValue = value;
     }
 
-    //set
-    get detailItemTemplate() { return this.detail.itemTemplate; }
-    set detailItemTemplate(value) {
-        this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
-        //let node = this.detail.itemTemplate.extended.generateNode({});
-        //this.detail.nodes.itemSize.update(node);
+    get itemTemplate() { return this.detail.itemTemplate; }
+    set itemTemplate(value) {
+        this.detail.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);        
     }
 
     /** @type {TemplateNode}  */
-    _headerItemTemplate = undefined;
-    get headerItemTemplate() { return this._headerItemTemplate; }
-    set headerItemTemplate(value) {
-        this._headerItemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
+    _headerTemplate = undefined;
+    get headerTemplate() { return this._headerTemplate; }
+    set headerTemplate(value) {
+        this._headerTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
     }
+     /** @type {TemplateNode}  */
+     _footerTemplate = undefined;
+     get footerTemplate() { return this._footerTemplate; }
+     set footerTemplate(value) {
+         this._footerTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);;
+     }
+
     static dgvFillArgs = {
         addHeader: true,
         headerRow: {},
@@ -98,46 +100,22 @@ class datagrid extends designer {
         if (args.fillDetail)
             this.detail.nodes.fill();
         if (args.addHeader) {
-            this.headerGridHT1.appendChild(this.headerItemTemplate.extended.generateNode(args.headerRow));
+            this.headerGridHT1.appendChild(this.headerTemplate.extended.generateNode(args.headerRow));
         }
         if (args.addFooter) {
-            this.footerGridHT1.appendChild(this.footerItemTemplate.extended.generateNode(args.footerRow));
+            this.footerGridHT1.appendChild(this.footerTemplate.extended.generateNode(args.footerRow));
         }
     }
-    /** @type {TemplateNode}  */
-    _footerItemTemplate = undefined;
-    get footerItemTemplate() { return this._footerItemTemplate; }
-    set footerItemTemplate(value) {
-        this._footerItemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);;
-    }
+   
 
     detail = new pagerLV();
-    /** @type {"columnOnly"|"rowsOnly"|"both"} */
-    keepMeasurementOf = 'columnOnly';
+    
 
-    node = {
-        rowNodeName: "ROW",
-        cellNodeName: "CELL"
-    }
-
-    /** @type {HTMLElement}  */
-    static drawSelectionHT = `<resizer role="drawSelection" ></resizer>`.$();
-    overInfo = {
-        /** @type {HTMLElement}  */
-        lastCell: undefined,
-        /** @type {HTMLElement}  */
-        lastRow: undefined,
-        columnIndex: -1,
-        rowIndex: -1,
-        /** @type {DOMRect}  */
-        containerLayout: undefined,
-    }
-
-    colsResizeMng = new columnResizeManage();
+    resizer = new resizeManage();
 
     init() {
         let changed = false;
-        this.colsResizeMng.init(this);
+        this.resizer.init(this);
 
     }
 
