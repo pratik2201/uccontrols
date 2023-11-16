@@ -32,11 +32,11 @@ class resizeManage {
             counter += row.size;
             row.runningSize = counter;
         });
-        counter = 0;
+        /*counter = 0;
         this.measurementExp.forEach((row) => {
             counter += row.size;
             row.runningSize = counter;
-        });
+        });*/
     }
     hasCollission(val) {
         let rtrn = { hasCollied: false, index: -1, };
@@ -54,41 +54,38 @@ class resizeManage {
             .split(/ +/);
         if (this.measurement.length != ar.length) {
             let rtrn = undefined;
-            this.measurement.length =
-                this.measurementExp.length = 0;
+            this.measurement.length = 0;
             ar.forEach((s) => {
                 let sz = parseFloat(s);
                 rtrn = new measurementNode();
                 rtrn.size = sz;
                 this.measurement.push(rtrn);
-                rtrn = new measurementNode();
-                rtrn.size = sz;
-                this.measurementExp.push(rtrn);
             });
             this.updateAr();
         } else {
+            let sz = 0;
             for (let i = 0; i < ar.length; i++) {
-                this.measurement[i].size =
-                    this.measurementExp[i].size = parseFloat(ar[i]);
+                sz = parseFloat(ar[i]);
+                if (!isNaN(sz)) this.measurement[i].size = sz;
             }
         }
         // console.log(this.measurement);
     }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
-    
+
     /** @type {measurementNode[]}  */
     measurement = [];
-    /** @type {measurementNode[]}  */
-    measurementExp = [];
+
+    fillSize = false;
     /**
      * @param {datagrid} main 
      */
     init(main) {
         this.main = main;
-        
+
         let mouseMv = new mouseForMove();
         let leftIndex = 0, rightIndex = 0;
-       
+
         /** @type {measurementNode}  */
         let rightNode,/** @type {measurementNode}  */ leftNode;
         /** @type {measurementNode}  */
@@ -105,19 +102,17 @@ class resizeManage {
                     rightIndex = leftIndex + 1;
                     rightNode = this.measurement[rightIndex];
                     leftNode = this.measurement[leftIndex];
-                    if(rightNode!=undefined)
-                    rightNodeSize = rightNode.size;
+                    if (rightNode != undefined)
+                        rightNodeSize = rightNode.size;
                     leftNodeSize = leftNode.size;
 
                     this.isResizing = true;
-                }else return false;
+                } else return false;
                 evt.preventDefault();
             },
             onMove: (e, diff) => {
                 let dval = diff.x;
-                if (!e.shiftKey) {
-                    leftNode.size = leftNodeSize + dval;
-                } else {
+                if (e.shiftKey || this.fillSize) { //  FILL MODE
                     if (rightNode == undefined) {
                         leftNode.size = leftNodeSize + dval;
                     } else {
@@ -126,26 +121,20 @@ class resizeManage {
                         leftNode.size = leftNodeSize + dval;
                         rightNode.size = rightNodeSize - dval;
                     }
+                } else {   //  INCREASE MODE
+                    leftNode.size = leftNodeSize + dval;
                 }
                 if (isSettingSize) return;
                 isSettingSize = true;
                 setTimeout(() => {
                     this.varValue = this.measureText;
-                    this.Events.onResizing.fire(e,diff);
+                    this.Events.onResizing.fire(e, diff);
                     isSettingSize = false;
                 }, 1);
             },
             onUp: (e, diff) => {
-                if (this.isResizing) {
-                    /*let dval = diff.x;
-                    leftNode.size += dval;
-                    if (e.shiftKey && rightNode != undefined)
-                        rightNode.size -= dval;
+                if (this.isResizing)
                     this.updateAr();
-                    this.varValue = this.measureText;*/
-                    this.updateAr();
-                    ///this.main.ucExtends.self.focus();
-                }
                 isSettingSize = false;
                 this.collissionResult.hasCollied = false;
                 this.collissionResult.index = -1;
@@ -174,7 +163,7 @@ class resizeManage {
          *          diff:Point,
          * ) =>{})} & commonEvent}
          */
-        onResizing:new commonEvent(),
+        onResizing: new commonEvent(),
     }
     parentOffset = new DOMRect();
     updateOffset() {
@@ -187,7 +176,7 @@ class resizeManage {
     collissionResult = { hasCollied: false, index: -1 };
     /** @param {MouseEvent} e  */
     mousemovelistner = (e) => {
-        
+
         if (this.isResizing || this.isCheckingHoverCollission) return;
         this.isCheckingHoverCollission = true;
         setTimeout(() => {
@@ -210,14 +199,20 @@ class resizeManage {
         return index;
     }
     get measureText() {
-        return this.measurement.length <= 1 ? 'auto'
-            : (this.measurement.map(s => s.size))
-                .join('px ') + 'px';
+        return this.measurement.length <= 1 ?
+            'auto'
+            :
+            this.fillSize ?
+                this.measurement
+                    .map(s => s.size)
+                    .slice(0, -1)
+                    .join('px ') + 'px auto'
+                :
+                this.measurement
+                    .map(s => s.size)
+                    .join('px ') + 'px';
+
     }
-    get measureExpText() {
-        return this.measurementExp.length <= 1 ? 'auto'
-            : (this.measurementExp.map(s => s.size))
-                .join('px ') + 'px';
-    }
+
 }
 module.exports = { resizeManage };

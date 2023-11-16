@@ -116,7 +116,7 @@ class datagrid extends designer {
     init() {
         let changed = false;
         this.resizer.init(this);
-
+        
     }
 
 
