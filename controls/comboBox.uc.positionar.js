@@ -23,6 +23,7 @@ class positionar {
             'top': `${txtboxRect.top}px`,
             'width': `${txtboxRect.width}px`,
             'height': `${txtboxRect.height}px`,
+            'position': 'absolute',
             'visibility': 'visible',
         };
         this.dockHT.style.height = 'auto';
