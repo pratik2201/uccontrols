@@ -100,9 +100,11 @@ class datagrid extends designer {
         if (args.fillDetail)
             this.detail.nodes.fill();
         if (args.addHeader) {
+            this.headerGridHT1.innerHTML = '';
             this.headerGridHT1.appendChild(this.headerTemplate.extended.generateNode(args.headerRow));
         }
         if (args.addFooter) {
+            this.footerGridHT1.innerHTML = '';
             this.footerGridHT1.appendChild(this.footerTemplate.extended.generateNode(args.footerRow));
         }
     }
