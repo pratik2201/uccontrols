@@ -52,10 +52,17 @@ class resizeManage {
     fillArrFromText(txt) {
         let ar = txt
             .split(/ +/);
-        if (this.measurement.length != ar.length) {
+        let nlen = ar.length;
+        if (this.measurement.length != nlen) {
             let rtrn = undefined;
             this.measurement.length = 0;
-            ar.forEach((s) => {
+
+            ar.forEach((s, index) => {
+                if (s === 'auto') {
+                    if (index == nlen - 1) {   // if last element auto
+                        s = Number.MAX_VALUE;
+                    }
+                }
                 let sz = parseFloat(s);
                 rtrn = new measurementNode();
                 rtrn.size = sz;
@@ -69,7 +76,9 @@ class resizeManage {
                 if (!isNaN(sz)) this.measurement[i].size = sz;
             }
         }
-        // console.log(this.measurement);
+        console.log(this.measurement
+            .map(s => s.size)
+            .join('px ') + 'px');
     }
     nameList = gridResizer.getConvertedNames('grid-template-columns');
 
@@ -174,15 +183,15 @@ class resizeManage {
     hasMouseEntered = false;
     isCheckingHoverCollission = false;
     collissionResult = { hasCollied: false, index: -1 };
-    /** @param {MouseEvent} e  */
-    mousemovelistner = (e) => {
-
+    /** @param {MouseEvent} __e  */
+    mousemovelistner = (__e) => {
         if (this.isResizing || this.isCheckingHoverCollission) return;
+        let ete = __e;
         this.isCheckingHoverCollission = true;
         setTimeout(() => {
-            this.isCheckingHoverCollission = false;
             if (!this.hasMouseEntered) return;
-            let x = e.clientX - this.parentOffset.x;
+            this.isCheckingHoverCollission = false;
+            let x = ete.clientX - this.parentOffset.x;
             this.collissionResult = this.main.resizer.hasCollission(x);
             this.main.ucExtends.self.style.cursor = (this.collissionResult.hasCollied) ? 'e-resize' : '';
         }, 1);

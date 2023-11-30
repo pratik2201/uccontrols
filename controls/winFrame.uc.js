@@ -108,7 +108,7 @@ class winFrame extends designer {
      * defaultFocusAt:container
      * }} param0 
      */
-    showDialog({ defaultFocusAt = undefined } = {}) {
+    showDialog({ defaultFocusAt = undefined  } = {}) {
 
         winFrame.manage.push(this.ucExtends.PARENT);
 

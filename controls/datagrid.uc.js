@@ -26,6 +26,7 @@ class datagrid extends designer {
                 this.footerSectionHT.scrollLeft = this.hscrollbar1.scrollLeft;
         });
         this.pagercntnr1.addEventListener("scroll", (e) => {
+            console.log('s');
             this.headerSectionHT.scrollLeft =
                 this.footerSectionHT.scrollLeft =
                 this.pagercntnr1.scrollLeft = this.hscrollbar1.scrollLeft;
