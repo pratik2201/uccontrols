@@ -62,9 +62,9 @@ class messageBox extends designer {
 
     /**
      * @param {{
-     *  title:string,
-     *  detail:string,
-     *  buttonType: buttonTypes,
+     *      title:string,
+     *      detail:string,
+     *      buttonType: buttonTypes,
      * }} 
      */
     constructor({

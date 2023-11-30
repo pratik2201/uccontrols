@@ -58,7 +58,7 @@ class winFrame extends designer {
         this.parentUCExt.Events.activate.on(() => {
             this.parentElementHT.before(winFrame.transperency);            
         });
-
+            
     }
 
     init() {
@@ -87,7 +87,7 @@ class winFrame extends designer {
         //this.ucExtends.._..updateLayout();
         this.designAll();
 
-        this.drag.init(this.ucExtends.self, this.title_panel);
+        this.drag.init(this.parentElementHT, this.title_panel); // this.ucExtends.self
         this.drag.resizer.connect(this);
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;
