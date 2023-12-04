@@ -12,7 +12,7 @@ const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid
  */
 class resizeHandler {
     /** @type {namingConversion}  */
-    nameList = undefined;
+    nameList = gridResizer.getConvertedNames('grid-template-columns');
     gridRsz = new gridResizer();
     /** @type {measurementRow}  */
     bluePrint = {
@@ -31,6 +31,7 @@ class resizeHandler {
     uc = undefined;
     /** @param {Splitter} uc */
     init(uc) {
+     
         this.uc = uc;
         this.measurement = this.uc.SESSION_DATA.measurement;
         this.gridRsz.init({
@@ -101,6 +102,7 @@ class resizeHandler {
         let len = this.allElementHT.length;
         if (len == 0) { return; }
         let hasStyle = this.gridRsz.hasDefinedStyles;
+        
         let offsetSize = this.nameList.offsetSize;
 
         this.gridFullSize = hasStyle ? 0 : this.grid[offsetSize];

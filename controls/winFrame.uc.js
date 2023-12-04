@@ -3,8 +3,9 @@ const { dragUc } = require('@uccontrols:/controls/common/draguc.js');
 const { ucStates } = require('@ucbuilder:/enumAndMore');
 const { controlOpt } = require('@ucbuilder:/build/common.js');
 const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
-const { winManager } = require('@uccontrols:/controls/winFrame.uc.winManager.js');
+const { winManager, winContiner } = require('@uccontrols:/controls/winFrame.uc.winManager.js');
 const { timeoutCall } = require("@ucbuilder:/global/timeoutCall");
+const { keyBoard } = require('ucbuilder/global/hardware/keyboard.js');
 
 class winFrame extends designer {
 
@@ -46,21 +47,87 @@ class winFrame extends designer {
     }
 
     //#endregion
-
+    /** @type {winManager}  */
+    manage = undefined;
     constructor() {
         eval(designer.giveMeHug);
-
-        if (!winFrame.hasInitedTransperency) {
-            this.ucExtends.passElement(winFrame.transperency);
-            winFrame.hasInitedTransperency = true;
-        }
-        this.init();
-        this.parentUCExt.Events.activate.on(() => {
-            this.parentElementHT.before(winFrame.transperency);            
+        this.ucExtends.session.autoLoadSession = true;
+        this.parentUCExt = this.ucExtends.PARENT.ucExtends;
+        /** @type {HTMLElement}  */
+        this.parentElementHT = this.parentUCExt.wrapperHT;
+        this.parentUCExt.Events.afterInitlize.on(() => {
+            let form_container = this.parentUCExt.self.parentElement;
+            this.manage = winContiner.getManager(form_container, this);
+            this.parentElementHT.before(this.manage.transperency);
+            //console.log(this.manage);
         });
-            
-    }
 
+
+
+
+        this.drag.finalRect = this.SESSION_DATA.rect;
+        this.SESSION_DATA.rect.width = parseFloat(this.parentElementHT.style.width);
+        this.SESSION_DATA.rect.height = parseFloat(this.parentElementHT.style.height);
+
+        this.init();
+
+        this.parentUCExt.Events.activate.on(() => {
+            //this.parentElementHT.before(winFrame.transperency);
+        });
+        this.ucExtends.Events.loadLastSession.on(() => {
+            //debugger;
+            this.drag.finalRect = this.SESSION_DATA.rect;
+            this.loadSession();
+        });
+        this.drag.Events.onmouseup = (evt) => {
+            this.ucExtends.session.onModify();
+        }
+        this.drag.Events.onResizeEnd.on(() => {
+            this.ucExtends.session.onModify();
+        })
+
+    }
+    loadSession() {
+        let selectRect = this.SESSION_DATA.rect;
+        let containerHT = this.drag.containerHT;
+        this.ucExtends.windowstate = this.SESSION_DATA.winState;
+        this.checkState(this.SESSION_DATA.winState);
+    }
+    /** @param {ucStates} state */
+    checkState(state) {
+        this.SESSION_DATA.winState = state;
+        switch (state) {
+            case 'dock':
+                this.ucExtends.self.setAttribute("win-state", "dock");
+                this.SESSION_DATA.oldstyleText = this.parentElementHT.style.cssText;
+                Object.assign(this.parentElementHT.style, {
+                    position: "static",
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
+                });
+                this.drag.resizer.cssDisplay("none");
+                break;
+            case 'normal':
+                this.ucExtends.self.setAttribute("win-state", "normal");
+
+                Object.assign(this.parentElementHT.style, {
+                    position: "absolute",
+                    left: this.SESSION_DATA.rect.left + "px",
+                    top: this.SESSION_DATA.rect.top + "px",
+                    width: this.SESSION_DATA.rect.width + "px",
+                    height: this.SESSION_DATA.rect.height + "px",
+                });
+
+
+                /* this.parentElementHT.style.left = `${this.SESSION_DATA.rect.left}px`;
+                 this.parentElementHT.style.top = `${this.SESSION_DATA.rect.top}px`;
+                 this.parentElementHT.style.width = `${this.SESSION_DATA.rect.width}px`;
+                 this.parentElementHT.style.height = `${this.SESSION_DATA.rect.height}px`;*/
+                this.drag.resizer.cssDisplay("block");
+                break;
+        }
+    }
     init() {
 
         this.initEvent();
@@ -92,25 +159,33 @@ class winFrame extends designer {
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;
         });
-        this.cmd_close.on('mousedown', (event) => {
-            this.doCloseWindow(); 
+        this.cmd_close.on('mouseup', (event) => {
+            this.doCloseWindow();
+        });
+        this.parentElementHT.addEventListener('keyup', (e) => {
+            switch (e.keyCode) {
+                case keyBoard.keys.escape:
+                    this.doCloseWindow();
+                    break;
+            }
         });
     }
     doCloseWindow() {
-        console.log('window is closing...');            
-        let result = this.parentUCExt.destruct();
-        if (result === true) {
-            winFrame.manage.pop();
-        }
+        console.log('window is closing...');
+        setTimeout(() => {
+            let result = this.parentUCExt.destruct();
+            if (result === true) {
+                this.manage.pop();
+            }
+        }, 1);
     }
     /**
      * @param {{
-     * defaultFocusAt:container
+     *  defaultFocusAt:container
      * }} param0 
      */
-    showDialog({ defaultFocusAt = undefined  } = {}) {
-
-        winFrame.manage.push(this.ucExtends.PARENT);
+    showDialog({ defaultFocusAt = undefined } = {}) {
+        this.manage.push(this.ucExtends.PARENT);
 
         ResourcesUC.contentHT.append(this.parentElementHT);
         //this.parentUCExt.Events.activate.fire();
@@ -125,6 +200,5 @@ class winFrame extends designer {
 
 
     }
-    static manage = new winManager();
 }
 module.exports = winFrame;          
