@@ -44,15 +44,15 @@ class dragUc {
                 this.topleft.style.display =
                 this.topright.style.display =
                 this.bottomleft.style.display =
-                this.bottomright.style.display = val;
-            this.rect.style.display = val;
+                this.bottomright.style.display =
+                this.rect.style.display = val;
         },
         getResizerAr: () => {
             if (this.allowResize) {
                 let rsz = this.resizer;
                 return [rsz.left, rsz.top, rsz.right, rsz.bottom,
-                        rsz.topleft, rsz.topright,
-                        rsz.bottomright, rsz.bottomleft];
+                rsz.topleft, rsz.topright,
+                rsz.bottomright, rsz.bottomleft];
             } else return [];
         },
         /** @param {Usercontrol} uc */
