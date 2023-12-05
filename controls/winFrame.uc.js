@@ -55,15 +55,14 @@ class winFrame extends designer {
         this.parentUCExt = this.ucExtends.PARENT.ucExtends;
         /** @type {HTMLElement}  */
         this.parentElementHT = this.parentUCExt.wrapperHT;
-        this.parentUCExt.Events.afterInitlize.on(() => {
-            let form_container = this.parentUCExt.self.parentElement;
-            this.manage = winContiner.getManager(form_container, this);
-            this.parentElementHT.before(this.manage.transperency);
-            //console.log(this.manage);
-        });
+        if (this.ucExtends.mode == 'client') {
+            this.parentUCExt.Events.afterInitlize.on(() => {
+                let form_container = this.parentUCExt.self.parentElement;
+                this.manage = winContiner.getManager(form_container, this);
+                this.parentElementHT.before(this.manage.transperency);
+            });
 
-
-
+        }
 
         this.drag.finalRect = this.SESSION_DATA.rect;
         this.SESSION_DATA.rect.width = parseFloat(this.parentElementHT.style.width);
@@ -84,7 +83,7 @@ class winFrame extends designer {
         }
         this.drag.Events.onResizeEnd.on(() => {
             this.ucExtends.session.onModify();
-        })
+        });
 
     }
     loadSession() {
