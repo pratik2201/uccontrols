@@ -1,5 +1,5 @@
 
-const { uniqOpt } = require('ucbuilder/build/common');
+const { uniqOpt, controlOpt } = require('ucbuilder/build/common');
 const { focusManage } = require('ucbuilder/global/focusManage');
 /**
  * @typedef {import ("@uccontrols:/controls/winFrame.uc")} winFrame
@@ -57,6 +57,7 @@ class winManager {
 
     pop = () => {       
         this.curIndex = this.pages.length - 1;
+        this.curIndex--;
        if (this.curIndex >= 0) {
             this.pages.pop();
             this.CURRENT_WIN = this.pages[this.curIndex];
