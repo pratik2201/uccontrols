@@ -1,46 +1,20 @@
 const { commonEvent } = require("@ucbuilder:/global/commonEvent");
 const { newObjectOpt } = require("@ucbuilder:/global/objectOpt");
 
-class dragInfo {
-    constructor() { }
-    /** @private */
-    dragData = undefined;
-    /** @private */
-    lastDroppedData = undefined;
-    setDragData = (data) => { this.dragData = data; this.hasDropped = false; }
-    hasDropped = true;
-    getDragData = () => {
-        //console.log('drag.getDragData');
-        this.lastDroppedData = this.dragData;
-        //this.dragData = undefined;
-        this.hasDropped = true;
-        return this.lastDroppedData;
-    }
-
-    getLastData = () => { return this.lastDroppedData; }
-    onDragStart = new commonEvent();
-    onDragEnd = new commonEvent();
-}
-
-/*const spliterType = Object.freeze({
-    NOT_DEFINED: "NOT_DEFINED",
-    ROW: "ROW",
-    COLUMN: "COLUMN",
-});*/
 const tabChilds = {
     index: -1,
     stamp: "",
     filePath: "",
     fstamp: "",
     session: {},
-};
+}
 const splitterCell = {
    
     ucPath: "",
     attribList: "",
     /** @type {{}}  */
     session: {},
-};
+}
 
 const measurementRow = {
     /** @type {number}  */ 
@@ -76,14 +50,33 @@ const dropIndictors = {
         bottomRect: "bottomRect",
         none: "none",
     })
-};
+}
+class dragInfo {
+    constructor() { }
+    /** @private */
+    dragData = undefined;
+    /** @private */
+    lastDroppedData = undefined;
+    setDragData = (data) => { this.dragData = data; this.hasDropped = false; }
+    hasDropped = true;
+    getDragData = () => {
+        //console.log('drag.getDragData');
+        this.lastDroppedData = this.dragData;
+        //this.dragData = undefined;
+        this.hasDropped = true;
+        return this.lastDroppedData;
+    }
 
+    getLastData = () => { return this.lastDroppedData; }
+    onDragStart = new commonEvent();
+    onDragEnd = new commonEvent();
+}
 module.exports = {
     dragInfo,
     dropIndictors,
     /** @type {"notdefined"|"columns"|"rows"}  */
     spliterType : 'notdefined',
-    tabChilds,
+    tabChilds : tabChilds,
     dragDataNode: {
         uc: undefined,
         tabBx: undefined

@@ -41,7 +41,7 @@ class Movable extends designer {
 
     drag = new dragUc();
     SESSION_DATA = {
-      
+
         winState: "",
         oldstyleText: "",
         rect: {
@@ -57,13 +57,13 @@ class Movable extends designer {
         this.ucExtends.session.autoLoadSession = true;
 
         this.parentUCExt = this.ucExtends.PARENT.ucExtends;
-        /** @type {HTMLElement}  */ 
+        /** @type {HTMLElement}  */
         this.parentElementHT = this.parentUCExt.wrapperHT;
 
         this.drag.finalRect = this.SESSION_DATA.rect;
         this.SESSION_DATA.rect.width = parseFloat(this.parentElementHT.style.width);
         this.SESSION_DATA.rect.height = parseFloat(this.parentElementHT.style.height);
-        
+
         this.init();
         this.ucExtends.Events.loadLastSession.on(() => {
             this.drag.finalRect = this.SESSION_DATA.rect;
@@ -152,10 +152,11 @@ class Movable extends designer {
             this.parentUCExt.destruct();
         });
         this.ucExtends.self.addEventListener("mousedown", (evt) => {
-            if(this.parentUCExt.windowstate == 'dock')return;
+            if (this.parentUCExt.windowstate == 'dock') return;
             let pucHT = this.parentElementHT;
             if (pucHT.nextSibling != null)
                 pucHT.parentElement.appendChild(pucHT);
+            this.parentUCExt.Events.activate.fire(this.ucExtends.PARENT);
             this.movableEvents.extended.onActivateWindow.fire(this.ucExtends.PARENT);
         });
     }
@@ -166,25 +167,25 @@ class Movable extends designer {
             case 'dock':
                 this.ucExtends.self.setAttribute("win-state", "dock");
                 this.SESSION_DATA.oldstyleText = this.parentElementHT.style.cssText;
-                Object.assign(this.parentElementHT.style,{
-                    position:"static",
-                    width:"100%",
-                    height:"100%",
-                    display:"block",
+                Object.assign(this.parentElementHT.style, {
+                    position: "static",
+                    width: "100%",
+                    height: "100%",
+                    display: "block",
                 });
                 this.drag.resizer.cssDisplay("none");
                 break;
             case 'normal':
                 this.ucExtends.self.setAttribute("win-state", "normal");
-               
-                Object.assign(this.parentElementHT.style,{
-                    position:"absolute",
-                    left:this.SESSION_DATA.rect.left+"px",
-                    top:this.SESSION_DATA.rect.top+"px",
-                    width:this.SESSION_DATA.rect.width+"px",
-                    height:this.SESSION_DATA.rect.height+"px",
+
+                Object.assign(this.parentElementHT.style, {
+                    position: "absolute",
+                    left: this.SESSION_DATA.rect.left + "px",
+                    top: this.SESSION_DATA.rect.top + "px",
+                    width: this.SESSION_DATA.rect.width + "px",
+                    height: this.SESSION_DATA.rect.height + "px",
                 });
-                
+
 
                 /* this.parentElementHT.style.left = `${this.SESSION_DATA.rect.left}px`;
                  this.parentElementHT.style.top = `${this.SESSION_DATA.rect.top}px`;
