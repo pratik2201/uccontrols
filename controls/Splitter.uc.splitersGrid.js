@@ -1,8 +1,7 @@
-const { objectOpt } = require("@ucbuilder:/build/common");
-const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 /**
  * @typedef {import ('@uccontrols:/controls/Splitter.uc.enumAndMore').spliterType} spliterType
+ * @typedef {import ('@uccontrols:/controls/Splitter.uc')} Splitter
  */
 class splitersGrid {
     constructor() { }

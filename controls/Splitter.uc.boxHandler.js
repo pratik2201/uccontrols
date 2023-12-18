@@ -48,7 +48,7 @@ class boxHandler {
     }
 
     pushData(index, halfSize, appendAfter) {
-        let nnode = this.splMain.giveReadyNode(this.main);
+        let nnode = this.splMain.nodeMng.giveReadyNode(this.main);
         let atIndex = appendAfter ? index : index - 1;
         let ns = objectOpt.clone(measurementRow);
         ns.size = halfSize;
@@ -95,10 +95,10 @@ class boxHandler {
                 }
                 break;
             default:
-                let ngrid = this.splMain.giveNewGrid('columns');
+                let ngrid = this.splMain.nodeMng.giveNewGrid('columns');
                 let topMeasurement = this.splMain.tree.measurement[this.node.index()].data;
-                let ndm1 = ngrid.giveReadyNode(ngrid.tree);
-                let ndm2 = ngrid.giveReadyNode(ngrid.tree);
+                let ndm1 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
+                let ndm2 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
                 ngrid.tree.pushBox(ndm2);
                 ngrid.tree.pushBox(ndm1);
                 this.view.appendChild(ngrid.ucExtends.self);
@@ -153,10 +153,10 @@ class boxHandler {
                 }
                 break;
             default:
-                let ngrid = this.splMain.giveNewGrid('rows');
+                let ngrid = this.splMain.nodeMng.giveNewGrid('rows');
                 let topMeasurement = this.splMain.tree.measurement[this.node.index()].data;
-                let ndm1 = ngrid.giveReadyNode(ngrid.tree);
-                let ndm2 = ngrid.giveReadyNode(ngrid.tree);
+                let ndm1 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
+                let ndm2 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
                 ngrid.tree.pushBox(ndm2);
                 ngrid.tree.pushBox(ndm1);
                 this.view.appendChild(ngrid.ucExtends.self);

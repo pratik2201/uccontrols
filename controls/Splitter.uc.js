@@ -1,24 +1,21 @@
+const { nodeManage } = require('@uccontrols:/controls/Splitter.uc.nodeManage.js');
 const { controlOpt, objectOpt, arrayOpt } = require('@ucbuilder:/build/common.js');
-const { boxHandler } = require('@uccontrols:/controls/Splitter.uc.boxHandler.js');
 const { spliterType, splitterCell, measurementRow, tabChilds } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { splitersGrid } = require('@uccontrols:/controls/Splitter.uc.splitersGrid.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
-
 const { designer } = require('./Splitter.uc.designer.js');
 const { resizeHandler } = require('@uccontrols:/controls/Splitter.uc.resizeHandler.js');
 const { jqFeatures } = require('ucbuilder/global/jqFeatures.js');
-
-/**  @typedef {import("@ucbuilder:/Usercontrol.js").Usercontrol} Usercontrol */
-
+/** 
+ *  @typedef {import("@ucbuilder:/Usercontrol.js").Usercontrol} Usercontrol
+ *  @typedef {import("@uccontrols:/controls/Splitter.uc.boxHandler.js").boxHandler} boxHandler
+ */
 class Splitter extends designer {
-
-
-
     SESSION_DATA = {
-
         /** @type {measurementRow[]}  */
         measurement: [],
         attribList: "",
+        primaryContainer:"@uccontrols:/controls/tabControl.uc",
         /** @type {spliterType}  */
         type: 'notdefined',
 
@@ -26,16 +23,20 @@ class Splitter extends designer {
         /** @type {tabChilds[]}  */
         children: []
     };
+    
     allowSplitRow = true;
     allowSplitColumn = true;
     allowResizeRow = true;
     allowResizeColumn = true;
+   
+    
+    
     generateNode = true;
     constructor() {
         eval(designer.giveMeHug);
         
         this.ucExtends.session.autoLoadSession = true;
-        
+        this.nodeMng.init(this);
         this.ucExtends.Events.newSessionGenerate.on(()=>{
             this.pushPrimaryContainer();
         });
@@ -45,9 +46,7 @@ class Splitter extends designer {
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
         this.ucExtends.Events.loadLastSession.on(() => {
-
             this.loadSession();
-
             this.loadChildSession();
         });
         this.resizer.Events.onRefresh = (i, measurement) => {
@@ -97,6 +96,7 @@ class Splitter extends designer {
         return len;
     }
 
+    nodeMng = new nodeManage();
     gapSize = 0;
     minSizeValue = 20;
     tree = new splitersGrid();
@@ -109,7 +109,7 @@ class Splitter extends designer {
         this.tree.type = this.SESSION_DATA.type;
         this.resizer.measurement = this.SESSION_DATA.measurement;
         this.SESSION_DATA.measurement.forEach(cell => {
-            let sadoNode = this.givePlainNode(this.tree);
+            let sadoNode = this.nodeMng.givePlainNode(this.tree);
             this.ucExtends.passElement(sadoNode.node);
             this.mainContainer.appendChild(sadoNode.node);
             let elementHT = `<e${cell.data.attribList}></e>`.$();
@@ -195,63 +195,12 @@ class Splitter extends designer {
 
 
     pushPrimaryContainer() {
-        let row = this.giveReadyNode(this.tree);
+        let row = this.nodeMng.giveReadyNode(this.tree);
 
         this.tree.pushBox(row.box);
         this.tree.refresh();
     }
     resizer = new resizeHandler();
-    containerList = [
-        "@uccontrols:/controls/tabControl.uc"
-    ];
-    primaryContainer = "@uccontrols:/controls/tabControl.uc";
-    /** @param {splitersGrid} splGrid */
-    givePlainNode(splGrid) {
-        /** @type {HTMLElement}  */
-        let node = '<node></node>'.$();
-        /** @type {HTMLElement}  */
-        let view = '<view></view>'.$();
-        node.appendChild(view);
-        this.ucExtends.passElement(node);
-        let box = new boxHandler();
-        node.data('box', box);
-
-        box.init(splGrid, node, view);
-        return {
-            node: node,
-            view: view,
-            box: box
-        };
-    }
-    /** @param {splitersGrid} splGrid */
-    giveReadyNode(splGrid) {
-        let sadoNode = this.givePlainNode(splGrid);
-        let ucs = intenseGenerator.generateUC(this.primaryContainer, { parentUc: this });
-
-        sadoNode.view.appendChild(ucs.ucExtends.self);
-        sadoNode.box.uc = ucs;
-        return {
-            node: sadoNode.node,
-            view: sadoNode.view,
-            box: sadoNode.box,
-        }
-    }
-    /**
-     * @param {spliterType} type
-     * @returns {Splitter}
-     */
-    giveNewGrid(type = 'notdefined') {
-        /** @type {HTMLElement}  */
-        let elementHT = `<Splitter x.SESSION_DATA.type="=${type}"  ${this.myPropertiesText}  ></Splitter>`.$();
-        elementHT.setAttribute("x:generateNode", false);
-        elementHT.setAttribute("x:generateNode", false);
-        /** @type {Splitter}  */
-        let uc = intenseGenerator.generateUC("@uccontrols:/controls/Splitter.uc.html", {
-            wrapperHT: elementHT,
-            parentUc: this
-        });
-        
-        return uc;
-    }
+    
 }
 module.exports = Splitter;
