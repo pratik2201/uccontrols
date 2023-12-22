@@ -134,14 +134,14 @@ class datagrid extends designer {
 
   init() {
     let changed = false;
-    this.resizer.options = {
+    Object.assign(this.resizer.options,{
       container: this.ucExtends.self,
       grid: this.pagercntnr1,
       getVarValue: (varname) =>
         this.detail.itemTemplate.extended.getCSS_localVar(varname),
       setVarValue: (varname, val) =>
         this.detail.itemTemplate.extended.setCSS_localVar(varname, val),
-    };
+    });
     this.resizer.init();
   }
 }
