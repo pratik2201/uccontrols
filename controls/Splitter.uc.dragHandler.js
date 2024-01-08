@@ -60,6 +60,7 @@ class dragHandler {
             }, [this.main.node])
             .dragDrop((ev) => {
                 ev.stopPropagation();
+                   
                 let uq = ev.target.stamp();
                 let dir = dropIndictors.possiblePlaces.none;
                 switch (uq) {
@@ -73,7 +74,7 @@ class dragHandler {
                         //// this.splGrid.main.draging.node.end.fire();
                         return;
                 }
-                this.onDropNeeded(dir);
+                this.onDropNeeded(dir,true);
             }, [this.main.node]);
     }
     dragVisibility(isVisible) {
@@ -98,7 +99,7 @@ class dragHandler {
             dropIndictors.asArray.forEach(s => s.style.visibility = "hidden");
         }
     }
-    onDropNeeded = (dir) => {
+    onDropNeeded = (dir, importUcFromDrag = false) => {
 
     }
 }

@@ -161,7 +161,7 @@ class resizeHandler {
         let mouseMv = new mouseForMove();
         let xy_text = _this.nameList.point;
         let size_text = _this.nameList.size;
-        mouseMv.bind(resizer, {
+        mouseMv.bind({
             onDown: (e, dpoint) => {
                 let htEle = _this.allElementHT[index];
                 _this.uc.ucExtends.passElement(resizeHandler.drawSelectionHT);
@@ -202,7 +202,7 @@ class resizeHandler {
                 resizeHandler.drawSelectionHT.style.visibility = "collapse";
                 _this.uc.ucExtends.session.onModify();
             }
-        })
+        }, resizer);
 
     }
     /**

@@ -17,8 +17,7 @@ class dragHandler {
                     /** @type {Usercontrol}  */
                     let uc = dta.data;
                     this.main.pushUc(uc);
-                    this.main.refreshTabHeader();
-                    this.main.tpt_itemnode.setActive(uc.ucExtends.self.index());
+                   
                     dragHelper.dragResult = true;
 
                 } catch (exc) {

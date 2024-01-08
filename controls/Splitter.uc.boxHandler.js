@@ -37,17 +37,23 @@ class boxHandler {
         /** @type {HTMLElement}  */
         this.view = (view == undefined) ? node.children.item(0) : view;
         this.drag.init(this);
-        this.drag.onDropNeeded = (dir) => {
+        this.drag.onDropNeeded = (dir,importUcFromDrag = false) => {
+            
             switch (dir) {
                 case dropIndictors.possiblePlaces.rightRect:
-                case dropIndictors.possiblePlaces.leftRect: this.dropH(dir); break;
+                case dropIndictors.possiblePlaces.leftRect:
+                    
+                    this.dropH(dir, importUcFromDrag);
+                    break;
                 case dropIndictors.possiblePlaces.topRect:
-                case dropIndictors.possiblePlaces.bottomRect: this.dropV(dir); break;
+                case dropIndictors.possiblePlaces.bottomRect:
+                    this.dropV(dir, importUcFromDrag);
+                    break;
             }
         }
     }
 
-    pushData(index, halfSize, appendAfter) {
+    pushData(index, halfSize, appendAfter, importUcFromDrag = false) {
         let nnode = this.splMain.nodeMng.giveReadyNode(this.main);
         let atIndex = appendAfter ? index : index - 1;
         let ns = objectOpt.clone(measurementRow);
@@ -64,10 +70,12 @@ class boxHandler {
             this.main.measurement[index + 1].size = halfSize;
         }
         this.main.pushBox(nnode.box, atIndex);
-        dragHelper.dragResult = nnode.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
+        if(importUcFromDrag)
+            dragHelper.dragResult = nnode.box.uc.ucExtends.Events.onDataImport(dragHelper.draggedData);
         this.splMain.resizer.giveResizer();
+        return nnode;
     }
-    dropH(dir) {
+    dropH(dir, importUcFromDrag = false) {
         switch (this.main.info.type) {
             case 'notdefined':
             case 'columns':
@@ -77,19 +85,19 @@ class boxHandler {
                 switch (dir) {
                     case dropIndictors.possiblePlaces.rightRect:
                         if (len == 0 || index == this.main.lastIndex) { // if last
-                            this.pushData(index, this.node.offsetWidth / 2, true);
+                            this.pushData(index, this.node.offsetWidth / 2, true, importUcFromDrag);
                         } else {  // if between
 
                             let size = this.main.measurement[index].size;
-                            this.pushData(index, size / 2, true);
+                            this.pushData(index, size / 2, true, importUcFromDrag);
                         }
                         break;
                     case dropIndictors.possiblePlaces.leftRect:
                         if (len == 0 || index == this.main.lastIndex) { // if last
-                            this.pushData(index, this.node.offsetWidth / 2, false);
+                            this.pushData(index, this.node.offsetWidth / 2, false, importUcFromDrag);
                         } else {  // if between
                             let size = this.main.measurement[index].size;
-                            this.pushData(index, size / 2, false);
+                            this.pushData(index, size / 2, false, importUcFromDrag);
                         }
                         break;
                 }
@@ -125,7 +133,7 @@ class boxHandler {
                 break;
         }
     }
-    dropV(dir) {
+    dropV(dir, importUcFromDrag = false) {
         switch (this.main.info.type) {
             case 'notdefined':
             case 'rows':
@@ -136,18 +144,18 @@ class boxHandler {
                 switch (dir) {
                     case dropIndictors.possiblePlaces.bottomRect:
                         if (len == 0 || index == this.main.lastIndex) { // if last
-                            this.pushData(index, this.node.offsetHeight / 2, true);
+                            this.pushData(index, this.node.offsetHeight / 2, true, importUcFromDrag);
                         } else {  // if between
                             let size = this.main.measurement[index].size;
-                            this.pushData(index, size / 2, true);
+                            this.pushData(index, size / 2, true, importUcFromDrag);
                         }
                         break;
                     case dropIndictors.possiblePlaces.topRect:
                         if (len == 0 || index == this.main.lastIndex) { // if last
-                            this.pushData(index, this.node.offsetHeight / 2, false);
+                            this.pushData(index, this.node.offsetHeight / 2, false, importUcFromDrag);
                         } else {  // if between
                             let size = this.main.measurement[index].size;
-                            this.pushData(index, size / 2, false);
+                            this.pushData(index, size / 2, false, importUcFromDrag);
                         }
                         break;
                 }

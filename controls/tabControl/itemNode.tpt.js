@@ -51,9 +51,8 @@ class itemNode extends designer {
                     if (ht != undefined) index = ht.index();
                     /** @type {Usercontrol}  */
                     let uc = dta.data;
-                    this.main.pushUc(uc, index);
-                    this.main.refreshTabHeader();
-                    this.main.tpt_itemnode.setActive(uc.ucExtends.self.index());
+                    this.main.pushUc(uc, { atIndex:index });
+                    
                     dragHelper.dragResult = this.dragButtonIndex == -1;
                 } catch (exc) {
                     //console.log(esc);

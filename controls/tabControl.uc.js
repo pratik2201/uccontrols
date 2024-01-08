@@ -5,6 +5,7 @@ const { dragHandler } = require('@uccontrols:/controls/tabControl.uc.drag.js');
 const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
 const { designer } = require('./tabControl.uc.designer.js');
 const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
+const { newObjectOpt } = require('ucbuilder/global/objectOpt.js');
 const tabRecord = {
     caption: "",
     /** @type {HTMLElement}  */
@@ -34,12 +35,13 @@ class tabControl extends designer {
         this.ucExtends.Events.onDataImport = (data) => {
             switch (data.type) {
                 case 'uc':
-                    if (objectOpt.parse(data, Usercontrol.name)) {
+                    
+                    if (objectOpt.parse(data.data, Usercontrol.name)) {
                         /** @type {Usercontrol}  */
-                        let uc = data;
+                        let uc = data.data;
                         this.pushUc(uc);
-                        this.refreshTabHeader();
-                        this.tpt_itemnode.setActive(uc.ucExtends.self.index());
+                        //this.refreshTabHeader();
+                        //this.tpt_itemnode.setActive(uc.ucExtends.self.index());
 
                         return true;
                     }
@@ -61,27 +63,36 @@ class tabControl extends designer {
                 session:{ loadBySession:true }
             });
             nuc.ucExtends.session.setSession(node.session[""]);
-            this.pushUc(nuc);
+            this.pushUc(nuc,{ refreshHeader:false,setActive:false });
         });
         this.refreshTabHeader();
         this.tpt_itemnode.setActive(this.SESSION_DATA.activeIndex);
     }
+    static pushUCPera = {
+        atIndex : -1,
+        refreshHeader:true,
+        setActive:true,
+    }
     /**
      * @param {Usercontrol} uc 
-     * @param {number} atIndex 
+     * @param {tabControl.pushUCPera} pera 
      */
-    pushUc(uc, atIndex = -1) {
+    pushUc(uc, pera) {
+        let args = newObjectOpt.copyProps(pera, tabControl.pushUCPera);
         uc.ucExtends.windowstate = 'dock';
-        if (atIndex == -1)
+        if (args.atIndex == -1)
             this.tabView.appendChild(uc.ucExtends.self);
         else {
-            this.tabView.children.item(atIndex).before(uc.ucExtends.self);
+            this.tabView.children.item(args.atIndex).before(uc.ucExtends.self);
         }
         uc.ucExtends.Events.activate.on(() => {
             this.tpt_itemnode.setActive(uc.ucExtends.self.index());
-
         });
+        if (args.refreshHeader) this.refreshTabHeader();
+        if(args.setActive)
+            this.tpt_itemnode.setActive(uc.ucExtends.self.index());
     }
+    
     refreshTabHeader() {
         this.tabHeader.innerHTML = "";
         this.SESSION_DATA.tabChild.length = 0;
