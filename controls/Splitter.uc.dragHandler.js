@@ -1,4 +1,4 @@
-const { dragHelper } = require("@ucbuilder:/global/drag/dragHelper");
+const { dragHelper } = require("ucbuilder/global/drag/dragHelper");
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");
 const { dropIndictors } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");

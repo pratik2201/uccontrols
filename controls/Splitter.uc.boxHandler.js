@@ -1,6 +1,6 @@
-const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
-const { dragHelper } = require("@ucbuilder:/global/drag/dragHelper");
-const { Usercontrol } = require("@ucbuilder:/Usercontrol");
+const { objectOpt, controlOpt } = require("ucbuilder/build/common");
+const { dragHelper } = require("ucbuilder/global/drag/dragHelper");
+const { Usercontrol } = require("ucbuilder/Usercontrol");
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { dragHandler } = require("@uccontrols:/controls/Splitter.uc.dragHandler");
 const { dropIndictors, measurementRow } = require("@uccontrols:/controls/Splitter.uc.enumAndMore");

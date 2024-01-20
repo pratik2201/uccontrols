@@ -1,9 +1,9 @@
-const { looping } = require('@ucbuilder:/build/common.js');
-const { dragHelper } = require('@ucbuilder:/global/drag/dragHelper.js');
+const { looping } = require('ucbuilder/build/common.js');
+const { dragHelper } = require('ucbuilder/global/drag/dragHelper.js');
 const tabControl = require('@uccontrols:/controls/tabControl.uc.js');
 const { dropIndictors } = require('@uccontrols:/controls/tabControl/itemNode.tpt.enumAndMode.js');
 const { designer } = require('./itemNode.tpt.designer.js');
-const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
+const { ResourcesUC } = require('ucbuilder/ResourcesUC.js');
 class itemNode extends designer {
 
     constructor() {

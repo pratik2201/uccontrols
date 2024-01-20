@@ -1,6 +1,6 @@
-const { commonEvent } = require("@ucbuilder:/global/commonEvent");
-const { Point, Size, Rect } = require("@ucbuilder:/global/drawing/shapes");
-const { Usercontrol } = require("@ucbuilder:/Usercontrol");
+const { commonEvent } = require("ucbuilder/global/commonEvent");
+const { Point, Size, Rect } = require("ucbuilder/global/drawing/shapes");
+const { Usercontrol } = require("ucbuilder/Usercontrol");
 const dragMode = Object.freeze({
     none: -1,
     move: 0,

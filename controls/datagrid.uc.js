@@ -1,15 +1,15 @@
-const { resizeManage } = require("@ucbuilder:/global/resizer/resizeManage");
+const { resizeManage } = require("ucbuilder/global/resizer/resizeManage");
 const { designer } = require("./datagrid.uc.designer.js");
-const { pagerLV } = require("@ucbuilder:/global/listUI/pagerLV");
-const { TemplateNode } = require("@ucbuilder:/Template");
-const { intenseGenerator } = require("@ucbuilder:/intenseGenerator.js");
-const { newObjectOpt } = require("@ucbuilder:/global/objectOpt.js");
+const { pagerLV } = require("ucbuilder/global/listUI/pagerLV");
+const { TemplateNode } = require("ucbuilder/Template");
+const { intenseGenerator } = require("ucbuilder/intenseGenerator.js");
+const { newObjectOpt } = require("ucbuilder/global/objectOpt.js");
 const {
   simpleScroll,
-} = require("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll");
+} = require("ucbuilder/global/listUI/pager/scrollNodes/simpleScroll");
 const {
   newPagerScroll,
-} = require("@ucbuilder:/global/listUI/pager/scrollNodes/newPagerScroll");
+} = require("ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll");
 /**
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll").simpleScroll} simpleScroll

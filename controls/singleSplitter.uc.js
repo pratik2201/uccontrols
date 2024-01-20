@@ -1,8 +1,8 @@
-const { propOpt, objectOpt } = require('@ucbuilder:/build/common.js');
-const {  Rect } = require('@ucbuilder:/global/drawing/shapes.js');
+const { propOpt, objectOpt } = require('ucbuilder/build/common.js');
+const {  Rect } = require('ucbuilder/global/drawing/shapes.js');
 const { spliterType } = require('@uccontrols:/controls/singleSplitter.uc.enumAndMore.js');
 const { designer } = require('./singleSplitter.uc.designer.js');
-const { timeoutCall } = require("@ucbuilder:/global/timeoutCall");
+const { timeoutCall } = require("ucbuilder/global/timeoutCall");
 
 class singleSplitter extends designer {
 

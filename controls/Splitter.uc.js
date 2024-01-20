@@ -1,8 +1,8 @@
 const { nodeManage } = require('@uccontrols:/controls/Splitter.uc.nodeManage.js');
-const { controlOpt, objectOpt, arrayOpt } = require('@ucbuilder:/build/common.js');
+const { controlOpt, objectOpt, arrayOpt } = require('ucbuilder/build/common.js');
 const { spliterType, splitterCell, measurementRow, tabChilds } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { splitersGrid } = require('@uccontrols:/controls/Splitter.uc.splitersGrid.js');
-const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
+const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { designer } = require('./Splitter.uc.designer.js');
 const { resizeHandler } = require('@uccontrols:/controls/Splitter.uc.resizeHandler.js');
 const { jqFeatures } = require('ucbuilder/global/jqFeatures.js');

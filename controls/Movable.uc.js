@@ -1,10 +1,10 @@
 const { designer } = require('./Movable.uc.designer.js');
 const { dragUc } = require('@uccontrols:/controls/common/draguc.js');
-const { ucStates } = require('@ucbuilder:/enumAndMore');
-const { commonEvent } = require('@ucbuilder:/global/commonEvent.js');
-const { Usercontrol } = require('@ucbuilder:/Usercontrol.js');
-const { dragHelper } = require('@ucbuilder:/global/drag/dragHelper.js');
-const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
+const { ucStates } = require('ucbuilder/enumAndMore');
+const { commonEvent } = require('ucbuilder/global/commonEvent.js');
+const { Usercontrol } = require('ucbuilder/Usercontrol.js');
+const { dragHelper } = require('ucbuilder/global/drag/dragHelper.js');
+const { ResourcesUC } = require('ucbuilder/ResourcesUC.js');
 
 class Movable extends designer {
 

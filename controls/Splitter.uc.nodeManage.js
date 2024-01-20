@@ -1,5 +1,5 @@
 const { splitersGrid } = require("@uccontrols:/controls/Splitter.uc.splitersGrid");
-const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
+const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { spliterType } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { boxHandler } = require('@uccontrols:/controls/Splitter.uc.boxHandler.js');
 /**  

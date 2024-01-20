@@ -1,9 +1,9 @@
-const { commonEvent } = require("@ucbuilder:/global/commonEvent");
-const { Rect } = require("@ucbuilder:/global/drawing/shapes");
-const { Template, TemplateNode } = require("@ucbuilder:/Template");
+const { commonEvent } = require("ucbuilder/global/commonEvent");
+const { Rect } = require("ucbuilder/global/drawing/shapes");
+const { Template, TemplateNode } = require("ucbuilder/Template");
 const LinearList = require("@uccontrols:/controls/LinearList.uc");
 const { positionar } = require("@uccontrols:/controls/comboBox.uc.positionar");
-const { keyBoard } = require("@ucbuilder:/global/hardware/keyboard");
+const { keyBoard } = require("ucbuilder/global/hardware/keyboard");
 
 class binderNode {
     constructor() {

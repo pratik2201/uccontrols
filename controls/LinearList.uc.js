@@ -1,7 +1,7 @@
-const { uniqOpt } = require('@ucbuilder:/build/common.js');
-const { TemplateNode } = require('@ucbuilder:/Template.js');
-const { scrollerLV } = require('@ucbuilder:/global/listUI/scrollerLV');
-const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
+const { uniqOpt } = require('ucbuilder/build/common.js');
+const { TemplateNode } = require('ucbuilder/Template.js');
+const { scrollerLV } = require('ucbuilder/global/listUI/scrollerLV');
+const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { designer } = require('./LinearList.uc.designer.js');
 class LinearList extends designer {
    

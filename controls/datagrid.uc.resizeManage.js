@@ -1,7 +1,7 @@
-const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
-const { gridResizer } = require("@ucbuilder:/global/gridResizer");
-const { Point } = require("@ucbuilder:/global/drawing/shapes");
-const { commonEvent } = require("@ucbuilder:/global/commonEvent");
+const { mouseForMove } = require("ucbuilder/global/mouseForMove");
+const { gridResizer } = require("ucbuilder/global/gridResizer");
+const { Point } = require("ucbuilder/global/drawing/shapes");
+const { commonEvent } = require("ucbuilder/global/commonEvent");
 class measurementNode {
   /** @type {number}  */
   size = 0;

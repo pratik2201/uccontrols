@@ -1,10 +1,10 @@
-const { objectOpt, looping } = require('@ucbuilder:/build/common.js');
-const { Usercontrol } = require('@ucbuilder:/Usercontrol.js');
+const { objectOpt, looping } = require('ucbuilder/build/common.js');
+const { Usercontrol } = require('ucbuilder/Usercontrol.js');
 const { tabChilds } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { dragHandler } = require('@uccontrols:/controls/tabControl.uc.drag.js');
-const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
+const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { designer } = require('./tabControl.uc.designer.js');
-const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
+const { ResourcesUC } = require('ucbuilder/ResourcesUC.js');
 const { newObjectOpt } = require('ucbuilder/global/objectOpt.js');
 const tabRecord = {
     caption: "",

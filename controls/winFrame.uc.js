@@ -1,10 +1,10 @@
 const { designer } = require('./winFrame.uc.designer.js');
 const { dragUc } = require('@uccontrols:/controls/common/draguc.js');
-const { ucStates } = require('@ucbuilder:/enumAndMore');
-const { controlOpt } = require('@ucbuilder:/build/common.js');
-const { ResourcesUC } = require('@ucbuilder:/ResourcesUC.js');
+const { ucStates } = require('ucbuilder/enumAndMore');
+const { controlOpt } = require('ucbuilder/build/common.js');
+const { ResourcesUC } = require('ucbuilder/ResourcesUC.js');
 const { winManager, winContiner } = require('@uccontrols:/controls/winFrame.uc.winManager.js');
-const { timeoutCall } = require("@ucbuilder:/global/timeoutCall");
+const { timeoutCall } = require("ucbuilder/global/timeoutCall");
 const { keyBoard } = require('ucbuilder/global/hardware/keyboard.js');
 
 class winFrame extends designer {

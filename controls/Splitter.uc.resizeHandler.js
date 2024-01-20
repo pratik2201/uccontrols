@@ -1,7 +1,7 @@
-const { objectOpt, controlOpt } = require("@ucbuilder:/build/common");
-const { Rect, Point } = require("@ucbuilder:/global/drawing/shapes");
-const { gridResizer, namingConversion } = require("@ucbuilder:/global/gridResizer");
-const { mouseForMove } = require("@ucbuilder:/global/mouseForMove");
+const { objectOpt, controlOpt } = require("ucbuilder/build/common");
+const { Rect, Point } = require("ucbuilder/global/drawing/shapes");
+const { gridResizer, namingConversion } = require("ucbuilder/global/gridResizer");
+const { mouseForMove } = require("ucbuilder/global/mouseForMove");
 const Splitter = require("@uccontrols:/controls/Splitter.uc");
 const { measurementRow } = require('@uccontrols:/controls/Splitter.uc.enumAndMore.js');
 const { boxHandler } = require("@uccontrols:/controls/Splitter.uc.boxHandler");

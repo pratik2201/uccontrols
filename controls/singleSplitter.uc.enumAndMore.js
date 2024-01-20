@@ -1,4 +1,4 @@
-const { commonEvent } = require("@ucbuilder:/global/commonEvent");
+const { commonEvent } = require("ucbuilder/global/commonEvent");
 
 const spliterType = Object.freeze({
     NOT_DEFINED: "n",

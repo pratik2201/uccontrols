@@ -1,5 +1,5 @@
-const { dragHelper } = require("@ucbuilder:/global/drag/dragHelper");
-const { Usercontrol } = require("@ucbuilder:/Usercontrol");
+const { dragHelper } = require("ucbuilder/global/drag/dragHelper");
+const { Usercontrol } = require("ucbuilder/Usercontrol");
 const tabControl = require("@uccontrols:/controls/tabControl.uc");
 
 class dragHandler {

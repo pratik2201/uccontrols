@@ -1,4 +1,4 @@
-const { Rect } = require("@ucbuilder:/global/drawing/shapes");
+const { Rect } = require("ucbuilder/global/drawing/shapes");
 class positionar {
     /** @type {"left"|"top"|"right"|"bottom"}  */
     direction = "bottom";

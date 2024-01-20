@@ -1,8 +1,8 @@
 const { designer } = require('./ListView.uc.designer.js');
-const { propOpt } = require('@ucbuilder:/build/common.js');
-const { intenseGenerator } = require("@ucbuilder:/intenseGenerator");
-const { pagerLV } = require('@ucbuilder:/global/listUI/pagerLV');
-const { simpleScroll } = require('@ucbuilder:/global/listUI/pager/scrollNodes/simpleScroll');
+const { propOpt } = require('ucbuilder/build/common.js');
+const { intenseGenerator } = require("ucbuilder/intenseGenerator");
+const { pagerLV } = require('ucbuilder/global/listUI/pagerLV');
+const { simpleScroll } = require('ucbuilder/global/listUI/pager/scrollNodes/simpleScroll');
 const { newPagerScroll } = require('ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js');
 /** 
  * @typedef {import ("@ucbuilder:/global/listUI/pager/scrollNodes/pagerScroll").pagerScroll} pagerScroll

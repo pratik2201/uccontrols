@@ -1,9 +1,9 @@
-const { objectOpt } = require('@ucbuilder:/build/common.js');
-const { Rect } = require('@ucbuilder:/global/drawing/shapes.js');
-const { Template } = require('@ucbuilder:/Template.js');
+const { objectOpt } = require('ucbuilder/build/common.js');
+const { Rect } = require('ucbuilder/global/drawing/shapes.js');
+const { Template } = require('ucbuilder/Template.js');
 const comboboxItem = require('@uccontrols:/controls/combobox/comboboxitem.tpt.js');
-const { keyBoard } = require('@ucbuilder:/global/hardware/keyboard.js');
-const { intenseGenerator } = require('@ucbuilder:/intenseGenerator.js');
+const { keyBoard } = require('ucbuilder/global/hardware/keyboard.js');
+const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { designer } = require('./combobox.uc.designer.js');
 const { binderNode } = require('@uccontrols:/controls/comboBox.uc.binderNode');
 
