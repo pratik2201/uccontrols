@@ -1,11 +1,11 @@
 const { objectOpt } = require('ucbuilder/build/common.js');
 const { Rect } = require('ucbuilder/global/drawing/shapes.js');
 const { Template } = require('ucbuilder/Template.js');
-const comboboxItem = require('@uccontrols:/controls/combobox/comboboxitem.tpt.js');
+const comboboxItem = require('uccontrols/controls/combobox/comboboxitem.tpt.js');
 const { keyBoard } = require('ucbuilder/global/hardware/keyboard.js');
 const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
 const { designer } = require('./combobox.uc.designer.js');
-const { binderNode } = require('@uccontrols:/controls/comboBox.uc.binderNode');
+const { binderNode } = require('uccontrols/controls/comboBox.uc.binderNode');
 
 class combobox extends designer {
     set source(val) { this.binder.source = val; }
@@ -58,7 +58,7 @@ class combobox extends designer {
         //console.log(this.itemTemplate);
         if (this.itemTemplate == undefined) {
 
-            this.itemTemplate = intenseGenerator.generateTPT('@uccontrols:/controls/comboBox/comboboxItem.tpt', {
+            this.itemTemplate = intenseGenerator.generateTPT('uccontrols/controls/comboBox/comboboxItem.tpt', {
                 parentUc: this
             });
         }
