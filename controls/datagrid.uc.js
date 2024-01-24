@@ -17,7 +17,7 @@ const {
 
 class datagrid extends designer {
   constructor() {
-    eval(designer.giveMeHug);
+    super(); this.initializecomponent(arguments, this);
     this.init();
     let cbox = this.detail.scroller.scrollBox;
 

@@ -16,7 +16,7 @@ export class Designer extends Usercontrol {
     public cmd_drop: HTMLUnknownElement;
          
    
-    public ll_view: import('uccontrols/controls/linearlist.uc.ts');
+    public ll_view: import('uccontrols/controls/linearlist.uc').linearlist;
 
     
     constructor(){ super(); }
@@ -31,9 +31,7 @@ export class Designer extends Usercontrol {
           this.cmd_drop = CONTROLS.cmd_drop as HTMLUnknownElement;
          
         
-        /** 
-         * @type {import ('uccontrols/controls/linearlist.uc.ts')} \<linearlist\>
-         **/
+       
         this.ll_view = intenseGenerator.generateUC('uccontrols/controls/linearlist.uc.ts',{ 
                             parentUc : this, 
                             mode:args.mode,
@@ -43,7 +41,7 @@ export class Designer extends Usercontrol {
                                 addNodeToParentSession:true,
                             },                           
                             wrapperHT : CONTROLS.ll_view 
-                        });
+                        }) as any;
 
         ucExt.finalizeInit(args);
     }

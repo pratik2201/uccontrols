@@ -7,12 +7,13 @@ import { UcOptions } from 'ucbuilder/enumAndMore';
 import { tabControl } from './tabControl.uc';
 
 
-type ctrsdf =  typeof import("uccontrols/controls/tabControl/itemNode.tpt");
 export class Designer extends Usercontrol {    
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
-    public tpt_itemnode : typeof import("uccontrols/controls/tabControl/itemNode.tpt");
+    
+        
+    public tpt_itemnode: import('uccontrols/controls/tabcontrol/itemNode.tpt').itemNode;
     public container1: HTMLUnknownElement;
     public tabHeader: HTMLElement;
     public tabView: HTMLUnknownElement;
@@ -27,14 +28,11 @@ export class Designer extends Usercontrol {
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
         
-        /**
-         * @type {import ('uccontrols/controls/tabcontrol/itemnode.tpt.ts')} \<itemnode\> 
-         **/
-        this.tpt_itemnode = intenseGenerator.generateTPT('uccontrols/controls/tabcontrol/itemnode.tpt.ts',{ 
+        
+        this.tpt_itemnode = intenseGenerator.generateTPT('uccontrols/controls/tabcontrol/itemNode.tpt.ts',{ 
                             parentUc : this, 
                             elementHT : CONTROLS.tpt_itemnode 
-        });
-        this.tpt_itemnode.
+                       }) as any;
           this.container1 = CONTROLS.container1 as HTMLUnknownElement;
           this.tabHeader = CONTROLS.tabHeader as HTMLElement;
           this.tabView = CONTROLS.tabView as HTMLUnknownElement;

@@ -25,7 +25,7 @@ class LinearList extends designer {
 
     /** @type {TemplateNode}  */
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
     }
     init(){
         this.lvUI.init(this.ucExtends.self,this.ucExtends.self);

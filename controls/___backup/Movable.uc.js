@@ -52,7 +52,7 @@ class Movable extends designer {
         }
     }
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
 
         this.ucExtends.session.autoLoadSession = true;
 

@@ -39,9 +39,7 @@ export class combobox extends designer {
     private isOpeinig: boolean = false;
 
     constructor() {
-        super();
-        
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
         this.ll_view.init();
         if (this.binder == undefined)
             this.binder = this.bindNew();

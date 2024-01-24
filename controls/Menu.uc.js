@@ -1,6 +1,6 @@
 const { designer } = require('./Menu.uc.designer.js');
 class Menu extends designer{
-    constructor() { eval(designer.giveMeHug);
+    constructor() { super(); this.initializecomponent(arguments, this);
         
         
     }

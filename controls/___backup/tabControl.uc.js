@@ -20,7 +20,7 @@ class tabControl extends designer {
         activeIndex: 0,
     };
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
         this.init();
         
     }

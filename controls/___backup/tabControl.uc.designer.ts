@@ -13,7 +13,7 @@ export class Designer extends Usercontrol {
     }
     
         
-    public tpt_itemnode: import('uccontrols/controls/tabcontrol/itemnode.tpt.ts');
+    public tpt_itemnode: import('uccontrols/controls/tabcontrol/itemnode.tpt').itemnode;
     public container1: HTMLUnknownElement;
     public tabHeader: HTMLElement;
     public tabView: HTMLUnknownElement;
@@ -28,13 +28,11 @@ export class Designer extends Usercontrol {
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
         
-        /**
-         * @type {import ('uccontrols/controls/tabcontrol/itemnode.tpt.ts')} \<itemnode\> 
-         **/
+        
         this.tpt_itemnode = intenseGenerator.generateTPT('uccontrols/controls/tabcontrol/itemnode.tpt.ts',{ 
                             parentUc : this, 
                             elementHT : CONTROLS.tpt_itemnode 
-                       });
+                       }) as any;
           this.container1 = CONTROLS.container1 as HTMLUnknownElement;
           this.tabHeader = CONTROLS.tabHeader as HTMLElement;
           this.tabView = CONTROLS.tabView as HTMLUnknownElement;

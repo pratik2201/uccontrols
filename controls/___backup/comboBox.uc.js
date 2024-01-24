@@ -50,7 +50,7 @@ class combobox extends designer {
             this.ll_view.ucExtends.self.contains(document.activeElement);
     }
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
         this.ll_view.init();
         if (this.binder == undefined)
             this.binder = this.bindNew();

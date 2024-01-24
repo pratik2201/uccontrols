@@ -33,7 +33,7 @@ class Splitter extends designer {
     
     generateNode = true;
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
         
         this.ucExtends.session.autoLoadSession = true;
         this.nodeMng.init(this);

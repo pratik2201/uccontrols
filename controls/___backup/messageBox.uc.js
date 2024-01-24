@@ -72,7 +72,7 @@ class messageBox extends designer {
         detail = "",
         buttonType = 'Ok',
     } = {}) {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
 
         this.lbl_messagedetail.innerHTML = detail;
         this.initByButtonType(buttonType);

@@ -72,7 +72,7 @@ class singleSplitter extends designer {
     }
 
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
 
 
         this.allElementHT = this.mainGrid.childNodes;

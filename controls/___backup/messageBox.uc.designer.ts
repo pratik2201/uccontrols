@@ -14,7 +14,7 @@ export class Designer extends Usercontrol {
     
          
    
-    public winframe1: import('uccontrols/controls/winframe.uc.ts');
+    public winframe1: import('uccontrols/controls/winframe.uc').winframe;
     public lbl_message: HTMLUnknownElement;
     public lbl_messagedetail: HTMLElement;
     public buttonList: HTMLElement;
@@ -37,9 +37,7 @@ export class Designer extends Usercontrol {
         let CONTROLS = ucExt.designer.getAllControls();
          
         
-        /** 
-         * @type {import ('uccontrols/controls/winframe.uc.ts')} \<winframe\>
-         **/
+       
         this.winframe1 = intenseGenerator.generateUC('uccontrols/controls/winframe.uc.ts',{ 
                             parentUc : this, 
                             mode:args.mode,
@@ -49,7 +47,7 @@ export class Designer extends Usercontrol {
                                 addNodeToParentSession:true,
                             },                           
                             wrapperHT : CONTROLS.winframe1 
-                        });
+                        }) as any;
           this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
           this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
           this.buttonList = CONTROLS.buttonList as HTMLElement;

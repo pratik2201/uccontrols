@@ -1,21 +1,37 @@
 import { objectOpt, looping } from 'ucbuilder/build/common.js';
 import { Usercontrol } from 'ucbuilder/Usercontrol.js';
-import { tabChilds } from 'uccontrols:/controls/Splitter.uc.enumAndMore.js';
-import { dragHandler } from 'uccontrols:/controls/tabControl.uc.drag.js';
+import { TabChilds, tabChilds } from 'uccontrols/controls/Splitter.uc.enumAndMore';
+import { dragHandler } from 'uccontrols/controls/tabControl.uc.drag.js';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator.js';
 import { Designer } from './tabControl.uc.designer.js';
 import { ResourcesUC } from 'ucbuilder/ResourcesUC.js';
 import { newObjectOpt } from 'ucbuilder/global/objectOpt.js';
 
-interface tabRecord {
+interface TabRecord {
     caption: string;
-    tabButton: HTMLElement | undefined;
-    SESSION: tabChilds | undefined;
+    tabButton: HTMLElement;
+    SESSION: TabChilds;
 }
-
+const tabRecord : TabRecord = {
+    caption: '',
+    tabButton: undefined,
+    SESSION: undefined,
+};
+interface PushUCPera {
+    atIndex?: number;
+    refreshHeader?: boolean;
+    setActive?: boolean;
+}
+const pushUCPera : PushUCPera = {
+    atIndex: -1,
+    refreshHeader: true,
+    setActive: true,
+};
 export class tabControl extends Designer {
+   
+
     SESSION_DATA: {
-        tabChild: tabChilds[];
+        tabChild: TabChilds[];
         activeIndex: number;
     } = {
         tabChild: [],
@@ -23,11 +39,10 @@ export class tabControl extends Designer {
     };
 
     dragHandle: dragHandler = new dragHandler();
-    source: tabRecord[] = [];
+    source: TabRecord[] = [];
 
     constructor() {
-        super();
-        eval(designer.giveMeHug);
+        super();this.initializecomponent(arguments, this);
         this.init();
     }
 
@@ -68,14 +83,9 @@ export class tabControl extends Designer {
         this.tpt_itemnode.setActive(this.SESSION_DATA.activeIndex);
     }
 
-    static pushUCPera = {
-        atIndex: -1,
-        refreshHeader: true,
-        setActive: true,
-    };
-
-    pushUc(uc: Usercontrol, pera: typeof tabControl.pushUCPera): void {
-        let args = newObjectOpt.copyProps(pera, tabControl.pushUCPera);
+ 
+    pushUc(uc: Usercontrol, pera?: PushUCPera): void {
+        let args = newObjectOpt.copyProps(pera, pushUCPera);
         uc.ucExtends.windowstate = 'dock';
         if (args.atIndex == -1)
             this.tabView.appendChild(uc.ucExtends.self);
@@ -97,9 +107,9 @@ export class tabControl extends Designer {
         looping.htmlChildren(this.tabView, (htEle: HTMLElement) => {
             let uc: Usercontrol = ResourcesUC.getBaseObject(htEle);
             let ucext = uc.ucExtends;
-            let ssn: tabChilds = objectOpt.clone(tabChilds);
+            let ssn: TabChilds = objectOpt.clone(tabChilds);
             ssn.filePath = ucext.fileInfo.html.rootPath;
-            ssn.fstamp = ucext.fileStamp;
+            ssn.fstamp = ucext.stampRow.stamp;
             ssn.index = htEle.index();
             ssn.stamp = htEle.stamp();
 
@@ -108,7 +118,7 @@ export class tabControl extends Designer {
             let row = {
                 tabName: htEle.getAttribute("x-caption"),
             };
-            let tab: tabRecord = objectOpt.clone(tabRecord);
+            let tab: TabRecord = objectOpt.clone(tabRecord);
             tab.caption = htEle.getAttribute("x-caption");
             tab.SESSION = ssn;
             let nnode = this.tpt_itemnode.primary.extended.generateNode(tab);

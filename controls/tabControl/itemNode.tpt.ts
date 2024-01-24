@@ -1,7 +1,7 @@
 import { looping } from 'ucbuilder/build/common.js';
 import { DragHelper } from 'ucbuilder/global/drag/DragHelper';
-import { tabControl } from 'uccontrols:/controls/tabControl.uc';
-import { dropIndictors } from 'uccontrols:/controls/tabControl/itemNode.tpt.enumAndMode.js';
+import { tabControl } from 'uccontrols/controls/tabControl.uc';
+import { dropIndictors } from 'uccontrols/controls/tabControl/itemNode.tpt.enumAndMode.js';
 import { Designer } from './itemNode.tpt.designer.js';
 import { ResourcesUC } from 'ucbuilder/ResourcesUC.js';
 import { Usercontrol } from 'ucbuilder/Usercontrol.js';

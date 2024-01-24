@@ -50,7 +50,7 @@ class winFrame extends designer {
     /** @type {winManager}  */
     manage = undefined;
     constructor() {
-        eval(designer.giveMeHug);
+        super(); this.initializecomponent(arguments, this);
         this.ucExtends.session.autoLoadSession = true;
         this.parentUCExt = this.ucExtends.PARENT.ucExtends;
         /** @type {HTMLElement}  */
