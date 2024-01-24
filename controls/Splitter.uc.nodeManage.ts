@@ -4,8 +4,6 @@ import { SpliterType } from 'uccontrols/controls/Splitter.uc.enumAndMore.js';
 import { boxHandler } from 'uccontrols/controls/Splitter.uc.boxHandler.js';
 import { Splitter } from 'uccontrols/controls/Splitter.uc';
 
-
-
 export class nodeManage {
     main: Splitter | undefined;
 
@@ -17,9 +15,9 @@ export class nodeManage {
         let node: HTMLElement = document.createElement('node');
         let view: HTMLElement = document.createElement('view');
         node.appendChild(view);
-        this.main?.ucExtends.passElement(node);
+        this.main.ucExtends.passElement(node);
         let box = new boxHandler();
-        node.dataset.box = box;
+        node.data('box', box);        
         box.init(splGrid, node, view);
         return {
             node: node,
@@ -30,7 +28,8 @@ export class nodeManage {
 
     giveReadyNode(splGrid: splitersGrid) {
         let sadoNode = this.givePlainNode(splGrid);
-        let ucs = intenseGenerator.generateUC(this.main?.SESSION_DATA.primaryContainer, { parentUc: this.main });
+        let ucs = intenseGenerator.generateUC(this.main.SESSION_DATA.primaryContainer,
+                        { parentUc: this.main });
         sadoNode.view.appendChild(ucs.ucExtends.self);
         sadoNode.box.uc = ucs;
         return {
