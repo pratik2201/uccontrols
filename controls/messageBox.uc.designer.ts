@@ -4,7 +4,7 @@ import { UcOptions } from 'ucbuilder/enumAndMore';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { messageBox } from './messageBox.uc';
+import { MessageBox } from './MessageBox.uc';
 
 
 export class Designer extends Usercontrol {    
@@ -28,7 +28,7 @@ export class Designer extends Usercontrol {
 
     
     constructor(){ super(); }
-    initializecomponent(argsLst: IArguments, form: messageBox) {
+    initializecomponent(argsLst: IArguments, form: MessageBox) {
          //let fargs = argsLst[0];
         //let args = fargs[fargs.length - 1];
         let args = argsLst[argsLst.length - 1] as UcOptions;

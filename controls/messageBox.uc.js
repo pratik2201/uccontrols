@@ -2,7 +2,7 @@
 const { messageBoxResult, buttonTypes } = require('uccontrols/controls/messageBox.uc.enumAndMore.js');
 const { keyBoard } = require('ucbuilder/global/hardware/keyboard.js');
 const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
-const { designer } = require('./messageBox.uc.designer.js');
+const { designer } = require('./MessageBox.uc.designer.js');
 class messageBox extends designer {
 
     /**

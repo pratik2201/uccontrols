@@ -1,12 +1,12 @@
 import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator.js';
-import { Designer } from './messageBox.uc.designer.js';
+import { Designer } from './MessageBox.uc.designer.js';
 
 export type MessageBoxResult = "none" | "yes" | "no" | "ok" | "cancel" | "abort" | "retry" | "ignore";
 
-export type MessageButtonTypes = "Ok" | "OkCancel" | "AbortRetryIgnore" | "YesNoCancel" | "YesNo" | "RetryCancel";
+export type MessageBoxButtonTypes = "Ok" | "OkCancel" | "AbortRetryIgnore" | "YesNoCancel" | "YesNo" | "RetryCancel";
 
-export class messageBox extends Designer {
+export class MessageBox extends Designer {
 
     static Show(
         message: string = "",
@@ -19,11 +19,11 @@ export class messageBox extends Designer {
         }: {
             title?: string,
             detail?: string,
-            buttonType?: MessageButtonTypes,
+            buttonType?: MessageBoxButtonTypes,
             defaultFocus?: MessageBoxResult,
         } = {}
     ) {
-        let uc: messageBox = intenseGenerator.generateUC('uccontrols/controls/messageBox.uc', {}, arguments[2]) as messageBox;
+        let uc: MessageBox = intenseGenerator.generateUC('uccontrols/controls/messageBox.uc', {}, arguments[2]) as MessageBox;
         uc.resultCallback = result;
         uc.lbl_message.innerHTML = message;
         if (title == undefined) {
@@ -73,7 +73,7 @@ export class messageBox extends Designer {
     }: {
         title?: string,
         detail?: string,
-        buttonType?: MessageButtonTypes,
+        buttonType?: MessageBoxButtonTypes,
     } = {}) {
         super();
         this.initializecomponent(arguments, this);
@@ -145,7 +145,7 @@ export class messageBox extends Designer {
         }
     }
 
-    initByButtonType(type: MessageButtonTypes) {
+    initByButtonType(type: MessageBoxButtonTypes) {
         switch (type) {
             case 'Ok':
                 this.cmd_ok.style.display = 'inline-block';

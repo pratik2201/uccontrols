@@ -34,9 +34,5 @@ class LinearList extends designer {
     static ATTR = {
         SOURCE: "sdta" + uniqOpt.randomNo()
     }
-
-   
-
-
 }
 module.exports = LinearList;
