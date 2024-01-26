@@ -14,7 +14,7 @@ export class Designer extends Usercontrol {
     
          
    
-    public winframe1: import('uccontrols/controls/winframe.uc').winframe;
+    public winframe1: import('uccontrols/controls/winframe.uc').winFrame;
     public lbl_message: HTMLUnknownElement;
     public lbl_messagedetail: HTMLElement;
     public buttonList: HTMLElement;
@@ -38,7 +38,7 @@ export class Designer extends Usercontrol {
          
         
        
-        this.winframe1 = intenseGenerator.generateUC('uccontrols/controls/winframe.uc.ts',{ 
+        this.winframe1 = intenseGenerator.generateUC('uccontrols/controls/winFrame.uc.ts',{ 
                             parentUc : this, 
                             mode:args.mode,
                             session:{

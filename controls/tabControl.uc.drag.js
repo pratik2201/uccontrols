@@ -1,43 +1,36 @@
-const { dragHelper } = require("ucbuilder/global/drag/dragHelper");
-const { Usercontrol } = require("ucbuilder/Usercontrol");
-const tabControl = require("uccontrols/controls/tabControl.uc");
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dragHandler = void 0;
+const dragHelper_1 = require("ucbuilder/global/drag/dragHelper");
 class dragHandler {
-    constructor() { }
-    /**  @type {tabControl}  */
-    main = undefined;
-    draging = new dragHelper();
-    /**  @param {tabControl} main  */
+    constructor() {
+        this.draging = new dragHelper_1.DragHelper();
+    }
     init(main) {
         this.main = main;
-        this.draging.dragDrop((ev) => {
-            let dta = dragHelper.draggedData;
+        this.draging.dragDrop((htEle, ev) => {
+            let dta = dragHelper_1.DragHelper.draggedData;
             if (dta.type == "uc") {
                 try {
-                    /** @type {Usercontrol}  */
                     let uc = dta.data;
                     this.main.pushUc(uc);
-                   
-                    dragHelper.dragResult = true;
-
-                } catch (exc) {
-                    //console.log(esc);
-                    dragHelper.dragResult = false;
+                    dragHelper_1.DragHelper.dragResult = true;
+                }
+                catch (exc) {
+                    dragHelper_1.DragHelper.dragResult = false;
                 }
             }
         }, [this.main.tabView]);
-        
-
-        dragHelper.ON_START((ev) => {
-            let dragdata = dragHelper.draggedData;
+        dragHelper_1.DragHelper.ON_START((htEle, ev) => {
+            let dragdata = dragHelper_1.DragHelper.draggedData;
             if (dragdata.type == "uc") {
                 this.draging.start();
                 this.main.tpt_itemnode.draging.start();
             }
-        }, (ev) => {
+        }, (htEle, ev) => {
             this.draging.stop();
             this.main.tpt_itemnode.draging.stop();
         });
     }
 }
-module.exports = { dragHandler };
+exports.dragHandler = dragHandler;

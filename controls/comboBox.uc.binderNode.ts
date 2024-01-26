@@ -1,7 +1,7 @@
 import { CommonEvent } from "ucbuilder/global/commonEvent";
 import { Rect } from 'ucbuilder/global/drawing/shapes.js';
 import { Template, TemplateNode } from "ucbuilder/Template";
-import LinearList from "uccontrols/controls/LinearList.uc";
+import {LinearList} from "uccontrols/controls/LinearList.uc";
 import { Positionar } from "uccontrols/controls/comboBox.uc.positionar";
 import { keyBoard } from "ucbuilder/global/hardware/keyboard";
 
@@ -13,11 +13,11 @@ export class binderNode {
     private filteredSource: any[] = [];
     private main: LinearList;
     private position: Positionar;
-    private fireSelectedIndexChangeEvent: boolean = true;
+    public fireSelectedIndexChangeEvent: boolean = true;
     template: TemplateNode;
     private allowedElementList: HTMLElement[] = [];
-    private hasBound: boolean = false;
-    private direction: string = "";
+    public hasBound: boolean = false;
+    public direction: string = "";
     private dontOpen: boolean = false;
     private verticalMinHeight: number = 15;
     private horizontalMinHeight: number = 15;
@@ -98,7 +98,7 @@ export class binderNode {
             if (node != undefined)
                 node.setAttribute('is-selected', '1');
             if (this.fireSelectedIndexChangeEvent)
-                this.Events.selectedIndexChange.fire(val, oIndex);
+                this.Events.selectedIndexChange.fire([val, oIndex]);
             else this.fireSelectedIndexChangeEvent = true;
         }
     }

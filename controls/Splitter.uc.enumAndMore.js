@@ -1,92 +1,57 @@
-const { commonEvent } = require("ucbuilder/global/commonEvent");
-const { newObjectOpt } = require("ucbuilder/global/objectOpt");
-
-const tabChilds = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tabBoxRow = exports.dropIndictors = exports.splitterMeasurementRow = exports.splitterCell = exports.tabChilds = void 0;
+const commonEvent_1 = require("ucbuilder/global/commonEvent");
+exports.tabChilds = {
     index: -1,
     stamp: "",
     filePath: "",
     fstamp: "",
     session: {},
-}
-const splitterCell = {
-   
+};
+exports.splitterCell = {
     ucPath: "",
     attribList: "",
-    /** @type {{}}  */
     session: {},
-}
-
-const measurementRow = {
-    /** @type {number}  */ 
+};
+exports.splitterMeasurementRow = {
+    /** @type {number}  */
     size: undefined,
-    data: newObjectOpt.clone(splitterCell),
-}
-
-const dropIndictors = {
-    /** @type {HTMLElement}  */
+    data: Object.assign({}, exports.splitterCell),
+};
+exports.dropIndictors = {
     leftPoll: '<drop parent="dragassets" dir="left" ></drop>'.$(),
-    /** @type {HTMLElement}  */
     rightPoll: '<drop parent="dragassets" dir="right" ></drop>'.$(),
-    /** @type {HTMLElement}  */
     topPoll: '<drop parent="dragassets" dir="top" ></drop>'.$(),
-    /** @type {HTMLElement}  */
     bottomPoll: '<drop parent="dragassets" dir="bottom" ></drop>'.$(),
-    /** @type {HTMLElement}  */
     indictor: '<indicator parent="dragassets" dir="none" ></indicator>'.$(),
-
-    /** @type {container[]}  */
+    /** @type {HTMLElement[]}  */
     get asArray() {
-        return [dropIndictors.indictor,
-        dropIndictors.leftPoll,
-        dropIndictors.topPoll,
-        dropIndictors.rightPoll,
-        dropIndictors.bottomPoll];
+        return [exports.dropIndictors.indictor,
+            exports.dropIndictors.leftPoll,
+            exports.dropIndictors.topPoll,
+            exports.dropIndictors.rightPoll,
+            exports.dropIndictors.bottomPoll];
     },
-    possiblePlaces: Object.freeze({
-        leftRect: "leftRect",
-        centerRect: "centerRect",
-        rightRect: "rightRect",
-        topRect: "topRect",
-        bottomRect: "bottomRect",
-        none: "none",
-    })
-}
-class dragInfo {
-    constructor() { }
-    /** @private */
-    dragData = undefined;
-    /** @private */
-    lastDroppedData = undefined;
-    setDragData = (data) => { this.dragData = data; this.hasDropped = false; }
-    hasDropped = true;
-    getDragData = () => {
-        //console.log('drag.getDragData');
-        this.lastDroppedData = this.dragData;
-        //this.dragData = undefined;
+};
+class DragInfo {
+    constructor() {
+        this.dragData = undefined;
+        this.lastDroppedData = undefined;
         this.hasDropped = true;
-        return this.lastDroppedData;
+        this.setDragData = (data) => { this.dragData = data; this.hasDropped = false; };
+        this.getDragData = () => {
+            this.lastDroppedData = this.dragData;
+            this.hasDropped = true;
+            return this.lastDroppedData;
+        };
+        this.getLastData = () => { return this.lastDroppedData; };
+        this.onDragStart = new commonEvent_1.CommonEvent;
+        this.onDragEnd = new commonEvent_1.CommonEvent;
     }
-
-    getLastData = () => { return this.lastDroppedData; }
-    onDragStart = new commonEvent();
-    onDragEnd = new commonEvent();
 }
-module.exports = {
-    dragInfo,
-    dropIndictors,
-    /** @type {"notdefined"|"columns"|"rows"}  */
-    spliterType : 'notdefined',
-    tabChilds : tabChilds,
-    dragDataNode: {
-        uc: undefined,
-        tabBx: undefined
-    },
-    tabBoxRow: {
-        /** @type {tabChilds[]}  */
-        children: [],
-        nodeId: "",
-        role: "",
-    },
-    splitterCell,
-    measurementRow
+exports.tabBoxRow = {
+    children: [],
+    nodeId: '',
+    role: '',
 };

@@ -34,11 +34,13 @@ export const splitterCell: SplitterCell = {
 export interface SplitterMeasurementRow extends MeasurementRow {
     data: SplitterCell;
 }
-export const splitterMeasurementRow: SplitterMeasurementRow= {
-    /** @type {number}  */ 
+export const splitterMeasurementRow: SplitterMeasurementRow = {
+    /** @type {number}  */
     size: undefined,
-    data: Object.assign({},splitterCell),
+    data: Object.assign({}, splitterCell),
 }
+export type PossiblePlaces = "leftRect" | "centerRect" | "rightRect" | "topRect" | "bottomRect" | "none";
+export type PossibleDirection = "leftRect" | "centerRect" | "rightRect" | "topRect" | "bottomRect" | "none";
 
 export interface DropIndictors {
     leftPoll: HTMLElement;
@@ -47,14 +49,7 @@ export interface DropIndictors {
     bottomPoll: HTMLElement;
     indictor: HTMLElement;
     asArray: HTMLElement[];
-    possiblePlaces: {
-        leftRect: string;
-        centerRect: string;
-        rightRect: string;
-        topRect: string;
-        bottomRect: string;
-        none: string;
-    };
+  
 }
 export const dropIndictors: DropIndictors = {
     leftPoll: '<drop parent="dragassets" dir="left" ></drop>'.$(),
@@ -70,14 +65,6 @@ export const dropIndictors: DropIndictors = {
         dropIndictors.rightPoll,
         dropIndictors.bottomPoll];
     },
-    possiblePlaces: Object.freeze({
-        leftRect: "leftRect",
-        centerRect: "centerRect",
-        rightRect: "rightRect",
-        topRect: "topRect",
-        bottomRect: "bottomRect",
-        none: "none",
-    })
 }
 
 class DragInfo {
@@ -85,15 +72,15 @@ class DragInfo {
     dragData: any = undefined;
     lastDroppedData: any = undefined;
     hasDropped: boolean = true;
-    setDragData = (data:any) => { this.dragData = data; this.hasDropped = false; }
+    setDragData = (data: any) => { this.dragData = data; this.hasDropped = false; }
     getDragData = () => {
         this.lastDroppedData = this.dragData;
         this.hasDropped = true;
         return this.lastDroppedData;
     }
     getLastData = () => { return this.lastDroppedData; }
-    onDragStart = new CommonEvent<()=>void>;
-    onDragEnd = new CommonEvent<()=>void>;
+    onDragStart = new CommonEvent<() => void>;
+    onDragEnd = new CommonEvent<() => void>;
 }
 export type SpliterType = "notdefined" | "columns" | "rows";
 
@@ -107,7 +94,7 @@ export interface TabBoxRow {
     nodeId: string;
     role: string;
 }
-export const tabBoxRow:TabBoxRow =  {
+export const tabBoxRow: TabBoxRow = {
     children: [],
     nodeId: '',
     role: '',

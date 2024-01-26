@@ -1,28 +1,18 @@
-const { splitersGrid } = require("uccontrols/controls/Splitter.uc.splitersGrid");
-const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
-const { spliterType } = require('uccontrols/controls/Splitter.uc.enumAndMore.js');
-const { boxHandler } = require('uccontrols/controls/Splitter.uc.boxHandler.js');
-/**  
- * @typedef {import("uccontrols/controls/Splitter.uc")} Splitter 
- **/
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.nodeManage = void 0;
+const intenseGenerator_js_1 = require("ucbuilder/intenseGenerator.js");
+const Splitter_uc_boxHandler_js_1 = require("uccontrols/controls/Splitter.uc.boxHandler.js");
 class nodeManage {
-    constructor() { }
-    /** @type {Splitter}  */
-    main = undefined;
-    /** @param {Splitter} main   */
     init(main) {
         this.main = main;
     }
-
-    /**  @param {splitersGrid} splGrid */
     givePlainNode(splGrid) {
-        /** @type {HTMLElement}  */
-        let node = '<node></node>'.$();
-        /** @type {HTMLElement}  */
-        let view = '<view></view>'.$();
+        let node = document.createElement('node');
+        let view = document.createElement('view');
         node.appendChild(view);
         this.main.ucExtends.passElement(node);
-        let box = new boxHandler();
+        let box = new Splitter_uc_boxHandler_js_1.boxHandler();
         node.data('box', box);
         box.init(splGrid, node, view);
         return {
@@ -31,35 +21,29 @@ class nodeManage {
             box: box
         };
     }
-
-    /** @param {splitersGrid} splGrid */
     giveReadyNode(splGrid) {
         let sadoNode = this.givePlainNode(splGrid);
-        let ucs = intenseGenerator.generateUC(this.main.SESSION_DATA.primaryContainer, { parentUc: this.main });
+        let ucs = intenseGenerator_js_1.intenseGenerator.generateUC(this.main.SESSION_DATA.primaryContainer, { parentUc: this.main });
         sadoNode.view.appendChild(ucs.ucExtends.self);
         sadoNode.box.uc = ucs;
         return {
             node: sadoNode.node,
             view: sadoNode.view,
             box: sadoNode.box,
-        }
+        };
     }
-
-
-    /** 
-     * @param {spliterType} type
-     * @returns {Splitter}
-     */
     giveNewGrid(type = 'notdefined') {
-        /** @type {HTMLElement}  */
-        let elementHT = `<Splitter x.SESSION_DATA.type="=${type}"  ${this.main.myPropertiesText}  ></Splitter>`.$();
-        elementHT.setAttribute("x:generateNode", false);
-        /** @type {Splitter}  */
-        let uc = intenseGenerator.generateUC("uccontrols/controls/Splitter.uc.html", {
+        let elementHT = document.createElement('Splitter');
+        elementHT.setAttribute("x.SESSION_DATA.type", `=${type}`);
+        elementHT.setAttribute("x:generateNode", "false");
+        let uc = intenseGenerator_js_1.intenseGenerator.generateUC("uccontrols/controls/Splitter.uc.html", {
             wrapperHT: elementHT,
-            parentUc: this
+            parentUc: this.main
         });
+        /*let ms = nodeManage.getMod('uccontrols/controls/Splitter.uc.js').then((v) => {
+           
+        })*/
         return uc;
     }
 }
-module.exports = { nodeManage };
+exports.nodeManage = nodeManage;

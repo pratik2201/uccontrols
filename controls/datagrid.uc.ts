@@ -25,11 +25,11 @@ export class datagrid extends Designer {
     super();
     this.initializecomponent(arguments, this);
     this.init();
-    let cbox: HTMLElement = this.detail.scroller.scrollBox;
+    let cbox = this.detail.scroller.scrollBox;
 
     this.detail.init(this.detailGridHT1, this.pagercntnr1, this);
 
-    let hscroller: simpleScroll = new simpleScroll("h");
+    let hscroller: simpleScroll = new simpleScroll("Horizontal");
     hscroller.init(this.detail, this.hscrollbar1);
     hscroller.Event.onScroll.on((e: Event) => {
       this.headerSectionHT.scrollLeft = this.footerSectionHT.scrollLeft =
@@ -42,7 +42,7 @@ export class datagrid extends Designer {
           this.hscrollbar1.scrollLeft;
     });
 
-    let vscroller: newPagerScroll = new newPagerScroll("v");
+    let vscroller: newPagerScroll = new newPagerScroll("Vertical");
     vscroller.elementNode.beginText = this.begin_scroll_text;
     vscroller.elementNode.endText = this.end_scroll_text;
     vscroller.init(this.detail, this.vscrollbar1);

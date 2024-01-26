@@ -1,4 +1,4 @@
-import {  dropIndictors, splitterMeasurementRow,SplitterMeasurementRow } from "uccontrols/controls/Splitter.uc.enumAndMore";
+import {  dropIndictors,PossiblePlaces, splitterMeasurementRow,SplitterMeasurementRow } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { dragHandler } from "uccontrols/controls/Splitter.uc.dragHandler";
 import { Usercontrol } from "ucbuilder/Usercontrol";
 import {Splitter} from "uccontrols/controls/Splitter.uc";
@@ -30,16 +30,16 @@ export class boxHandler {
         this.main = main;
         this.splMain = main.main;
         this.node = node;
-        this.view = (view == undefined) ? node.children.item(0) : view;
+        this.view = (view == undefined) ? node.children.item(0) as HTMLElement : view;
         this.drag.init(this);
         this.drag.onDropNeeded = (dir, importUcFromDrag = false) => {
             switch (dir) {
-                case dropIndictors.possiblePlaces.rightRect:
-                case dropIndictors.possiblePlaces.leftRect:
+                case 'rightRect':
+                case 'leftRect':
                     this.dropH(dir, importUcFromDrag);
                     break;
-                case dropIndictors.possiblePlaces.topRect:
-                case dropIndictors.possiblePlaces.bottomRect:
+                case 'topRect':
+                case 'bottomRect':
                     this.dropV(dir, importUcFromDrag);
                     break;
             }
@@ -68,7 +68,7 @@ export class boxHandler {
         return nnode;
     }
 
-    dropH(dir: dropIndictors.possiblePlaces, importUcFromDrag = false): void {
+    dropH(dir: PossiblePlaces, importUcFromDrag = false): void {
         switch (this.main.info.type) {
             case 'notdefined':
             case 'columns':
@@ -76,7 +76,7 @@ export class boxHandler {
                 let len = this.main.length;
                 this.main.type = 'columns';
                 switch (dir) {
-                    case dropIndictors.possiblePlaces.rightRect:
+                    case 'rightRect':
                         if (len == 0 || index == this.main.lastIndex) {
                             this.pushData(index, this.node.offsetWidth / 2, true, importUcFromDrag);
                         } else {
@@ -84,7 +84,7 @@ export class boxHandler {
                             this.pushData(index, size / 2, true, importUcFromDrag);
                         }
                         break;
-                    case dropIndictors.possiblePlaces.leftRect:
+                    case 'leftRect':
                         if (len == 0 || index == this.main.lastIndex) {
                             this.pushData(index, this.node.offsetWidth / 2, false, importUcFromDrag);
                         } else {
@@ -99,21 +99,21 @@ export class boxHandler {
                 let topMeasurement = this.splMain.tree.measurement[this.node.index()].data;
                 let ndm1 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
                 let ndm2 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
-                ngrid.tree.pushBox(ndm2);
-                ngrid.tree.pushBox(ndm1);
+                ngrid.tree.pushBox(ndm2.box);
+                ngrid.tree.pushBox(ndm1.box);
                 this.view.appendChild(ngrid.ucExtends.self);
                 ngrid.tree.refresh();
                 topMeasurement.ucPath = ngrid.ucExtends.fileInfo.html.rootPath;
                 topMeasurement.attribList = controlOpt.xPropToAttr(ngrid.ucExtends.self);
                 if (this.view.children.length != 0) {
                     switch (dir) {
-                        case dropIndictors.possiblePlaces.rightRect:
+                        case 'rightRect':
                             ndm1.view.innerHTML = "";
                             ndm1.view.appendChild(this.uc.ucExtends.self);
                             DragHelper.dragResult = ndm2.box.uc.ucExtends.Events.onDataImport(DragHelper.draggedData);
                             this.uc.ucExtends.session.exchangeParentWith(ngrid.tree.measurement[0].data.session);
                             break;
-                        case dropIndictors.possiblePlaces.leftRect:
+                        case 'leftRect':
                             ndm2.view.innerHTML = "";
                             ndm2.view.appendChild(this.uc.ucExtends.self);
                             DragHelper.dragResult = ndm1.box.uc.ucExtends.Events.onDataImport(DragHelper.draggedData);
@@ -126,7 +126,7 @@ export class boxHandler {
         }
     }
 
-    dropV(dir: dropIndictors.possiblePlaces, importUcFromDrag = false): void {
+    dropV(dir: PossiblePlaces, importUcFromDrag = false): void {
         switch (this.main.info.type) {
             case 'notdefined':
             case 'rows':
@@ -134,7 +134,7 @@ export class boxHandler {
                 let len = this.main.length;
                 this.main.type = 'rows';
                 switch (dir) {
-                    case dropIndictors.possiblePlaces.bottomRect:
+                    case 'bottomRect':
                         if (len == 0 || index == this.main.lastIndex) {
                             this.pushData(index, this.node.offsetHeight / 2, true, importUcFromDrag);
                         } else {
@@ -142,7 +142,7 @@ export class boxHandler {
                             this.pushData(index, size / 2, true, importUcFromDrag);
                         }
                         break;
-                    case dropIndictors.possiblePlaces.topRect:
+                    case 'topRect':
                         if (len == 0 || index == this.main.lastIndex) {
                             this.pushData(index, this.node.offsetHeight / 2, false, importUcFromDrag);
                         } else {
@@ -157,21 +157,21 @@ export class boxHandler {
                 let topMeasurement = this.splMain.tree.measurement[this.node.index()].data;
                 let ndm1 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
                 let ndm2 = ngrid.nodeMng.giveReadyNode(ngrid.tree);
-                ngrid.tree.pushBox(ndm2);
-                ngrid.tree.pushBox(ndm1);
+                ngrid.tree.pushBox(ndm2.box);
+                ngrid.tree.pushBox(ndm1.box);
                 this.view.appendChild(ngrid.ucExtends.self);
                 ngrid.tree.refresh();
                 topMeasurement.ucPath = ngrid.ucExtends.fileInfo.html.rootPath;
                 topMeasurement.attribList = controlOpt.xPropToAttr(ngrid.ucExtends.self);
                 if (this.view.children.length != 0) {
                     switch (dir) {
-                        case dropIndictors.possiblePlaces.bottomRect:
+                        case 'bottomRect':
                             ndm1.view.innerHTML = "";
                             ndm1.view.appendChild(this.uc.ucExtends.self);
                             DragHelper.dragResult = ndm2.box.uc.ucExtends.Events.onDataImport(DragHelper.draggedData);
                             this.uc.ucExtends.session.exchangeParentWith(ngrid.tree.measurement[0].data.session);
                             break;
-                        case dropIndictors.possiblePlaces.topRect:
+                        case 'topRect':
                             ndm2.view.innerHTML = "";
                             ndm2.view.appendChild(this.uc.ucExtends.self);
                             DragHelper.dragResult = ndm1.box.uc.ucExtends.Events.onDataImport(DragHelper.draggedData);

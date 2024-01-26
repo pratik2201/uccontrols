@@ -1,32 +1,36 @@
-const { objectOpt, looping } = require('ucbuilder/build/common.js');
-const { Usercontrol } = require('ucbuilder/Usercontrol.js');
-const { tabChilds } = require('uccontrols/controls/Splitter.uc.enumAndMore.js');
-const { dragHandler } = require('uccontrols/controls/tabControl.uc.drag.js');
-const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
-const { designer } = require('./tabControl.uc.designer.js');
-const { ResourcesUC } = require('ucbuilder/ResourcesUC.js');
-const { newObjectOpt } = require('ucbuilder/global/objectOpt.js');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tabControl = void 0;
+const common_js_1 = require("ucbuilder/build/common.js");
+const Usercontrol_js_1 = require("ucbuilder/Usercontrol.js");
+const Splitter_uc_enumAndMore_1 = require("uccontrols/controls/Splitter.uc.enumAndMore");
+const tabControl_uc_drag_js_1 = require("uccontrols/controls/tabControl.uc.drag.js");
+const intenseGenerator_js_1 = require("ucbuilder/intenseGenerator.js");
+const tabControl_uc_designer_js_1 = require("./tabControl.uc.designer.js");
+const ResourcesUC_js_1 = require("ucbuilder/ResourcesUC.js");
+const objectOpt_js_1 = require("ucbuilder/global/objectOpt.js");
 const tabRecord = {
-    caption: "",
-    /** @type {HTMLElement}  */
+    caption: '',
     tabButton: undefined,
-    /** @type {tabChilds}  */
     SESSION: undefined,
-}
-class tabControl extends designer {
-    SESSION_DATA = {
-        /** @type {tabChilds[]}  */
-        tabChild: [],
-        activeIndex: 0,
-    };
+};
+const pushUCPera = {
+    atIndex: -1,
+    refreshHeader: true,
+    setActive: true,
+};
+class tabControl extends tabControl_uc_designer_js_1.Designer {
     constructor() {
-        super(); this.initializecomponent(arguments, this);
+        super();
+        this.SESSION_DATA = {
+            tabChild: [],
+            activeIndex: 0,
+        };
+        this.dragHandle = new tabControl_uc_drag_js_1.dragHandler();
+        this.source = [];
+        this.initializecomponent(arguments, this);
         this.init();
-        
     }
-    dragHandle = new dragHandler();
-    /** @type {tabRecord[]}  */
-    source = [];
     init() {
         this.tpt_itemnode.init(this);
         this.ucExtends.Events.loadLastSession.on(() => {
@@ -35,14 +39,9 @@ class tabControl extends designer {
         this.ucExtends.Events.onDataImport = (data) => {
             switch (data.type) {
                 case 'uc':
-                    
-                    if (objectOpt.parse(data.data, Usercontrol.name)) {
-                        /** @type {Usercontrol}  */
+                    if (common_js_1.objectOpt.parse(data.data, Usercontrol_js_1.Usercontrol.name)) {
                         let uc = data.data;
                         this.pushUc(uc);
-                        //this.refreshTabHeader();
-                        //this.tpt_itemnode.setActive(uc.ucExtends.self.index());
-
                         return true;
                     }
                     break;
@@ -55,30 +54,19 @@ class tabControl extends designer {
         return this.tabView.children.length;
     }
     loadSession() {
-
         this.SESSION_DATA.tabChild.forEach(node => {
-            let nuc = intenseGenerator.generateUC(node.filePath, {
-                
+            let nuc = intenseGenerator_js_1.intenseGenerator.generateUC(node.filePath, {
                 parentUc: this,
-                session:{ loadBySession:true }
+                session: { loadBySession: true }
             });
             nuc.ucExtends.session.setSession(node.session[""]);
-            this.pushUc(nuc,{ refreshHeader:false,setActive:false });
+            this.pushUc(nuc, { refreshHeader: false, setActive: false });
         });
         this.refreshTabHeader();
         this.tpt_itemnode.setActive(this.SESSION_DATA.activeIndex);
     }
-    static pushUCPera = {
-        atIndex : -1,
-        refreshHeader:true,
-        setActive:true,
-    }
-    /**
-     * @param {Usercontrol} uc 
-     * @param {tabControl.pushUCPera} pera 
-     */
     pushUc(uc, pera) {
-        let args = newObjectOpt.copyProps(pera, tabControl.pushUCPera);
+        let args = objectOpt_js_1.newObjectOpt.copyProps(pera, pushUCPera);
         uc.ucExtends.windowstate = 'dock';
         if (args.atIndex == -1)
             this.tabView.appendChild(uc.ucExtends.self);
@@ -88,39 +76,31 @@ class tabControl extends designer {
         uc.ucExtends.Events.activate.on(() => {
             this.tpt_itemnode.setActive(uc.ucExtends.self.index());
         });
-        if (args.refreshHeader) this.refreshTabHeader();
-        if(args.setActive)
+        if (args.refreshHeader)
+            this.refreshTabHeader();
+        if (args.setActive)
             this.tpt_itemnode.setActive(uc.ucExtends.self.index());
     }
-    
     refreshTabHeader() {
         this.tabHeader.innerHTML = "";
         this.SESSION_DATA.tabChild.length = 0;
         this.source.length = 0;
-        looping.htmlChildren(this.tabView, (htEle) => {
-            /** @type {Usercontrol}  */
-            let uc = ResourcesUC.getBaseObject(htEle);
+        common_js_1.looping.htmlChildren(this.tabView, (htEle) => {
+            let uc = ResourcesUC_js_1.ResourcesUC.getBaseObject(htEle);
             let ucext = uc.ucExtends;
-            /** @type {tabChilds}  */
-            let ssn = objectOpt.clone(tabChilds);
-            ssn.filePath = ucext.fileInfo.html.rootPath,
-                ssn.fstamp = ucext.fileStamp;
+            let ssn = common_js_1.objectOpt.clone(Splitter_uc_enumAndMore_1.tabChilds);
+            ssn.filePath = ucext.fileInfo.html.rootPath;
+            ssn.fstamp = ucext.stampRow.stamp;
             ssn.index = htEle.index();
             ssn.stamp = htEle.stamp();
-
-
-            //console.log(uc.ucSession.stamp);
-            //console.log(uc.ucSession.parentSource);
-
             uc.ucExtends.session.exchangeParentWith(ssn.session);
             this.SESSION_DATA.tabChild.push(ssn);
             let row = {
                 tabName: htEle.getAttribute("x-caption"),
             };
-            /** @type {tabRecord}  */
-            let tab = objectOpt.clone(tabRecord);
-            tab.caption = htEle.getAttribute("x-caption"),
-                tab.SESSION = ssn;
+            let tab = common_js_1.objectOpt.clone(tabRecord);
+            tab.caption = htEle.getAttribute("x-caption");
+            tab.SESSION = ssn;
             let nnode = this.tpt_itemnode.primary.extended.generateNode(tab);
             tab.tabButton = nnode;
             uc.ucExtends.Events.afterClose.on(() => {
@@ -128,10 +108,7 @@ class tabControl extends designer {
                 nnode.remove();
             });
             this.tabHeader.appendChild(nnode);
-
         });
-        //this.dragHandle.draging.node.enter.reFill(Array.from(this.tabHeader.children),true,true);
-        //this.dragHandle.draging.node.leave.reFill(Array.from(this.tabHeader.children),true,true);
     }
 }
-module.exports = tabControl;
+exports.tabControl = tabControl;

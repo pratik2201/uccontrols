@@ -89,7 +89,7 @@ export class Splitter extends Designer {
         let len = 0;
         this.tree.allElementHT.forEach(ele => {
             let bx: boxHandler = ele.data('box');
-            let val = bx.uc.length;
+            let val = bx.uc['length'] as number;
             if (val != undefined) len += val;
         });
         return len;

@@ -1,171 +1,125 @@
-const { commonEvent } = require("ucbuilder/global/commonEvent");
-const { Point, Size, Rect } = require("ucbuilder/global/drawing/shapes");
-const { Usercontrol } = require("ucbuilder/Usercontrol");
-const dragMode = Object.freeze({
-    none: -1,
-    move: 0,
-    left: 1,
-    top: 2,
-    right: 3,
-    bottom: 4,
-    topleft: 5,
-    topright: 6,
-    bottomleft: 7,
-    bottomright: 8,
-});
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dragUc = void 0;
+const commonEvent_1 = require("ucbuilder/global/commonEvent");
+const shapes_1 = require("ucbuilder/global/drawing/shapes");
+var dragMode;
+(function (dragMode) {
+    dragMode[dragMode["none"] = -1] = "none";
+    dragMode[dragMode["move"] = 0] = "move";
+    dragMode[dragMode["left"] = 1] = "left";
+    dragMode[dragMode["top"] = 2] = "top";
+    dragMode[dragMode["right"] = 3] = "right";
+    dragMode[dragMode["bottom"] = 4] = "bottom";
+    dragMode[dragMode["topleft"] = 5] = "topleft";
+    dragMode[dragMode["topright"] = 6] = "topright";
+    dragMode[dragMode["bottomleft"] = 7] = "bottomleft";
+    dragMode[dragMode["bottomright"] = 8] = "bottomright";
+})(dragMode || (dragMode = {}));
 class dragUc {
-    resizer = {
-        /** @type {HTMLElement}  */
-        left: `<resizer role="left"></resizer>`.$(),
-        /** @type {HTMLElement}  */
-        top: `<resizer role="top"></resizer>`.$(),
-        /** @type {HTMLElement}  */
-        right: `<resizer role="right"></resizer>`.$(),
-        /** @type {HTMLElement}  */
-        bottom: `<resizer role="bottom"></resizer>`.$(),
-
-        /** @type {HTMLElement}  */
-        topleft: `<corner role="topleft"></corner>`.$(),
-        /** @type {HTMLElement}  */
-        topright: `<corner role="topright"></corner>`.$(),
-        /** @type {HTMLElement}  */
-        bottomleft: `<corner role="bottomleft"></corner>`.$(),
-        /** @type {HTMLElement}  */
-        bottomright: `<corner role="bottomright"></corner>`.$(),
-
-        /** @type {HTMLElement}  */
-        rect: `<resizer role="drawSelection"></resizer>`.$(),
-        /** @param {"block":"none"} val */
-        cssDisplay(val) {
-            this.top.style.display =
-                this.right.style.display =
-                this.bottom.style.display =
-                this.left.style.display =
-                this.topleft.style.display =
-                this.topright.style.display =
-                this.bottomleft.style.display =
-                this.bottomright.style.display =
-                this.rect.style.display = val;
-        },
-        getResizerAr: () => {
-            if (this.allowResize) {
-                let rsz = this.resizer;
-                return [rsz.left, rsz.top, rsz.right, rsz.bottom,
-                rsz.topleft, rsz.topright,
-                rsz.bottomright, rsz.bottomleft];
-            } else return [];
-        },
-        /** @param {Usercontrol} uc */
-        connect: (uc = undefined) => {
-            let res = this.resizer;
-            let ucHT = this.containerHT;
-
-            if (this.allowResize)
-                if (uc == undefined) {
-                    ucHT.append(res.left, res.top, res.right, res.bottom,
-                        res.topleft, res.topright, res.bottomright,
-                        res.bottomleft, res.rect);
-                } else {
-                    ucHT.append(...uc.ucExtends.passElement(
-                        [res.left, res.top, res.right, res.bottom, res.topleft,
-                        res.topright, res.bottomright,
-                        res.bottomleft, res.rect]));
-                }
-        },
-        /**
-         * @param {HTMLElement} ele 
-         * @returns {dragMode}
-         */
-        getMode(ele) {
-            switch (ele.stamp()) {
-                case this.top.stamp(): return dragMode.top;
-                case this.left.stamp(): return dragMode.left;
-                case this.right.stamp(): return dragMode.right;
-                case this.bottom.stamp(): return dragMode.bottom;
-                case this.topleft.stamp(): return dragMode.topleft;
-                case this.topright.stamp(): return dragMode.topright;
-                case this.bottomleft.stamp(): return dragMode.bottomleft;
-                case this.bottomright.stamp(): return dragMode.bottomright;
-                default: return dragMode.none;
-            }
-        }
-    };
     constructor() {
-
+        this.resizer = {
+            left: document.createElement("resizer"),
+            top: document.createElement("resizer"),
+            right: document.createElement("resizer"),
+            bottom: document.createElement("resizer"),
+            topleft: document.createElement("corner"),
+            topright: document.createElement("corner"),
+            bottomleft: document.createElement("corner"),
+            bottomright: document.createElement("corner"),
+            rect: document.createElement("resizer"),
+            cssDisplay(val) {
+                this.top.style.display =
+                    this.right.style.display =
+                        this.bottom.style.display =
+                            this.left.style.display =
+                                this.topleft.style.display =
+                                    this.topright.style.display =
+                                        this.bottomleft.style.display =
+                                            this.bottomright.style.display =
+                                                this.rect.style.display = val;
+            },
+            getResizerAr: () => {
+                if (this.allowResize) {
+                    let rsz = this.resizer;
+                    return [rsz.left, rsz.top, rsz.right, rsz.bottom,
+                        rsz.topleft, rsz.topright,
+                        rsz.bottomright, rsz.bottomleft];
+                }
+                else
+                    return [];
+            },
+            connect: (uc = undefined) => {
+                let res = this.resizer;
+                let ucHT = this.containerHT;
+                if (this.allowResize)
+                    if (uc == undefined) {
+                        ucHT.append(res.left, res.top, res.right, res.bottom, res.topleft, res.topright, res.bottomright, res.bottomleft, res.rect);
+                    }
+                    else {
+                        ucHT.append(...uc.ucExtends.passElement([res.left, res.top, res.right, res.bottom, res.topleft,
+                            res.topright, res.bottomright,
+                            res.bottomleft, res.rect]));
+                    }
+            },
+            getMode(ele) {
+                switch (ele.stamp()) {
+                    case this.top.stamp(): return dragMode.top;
+                    case this.left.stamp(): return dragMode.left;
+                    case this.right.stamp(): return dragMode.right;
+                    case this.bottom.stamp(): return dragMode.bottom;
+                    case this.topleft.stamp(): return dragMode.topleft;
+                    case this.topright.stamp(): return dragMode.topright;
+                    case this.bottomleft.stamp(): return dragMode.bottomleft;
+                    case this.bottomright.stamp(): return dragMode.bottomright;
+                    default: return dragMode.none;
+                }
+            }
+        };
+        this.allowMove = true;
+        this.allowResize = true;
+        this.containerHT = undefined;
+        this.containerStyle = undefined;
+        this.titleHT = [];
+        this.Events = {
+            onmousemove: (evt) => false,
+            onmousedown: (evt) => false,
+            onmouseup: (evt) => false,
+            onResizeStart: new commonEvent_1.CommonEvent(),
+            onResizeEnd: new commonEvent_1.CommonEvent(),
+            onMoveStart: new commonEvent_1.CommonEvent(),
+            onMoveEnd: new commonEvent_1.CommonEvent(),
+        };
+        this.finalRect = {
+            left: 0,
+            top: 0,
+            width: 0,
+            height: 0,
+        };
     }
-    allowMove = true;
-    allowResize = true;
-    /** @type {HTMLElement}  */
-    containerHT = undefined;
-
-    /** @type {CSSStyleDeclaration}  */
-    containerStyle = undefined;
-    /** @type {container[]}  */
-    titleHT = [];
-    /**
-     * @param {HTMLElement} containerHT 
-     * @param {container[]} titleHT 
-     */
     init(containerHT, ...titleHT) {
         this.containerHT = containerHT;
         this.containerStyle = window.getComputedStyle(this.containerHT);
         this.titleHT.push(...titleHT);
-
-        /*this.titleHT.forEach(ele=>{
-            this.callEvents(ele);
-        });*/
         this.callEvents();
     }
-    /**
-     * 
-     * @param {HTMLElement} ele
-     * @returns {dragMode}
-     */
     getMode(ele) {
         let index = this.titleHT.findIndex(s => s.contains(ele));
-        if (index != -1) return dragMode.move;
+        if (index != -1)
+            return dragMode.move;
         return this.resizer.getMode(ele);
-    }
-    Events = {
-        /**
-         * @param {MouseEvent} evt 
-         * @returns {boolean|undefined} `true` will exit from event
-         */
-        onmousemove: (evt) => { },
-        /**
-         * @param {MouseEvent} evt 
-         * @returns {boolean|undefined} `true` will exit from event
-         */
-        onmousedown: (evt) => { },
-        /**
-         * @param {MouseEvent} evt 
-         * @returns {boolean|undefined} `true` will exit from event
-         */
-        onmouseup: (evt) => { },
-        onResizeStart: new commonEvent(),
-        onResizeEnd: new commonEvent(),
-        onMoveStart: new commonEvent(),
-        onMoveEnd: new commonEvent(),
-    };
-    finalRect = {
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0,
     }
     callEvents() {
         let _this = this;
-        let controlRect = new Rect();
-        let selectRect = new Rect();
+        let controlRect = new shapes_1.Rect();
+        let selectRect = new shapes_1.Rect();
         let rectStyles = this.resizer.rect.style;
         [...this.resizer.getResizerAr(), ...this.titleHT].on('mousedown', (evt) => {
-            if (!_this.allowMove || _this.Events.onmousedown(evt) === true) return;
+            if (!_this.allowMove || _this.Events.onmousedown(evt) === true)
+                return;
             let mode = _this.getMode(evt.target);
             if (mode != dragMode.none) {
-                let real = _this.containerStyle,
-                    cntnrPos = new Point(parseFloat(real.left), parseFloat(real.top)),
-                    cntnrSize = new Size(parseFloat(real.width), parseFloat(real.height)),
-                    downPos = new Point(evt.clientX, evt.clientY);
+                let real = _this.containerStyle, cntnrPos = new shapes_1.Point(parseFloat(real.left), parseFloat(real.top)), cntnrSize = new shapes_1.Size(parseFloat(real.width), parseFloat(real.height)), downPos = new shapes_1.Point(evt.clientX, evt.clientY);
                 controlRect.setBy.style(real);
                 selectRect.setBy.rect(controlRect);
                 selectRect.size.width -= 5;
@@ -173,17 +127,22 @@ class dragUc {
                 selectRect.location.x = 0;
                 selectRect.location.y = 0;
                 switch (mode) {
-                    case dragMode.move: this.Events.onMoveStart.fire(); break;
-                    default: this.Events.onResizeStart.fire(); break;
+                    case dragMode.move:
+                        this.Events.onMoveStart.fire();
+                        break;
+                    default:
+                        this.Events.onResizeStart.fire();
+                        break;
                 }
                 let target = evt.target;
                 document.body.addEventListener('mousemove', drag, false);
-                document.body.on('mouseup mouseleave', function () {
+                function mouseup_mouseleave_event() {
                     document.body.removeEventListener('mousemove', drag, false);
-
-                    // console.log(_this.finalRect);
                     switch (mode) {
-                        case dragMode.move: _this.Events.onmouseup(evt); _this.Events.onMoveEnd.fire(); break;
+                        case dragMode.move:
+                            _this.Events.onmouseup(evt);
+                            _this.Events.onMoveEnd.fire();
+                            break;
                         case dragMode.none: break;
                         default:
                             _this.finalRect.left = controlRect.left;
@@ -199,10 +158,12 @@ class dragUc {
                     }
                     _this.resizer.rect.style.display = "none";
                     mode = dragMode.none;
-                }, false);
-                /** @param {MouseEvent} evt */
+                }
+                document.body.on('mouseup', mouseup_mouseleave_event);
+                document.body.on('mouseleave', mouseup_mouseleave_event);
                 function drag(evt) {
-                    if (_this.Events.onmousemove(evt) === true) return;
+                    if (_this.Events.onmousemove(evt) === true)
+                        return;
                     let difx = evt.clientX - downPos.x;
                     let dify = evt.clientY - downPos.y;
                     let drawRect = true;
@@ -210,7 +171,6 @@ class dragUc {
                         case dragMode.move:
                             _this.containerHT.style.left = cntnrPos.x + difx + 'px';
                             _this.containerHT.style.top = cntnrPos.y + dify + 'px';
-
                             _this.finalRect.left = cntnrPos.x + difx;
                             _this.finalRect.top = cntnrPos.y + dify;
                             drawRect = false;
@@ -274,13 +234,12 @@ class dragUc {
                             top:${selectRect.top}px;
                             width:${selectRect.width}px;
                             height:${selectRect.height}px;display:block;`;
-                        // console.log(_this.resizer.rect);
-                        _this.resizer.rect.style = styleText;
-
+                        _this.resizer.rect.setAttribute('style', styleText);
                     }
-                };
+                }
+                ;
             }
-        }, false);
+        });
     }
 }
-module.exports = { dragUc }
+exports.dragUc = dragUc;

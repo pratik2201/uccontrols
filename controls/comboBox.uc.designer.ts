@@ -16,7 +16,7 @@ export class Designer extends Usercontrol {
     public cmd_drop: HTMLUnknownElement;
          
    
-    public ll_view: import('uccontrols/controls/linearlist.uc').linearlist;
+    public ll_view: import('uccontrols/controls/LinearList.uc').LinearList;
 
     
     constructor(){ super(); }

@@ -140,8 +140,8 @@ export class Movable extends Designer {
             let pucHT = this.parentElementHT;
             if (pucHT.nextSibling != null)
                 pucHT.parentElement.appendChild(pucHT);
-            this.parentUCExt.Events.activate.fire(this.ucExtends.PARENT);
-            this.movableEvents.extended.onActivateWindow.fire(this.ucExtends.PARENT);
+            this.parentUCExt.Events.activate.fire();
+            this.movableEvents.extended.onActivateWindow.fire([this.ucExtends.PARENT]);
         });
     }
 

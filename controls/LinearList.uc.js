@@ -1,38 +1,39 @@
-const { uniqOpt } = require('ucbuilder/build/common.js');
-const { TemplateNode } = require('ucbuilder/Template.js');
-const { scrollerLV } = require('ucbuilder/global/listUI/scrollerLV');
-const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
-const { designer } = require('./LinearList.uc.designer.js');
-class LinearList extends designer {
-   
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LinearList = void 0;
+const common_js_1 = require("ucbuilder/build/common.js");
+const scrollerLV_1 = require("ucbuilder/global/listUI/scrollerLV");
+const intenseGenerator_js_1 = require("ucbuilder/intenseGenerator.js");
+const LinearList_uc_designer_js_1 = require("./LinearList.uc.designer.js");
+class LinearList extends LinearList_uc_designer_js_1.Designer {
+    constructor() {
+        super();
+        this.lvUI = new scrollerLV_1.ScrollerLV();
+        this.initializecomponent(arguments, this);
+    }
     get itemTemplate() {
-        
         return this.lvUI.itemTemplate;
     }
-    
     set itemTemplate(value) {
-        this.lvUI.itemTemplate = intenseGenerator.parseTPT(value,this);       
+        this.lvUI.itemTemplate = intenseGenerator_js_1.intenseGenerator.parseTPT(value, this);
     }
-    get Records(){ return this.lvUI.Records;  }
-    get nodes(){ return this.lvUI.nodes;  }
-    get Events() { return this.lvUI.Events; }
-    
-    lvUI = new scrollerLV();
-
-   
-    get source() {   return this.lvUI.source; }
-
-
-    /** @type {TemplateNode}  */
-    constructor() {
-        super(); this.initializecomponent(arguments, this);
+    get Records() {
+        return this.lvUI.Records;
     }
-    init(){
-        this.lvUI.init(this.ucExtends.self,this.ucExtends.self);
+    get nodes() {
+        return this.lvUI.nodes;
     }
-  
-    static ATTR = {
-        SOURCE: "sdta" + uniqOpt.randomNo()
+    get Events() {
+        return this.lvUI.Events;
+    }
+    get source() {
+        return this.lvUI.source;
+    }
+    init() {
+        this.lvUI.init(this.ucExtends.self, this.ucExtends.self);
     }
 }
-module.exports = LinearList;
+exports.LinearList = LinearList;
+LinearList.ATTR = {
+    SOURCE: "sdta" + common_js_1.uniqOpt.randomNo()
+};

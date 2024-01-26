@@ -9,7 +9,7 @@ export class ListView extends Designer {
 
     accessKey: string = propOpt.ATTR.ACCESS_KEY;
     lvUI: pagerLV = new pagerLV();
-    get source(): any[] { return this.lvUI.source; }
+    get source() { return this.lvUI.source; }
     indexOf(ele: any): number { return this.lvUI.nodes.indexOf(ele); }
     get itemTemplate(): any {
         return this.lvUI.itemTemplate;
@@ -38,10 +38,10 @@ export class ListView extends Designer {
         this.lvUI.init(this.ll_view, this.scroller1, this);
        
 
-        let hscroller = new simpleScroll('h'); 
+        let hscroller = new simpleScroll('Horizontal'); 
         hscroller.init(this.lvUI,this.hscrollbar1);
 
-        let vscroller = new newPagerScroll('v');
+        let vscroller = new newPagerScroll('Vertical');
         vscroller.elementNode.beginText = this.begin_scroll_text;
         vscroller.elementNode.endText = this.end_scroll_text;
         vscroller.init(this.lvUI,this.vscrollbar1);
@@ -71,8 +71,8 @@ export class ListView extends Designer {
 
     }
 
-    get lvUiNodes(): any[] { return this.lvUI.nodes; };
-    get lvUiRecords(): any[] { return this.lvUI.Records; }
+    get lvUiNodes() { return this.lvUI.nodes; };
+    get lvUiRecords() { return this.lvUI.Records; }
     get currentRecord(): any { return this.lvUI.source[this.lvUI.OPTIONS.SESSION.currentIndex]; }
     init() {
         this.initListView();

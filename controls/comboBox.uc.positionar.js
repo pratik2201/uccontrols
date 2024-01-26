@@ -1,22 +1,20 @@
-const { Rect } = require("ucbuilder/global/drawing/shapes");
-class positionar {
-    /** @type {"left"|"top"|"right"|"bottom"}  */
-    direction = "bottom";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Positionar = void 0;
+const shapes_js_1 = require("ucbuilder/global/drawing/shapes.js");
+class Positionar {
     constructor() {
+        this.direction = "bottom";
+        this.bodyRect = new shapes_js_1.Rect();
+        this.dockRect = new shapes_js_1.Rect();
+        this.dockHT = null;
+        this.minSizeDifference = 100;
+        this.txtboxRect = null;
         this.bodyRect.setBy.domRect(document.body.getClientRects()[0]);
     }
-    bodyRect = new Rect();
-    dockRect = new Rect();
-    /** @param {HTMLElement} dockHT */
-    init(dockHT){
+    init(dockHT) {
         this.dockHT = dockHT;
     }
-    minSizeDifference = 100;
-    
-    /**
-     * @param {HTMLElement} dockHT 
-     * @param {Rect} txtboxRect 
-     */
     show(txtboxRect) {
         this.styles = {
             'left': `${txtboxRect.left}px`,
@@ -30,29 +28,21 @@ class positionar {
         this.dockRect.setBy.domRect(this.dockHT.getClientRects()[0]);
         this.txtboxRect = txtboxRect;
         this.txtBoxOverFlow = txtboxRect.getOverFlowDetail(this.bodyRect);
-        
         this.doprocess(this.direction);
     }
-    /**
-     * 
-     * @param {HTMLElement} this.txtboxRect 
-     * @param {"left"|"top"|"right"|"bottom"} direction 
-     */
-    doprocess(direction = 'bottom'){
-        this.dockHT.setAttribute("dir",direction);
+    doprocess(direction = 'bottom') {
+        this.dockHT.setAttribute("dir", direction);
         switch (direction) {
             case 'bottom':
-                if(this.txtBoxOverFlow.bottom<this.minSizeDifference){
-                    //this.dockRect.location.initPointByVal(this.txtboxRect.left, this.txtboxRect.top-this.dockRect.height);
+                if (this.txtBoxOverFlow.bottom < this.minSizeDifference) {
                     this.doprocess('top');
                     return;
-                }else{
-                    
+                }
+                else {
                     this.dockRect.location.setBy.value(this.txtboxRect.left, this.txtboxRect.bottom);
                 }
                 break;
             case 'right':
-                //console.log(tbFlowDetail);
                 this.dockRect.location.setBy.value(this.txtboxRect.right, this.txtboxRect.top);
                 break;
             case 'left':
@@ -62,14 +52,11 @@ class positionar {
                 this.dockRect.location.setBy.value(this.txtboxRect.left, this.txtboxRect.top - this.dockRect.height);
                 break;
         }
-
         let overFlowDetail = this.dockRect.getOverFlowDetail(this.bodyRect);
-        
         document.body.appendChild(this.dockHT);
         switch (direction) {
             case 'top':
-                this.styles.top = Math.max(0,this.dockRect.location.y)-1 + "px";
-                //console.log(overFlowDetail.top+'  =>  '+overFlowDetail.topSize);
+                this.styles.top = Math.max(0, this.dockRect.location.y) - 1 + "px";
                 if (overFlowDetail.top > 0)
                     delete this.styles.height;
                 else
@@ -93,4 +80,4 @@ class positionar {
         Object.assign(this.dockHT.style, this.styles);
     }
 }
-module.exports = { positionar };
+exports.Positionar = Positionar;

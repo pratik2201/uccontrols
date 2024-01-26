@@ -1,6 +1,6 @@
 import { DragHelper } from "ucbuilder/global/drag/dragHelper";
 import { boxHandler } from "uccontrols/controls/Splitter.uc.boxHandler";
-import { dropIndictors } from "uccontrols/controls/Splitter.uc.enumAndMore";
+import { dropIndictors,PossiblePlaces } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
 import { Splitter } from "uccontrols/controls/Splitter.uc";
 
@@ -11,11 +11,11 @@ export class dragHandler {
     get splGrid(): splitersGrid {
         return this.main!.main;
     }
-
+    spl: Splitter;
     init(main: boxHandler): void {
         this.main = main;
         this.spl = this.splGrid.main;
-        DragHelper.ON_START((ev: Event) => {
+        DragHelper.ON_START((htEle,ev) => {
             let dta = DragHelper.draggedData;
             switch (dta.type) {
                 case 'uc':
@@ -24,7 +24,7 @@ export class dragHandler {
                     break;
             }
 
-        }, (ev: Event) => {
+        }, (htEle,ev) => {
             this.spl.ucExtends.self.setAttribute("isInDragMode", "0");
             dropIndictors.asArray.forEach(s => s.remove());
             this.draging.stop();
@@ -32,17 +32,17 @@ export class dragHandler {
 
         let nodeStamp = this.main.node.stamp();
         this.draging
-            .dragOver((ev: Event) => {
+            .dragOver((htEle,ev) => {
             }, [this.main.node])
-            .dragLeave((ev: Event) => {
+            .dragLeave((htEle,ev) => {
                 /*if (ev.target.is(ev.currentTarget))
                     this.dragVisibility(false);*/
             }, [this.main.node])
-            .dragEnter((ev: Event) => {
-                if (ev.currentTarget.stamp() == nodeStamp) {
+            .dragEnter((htEle,ev) => {
+                if ((ev.currentTarget as HTMLElement).stamp() == nodeStamp) {
                     //console.log(ev.currentTarget.stamp()+" == "+nodeStamp);
-                    let uq = ev.target.stamp();
-                    let dir = dropIndictors.possiblePlaces.none;
+                    let uq = (ev.target as HTMLElement).stamp();
+                    let dir = 'none';
                     switch (uq) {
                         case dropIndictors.leftPoll.stamp(): dir = "left"; break;
                         case dropIndictors.topPoll.stamp(): dir = "top"; break;
@@ -58,16 +58,16 @@ export class dragHandler {
                     ev.stopImmediatePropagation();
                 }
             }, [this.main.node])
-            .dragDrop((ev: Event) => {
+            .dragDrop((htEle,ev) => {
                 ev.stopPropagation();
                    
-                let uq = ev.target.stamp();
-                let dir = dropIndictors.possiblePlaces.none;
+                let uq = (ev.target as HTMLElement).stamp();
+                let dir:PossiblePlaces = 'none';
                 switch (uq) {
-                    case dropIndictors.leftPoll.stamp(): dir = dropIndictors.possiblePlaces.leftRect; break;
-                    case dropIndictors.topPoll.stamp(): dir = dropIndictors.possiblePlaces.topRect; break;
-                    case dropIndictors.rightPoll.stamp(): dir = dropIndictors.possiblePlaces.rightRect; break;
-                    case dropIndictors.bottomPoll.stamp(): dir = dropIndictors.possiblePlaces.bottomRect; break;
+                    case dropIndictors.leftPoll.stamp(): dir = 'leftRect'; break;
+                    case dropIndictors.topPoll.stamp(): dir = 'topRect'; break;
+                    case dropIndictors.rightPoll.stamp(): dir = 'rightRect'; break;
+                    case dropIndictors.bottomPoll.stamp(): dir = 'bottomRect'; break;
                     default:
                         //this.dropHereFromDrag();
                         ev.stopPropagation();
@@ -101,7 +101,7 @@ export class dragHandler {
         }
     }
 
-    onDropNeeded = (dir: string, importUcFromDrag: boolean = false): void => {
+    onDropNeeded = (dir: PossiblePlaces, importUcFromDrag: boolean = false): void => {
 
     }
 }

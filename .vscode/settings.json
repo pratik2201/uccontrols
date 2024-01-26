@@ -5,7 +5,7 @@
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "explorer.fileNesting.enabled": true,    
     "explorer.fileNesting.patterns": {
-        "*.uc.js": "${capture}.uc.*",
-        "*.tpt.js": "${capture}.tpt.*"
+        "*.uc.ts": "${capture}.uc.*",
+        "*.tpt.ts": "${capture}.tpt.*"
     }
 }

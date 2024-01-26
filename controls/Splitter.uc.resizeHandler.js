@@ -1,44 +1,47 @@
-const { objectOpt, controlOpt } = require("ucbuilder/build/common");
-const { Rect, Point } = require("ucbuilder/global/drawing/shapes");
-const { gridResizer, namingConversion } = require("ucbuilder/global/gridResizer.js");
-const { mouseForMove } = require("ucbuilder/global/mouseForMove");
-const Splitter = require("uccontrols/controls/Splitter.uc");
-const { measurementRow } = require('uccontrols/controls/Splitter.uc.enumAndMore.js');
-const { boxHandler } = require("uccontrols/controls/Splitter.uc.boxHandler");
-const { spliterType, splitterCell } = require("uccontrols/controls/Splitter.uc.enumAndMore");
-const { splitersGrid } = require("uccontrols/controls/Splitter.uc.splitersGrid");
-/**
- * @typedef {import ("ucbuilder/Usercontrol").Usercontrol} Usercontrol
- */
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resizeHandler = void 0;
+const shapes_1 = require("ucbuilder/global/drawing/shapes");
+const GridResizer_1 = require("ucbuilder/global/GridResizer");
+const mouseForMove_1 = require("ucbuilder/global/mouseForMove");
+const Splitter_uc_enumAndMore_1 = require("uccontrols/controls/Splitter.uc.enumAndMore");
+const common_1 = require("ucbuilder/build/common");
 class resizeHandler {
-    /** @type {namingConversion}  */
-    nameList = gridResizer.getConvertedNames('grid-template-columns');
-    gridRsz = new gridResizer();
-    /** @type {measurementRow}  */
-    bluePrint = {
-        /** @type {HTMLElement}  */
-        size: undefined,
-        data: {}
-    };
-
-    set measurement(value) { this.gridRsz.measurement = value; }
-    get measurement() { return this.gridRsz.measurement; }
-
     constructor() {
+        this.nameList = (0, GridResizer_1.getConvertedNames)('grid-template-columns');
+        this.gridRsz = new GridResizer_1.GridResizer();
+        this.bluePrint = {
+            size: undefined,
+            data: Object.assign({}, Splitter_uc_enumAndMore_1.splitterCell)
+        };
+        this.uc = undefined;
+        this._type = 'notdefined';
+        this.Events = {
+            onRefresh: (index, measurement) => {
+            },
+            onMouseDown: (prevIndex, currentIndex) => {
+            },
+            beforeCollepse: (index, spaceAllocateIndex) => {
+                return false;
+            },
+        };
+        this.allowResize = true;
+        this.resizerHTlist = [];
+        this.minSizeForCollapse = 20;
+        this.isPrevCollapsable = false;
+        this.isNextCollapsable = false;
         this.gridRsz.resizeMode = 'slider';
     }
-    /** @type {Splitter}  */
-    uc = undefined;
-    /** @param {Splitter} uc */
+    set measurement(value) { this.gridRsz.measurement = value; }
+    get measurement() { return this.gridRsz.measurement; }
     init(uc) {
-     
         this.uc = uc;
         this.measurement = this.uc.SESSION_DATA.measurement;
-        this.gridRsz.init({
+        /*this.gridRsz.init({
             grid: uc.mainContainer,
             nodeName: "node",
-        });
-        this.bluePrint = objectOpt.clone(measurementRow);
+        });*/
+        this.bluePrint = common_1.objectOpt.clone(Splitter_uc_enumAndMore_1.splitterMeasurementRow);
         this.allElementHT = this.grid.childNodes;
         this.Events.onMouseDown = (pIndex, cIndex) => {
             this.isPrevCollapsable = this.allElementHT[pIndex].data('box').uc.length === 0;
@@ -48,14 +51,6 @@ class resizeHandler {
     get grid() {
         return this.gridRsz.options.grid;
     }
-
-
-    /** @type {container[]}  */
-    allElementHT = undefined;
-
-
-    /** @type {spliterType}  */
-    _type = '';
     get type() {
         return this._type;
     }
@@ -63,48 +58,22 @@ class resizeHandler {
         this._type = value;
         switch (value) {
             case "columns":
-                this.nameList = gridResizer.getConvertedNames('grid-template-columns');
+                this.nameList = (0, GridResizer_1.getConvertedNames)('grid-template-columns');
                 this.gridRsz.gridTemplate = this.nameList.gridTemplate;
                 break;
             case "rows":
-                this.nameList = gridResizer.getConvertedNames('grid-template-rows');
+                this.nameList = (0, GridResizer_1.getConvertedNames)('grid-template-rows');
                 this.gridRsz.gridTemplate = this.nameList.gridTemplate;
                 break;
         }
     }
-
-
-    Events = {
-        /**
-         * @param {number} index 
-         * @param {measurementRow} measurement 
-         */
-        onRefresh: (index, measurement) => {
-
-        },
-        onMouseDown: (prevIndex, currentIndex) => {
-
-        },
-        /**
-         * @param {number} index this indexed node will removed
-         * @param {number} spaceAllocateIndex this node will consume all those space of removed node
-         * @returns {boolean} return `false` will prevent the action
-         */
-        beforeCollepse: (index, spaceAllocateIndex) => {
-
-        },
-
-        //beforePushingResizer:()=>{ return true; }
-    }
-    allowResize = true;
     refresh() {
-
         let len = this.allElementHT.length;
-        if (len == 0) { return; }
+        if (len == 0) {
+            return;
+        }
         let hasStyle = this.gridRsz.hasDefinedStyles;
-        
         let offsetSize = this.nameList.offsetSize;
-
         this.gridFullSize = hasStyle ? 0 : this.grid[offsetSize];
         let eqSize = this.gridFullSize / len;
         let obj = undefined;
@@ -112,9 +81,10 @@ class resizeHandler {
             for (let i = 0; i < len; i++) {
                 this.Events.onRefresh(i, this.measurement[i]);
             }
-        } else {
+        }
+        else {
             for (let i = 0; i < len; i++) {
-                obj = objectOpt.clone(this.bluePrint);
+                obj = common_1.objectOpt.clone(this.bluePrint);
                 obj.size = eqSize;
                 this.measurement[i] = obj;
                 this.Events.onRefresh(i, obj);
@@ -122,10 +92,11 @@ class resizeHandler {
         }
         this.giveResizer();
     }
-    /** @type {container[]}  */
-    resizerHTlist = [];
     giveResizer() {
-        if (!this.allowResize) { this.gridRsz.refreshView(); return; }
+        if (!this.allowResize) {
+            this.gridRsz.refreshView();
+            return;
+        }
         let len = this.allElementHT.length;
         this.resizerHTlist.forEach(s => s.delete());
         this.resizerHTlist = [];
@@ -138,27 +109,14 @@ class resizeHandler {
         }
         this.gridRsz.refreshView();
     }
-    /** @type {HTMLElement}  */
-    static resizerHT = `<resizer role="left"></resizer>`.$();
-    /** @type {HTMLElement}  */
-    static drawSelectionHT = `<splitter-resizer-abc role="drawSelection"></splitter-resizer-abc>`.$();
-    /**
-     * @param {number} index 
-     * @param {HTMLElement} resizer 
-     */
     doWithIndex(resizer, index) {
         let _this = this;
-        /** @type {number}  */
-        //let lpos = undefined;
-        //let measurement = _this.measurement;
-        let selectionRect = new Rect();
+        let selectionRect = new shapes_1.Rect();
         let selection_oldPoint = 0;
         let selection_oldSize = 0;
-        /**  @type {measurementRow} */
         let prevNode = undefined;
-        /**  @type {measurementRow} */
         let nextNode = undefined;
-        let mouseMv = new mouseForMove();
+        let mouseMv = new mouseForMove_1.MouseForMove();
         let xy_text = _this.nameList.point;
         let size_text = _this.nameList.size;
         mouseMv.bind({
@@ -169,8 +127,7 @@ class resizeHandler {
                 Object.assign(resizeHandler.drawSelectionHT.style, selectionRect.applyHT.all());
                 resizeHandler.drawSelectionHT.style.visibility = "visible";
                 selectionRect.setBy.domRect(htEle.getClientRects()[0]);
-                selectionRect.applyHT.all(resizeHandler.drawSelectionHT);
-                
+                Object.assign(resizeHandler.drawSelectionHT.style, selectionRect.applyHT.all());
                 selection_oldPoint = selectionRect.location[xy_text];
                 selection_oldSize = selectionRect.size[size_text];
                 this.Events.onMouseDown(index - 1, index);
@@ -181,14 +138,14 @@ class resizeHandler {
                 let dval = diff[xy_text];
                 if ((prevNode.size + dval) <= _this.minSizeForCollapse && _this.isPrevCollapsable) {
                     diff[xy_text] -= prevNode.size + dval;
-                } else if ((nextNode.size - dval) <= _this.minSizeForCollapse && _this.isNextCollapsable) {
+                }
+                else if ((nextNode.size - dval) <= _this.minSizeForCollapse && _this.isNextCollapsable) {
                     diff[xy_text] += nextNode.size - dval;
                 }
                 dval = diff[xy_text];
                 selectionRect.location[xy_text] = selection_oldPoint + dval;
                 selectionRect.size[size_text] = selection_oldSize - dval;
                 Object.assign(resizeHandler.drawSelectionHT.style, selectionRect.applyHT.all());
-
             },
             onUp: (e, diff) => {
                 let ovl = prevNode.size;
@@ -203,14 +160,10 @@ class resizeHandler {
                 _this.uc.ucExtends.session.onModify();
             }
         }, resizer);
-
     }
-    /**
-     * @param {number} index item index to remove
-     * @param {number} spaceAllocateIndex item index in which removed element's space will added
-     */
     removeNode(index, spaceAllocateIndex) {
-        if (this.Events.beforeCollepse(index, spaceAllocateIndex) === false) return;
+        if (this.Events.beforeCollepse(index, spaceAllocateIndex) === false)
+            return;
         let pmes = this.measurement[index];
         let nmes = this.measurement[spaceAllocateIndex];
         nmes.size += pmes.size;
@@ -218,15 +171,7 @@ class resizeHandler {
         this.allElementHT[index].delete();
         this.refresh();
     }
-
-    minSizeForCollapse = 20;
-    isPrevCollapsable = false;
-    isNextCollapsable = false;
     checkAndRemoveNode(prevIndex, nextIndex) {
-        // /** @type {HTMLElement}  */
-        // let node = undefined;
-        // /** @type {boxHandler}  */
-        // let box = undefined;        
         let pmes = this.measurement[prevIndex];
         let nmes = this.measurement[nextIndex];
         if (pmes.size <= this.minSizeForCollapse && this.isPrevCollapsable)
@@ -235,4 +180,6 @@ class resizeHandler {
             this.removeNode(nextIndex, prevIndex);
     }
 }
-module.exports = { resizeHandler };
+exports.resizeHandler = resizeHandler;
+resizeHandler.resizerHT = `<resizer role="left"></resizer>`.$();
+resizeHandler.drawSelectionHT = `<splitter-resizer-abc role="drawSelection"></splitter-resizer-abc>`.$();

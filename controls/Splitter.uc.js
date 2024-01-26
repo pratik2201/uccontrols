@@ -1,47 +1,43 @@
-const { nodeManage } = require('uccontrols/controls/Splitter.uc.nodeManage.js');
-const { controlOpt, objectOpt, arrayOpt } = require('ucbuilder/build/common.js');
-const { spliterType, splitterCell, measurementRow, tabChilds } = require('uccontrols/controls/Splitter.uc.enumAndMore.js');
-const { splitersGrid } = require('uccontrols/controls/Splitter.uc.splitersGrid.js');
-const { intenseGenerator } = require('ucbuilder/intenseGenerator.js');
-const { designer } = require('./Splitter.uc.designer.js');
-const { resizeHandler } = require('uccontrols/controls/Splitter.uc.resizeHandler.js');
-const { jqFeatures } = require('ucbuilder/global/jqFeatures.js');
-/** 
- *  @typedef {import("ucbuilder/Usercontrol.js").Usercontrol} Usercontrol
- *  @typedef {import("uccontrols/controls/Splitter.uc.boxHandler.js").boxHandler} boxHandler
- */
-class Splitter extends designer {
-    SESSION_DATA = {
-        /** @type {measurementRow[]}  */
-        measurement: [],
-        attribList: "",
-        primaryContainer:"uccontrols/controls/tabControl.uc",
-        /** @type {spliterType}  */
-        type: 'notdefined',
-
-        isMainSplitter: false,
-        /** @type {tabChilds[]}  */
-        children: []
-    };
-    
-    allowSplitRow = true;
-    allowSplitColumn = true;
-    allowResizeRow = true;
-    allowResizeColumn = true;
-   
-    
-    
-    generateNode = true;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Splitter = void 0;
+const Splitter_uc_nodeManage_1 = require("uccontrols/controls/Splitter.uc.nodeManage");
+const common_1 = require("ucbuilder/build/common");
+const Splitter_uc_enumAndMore_1 = require("uccontrols/controls/Splitter.uc.enumAndMore");
+const Splitter_uc_splitersGrid_1 = require("uccontrols/controls/Splitter.uc.splitersGrid");
+const intenseGenerator_1 = require("ucbuilder/intenseGenerator");
+const Splitter_uc_designer_1 = require("./Splitter.uc.designer");
+const Splitter_uc_resizeHandler_1 = require("uccontrols/controls/Splitter.uc.resizeHandler");
+const jqFeatures_1 = require("ucbuilder/global/jqFeatures");
+class Splitter extends Splitter_uc_designer_1.Designer {
     constructor() {
-        super(); this.initializecomponent(arguments, this);
-        
+        super();
+        this.SESSION_DATA = {
+            measurement: [],
+            attribList: "",
+            primaryContainer: "uccontrols/controls/tabControl.uc",
+            type: 'notdefined',
+            isMainSplitter: false,
+            children: []
+        };
+        this.allowSplitRow = true;
+        this.allowSplitColumn = true;
+        this.allowResizeRow = true;
+        this.allowResizeColumn = true;
+        this.generateNode = true;
+        this.nodeMng = new Splitter_uc_nodeManage_1.nodeManage();
+        this.gapSize = 0;
+        this.minSizeValue = 20;
+        this.tree = new Splitter_uc_splitersGrid_1.splitersGrid();
+        this.exportedUccontainer = undefined;
+        this.resizer = new Splitter_uc_resizeHandler_1.resizeHandler();
+        this.initializecomponent(arguments, this);
         this.ucExtends.session.autoLoadSession = true;
         this.nodeMng.init(this);
-        this.ucExtends.Events.newSessionGenerate.on(()=>{
+        this.ucExtends.Events.newSessionGenerate.on(() => {
             this.pushPrimaryContainer();
         });
         this.resizer.init(this);
-
         this.fillGargebase();
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
@@ -50,22 +46,18 @@ class Splitter extends designer {
             this.loadChildSession();
         });
         this.resizer.Events.onRefresh = (i, measurement) => {
-            /** @type {splitterCell}  */
             let obj = measurement.data;
-            /** @type {boxHandler}  */
             let box = this.tree.allElementHT[i].data('box');
             box.uc.ucExtends.session.exchangeParentWith(obj.session);
             obj.ucPath = box.uc.ucExtends.fileInfo.html.rootPath;
-            obj.attribList = controlOpt.xPropToAttr(box.uc.ucExtends.self);
-        }
-
+            obj.attribList = common_1.controlOpt.xPropToAttr(box.uc.ucExtends.self);
+        };
         this.ucExtends.Events.onDataExport = (data) => {
-            if(!this.SESSION_DATA.isMainSplitter){
+            if (!this.SESSION_DATA.isMainSplitter) {
                 return this.ucExtends.PARENT.ucExtends.Events.onDataExport(data);
             }
             switch (data.type) {
                 case 'uc':
-                    /** @type {Usercontrol}  */
                     let uc = data.data;
                     uc.ucExtends.windowstate = 'normal';
                     this.exportedUccontainer.appendChild(uc.ucExtends.self);
@@ -88,23 +80,16 @@ class Splitter extends designer {
     get length() {
         let len = 0;
         this.tree.allElementHT.forEach(ele => {
-            /** @type {boxHandler}  */
             let bx = ele.data('box');
-            let val = bx.uc.length;
-            if (val != undefined) len += val;
+            let val = bx.uc['length'];
+            if (val != undefined)
+                len += val;
         });
         return len;
     }
-
-    nodeMng = new nodeManage();
-    gapSize = 0;
-    minSizeValue = 20;
-    tree = new splitersGrid();
-
     get myPropertiesText() {
-        return controlOpt.xPropToAttr(this.ucExtends.self);
+        return common_1.controlOpt.xPropToAttr(this.ucExtends.self);
     }
-
     loadSession() {
         this.tree.type = this.SESSION_DATA.type;
         this.resizer.measurement = this.SESSION_DATA.measurement;
@@ -113,71 +98,57 @@ class Splitter extends designer {
             this.ucExtends.passElement(sadoNode.node);
             this.mainContainer.appendChild(sadoNode.node);
             let elementHT = `<e${cell.data.attribList}></e>`.$();
-            let ucs = intenseGenerator.generateUC(cell.data.ucPath, {
+            let ucs = intenseGenerator_1.intenseGenerator.generateUC(cell.data.ucPath, {
                 wrapperHT: elementHT,
                 session: { loadBySession: true },
                 parentUc: this
             });
-
             sadoNode.view.appendChild(ucs.ucExtends.self);
             sadoNode.box.uc = ucs;
-
             ucs.ucExtends.session.setSession(cell.data.session[""]);
         });
-
         this.resizer.giveResizer();
-
     }
-
     loadChildSession() {
-        if (!this.SESSION_DATA.isMainSplitter) return;
+        if (!this.SESSION_DATA.isMainSplitter)
+            return;
         this.exportedUccontainer.innerHTML = "";
-        let backUp = objectOpt.clone(this.SESSION_DATA.children);
+        let backUp = common_1.objectOpt.clone(this.SESSION_DATA.children);
         this.SESSION_DATA.children.length = 0;
-
         backUp.forEach(s => {
-            let uc = intenseGenerator.generateUC(s.filePath, {
+            let uc = intenseGenerator_1.intenseGenerator.generateUC(s.filePath, {
                 parentUc: this,
                 session: { loadBySession: true }
             });
             let ucExt = uc.ucExtends;
             this.exportedUccontainer.append(uc.ucExtends.self);
-
             ucExt.session.setSession(s.session[""]);
             s.stamp = uc.ucExtends.self.stamp();
             this.pushChildSession(uc);
         });
     }
-    /** @type {HTMLElement}  */
-    exportedUccontainer = undefined;
-    /** @param {HTMLElement} exportedUccontainer */
     initMain(exportedUccontainer) {
         this.exportedUccontainer = exportedUccontainer;
         this.SESSION_DATA.isMainSplitter = true;
     }
     refreshZindexOfWindows() {
         this.SESSION_DATA.children.forEach(row => {
-            /** @type {HTMLElement}  */
-            let ele = jqFeatures.getElementById(row.stamp);
+            let ele = jqFeatures_1.jqFeatures.getElementById(row.stamp);
             row.index = ele.index();
         });
         this.ucExtends.session.onModify();
     }
-    /** @param {Usercontrol} uc */
     pushChildSession(uc) {
         let nstamp = uc.ucExtends.self.stamp();
-        /** @type {tabChilds}  */
-        let row = undefined;
+        let row;
         row = this.SESSION_DATA.children.find(s => s.stamp == nstamp);
         if (row == undefined) {
-            row = objectOpt.clone(tabChilds);
+            row = common_1.objectOpt.clone(Splitter_uc_enumAndMore_1.tabChilds);
             row.stamp = nstamp;
             row.fstamp = uc.ucExtends.stampRow.stamp;
             row.filePath = uc.ucExtends.fileInfo.html.rootPath;
             uc.ucExtends.session.exchangeParentWith(row.session, () => {
-                arrayOpt.removeByCallback(this.SESSION_DATA.children,
-                    /** @param {tabChilds} s */ s => s.stamp == nstamp);
-
+                common_1.arrayOpt.removeByCallback(this.SESSION_DATA.children, s => s.stamp == nstamp);
             });
             this.SESSION_DATA.children.push(row);
             this.ucExtends.session.onModify();
@@ -187,20 +158,14 @@ class Splitter extends designer {
         });
         uc.ucExtends.Events.beforeClose.on(() => {
             let index = this.SESSION_DATA.children.findIndex(s => s.stamp == nstamp);
-            //this.SESSION_DATA.inActiveChildren.push(ssn);
-            arrayOpt.removeAt(this.SESSION_DATA.children, index);
+            common_1.arrayOpt.removeAt(this.SESSION_DATA.children, index);
             this.ucExtends.session.onModify();
         });
     }
-
-
     pushPrimaryContainer() {
         let row = this.nodeMng.giveReadyNode(this.tree);
-
         this.tree.pushBox(row.box);
         this.tree.refresh();
     }
-    resizer = new resizeHandler();
-    
 }
-module.exports = Splitter;
+exports.Splitter = Splitter;

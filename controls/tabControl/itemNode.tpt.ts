@@ -24,7 +24,7 @@ export class itemNode extends Designer {
     init(main: tabControl): void {
         this.main = main;
 
-        this.draging.dragEnter((ev: DragEvent) => {
+        this.draging.dragEnter((htEle,ev) => {
             let ht: HTMLElement = ev.target as HTMLElement;
             ht = ht.closest(`[role="tabbutton"]`);
             if (ht != undefined) {
@@ -35,7 +35,7 @@ export class itemNode extends Designer {
                 itemNode.dragHereElement.setAttribute('drag-here', 'no');
             }
         }, [this.main.tabHeader]);
-        this.draging.dragDrop((ev: DragEvent) => {
+        this.draging.dragDrop((htEle,ev) => {
             let dta = DragHelper.draggedData;
             if (dta.type == "uc") {
                 try {
@@ -63,13 +63,13 @@ export class itemNode extends Designer {
 
             ctrls.btn_close.addEventListener("mousedown", (e) => {
                 let index = mainnode.index();
-                let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index));
+                let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index) as HTMLElement);
                 uc.ucExtends.destruct();
             });
             DragHelper.DRAG_ME(mainnode,
                 (evt: MouseEvent) => {
                     this.dragButtonIndex = mainnode.index();
-                    let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(this.dragButtonIndex));
+                    let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(this.dragButtonIndex) as HTMLElement);
                     return {
                         type: "uc",
                         data: uc,
@@ -94,8 +94,8 @@ export class itemNode extends Designer {
         this.setActive(ni);
     }
     dblclick_listner = (ev: MouseEvent): void => {
-        let index = ev.currentTarget.index();
-        let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index));
+        let index = (ev.currentTarget as HTMLElement).index();
+        let uc = ResourcesUC.getBaseObject(this.main.tabView.children.item(index) as HTMLElement);
 
         if (this.primary.extended.Events.onDataExport({
             type: 'uc',
@@ -105,9 +105,9 @@ export class itemNode extends Designer {
         }
     }
     mouseup_listner = (ev: MouseEvent): void => {
-        let index = ev.currentTarget.index();
+        let index = (ev.currentTarget as HTMLElement).index();
         this.setActive(index);
-        this.main.tabView.children.item(index).focus();
+        (this.main.tabView.children.item(index) as HTMLElement).focus();
     }
 
     setActive(index: number): void {
@@ -121,7 +121,7 @@ export class itemNode extends Designer {
                 s.setAttribute("active", "0");
             });
             if (index < this.main.length) {
-                let ele = this.main.tabView.children.item(index);
+                let ele = this.main.tabView.children.item(index) as HTMLElement;
                 ele.style.visibility = "visible";
                 ele.style.height = "100%";
                 ele.style.width = "100%";

@@ -12,7 +12,7 @@ export class dragHandler {
 
     init(main: tabControl) {
         this.main = main;
-        this.draging.dragDrop((ev: Event) => {
+        this.draging.dragDrop((htEle,ev) => {
             let dta = DragHelper.draggedData;
             if (dta.type == "uc") {
                 try {
@@ -25,13 +25,13 @@ export class dragHandler {
             }
         }, [this.main.tabView]);
 
-        DragHelper.ON_START((ev: Event) => {
+        DragHelper.ON_START((htEle,ev) => {
             let dragdata = DragHelper.draggedData;
             if (dragdata.type == "uc") {
                 this.draging.start();
                 this.main.tpt_itemnode.draging.start();
             }
-        }, (ev: Event) => {
+        }, (htEle,ev) => {
             this.draging.stop();
             this.main.tpt_itemnode.draging.stop();
         });

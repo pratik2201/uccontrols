@@ -1,17 +1,13 @@
 {
   "exclude": [
     "node_modules",
-   
   ],
   
   "compileOnSave": true,
   "compilerOptions": {
-    
-    
     "target": "es2016",
     "module": "CommonJS",
     "moduleResolution": "Node",
-    //"sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,
@@ -23,7 +19,7 @@
     "typeRoots": [
       "./node_modules/@types",
     ],
-   
+    
     "paths": {
       "uccontrols/*": ["./*"],
       "ucbuilder/*":["./node_modules/ucbuilder/*"]

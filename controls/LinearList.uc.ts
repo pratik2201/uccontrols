@@ -1,10 +1,10 @@
 import { uniqOpt } from 'ucbuilder/build/common.js';
 import { TemplateNode } from 'ucbuilder/Template.js';
-import { scrollerLV } from 'ucbuilder/global/listUI/scrollerLV';
+import { ScrollerLV } from 'ucbuilder/global/listUI/scrollerLV';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator.js';
 import { Designer } from './LinearList.uc.designer.js';
 export class LinearList extends Designer {
-    lvUI: scrollerLV = new scrollerLV();
+    lvUI: ScrollerLV = new ScrollerLV();
 
     get itemTemplate(): TemplateNode {
         return this.lvUI.itemTemplate;
@@ -14,19 +14,19 @@ export class LinearList extends Designer {
         this.lvUI.itemTemplate = intenseGenerator.parseTPT(value, this);
     }
 
-    get Records(): any {
+    get Records()  {
         return this.lvUI.Records;
     }
 
-    get nodes(): any {
+    get nodes()  {
         return this.lvUI.nodes;
     }
 
-    get Events(): any {
+    get Events()  {
         return this.lvUI.Events;
     }
 
-    get source(): any {
+    get source()  {
         return this.lvUI.source;
     }
 

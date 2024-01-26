@@ -1,12 +1,12 @@
 import { Rect } from 'ucbuilder/global/drawing/shapes';
 import { Template,TemplateNode } from 'ucbuilder/Template';
-import comboboxItem from 'uccontrols/controls/combobox/comboboxitem.tpt';
+import {comboboxItem} from 'uccontrols/controls/combobox/comboboxitem.tpt';
 import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import designer from './combobox.uc.designer';
+import { Designer } from './combobox.uc.designer';
 import {binderNode} from 'uccontrols/controls/comboBox.uc.binderNode';
 
-export class combobox extends designer {
+export class comboBox extends Designer {
     private _source: any;
     private _itemTemplate: TemplateNode;
     private _seletecteditemTemplate: TemplateNode;
@@ -15,11 +15,11 @@ export class combobox extends designer {
     private _isOpeinig: boolean;
 
     public set source(val: any) { this.binder.source = val; }
-    public get itemTemplate(): TemplateNode | undefined {
+    public get itemTemplate(): TemplateNode {
         if (this.binder == undefined) return undefined;
         return this.binder.template;
     }
-    public set itemTemplate(val: TemplateNode | undefined) {
+    public set itemTemplate(val: TemplateNode | Template | string) {
         if (this.binder == undefined)
             this.binder = this.bindNew();
         this.binder.template = intenseGenerator.parseTPT(val, this.ucExtends.PARENT);
@@ -59,10 +59,10 @@ export class combobox extends designer {
         );
 
         this.binder.Events.onShow.on(() => {
-            this.cmd_drop.setAttribute('isopened', true);
+            this.cmd_drop.setAttribute('isopened', 'true');
         });
         this.binder.Events.onHide.on(() => {
-            this.cmd_drop.setAttribute('isopened', false);
+            this.cmd_drop.setAttribute('isopened', 'false');
         });
 
         this.txt_editor.addEventListener("dblclick", (e) => {
