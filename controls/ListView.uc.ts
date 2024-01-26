@@ -4,6 +4,7 @@ import { intenseGenerator } from "ucbuilder/intenseGenerator";
 import { pagerLV } from 'ucbuilder/global/listUI/pagerLV';
 import { simpleScroll } from 'ucbuilder/global/listUI/pager/scrollNodes/simpleScroll';
 import { newPagerScroll } from 'ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js';
+import { Template, TemplateNode } from 'ucbuilder/Template.js';
 
 export class ListView extends Designer {
 
@@ -11,10 +12,10 @@ export class ListView extends Designer {
     lvUI: pagerLV = new pagerLV();
     get source() { return this.lvUI.source; }
     indexOf(ele: any): number { return this.lvUI.nodes.indexOf(ele); }
-    get itemTemplate(): any {
+    get itemTemplate():TemplateNode{
         return this.lvUI.itemTemplate;
     }
-    set itemTemplate(value: any) {
+    set itemTemplate(value: TemplateNode|string|Template) {
         this.lvUI.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
     }
     get Events(): any { return this.lvUI.Events; }

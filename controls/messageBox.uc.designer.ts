@@ -14,7 +14,7 @@ export class Designer extends Usercontrol {
     
          
    
-    public winframe1: import('uccontrols/controls/winframe.uc').winFrame;
+    public winframe1: import('uccontrols/controls/winFrame.uc').winFrame;
     public lbl_message: HTMLUnknownElement;
     public lbl_messagedetail: HTMLElement;
     public buttonList: HTMLElement;

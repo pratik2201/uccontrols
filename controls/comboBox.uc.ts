@@ -35,7 +35,7 @@ export class comboBox extends Designer {
     public static openOptions: "click" | "dblclick" | "focus" | "enterKey" | "spacebarKey" = "click";
     public openOn: ("click" | "dblclick" | "focus" | "enterKey" | "spacebarKey")[] = [];
 
-    private binder: binderNode | undefined;
+    public binder: binderNode | undefined;
     private isOpeinig: boolean = false;
 
     constructor() {
@@ -102,7 +102,7 @@ export class comboBox extends Designer {
         this.ll_view.lvUI.currentIndex = this.selectedIndex;
     }
 
-    private hasfocused() {
+    public hasfocused() {
         return this.ucExtends.self.contains(document.activeElement) ||
             this.ll_view.ucExtends.self.contains(document.activeElement);
     }

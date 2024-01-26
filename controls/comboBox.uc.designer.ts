@@ -32,7 +32,7 @@ export class Designer extends Usercontrol {
          
         
        
-        this.ll_view = intenseGenerator.generateUC('uccontrols/controls/linearlist.uc.ts',{ 
+        this.ll_view = intenseGenerator.generateUC('uccontrols/controls/LinearList.uc.ts',{ 
                             parentUc : this, 
                             mode:args.mode,
                             session:{

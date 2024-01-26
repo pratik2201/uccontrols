@@ -19,7 +19,7 @@
     "typeRoots": [
       "./node_modules/@types",
     ],
-    
+    "baseUrl": ".",
     "paths": {
       "uccontrols/*": ["./*"],
       "ucbuilder/*":["./node_modules/ucbuilder/*"]
