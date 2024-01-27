@@ -6,10 +6,10 @@ import { simpleScroll } from 'ucbuilder/global/listUI/pager/scrollNodes/simpleSc
 import { newPagerScroll } from 'ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js';
 import { Template, TemplateNode } from 'ucbuilder/Template.js';
 
-export class ListView extends Designer {
+export class ListView<T> extends Designer {
 
     accessKey: string = propOpt.ATTR.ACCESS_KEY;
-    lvUI: pagerLV = new pagerLV();
+    lvUI = new pagerLV<T>();
     get source() { return this.lvUI.source; }
     indexOf(ele: any): number { return this.lvUI.nodes.indexOf(ele); }
     get itemTemplate():TemplateNode{
@@ -18,7 +18,7 @@ export class ListView extends Designer {
     set itemTemplate(value: TemplateNode|string|Template) {
         this.lvUI.itemTemplate = intenseGenerator.parseTPT(value, this.ucExtends.PARENT);
     }
-    get Events(): any { return this.lvUI.Events; }
+    get Events() { return this.lvUI.Events; }
 
 
     topSpace: number = 0;
@@ -26,7 +26,7 @@ export class ListView extends Designer {
     set SESSION_DATA(val: any) { this.lvUI.OPTIONS.SESSION = val; }
     constructor() {
         super(); this.initializecomponent(arguments, this);
-         let cbox: any = this.lvUI.scroller.scrollBox;
+         let cbox  = this.lvUI.scroller.scrollBox;
         // this.lvUI.scroller.scrollBox.hScrollbar;
         //let hnodes = cbox.hScrollbar.nodes;
         /*let vnodes = cbox.vScrollbar.nodes;
