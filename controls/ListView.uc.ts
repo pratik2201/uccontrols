@@ -6,10 +6,10 @@ import { simpleScroll } from 'ucbuilder/global/listUI/pager/scrollNodes/simpleSc
 import { newPagerScroll } from 'ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js';
 import { Template, TemplateNode } from 'ucbuilder/Template.js';
 
-export class ListView<T> extends Designer {
+export class ListView extends Designer {
 
     accessKey: string = propOpt.ATTR.ACCESS_KEY;
-    lvUI = new pagerLV<T>();
+    lvUI = new pagerLV();
     get source() { return this.lvUI.source; }
     indexOf(ele: any): number { return this.lvUI.nodes.indexOf(ele); }
     get itemTemplate():TemplateNode{

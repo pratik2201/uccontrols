@@ -9,9 +9,9 @@ import { newPagerScroll } from "ucbuilder/global/listUI/pager/scrollNodes/newPag
 interface DatagridFillArguments {
     addHeader: boolean,
     headerRow: {},
-    fillDetail: boolean,
-    addFooter: boolean,
-    footerRow: {},
+    fillDetail?: boolean,
+    addFooter?: boolean,
+    footerRow?: {},
   };
  const datagridFillArguments:DatagridFillArguments ={
     addHeader: true,
