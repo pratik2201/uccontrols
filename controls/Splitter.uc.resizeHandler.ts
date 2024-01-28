@@ -28,10 +28,10 @@ export class resizeHandler {
     init(uc: Splitter): void {
         this.uc = uc;
         this.measurement = this.uc.SESSION_DATA.measurement;
-        /*this.gridRsz.init({
+        this.gridRsz.init({
             grid: uc.mainContainer,
             nodeName: "node",
-        });*/
+        });
         this.bluePrint = objectOpt.clone(splitterMeasurementRow);
         this.allElementHT = this.grid.childNodes as NodeListOf<HTMLElement>;
         this.Events.onMouseDown = (pIndex: number, cIndex: number): void => {

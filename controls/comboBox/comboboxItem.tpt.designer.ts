@@ -19,8 +19,8 @@ export class Designer extends Template {
 
     constructor(args:IArguments){    
         super();    
-        let fargs = arguments[0];
-        fargs = fargs[fargs.length-1] as TptOptions;
+        let fargs = arguments[0]  as TptOptions;
+        //fargs = fargs[fargs.length-1] as TptOptions;
         let ext = this.extended;
         let tpts = Template.getTemplates.byDirectory(fargs.source.cfInfo.code.fullPath,false);
         

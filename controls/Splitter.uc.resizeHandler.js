@@ -37,10 +37,10 @@ class resizeHandler {
     init(uc) {
         this.uc = uc;
         this.measurement = this.uc.SESSION_DATA.measurement;
-        /*this.gridRsz.init({
+        this.gridRsz.init({
             grid: uc.mainContainer,
             nodeName: "node",
-        });*/
+        });
         this.bluePrint = common_1.objectOpt.clone(Splitter_uc_enumAndMore_1.splitterMeasurementRow);
         this.allElementHT = this.grid.childNodes;
         this.Events.onMouseDown = (pIndex, cIndex) => {
