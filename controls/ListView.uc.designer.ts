@@ -24,8 +24,11 @@ export class Designer extends Usercontrol {
     initializecomponent(argsLst: IArguments, form: ListView) {
          //let fargs = argsLst[0];
         //let args = fargs[fargs.length - 1];
-        let args = argsLst[argsLst.length - 1] as UcOptions;
+        //let args = argsLst[argsLst.length - 1] as UcOptions;
+        let fargs = Usercontrol.extractArgs(arguments);
+        let args = fargs[fargs.length-1] as UcOptions;
         let ucExt = this.ucExtends;
+        
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
           this.begin_scroll_text = CONTROLS.begin_scroll_text as HTMLElement;
@@ -36,5 +39,6 @@ export class Designer extends Usercontrol {
           this.vscrollbar1 = CONTROLS.vscrollbar1 as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
+        Usercontrol.assignPropertiesFromDesigner(form);
     }
 }
