@@ -63,9 +63,9 @@ class datagrid extends datagrid_uc_designer_js_1.Designer {
     get varValue() {
         return this.resizer.varValue;
     }
-    set varValue(value) {
-        this.resizer.varValue = value;
-    }
+    /*set varValue(value: string) {
+      this.resizer.varValue = value;
+    }*/
     get itemTemplate() {
         return this.detail.itemTemplate;
     }

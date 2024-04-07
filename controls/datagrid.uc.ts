@@ -69,9 +69,9 @@ export class datagrid extends Designer {
   get varValue(): string {
     return this.resizer.varValue;
   }
-  set varValue(value: string) {
+  /*set varValue(value: string) {
     this.resizer.varValue = value;
-  }
+  }*/
 
   get itemTemplate(): TemplateNode {
     return this.detail.itemTemplate;

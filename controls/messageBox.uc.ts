@@ -25,6 +25,7 @@ export class MessageBox extends Designer {
     ) {
         let uc: MessageBox = intenseGenerator.generateUC('uccontrols/controls/messageBox.uc', {}, arguments[2]) as MessageBox;
         uc.resultCallback = result;
+        
         uc.lbl_message.innerHTML = message;
         if (title == undefined) {
             switch (buttonType) {
