@@ -4,9 +4,14 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "explorer.fileNesting.enabled": true,    
+    
     "explorer.fileNesting.patterns": {
         "*.uc.ts": "${capture}.uc.*",
         "*.tpt.ts": "${capture}.tpt.*",
-        "*.ts": "${capture}.js,${capture}.js.map"
-    }
+        "*.ts": "${capture}.js"
+    },
+    "files.exclude": {
+        "**/*.uc.**.js": true
+    },
+    
 }

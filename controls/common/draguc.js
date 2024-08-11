@@ -41,10 +41,19 @@ class dragUc {
             },
             getResizerAr: () => {
                 if (this.allowResize) {
-                    let rsz = this.resizer;
-                    return [rsz.left, rsz.top, rsz.right, rsz.bottom,
-                        rsz.topleft, rsz.topright,
-                        rsz.bottomright, rsz.bottomleft];
+                    let res = this.resizer;
+                    res.left.setAttribute("role", "left");
+                    res.top.setAttribute("role", "top");
+                    res.right.setAttribute("role", "right");
+                    res.bottom.setAttribute("role", "bottom");
+                    res.topleft.setAttribute("role", "topleft");
+                    res.topright.setAttribute("role", "topright");
+                    res.bottomleft.setAttribute("role", "bottomleft");
+                    res.bottomright.setAttribute("role", "bottomright");
+                    res.rect.setAttribute("role", "drawSelection");
+                    return [res.left, res.top, res.right, res.bottom,
+                        res.topleft, res.topright,
+                        res.bottomright, res.bottomleft];
                 }
                 else
                     return [];
@@ -52,7 +61,7 @@ class dragUc {
             connect: (uc = undefined) => {
                 let res = this.resizer;
                 let ucHT = this.containerHT;
-                if (this.allowResize)
+                if (this.allowResize) {
                     if (uc == undefined) {
                         ucHT.append(res.left, res.top, res.right, res.bottom, res.topleft, res.topright, res.bottomright, res.bottomleft, res.rect);
                     }
@@ -61,6 +70,7 @@ class dragUc {
                             res.topright, res.bottomright,
                             res.bottomleft, res.rect]));
                     }
+                }
             },
             getMode(ele) {
                 switch (ele.stamp()) {
