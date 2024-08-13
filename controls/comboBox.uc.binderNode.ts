@@ -97,6 +97,8 @@ export class binderNode {
             node = this.selectedItem;
             if (node != undefined)
                 node.setAttribute('is-selected', '1');
+            console.log('dsfe');
+            
             if (this.fireSelectedIndexChangeEvent)
                 this.Events.selectedIndexChange.fire([val, oIndex]);
             else this.fireSelectedIndexChangeEvent = true;
