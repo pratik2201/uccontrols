@@ -17,10 +17,13 @@ class comboBox extends combobox_uc_designer_1.Designer {
                 e.stopImmediatePropagation();
             }
         };
+       
         this.initializecomponent(arguments, this);
         this.ll_view.init();
         if (this.binder == undefined)
             this.binder = this.bindNew();
+        
+            
         if (this.itemTemplate == undefined) {
             this.itemTemplate = intenseGenerator_1.intenseGenerator.generateTPT('uccontrols/controls/comboBox/comboboxItem.tpt', {
                 parentUc: this
@@ -63,6 +66,7 @@ class comboBox extends combobox_uc_designer_1.Designer {
         this.cmd_drop.addEventListener("mouseup", this.openComboByEvent);
         this.txt_editor.addEventListener("mouseup", this.openComboByEvent);
         this.binder.Events.selectedIndexChange.on((ninex, oindex) => {
+            
             this.changeSelectedText();
         });
     }

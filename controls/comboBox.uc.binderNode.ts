@@ -27,9 +27,11 @@ export class binderNode {
     public itemMouseUp_listner = (index: number, evt: MouseEvent): void => {
         this.hasMouseDownedOnItem = false;
         this.dontOpen = true;
+             
         this.boundElement?.focus();
         this.dontOpen = false;
         this.hide();
+        
         if (this.selectedIndex != index)
             this.selectedIndex = index;
         evt.stopImmediatePropagation();
@@ -65,6 +67,7 @@ export class binderNode {
             });
         }
         if (bindFocusEvents) {
+               
             elementHT?.addEventListener("focusin", (e) => {
                 let txtboxRect = new Rect();
                 txtboxRect.setBy.domRect((e.target as HTMLElement).getClientRects()[0]);
@@ -72,6 +75,7 @@ export class binderNode {
             });
             elementHT?.addEventListener("mousedown", (e) => {
                 let htE = e.target as HTMLElement;
+                
                 if (!document.activeElement.is(htE) || this.hasBound) return;
                 let txtboxRect = new Rect();
                 txtboxRect.setBy.domRect(htE.getClientRects()[0]);

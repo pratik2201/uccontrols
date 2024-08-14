@@ -1,10 +1,10 @@
 import { Rect } from 'ucbuilder/global/drawing/shapes';
-import { Template,TemplateNode } from 'ucbuilder/Template';
-import {comboboxItem} from 'uccontrols/controls/combobox/comboboxitem.tpt';
+import { Template, TemplateNode } from 'ucbuilder/Template';
+import { comboboxItem } from 'uccontrols/controls/combobox/comboboxitem.tpt';
 import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { Designer } from './combobox.uc.designer';
-import {binderNode} from 'uccontrols/controls/comboBox.uc.binderNode';
+import { binderNode } from 'uccontrols/controls/comboBox.uc.binderNode';
 
 export class comboBox extends Designer {
     private _source: any;
@@ -41,8 +41,8 @@ export class comboBox extends Designer {
     constructor() {
         super(); this.initializecomponent(arguments, this);
         this.ll_view.init();
-        if (this.binder == undefined)
-            this.binder = this.bindNew();
+        //if (this.binder == undefined)
+        this.binder = this.bindNew();
 
         if (this.itemTemplate == undefined) {
             this.itemTemplate = intenseGenerator.generateTPT('uccontrols/controls/comboBox/comboboxItem.tpt', {
@@ -54,7 +54,7 @@ export class comboBox extends Designer {
         this.binder.bindInputBox(
             {
                 elementHT: this.ucExtends.self,
-                bindFocusEvents: false
+                bindFocusEvents: true
             }
         );
 
@@ -90,6 +90,7 @@ export class comboBox extends Designer {
         this.txt_editor.addEventListener("mouseup", this.openComboByEvent);
 
         this.binder.Events.selectedIndexChange.on((ninex, oindex) => {
+
             this.changeSelectedText();
         });
     }

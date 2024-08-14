@@ -11,7 +11,7 @@
         "*.ts": "${capture}.js"
     },
     "files.exclude": {
-        "**/*.uc.**.js": true
+        "**/*.uc.**.js": false
     },
     
 }
