@@ -59,6 +59,7 @@ export class comboBox extends Designer {
         );
 
         this.binder.Events.onShow.on(() => {
+            
             this.cmd_drop.setAttribute('isopened', 'true');
         });
         this.binder.Events.onHide.on(() => {
@@ -109,6 +110,8 @@ export class comboBox extends Designer {
     }
 
     private openComboByEvent = (e: Event) => {
+       
+        
         if (!this.binder.hasBound) {
             this.openList();
             e.stopImmediatePropagation();

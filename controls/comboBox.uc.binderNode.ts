@@ -152,6 +152,7 @@ export class binderNode {
     }
 
     public showAt(txtboxRect: Rect): void {
+       
         this.main.itemTemplate = this.template;
         this.main.source.rows = this.filteredSource;
         this.main.nodes.fill();

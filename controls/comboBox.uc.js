@@ -12,6 +12,7 @@ class comboBox extends combobox_uc_designer_1.Designer {
         this.openOn = [];
         this.isOpeinig = false;
         this.openComboByEvent = (e) => {
+            
             if (!this.binder.hasBound) {
                 this.openList();
                 e.stopImmediatePropagation();
@@ -35,6 +36,7 @@ class comboBox extends combobox_uc_designer_1.Designer {
             bindFocusEvents: false
         });
         this.binder.Events.onShow.on(() => {
+            
             this.cmd_drop.setAttribute('isopened', 'true');
         });
         this.binder.Events.onHide.on(() => {
