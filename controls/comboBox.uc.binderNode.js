@@ -22,8 +22,6 @@ class binderNode {
             var _a;
             this.hasMouseDownedOnItem = false;
             this.dontOpen = true;
-            
-           
             (_a = this.boundElement) === null || _a === void 0 ? void 0 : _a.focus();
             this.dontOpen = false;
             this.hide();

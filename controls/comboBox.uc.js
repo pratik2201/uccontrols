@@ -12,19 +12,15 @@ class comboBox extends combobox_uc_designer_1.Designer {
         this.openOn = [];
         this.isOpeinig = false;
         this.openComboByEvent = (e) => {
-            
             if (!this.binder.hasBound) {
                 this.openList();
                 e.stopImmediatePropagation();
             }
         };
-       
         this.initializecomponent(arguments, this);
         this.ll_view.init();
-        if (this.binder == undefined)
-            this.binder = this.bindNew();
-        
-            
+        //if (this.binder == undefined)
+        this.binder = this.bindNew();
         if (this.itemTemplate == undefined) {
             this.itemTemplate = intenseGenerator_1.intenseGenerator.generateTPT('uccontrols/controls/comboBox/comboboxItem.tpt', {
                 parentUc: this
@@ -33,10 +29,9 @@ class comboBox extends combobox_uc_designer_1.Designer {
         this.binder.direction = 'bottom';
         this.binder.bindInputBox({
             elementHT: this.ucExtends.self,
-            bindFocusEvents: false
+            bindFocusEvents: true
         });
         this.binder.Events.onShow.on(() => {
-            
             this.cmd_drop.setAttribute('isopened', 'true');
         });
         this.binder.Events.onHide.on(() => {
@@ -68,7 +63,6 @@ class comboBox extends combobox_uc_designer_1.Designer {
         this.cmd_drop.addEventListener("mouseup", this.openComboByEvent);
         this.txt_editor.addEventListener("mouseup", this.openComboByEvent);
         this.binder.Events.selectedIndexChange.on((ninex, oindex) => {
-            
             this.changeSelectedText();
         });
     }
