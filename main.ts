@@ -2,7 +2,7 @@
 import ucb from "ucbuilder"; 
 ucb.registar({
     //srcDir: __dirname,
-    outDir: __dirname,
+    outDir: "",
     rootDir: __dirname,
     /*html: __dirname,
     style: __dirname,
