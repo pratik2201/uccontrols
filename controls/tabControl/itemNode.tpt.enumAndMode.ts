@@ -1,14 +1,10 @@
-const dropIndictors = {
-    /** @type {HTMLElement}  */
+export const dropIndictors = {
     leftPoll: '<drop  dir="left" ></drop>'.$(),
-    /** @type {HTMLElement}  */
     rightPoll: '<drop  dir="right" ></drop>'.$(),
 
-    /** @type {HTMLElement}  */
     indictor: '<indicator  dir="none" ></indicator>'.$(),
 
-    /** @type {container[]}  */
-    get asArray() {
+   get asArray() {
         return [dropIndictors.indictor,
         dropIndictors.leftPoll,
         dropIndictors.rightPoll];
@@ -18,7 +14,4 @@ const dropIndictors = {
         rightRect: "rightRect",
         none: "none",
     })
-}
-module.exports = {
-    dropIndictors
 }

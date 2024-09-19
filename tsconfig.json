@@ -2,7 +2,10 @@
   "exclude": [
     "node_modules",
   ],
-  
+  "include": [
+    ".",
+    "./package.json",
+  ],
   "compileOnSave": true,
   "compilerOptions": {
     "target": "es2016",
@@ -22,6 +25,7 @@
       "./node_modules/@types",
     ],
     "baseUrl": ".",
+    "outDir": "out",
     "paths": {
       "uccontrols/*": ["./*"],
       "ucbuilder/*":["./node_modules/ucbuilder/*"]

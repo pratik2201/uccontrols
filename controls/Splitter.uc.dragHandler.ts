@@ -38,7 +38,8 @@ export class dragHandler {
                 /*if (ev.target.is(ev.currentTarget))
                     this.dragVisibility(false);*/
             }, [this.main.node])
-            .dragEnter((htEle,ev) => {
+            .dragEnter((htEle, ev) => {
+                
                 if ((ev.currentTarget as HTMLElement).stamp() == nodeStamp) {
                     //console.log(ev.currentTarget.stamp()+" == "+nodeStamp);
                     let uq = (ev.target as HTMLElement).stamp();

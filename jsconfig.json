@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
-        "paths": {
-            "uccontrols/*": ["./*"],
+        "paths": {            
+            "uccontrols/*": ["./out/*"],
+            //"uccontrols/*": ["./*"],
+            
             "ucbuilder/*":["./node_modules/ucbuilder/*"]
         },       
     }

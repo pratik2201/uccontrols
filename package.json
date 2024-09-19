@@ -2,7 +2,7 @@
   "name": "uccontrols",
   "version": "1.0.0",
   "description": "show your creativity/intelligence.. do free get free  :)",
-  "main": "main.js",
+  "main": "out/main.js", 
   "scripts": {},
   "author": "ap",
   "license": "ISC",

@@ -107,8 +107,8 @@ export class winFrame extends Designer {
                     width: this.SESSION_DATA.rect.width + "px",
                     height: this.SESSION_DATA.rect.height + "px",
                 });
-
-                this.drag.resizer.cssDisplay("block");
+                       
+               // this.drag.resizer.cssDisplay("block");
                 break;
         }
     }

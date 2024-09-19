@@ -241,6 +241,7 @@ export class dragUc {
                             top:${selectRect.top}px;
                             width:${selectRect.width}px;
                             height:${selectRect.height}px;display:block;`;
+                        
                         _this.resizer.rect.setAttribute('style',styleText);
                     }
                 };

@@ -35,7 +35,7 @@ export class Splitter extends Designer {
 
     constructor() {
         super(); this.initializecomponent(arguments, this);
-
+        
         this.ucExtends.session.autoLoadSession = true;
         this.nodeMng.init(this);
         this.ucExtends.Events.newSessionGenerate.on(() => {
@@ -47,6 +47,8 @@ export class Splitter extends Designer {
         this.tree.init(this.mainContainer, this);
         this.tree.type = this.SESSION_DATA.type;
         this.ucExtends.Events.loadLastSession.on(() => {
+           
+    
             this.loadSession();
             this.loadChildSession();
         });
@@ -105,7 +107,9 @@ export class Splitter extends Designer {
     }
 
     loadSession(): void {
+        console.log(this.SESSION_DATA);
         this.tree.type = this.SESSION_DATA.type;
+        
         this.resizer.measurement = this.SESSION_DATA.measurement;
         this.SESSION_DATA.measurement.forEach(cell => {
             let sadoNode = this.nodeMng.givePlainNode(this.tree);
@@ -190,7 +194,7 @@ export class Splitter extends Designer {
     }
 
     pushPrimaryContainer(): void {
-        let row = this.nodeMng.giveReadyNode(this.tree);
+       let row = this.nodeMng.giveReadyNode(this.tree);
 
         this.tree.pushBox(row.box);
         this.tree.refresh();
