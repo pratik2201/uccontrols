@@ -2,9 +2,9 @@ import { looping } from 'ucbuilder/build/common.js';
 import { DragHelper } from 'ucbuilder/global/drag/DragHelper';
 import { tabControl } from 'uccontrols/controls/tabControl.uc';
 import { dropIndictors } from 'uccontrols/controls/tabControl/itemNode.tpt.enumAndMode.js';
-import { Designer } from './itemNode.tpt.designer.js';
 import { ResourcesUC } from 'ucbuilder/ResourcesUC.js';
 import { Usercontrol } from 'ucbuilder/Usercontrol.js';
+import { Designer } from './itemNode.tpt.designer';
 
 export class itemNode extends Designer {
     main: tabControl;
@@ -24,7 +24,7 @@ export class itemNode extends Designer {
     init(main: tabControl): void {
         this.main = main;
 
-        this.draging.dragEnter((htEle,ev) => {
+        this.draging.dragEnter((/*htEle,*/ev) => {
             let ht: HTMLElement = ev.target as HTMLElement;
             ht = ht.closest(`[role="tabbutton"]`);
             if (ht != undefined) {
@@ -35,7 +35,7 @@ export class itemNode extends Designer {
                 itemNode.dragHereElement.setAttribute('drag-here', 'no');
             }
         }, [this.main.tabHeader]);
-        this.draging.dragDrop((htEle,ev) => {
+        this.draging.dragDrop((/*htEle,*/ev) => {
             let dta = DragHelper.draggedData;
             if (dta.type == "uc") {
                 try {

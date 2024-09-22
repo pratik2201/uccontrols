@@ -140,6 +140,7 @@ export class dragUc {
                 selectRect.size.height -= 5;
                 selectRect.location.x = 0;
                 selectRect.location.y = 0;
+                
                 switch (mode) {
                     case dragMode.move: this.Events.onMoveStart.fire(); break;
                     default: this.Events.onResizeStart.fire(); break;

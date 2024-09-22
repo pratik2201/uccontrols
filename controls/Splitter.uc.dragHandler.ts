@@ -15,8 +15,9 @@ export class dragHandler {
     init(main: boxHandler): void {
         this.main = main;
         this.spl = this.splGrid.main;
-        DragHelper.ON_START((htEle,ev) => {
+        DragHelper.ON_START((/*htEle,*/ev) => {
             let dta = DragHelper.draggedData;
+            
             switch (dta.type) {
                 case 'uc':
                     this.spl.ucExtends.self.setAttribute("isInDragMode", "1");
@@ -24,7 +25,7 @@ export class dragHandler {
                     break;
             }
 
-        }, (htEle,ev) => {
+        }, (/*htEle,*/ev) => {
             this.spl.ucExtends.self.setAttribute("isInDragMode", "0");
             dropIndictors.asArray.forEach(s => s.remove());
             this.draging.stop();
@@ -32,13 +33,13 @@ export class dragHandler {
 
         let nodeStamp = this.main.node.stamp();
         this.draging
-            .dragOver((htEle,ev) => {
+            .dragOver((/*htEle,*/ev) => {
             }, [this.main.node])
-            .dragLeave((htEle,ev) => {
+            .dragLeave((/*htEle,*/ev) => {
                 /*if (ev.target.is(ev.currentTarget))
                     this.dragVisibility(false);*/
             }, [this.main.node])
-            .dragEnter((htEle, ev) => {
+            .dragEnter((/*htEle,*/ ev) => {
                 
                 if ((ev.currentTarget as HTMLElement).stamp() == nodeStamp) {
                     //console.log(ev.currentTarget.stamp()+" == "+nodeStamp);
@@ -59,7 +60,7 @@ export class dragHandler {
                     ev.stopImmediatePropagation();
                 }
             }, [this.main.node])
-            .dragDrop((htEle,ev) => {
+            .dragDrop((/*htEle,*/ev) => {
                 ev.stopPropagation();
                    
                 let uq = (ev.target as HTMLElement).stamp();
