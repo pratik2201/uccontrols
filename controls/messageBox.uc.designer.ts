@@ -4,7 +4,7 @@ import { UcOptions } from 'ucbuilder/enumAndMore';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { MessageBox } from './messageBox.uc';
+import { MessageBox } from './MessageBox.uc';
 
 
 export class Designer extends Usercontrol {    
