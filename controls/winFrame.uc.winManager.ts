@@ -32,18 +32,19 @@ export class winManager {
 
     push = (form: Usercontrol): void => {
         let _this = this;
-        if (_this.CURRENT_WIN != undefined) 
+        if (_this.CURRENT_WIN != undefined)
             this.setfreez(true, _this.CURRENT_WIN.ucExtends.self);
         _this.CURRENT_WIN = form;
         _this.pages.push(_this.CURRENT_WIN);
         _this.curIndex = _this.pages.length - 1;
     }
 
-    pop = (): void => {       
+    pop = (): void => {
         this.curIndex = this.pages.length - 1;
-        this.curIndex--;
-       if (this.curIndex >= 0) {
+        // 
+        if (this.curIndex >= 0) {
             this.pages.pop();
+            this.curIndex--;
             this.CURRENT_WIN = this.pages[this.curIndex];
             if (this.CURRENT_WIN != undefined) {
                 let _wrapperHT = this.CURRENT_WIN.ucExtends.self;
@@ -82,9 +83,12 @@ export class winManager {
             eles.forEach(
                 (e: HTMLElement) => {
                     let disableAttr = e.data(winManager.ATTR.DISABLE.OLD_VALUE);
+                  //  console.log(element);
+                  //  console.log(disableAttr);
+
                     if (disableAttr != undefined) e.setAttribute('disabled', disableAttr);
-                    else e.setAttribute('disabled', 'false');
-                   // e.removeAttribute('disabled', winManager.ATTR.DISABLE.NEW_VALUE);
+                    else e.removeAttribute('disabled');
+                    // e.removeAttribute('disabled', winManager.ATTR.DISABLE.NEW_VALUE);
                 });
             this.focusMng.focus();
         }

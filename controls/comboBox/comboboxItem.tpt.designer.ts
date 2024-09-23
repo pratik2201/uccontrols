@@ -1,5 +1,7 @@
 import { Template, TemplateNode } from 'ucbuilder/Template.js';
 import { TptOptions, templatePathOptions } from 'ucbuilder/enumAndMore';
+import { R } from 'uccontrols/R';
+
  
 
 type primary_ELEMENT_MAP = {}

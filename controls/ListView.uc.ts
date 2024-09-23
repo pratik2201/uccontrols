@@ -36,6 +36,7 @@ export class ListView extends Designer {
         vnodes.endText = this.end_scroll_text;
         //this.hscrollbar1.appendChild(hnodes.scrollbar);
         this.vscrollbar1.appendChild(vnodes.scrollbar);*/
+      
         this.lvUI.init(this.ll_view, this.scroller1, this);
        
 
