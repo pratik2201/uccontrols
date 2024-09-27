@@ -162,6 +162,7 @@ export class winFrame extends Designer {
             }
         }, 1);
     }
+    
     showDialog({ defaultFocusAt = undefined }: { defaultFocusAt?: HTMLElement } = {}): void {
         this.manage.push(this.ucExtends.PARENT);
 
