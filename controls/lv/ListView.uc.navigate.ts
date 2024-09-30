@@ -8,7 +8,7 @@ export class Configuration {
   viewSize = new Size(0, 0);
   itemSize = new  Size(0, 0);
   perPageRecord = 20;
-  _begin = 0;
+
   //private _currentIndex = 0;
   public get currentIndex() {
     return this.currentItem.index;
@@ -35,15 +35,15 @@ export class Configuration {
 
   get minBottomIndex() { return Math.min(this.bottomIndex, this.length - 1); }
 
-  get bottomIndex() { return (this._begin + this.perPageRecord) - 1; }
+  get bottomIndex() { return (this.top + this.perPageRecord) - 1; }
   get topHiddenRowCount() {
     return ((this.bottomIndex - this.perPageRecord) + 1);
   }
   get bottomHiddenRowCount() {
-    return Math.max(0, (this.length - (this._begin + this.perPageRecord)));
+    return Math.max(0, (this.length - (this.top + this.perPageRecord)));
   }
   get lastSideTopIndex() { return Math.max(0, this.length - this.perPageRecord); }
-  get isLastSideTopIndex() { return this.lastSideTopIndex == this._begin; }
+  get isLastSideTopIndex() { return this.lastSideTopIndex == this.top; }
 }
 type KeyboardNavigationCallback = (evt: KeyboardEvent, valToAddRemove: number) => void;
 export type PageNavigationResult = "DISPLAYED" | "OUTSIDE" | "LAST" | "FIRST";
@@ -66,11 +66,11 @@ export class NavigatePages {
     let changed = (val !== oldIndex);
     let currentItem = cfg.currentItem;
     let bIndex = cfg.minBottomIndex;
-    if (val >= cfg._begin && val <= bIndex) {
+    if (val >= cfg.top && val <= bIndex) {
       cfg.currentIndex = val;
       //session.currentIndex = val;
     } else {
-      if (val < cfg._begin) {
+      if (val < cfg.top) {
         cfg.top = val;
       } else {
         cfg.top = val - cfg.perPageRecord + 1;
@@ -96,13 +96,13 @@ export class NavigatePages {
       },
       Advance: {
         outside: (): void => {
-          this.config._begin += this.config.perPageRecord;
+          this.config.top += this.config.perPageRecord;
         },
         last: (): void => {
           if (this.config.bottomIndex > this.config.length) {
-            this.config._begin = 0;
+            this.config.top = 0;
             this.config.currentIndex = this.config.defaultIndex;
-          } else this.config._begin = this.config.length - this.config.perPageRecord;
+          } else this.config.top = this.config.length - this.config.perPageRecord;
         },
       },
       Go: (event: KeyboardEvent): void => {
@@ -130,15 +130,15 @@ export class NavigatePages {
       },
       Advance: {
         outside: (): void => {
-          this.config._begin -= this.config.perPageRecord;
+          this.config.top -= this.config.perPageRecord;
           this.main.Refresh();
-          this.config.currentIndex = this.config._begin;
+          this.config.currentIndex = this.config.top;
         },
         first: (): void => {
-          this.config._begin = 0;
+          this.config.top = 0;
           this.config.currentIndex = this.config.defaultIndex;
           this.main.Refresh();
-          this.config.currentIndex = this.config._begin;
+          this.config.currentIndex = this.config.top;
         },
       },
       Go: (event: KeyboardEvent): void => {
@@ -185,14 +185,14 @@ export class NavigatePages {
           let eleToRem = this.main.ll_view.lastElementChild as HTMLElement;
           this.main.Events.beforeOldItemRemoved.fire([eleToRem]);
           eleToRem.remove();
-          this.config._begin--;
+          this.config.top--;
           let ele = this.main.nodes.prepend(this.config.top);
           this.config.currentIndex--;
           return ele;
         },
         first: (evt: KeyboardEvent, valToCount: number = 1): void => {
           if (this.main.Events.onReachFirstRecord()) {
-            this.config._begin = this.config.lastSideTopIndex;
+            this.config.top = this.config.lastSideTopIndex;
             this.main.Refresh();
             this.config.currentIndex = this.config.minBottomIndex;
           }
@@ -243,15 +243,15 @@ export class NavigatePages {
             let eleToRem = this.main.ll_view.firstElementChild as HTMLElement;
             this.main.Events.beforeOldItemRemoved.fire([eleToRem]);
             eleToRem.remove();
-            this.config._begin++;
-          } else this.config._begin = lastTopIndex;
+            this.config.top++;
+          } else this.config.top = lastTopIndex;
           let newItemEle = this.main.nodes.append(this.config.minBottomIndex);
           this.config.currentIndex++;
           return newItemEle;
         },
         last: (evt: KeyboardEvent, valToCount: number = 1): void => {
           if (this.main.Events.onReachLastRecord()) {
-            this.config._begin = 0;
+            this.config.top = 0;
             this.config.currentIndex = this.config.defaultIndex;
             this.main.Refresh();
           }
