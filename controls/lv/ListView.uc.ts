@@ -21,9 +21,9 @@ export class ListView extends Designer {
         this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
     }
     source = new SourceManage();
-     navigate = new NavigatePages();
-     nodes = new nodeHandler();
-     Events = new eventHandler();
+    navigate = new NavigatePages();
+    nodes = new nodeHandler();
+    Events = new eventHandler();
     public get currentIndex() {
         return this.navigate.config.currentIndex;
     }
@@ -34,23 +34,27 @@ export class ListView extends Designer {
     constructor() {
         super(); this.initializecomponent(arguments, this);
         this.navigate.main =
-        this.nodes.main = 
-        this.Events.main =this;
-        this.source.onUpdate.on((len) => {
-            this.navigate.config.length = len;
+            this.nodes.main =
+            this.Events.main = this;
+        let config = this.navigate.config;
+        this.source.onUpdate.on((len) => {            
+            config.length = len;
+            config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
+            this.Events.refreshScrollSize();
             this.Refresh();
         });
         this.init();
-        
+
     }
 
     private init(): void {
+        let config = this.navigate.config;
         let rectObs = new ResizeObserver((e) => {
             let rect = e[0].contentRect;
-            let cfg = this.navigate.config;
-            cfg.viewSize.setBy.value(rect.width, rect.height);
-            //console.log(cfg);            
-            cfg.perPageRecord = Math.floor(cfg.viewSize.height / cfg.itemSize.height);
+            config.viewSize.setBy.value(rect.width, rect.height);
+            config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
+            config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
+            this.Events.refreshScrollSize();
             this.Refresh();
         }).observe(this.scroller1);
 
@@ -74,5 +78,5 @@ export class ListView extends Designer {
         });
 
     }
-   
+
 }

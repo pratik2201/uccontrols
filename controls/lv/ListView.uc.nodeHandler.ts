@@ -14,6 +14,7 @@ export class nodeHandler {
   allItemHT: NodeListOf<HTMLElement>;
   public set main(value) {
     this._main = value;
+    this.navigate = value.navigate;
     this.allItemHT = this.main.ll_view.childNodes as NodeListOf<HTMLElement>;
   }
   public clear(): void {

@@ -60,19 +60,21 @@ export class eventHandler {
       }
     });
     this.fireScrollEvent = true;
-    this.main.scroller1.addEventListener("scroll", (e: Event) => {
+    this.main.vscrollbar1.addEventListener("scroll", (e: Event) => {
       if (!this.fireScrollEvent) { this.fireScrollEvent = true; return; }
-      //this.scrollTop = Math.floor(this.scrollbarElement.scrollTop / this.itemHeight);
-      //this.doContentScrollAt(this.scrollTop, false);
+      let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
+      
+      // this.scrollTop = Math.floor(this.scrollbarElement.scrollTop / this.itemHeight);
+       this.doContentScrollAt(scrollTop, false);
     });
 
     this.main.ll_view.addEventListener("wheel", (e: WheelEvent) => {
-      /*if (e.deltaY > 0) {
+      if (e.deltaY > 0) {
           this.navigatePages.pageTo.downSide.Go(e as unknown as KeyboardEvent);
       } else {
           this.navigatePages.pageTo.upSide.Go(e as unknown as KeyboardEvent);
       }
-      this.refreshScrollbarSilantly();*/
+      this.refreshScrollbarSilantly();
     });
     let hasCompleteKeyDownEvent = true;
     this.main.scroller1.addEventListener("keydown", (e: KeyboardEvent) => {
@@ -91,6 +93,8 @@ export class eventHandler {
             hasCompleteKeyDownEvent = true;
         }, 1);
     };*/
+
+    this.initVerticalScroller();
   }
   doKeyEvent(e: KeyboardEvent) {
     switch (e.keyCode) {
@@ -121,10 +125,37 @@ export class eventHandler {
     }
     this.refreshScrollbarSilantly();
   }
-
+  isfilling: boolean = false;
+  doContentScrollAt(scrollval: number, useTimeOut: boolean = true) {
+    if (this.isfilling) return;
+    this.isfilling = true;
+    let _this = this;
+    let element = this.main.vscrollbar1;
+    if (element.scrollTop + element.offsetHeight >= element.scrollHeight-1) { // is bottom reached
+        scrollval = this.main.source.length - this.navigatePages.config.perPageRecord;
+    }
+    if (useTimeOut) setTimeout(doscroll);
+    else doscroll();
+    function doscroll() {
+        _this.navigatePages.config.top = Math.floor(scrollval);
+        _this.main.nodes.fill();
+        _this.isfilling = false;
+    }
+}
   refreshScrollbarSilantly() {
     this.fireScrollEvent = false;
-    //this.scrollbarElement.scrollTop = (this.pagerLv.pageInfo.top * this.itemHeight);
+    this.main.vscrollbar1.scrollTop = (this.navigatePages.config.top * this.navigatePages.config.itemSize.height);
     //this.Events.onChangeHiddenCount.fire([this.pageLvExtend.topHiddenRowCount, this.pageLvExtend.bottomHiddenRowCount]);
+  }
+  refreshScrollSize() {
+    this.scrollSubElements.verticalSizerHT.style['height'] = this.main.navigate.config.itemsTotalSize.height +'px';
+  }
+  scrollSubElements = {
+    verticalSizerHT : '<sizer></sizer>'.$(),
+    horizontalSizerHT : '<sizer></sizer>'.$(),
+  }
+  initVerticalScroller() {    
+    this.main.vscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.verticalSizerHT) as HTMLElement);    
+    this.main.hscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.horizontalSizerHT) as HTMLElement);    
   }
 }
