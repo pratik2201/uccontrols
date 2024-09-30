@@ -14,7 +14,10 @@ export const R = {
 },ListView: {
     load: (pera: UcOptions, ...args: any[]): import('uccontrols/controls/ListView.uc').ListView => intenseGenerator.generateUC('uccontrols/controls/ListView.uc', pera, args) as any,
     get type(): import('uccontrols/controls/ListView.uc').ListView { return null as any },
-},Menu: {
+},lv:{ListView: {
+    load: (pera: UcOptions, ...args: any[]): import('uccontrols/controls/lv/ListView.uc').ListView => intenseGenerator.generateUC('uccontrols/controls/lv/ListView.uc', pera, args) as any,
+    get type(): import('uccontrols/controls/lv/ListView.uc').ListView { return null as any },
+},},Menu: {
     load: (pera: UcOptions, ...args: any[]): import('uccontrols/controls/Menu.uc').Menu => intenseGenerator.generateUC('uccontrols/controls/Menu.uc', pera, args) as any,
     get type(): import('uccontrols/controls/Menu.uc').Menu { return null as any },
 },MessageBox: {
