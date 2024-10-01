@@ -24,8 +24,14 @@ export class nodeHandler {
   public fill(): void {
     let _records = this.main.navigate.config;
     this.clear();
-    for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++)
-      this.append(index);
+    let ht: HTMLElement;
+    let curIndex = this.navigate.config.currentIndex;
+    for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++) {
+      ht = this.append(index);
+      if (index == curIndex)
+        this.main.currentIndex = index;
+    }
+    
   };
 
   prepend(index: number, replaceNode: boolean = false): HTMLElement {
@@ -47,7 +53,7 @@ export class nodeHandler {
   append(index: number, replaceNode: boolean = false): HTMLElement {
     let itemNode = this.getNode(index);
     itemNode.data(pagerATTR.itemIndex, index);
-    itemNode.setAttribute('iscurrent', '0');
+    
     let allHT = this.allItemHT;
     if (allHT.length == 0)
       this.main.ll_view.appendChild(itemNode);
@@ -61,31 +67,6 @@ export class nodeHandler {
     this.main.Events.newItemGenerate.fire([itemNode, index]);
     return itemNode;
   }
-
-
-  loopVisibleRows(callback: (ele: HTMLElement) => boolean = (ele) => { return true; }): void {
-    let _chldrns = this.main.ll_view.children;
-    let cIndex = this.navigate.config.currentIndex;
-    for (let index = 0; index < _chldrns.length; index++) {
-      const element = _chldrns[index] as HTMLElement;
-      //let itemindex = parseInt(element.data(pagerATTR.itemIndex));
-      //element.setAttribute('isCurrent', (itemindex == cIndex) ? '1' : '0');
-      if (!callback(element)) return;
-    }
-  };
-  onRendar(): void {
-    this.loopVisibleRows((ele) => {
-      return true;
-    });
-  }
-  __doactualRendar(): void {
-    this.onRendar();
-    // this.nodes.refreshHiddenCount();
-  }
-  render(): void {
-    this.__doactualRendar();
-  }
-
   itemAt = (index: number) => {
     return this.allItemHT[index];
   }
