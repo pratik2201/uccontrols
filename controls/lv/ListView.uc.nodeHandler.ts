@@ -26,46 +26,74 @@ export class nodeHandler {
     this.clear();
     let ht: HTMLElement;
     let curIndex = this.navigate.config.currentIndex;
-    for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++) {
+      for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++) {
       ht = this.append(index);
+      
       if (index == curIndex)
         this.main.currentIndex = index;
     }
-    
-  };
 
-  prepend(index: number, replaceNode: boolean = false): HTMLElement {
-    let itemNode = this.getNode(index);
-    itemNode.data(pagerATTR.itemIndex, index);
-    let allHT = this.allItemHT;
-    if (allHT.length == 0)
-      this.main.ll_view.appendChild(itemNode);
-    else {
-      if (!replaceNode) {
-        this.main.ll_view.prepend(itemNode);
-      } else {
-        allHT[index].replaceWith(itemNode);
+  };
+  generateElement(index: number): { hasGenerated: boolean, element: HTMLElement } {
+    let hasGenerated = false;
+    let element: HTMLElement = undefined;
+    let src = this.main.source;
+    let row = src.rowInfo[index];
+    if (row != undefined) {
+      hasGenerated = row.isModified;
+      element = hasGenerated ? this.getNode(index) : row.element;
+      row.isModified = false;
+      row.index = index;      
+    } else {
+      element = this.getNode(index);
+      hasGenerated = true;
+      src.rowInfo[index] = {
+        element: element,
+        isModified: false,
+        index:index,
       }
     }
-    this.main.Events.newItemGenerate.fire([itemNode, index]);
-    return itemNode;
+    return {
+      hasGenerated: hasGenerated,
+      element: element
+    }
+  }
+  prepend(index: number, replaceNode: boolean = false): HTMLElement {
+    let itemNode = this.generateElement(index);
+   
+    let allHT = this.allItemHT;
+    if (allHT.length == 0)
+      this.main.ll_view.appendChild(itemNode.element);
+    else {
+      if (!replaceNode) {
+        this.main.ll_view.prepend(itemNode.element);
+      } else {
+        allHT[index].replaceWith(itemNode.element);
+      }
+    }
+    if (itemNode.hasGenerated) {
+      itemNode.element.data(pagerATTR.itemIndex, index);    
+      this.main.Events.newItemGenerate.fire([itemNode.element, index]);
+    }
+    return itemNode.element;
   }
   append(index: number, replaceNode: boolean = false): HTMLElement {
-    let itemNode = this.getNode(index);
-    itemNode.data(pagerATTR.itemIndex, index);
-    
+    let itemNode = this.generateElement(index);
     let allHT = this.allItemHT;
     if (allHT.length == 0)
-      this.main.ll_view.appendChild(itemNode);
+      this.main.ll_view.appendChild(itemNode.element);
     else {
       if (!replaceNode) {
-        this.main.ll_view.append(itemNode);
+        this.main.ll_view.append(itemNode.element);
       } else {
-        allHT[index].replaceWith(itemNode);
+        allHT[index].replaceWith(itemNode.element);
       }
     }
-    this.main.Events.newItemGenerate.fire([itemNode, index]);
-    return itemNode;
+    if (itemNode.hasGenerated) {
+      itemNode.element.data(pagerATTR.itemIndex, index);
+      this.main.Events.newItemGenerate.fire([itemNode.element, index]);
+    }
+    return itemNode.element;
   }
   itemAt = (index: number) => {
     return this.allItemHT[index];

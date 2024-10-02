@@ -272,7 +272,9 @@ export class NavigatePages {
             this.config.top = 0;
             this.config.currentIndex = this.config.defaultIndex;
             this.main.Refresh();
+            
           }
+          //console.log(this.main.source.rowInfo);
         }
       },
       Go: (event: KeyboardEvent, valToCount: number = 1): void => {

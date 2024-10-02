@@ -37,7 +37,7 @@ export class ListView extends Designer {
             this.nodes.main =
             this.Events.main = this;
         let config = this.navigate.config;
-        this.source.onUpdate.on((len) => {            
+        this.source.onUpdate.on((len) => {
             config.length = len;
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.refreshScrollSize();
@@ -46,37 +46,63 @@ export class ListView extends Designer {
         this.init();
 
     }
-
+    rectObs: ResizeObserver;
     private init(): void {
         let config = this.navigate.config;
-        let rectObs = new ResizeObserver((e) => {
-            let rect = e[0].contentRect;
-            config.viewSize.setBy.value(rect.width, rect.height);
-            config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
-            config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
-            this.Events.refreshScrollSize();
-            this.Refresh();
-        }).observe(this.scroller1);
+        let _this = this;
+        _this.rectObs = new ResizeObserver((this.resizerCall));
+        _this.rectObs.observe(this.scroller1);
+        _this.Events.init();
 
-        this.Events.init();
     }
-    calledToFill = false;
-    public Refresh(): void {
-        if (this.calledToFill) return;
-        this.calledToFill = true;
-        timeoutCall.start(() => {
-            if (this.Events.beforeOldItemRemoved.length != 0) {
-                let cntnr = this.ll_view.children;
-                for (let index = 0; index < cntnr.length; index++) {
-                    const element = cntnr.item(index) as HTMLElement;
-                    this.Events.beforeOldItemRemoved.fire([element]);
-                    element.remove();
-                }
-            }
-            this.nodes.fill();
-            this.calledToFill = false;
-        });
+    resizerCall = (e: ResizeObserverEntry[]): void => {
+        let _this = this;
+        let config = _this.navigate.config;
+       // console.log("Refresh =  0: "+_this.calledToFill);
 
+        let ppr = config.perPageRecord;
+        let rect = e[0].contentRect;
+        config.viewSize.setBy.value(rect.width, rect.height);
+        config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
+        config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
+        //console.log(config.perPageRecord);
+
+        _this.Events.refreshScrollSize();
+        //if (!_this.calledToFill) {
+            //_this.isResizing = true;
+            //setTimeout(() => {
+            _this.Refresh();
+
+            //console.log(rect.height + ' : Refresh..');
+           // _this.isResizing = false;
+            //}, 1);
+       // }
+    }
+    isResizing = false;
+    calledToFill = false;
+    public Refresh(): boolean {
+        //console.log("Refresh = 1 : "+this.calledToFill);
+        if (this.calledToFill) return false;
+
+        this.calledToFill = true;
+        //timeoutCall.start(() => {
+        if (this.Events.beforeOldItemRemoved.length != 0) {
+            let cntnr = this.ll_view.children;
+            for (let index = 0; index < cntnr.length; index++) {
+                const element = cntnr.item(index) as HTMLElement;
+                this.Events.beforeOldItemRemoved.fire([element]);
+                element.remove();
+            }
+        }
+
+        // this.ll_view.innerHTML = '';
+        this.nodes.fill();
+        //console.log("Refresh = 2 : "+this.calledToFill);
+        
+        this.calledToFill = false;
+        //console.log("Refresh = 3 : "+this.calledToFill);
+        return true;
+        //});
     }
 
 }
