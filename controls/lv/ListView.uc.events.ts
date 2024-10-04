@@ -99,35 +99,35 @@ export class eventHandler {
 
     this.initVerticalScroller();
   }
-  doKeyEvent(e: KeyboardEvent) {
+  doKeyEvent(e: KeyboardEvent):boolean {
     switch (e.keyCode) {
       case keyBoard.keys.up: // up key
         this.navigatePages.moveTo.prevSide.Go(e);
-        break;
+        return true;
       case keyBoard.keys.down: // down key
         this.navigatePages.moveTo.nextSide.Go(e);
-        break;
+        return true;
       case keyBoard.keys.pageUp: // page up key
         this.navigatePages.pageTo.upSide.Go(e);
         this.navigatePages.config.currentIndex = this.navigatePages.config.top;
         this.main.Refresh();
-        break;
+        return true;
       case keyBoard.keys.pageDown: // page down key
         this.navigatePages.pageTo.downSide.Go(e);
         this.navigatePages.config.currentIndex = this.navigatePages.config.minBottomIndex;
         this.main.Refresh();
-        break;
+        return true;
       case keyBoard.keys.end: // end key
         this.navigatePages.config.top = this.navigatePages.config.lastSideTopIndex;
         this.main.Refresh();
         this.main.currentIndex = this.main.source.length - 1;
-        break;
+        return true;
       case keyBoard.keys.home: // home key  
         this.navigatePages.config.top = 0;
         this.main.Refresh();
         this._main.currentIndex = 0; 
-        break;
-      default: return;
+        return true;
+      default: return false;
     }
     this.refreshScrollbarSilantly();
   }
