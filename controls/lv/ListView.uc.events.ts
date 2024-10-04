@@ -63,7 +63,7 @@ export class eventHandler {
     this.main.vscrollbar1.addEventListener("scroll", (e: Event) => {
       if (!this.fireScrollEvent) { this.fireScrollEvent = true; return; }
       let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
-      this.doVerticalContentScrollAt(scrollTop, false);    
+      this.doVerticalContentScrollAt(scrollTop, false);
     });
     this.main.hscrollbar1.addEventListener("scroll", (e: Event) => {
       let scrollLeft = this.main.hscrollbar1.scrollLeft; //Math.floor(this.main.scroller1.scrollLeft / this.navigatePages.config.itemSize.width);
@@ -73,9 +73,9 @@ export class eventHandler {
 
     this.main.ll_view.addEventListener("wheel", (e: WheelEvent) => {
       if (e.deltaY > 0) {
-          this.navigatePages.pageTo.downSide.Go(e as unknown as KeyboardEvent);
+        this.navigatePages.pageTo.downSide.Go(e as unknown as KeyboardEvent);
       } else {
-          this.navigatePages.pageTo.upSide.Go(e as unknown as KeyboardEvent);
+        this.navigatePages.pageTo.upSide.Go(e as unknown as KeyboardEvent);
       }
       this.refreshScrollbarSilantly();
     });
@@ -99,70 +99,77 @@ export class eventHandler {
 
     this.initVerticalScroller();
   }
-  doKeyEvent(e: KeyboardEvent):boolean {
+  onkeyDown_callback = (e): boolean => {
+    return false;
+  }
+  doKeyEvent(e: KeyboardEvent): boolean {
+    if (this.onkeyDown_callback(e) === true) return true;
     switch (e.keyCode) {
       case keyBoard.keys.up: // up key
         this.navigatePages.moveTo.prevSide.Go(e);
-        return true;
+        break;
       case keyBoard.keys.down: // down key
         this.navigatePages.moveTo.nextSide.Go(e);
-        return true;
+        break;
       case keyBoard.keys.pageUp: // page up key
         this.navigatePages.pageTo.upSide.Go(e);
         this.navigatePages.config.currentIndex = this.navigatePages.config.top;
         this.main.Refresh();
-        return true;
+        break;
       case keyBoard.keys.pageDown: // page down key
         this.navigatePages.pageTo.downSide.Go(e);
         this.navigatePages.config.currentIndex = this.navigatePages.config.minBottomIndex;
         this.main.Refresh();
-        return true;
+        break;
       case keyBoard.keys.end: // end key
         this.navigatePages.config.top = this.navigatePages.config.lastSideTopIndex;
         this.main.Refresh();
         this.main.currentIndex = this.main.source.length - 1;
-        return true;
+        break;
       case keyBoard.keys.home: // home key  
         this.navigatePages.config.top = 0;
         this.main.Refresh();
-        this._main.currentIndex = 0; 
-        return true;
+        this._main.currentIndex = 0;
+        break;
       default: return false;
     }
     this.refreshScrollbarSilantly();
+    return true;
   }
   isfilling: boolean = false;
   doVerticalContentScrollAt(scrollval: number, useTimeOut: boolean = true) {
-    if (this.isfilling) return;
+    //console.log(this.navigatePages.config.top);
+    
+    if (this.isfilling ) return;
     this.isfilling = true;
     let _this = this;
     let element = this.main.vscrollbar1;
-    if (element.scrollTop + element.offsetHeight >= element.scrollHeight-1) { // is bottom reached
-        scrollval = this.main.source.length - this.navigatePages.config.perPageRecord;
+    if (element.scrollTop + element.offsetHeight >= element.scrollHeight - 1) { // is bottom reached
+      scrollval = this.main.source.length - this.navigatePages.config.perPageRecord;
     }
     if (useTimeOut) setTimeout(doscroll);
     else doscroll();
     function doscroll() {
-        _this.navigatePages.config.top = Math.floor(scrollval);
-        _this.main.nodes.fill();
-        _this.isfilling = false;
+      _this.navigatePages.config.top = Math.floor(scrollval);
+      _this.main.nodes.fill();
+      _this.isfilling = false;
     }
-}
+  }
   refreshScrollbarSilantly() {
     this.fireScrollEvent = false;
     this.main.vscrollbar1.scrollTop = (this.navigatePages.config.top * this.navigatePages.config.itemSize.height);
     //this.Events.onChangeHiddenCount.fire([this.pageLvExtend.topHiddenRowCount, this.pageLvExtend.bottomHiddenRowCount]);
   }
   refreshScrollSize() {
-    this.scrollSubElements.verticalSizerHT.style['height'] = this.main.navigate.config.itemsTotalSize.height +'px';
-    this.scrollSubElements.horizontalSizerHT.style['width'] = this.main.navigate.config.itemsTotalSize.width +'px';
+    this.scrollSubElements.verticalSizerHT.style['height'] = this.main.navigate.config.itemsTotalSize.height + 'px';
+    this.scrollSubElements.horizontalSizerHT.style['width'] = this.main.navigate.config.itemsTotalSize.width + 'px';
   }
   scrollSubElements = {
-    verticalSizerHT : '<sizer></sizer>'.$(),
-    horizontalSizerHT : '<sizer></sizer>'.$(),
+    verticalSizerHT: '<sizer></sizer>'.$(),
+    horizontalSizerHT: '<sizer></sizer>'.$(),
   }
-  initVerticalScroller() {    
-    this.main.vscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.verticalSizerHT) as HTMLElement);    
-    this.main.hscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.horizontalSizerHT) as HTMLElement);    
+  initVerticalScroller() {
+    this.main.vscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.verticalSizerHT) as HTMLElement);
+    this.main.hscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.horizontalSizerHT) as HTMLElement);
   }
 }

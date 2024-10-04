@@ -21,7 +21,11 @@ export class Configuration {
     ci.element = this.main.ll_view.children[eletof] as HTMLElement;
     ci.index = value;
     ci.row = this.main.source[value];
-    if (ci.element != undefined)
+    if (value <= 0) {
+      this.main.vscrollbar1.scrollTop = 
+      this.top = 0;
+    }
+      if (ci.element != undefined)
       ci.element.setAttribute('iscurrent', '1');
   }
   currentItem = {

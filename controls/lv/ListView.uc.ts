@@ -40,7 +40,9 @@ export class ListView extends Designer {
         this.source.onUpdate.on((len) => {
             config.length = len;
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
+            this.Events.fireScrollEvent = false;
             this.Events.refreshScrollSize();
+            
             this.Refresh();
         });
         this.init();
@@ -53,9 +55,17 @@ export class ListView extends Designer {
         _this.rectObs = new ResizeObserver((this.resizerCall));
         _this.rectObs.observe(this.scroller1);
         _this.Events.init();
-
     }
-    resizerCall = (e: ResizeObserverEntry[]): void => {
+    focusAt0(fireScrollEvent = true){
+        this.Events.fireScrollEvent = fireScrollEvent;
+        this.vscrollbar1.scrollTop = 0;
+        this.currentIndex = this.navigate.config.defaultIndex;
+    }
+    scrollTop(topPos:number,fireScrollEvent = true) {
+        this.Events.fireScrollEvent = fireScrollEvent;
+        this.vscrollbar1.scrollTop = topPos;
+    }
+    private resizerCall = (e: ResizeObserverEntry[]): void => {
         let _this = this;
         let config = _this.navigate.config;
        // console.log("Refresh =  0: "+_this.calledToFill);
