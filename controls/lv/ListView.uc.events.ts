@@ -65,11 +65,11 @@ export class eventHandler {
       let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
       this.doVerticalContentScrollAt(scrollTop, false);
     });
-    this.main.hscrollbar1.addEventListener("scroll", (e: Event) => {
+    /*this.main.hscrollbar1.addEventListener("scroll", (e: Event) => {
       let scrollLeft = this.main.hscrollbar1.scrollLeft; //Math.floor(this.main.scroller1.scrollLeft / this.navigatePages.config.itemSize.width);
       //console.log(this.main.hscrollbar1.scrollLeft);
       this.main.scroller1.scrollLeft = scrollLeft;
-    });
+    });*/
 
     this.main.ll_view.addEventListener("wheel", (e: WheelEvent) => {
       if (e.deltaY > 0) {
@@ -162,14 +162,14 @@ export class eventHandler {
   }
   refreshScrollSize() {
     this.scrollSubElements.verticalSizerHT.style['height'] = this.main.navigate.config.itemsTotalSize.height + 'px';
-    this.scrollSubElements.horizontalSizerHT.style['width'] = this.main.navigate.config.itemsTotalSize.width + 'px';
+    //this.scrollSubElements.horizontalSizerHT.style['width'] = this.main.navigate.config.itemsTotalSize.width + 'px';
   }
   scrollSubElements = {
     verticalSizerHT: '<sizer></sizer>'.$(),
-    horizontalSizerHT: '<sizer></sizer>'.$(),
+    //horizontalSizerHT: '<sizer></sizer>'.$(),
   }
   initVerticalScroller() {
     this.main.vscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.verticalSizerHT) as HTMLElement);
-    this.main.hscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.horizontalSizerHT) as HTMLElement);
+    //this.main.hscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.horizontalSizerHT) as HTMLElement);
   }
 }

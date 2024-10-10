@@ -16,7 +16,6 @@ export class Designer extends Usercontrol {
     public scroller1: HTMLUnknownElement;
     public ll_view: HTMLUnknownElement;
     public end_scroll_text: HTMLElement;
-    public hscrollbar1: HTMLUnknownElement;
     public vscrollbar1: HTMLUnknownElement;
 
     
@@ -35,7 +34,6 @@ export class Designer extends Usercontrol {
           this.scroller1 = CONTROLS.scroller1 as HTMLUnknownElement;
           this.ll_view = CONTROLS.ll_view as HTMLUnknownElement;
           this.end_scroll_text = CONTROLS.end_scroll_text as HTMLElement;
-          this.hscrollbar1 = CONTROLS.hscrollbar1 as HTMLUnknownElement;
           this.vscrollbar1 = CONTROLS.vscrollbar1 as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);

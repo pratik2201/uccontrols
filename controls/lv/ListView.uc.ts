@@ -18,7 +18,13 @@ export class ListView extends Designer {
     }
     public set itemTemplate(value: TemplateNode) {
         this._itemTemplate = value;
-        this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
+        setTimeout(() => {
+            this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
+            let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);   
+            this.itemTemplate.extended.size.setBy.style(cmp);
+            this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
+            this._itemTemplate.extended.sampleNode.remove();
+        }, 1);
     }
     source = new SourceManage();
     navigate = new NavigatePages();
@@ -42,7 +48,7 @@ export class ListView extends Designer {
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             this.Events.refreshScrollSize();
-            
+
             this.Refresh();
         });
         this.init();
@@ -56,22 +62,23 @@ export class ListView extends Designer {
         _this.rectObs.observe(this.scroller1);
         _this.Events.init();
     }
-    focusAt0(fireScrollEvent = true){
+    focusAt0(fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;
         this.vscrollbar1.scrollTop = 0;
         this.currentIndex = this.navigate.config.defaultIndex;
     }
-    scrollTop(topPos:number,fireScrollEvent = true) {
+    scrollTop(topPos: number, fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;
         this.vscrollbar1.scrollTop = topPos;
     }
     private resizerCall = (e: ResizeObserverEntry[]): void => {
         let _this = this;
         let config = _this.navigate.config;
-       // console.log("Refresh =  0: "+_this.calledToFill);
+        // console.log("Refresh =  0: "+_this.calledToFill);
 
         let ppr = config.perPageRecord;
         let rect = e[0].contentRect;
+
         config.viewSize.setBy.value(rect.width, rect.height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
         config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
@@ -79,14 +86,14 @@ export class ListView extends Designer {
 
         _this.Events.refreshScrollSize();
         //if (!_this.calledToFill) {
-            //_this.isResizing = true;
-            //setTimeout(() => {
-            _this.Refresh();
+        //_this.isResizing = true;
+        //setTimeout(() => {
+        _this.Refresh();
 
-            //console.log(rect.height + ' : Refresh..');
-           // _this.isResizing = false;
-            //}, 1);
-       // }
+        //console.log(rect.height + ' : Refresh..');
+        // _this.isResizing = false;
+        //}, 1);
+        // }
     }
     isResizing = false;
     calledToFill = false;
@@ -108,7 +115,7 @@ export class ListView extends Designer {
         // this.ll_view.innerHTML = '';
         this.nodes.fill();
         //console.log("Refresh = 2 : "+this.calledToFill);
-        
+
         this.calledToFill = false;
         //console.log("Refresh = 3 : "+this.calledToFill);
         return true;
