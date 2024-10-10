@@ -14,7 +14,7 @@ export class winFrame extends Designer {
 
     static transperency: HTMLElement = "<transperencyBack></transperencyBack>".$();
     static hasInitedTransperency: boolean = false;
-   
+
     get allowMove(): boolean { return this.drag.allowMove; }
     set allowMove(val: boolean) { this.drag.allowMove = val; }
     get allowResize(): boolean { return this.drag.allowResize; }
@@ -26,7 +26,7 @@ export class winFrame extends Designer {
 
         let ctrls: HTMLElement[] = [];
         for (let index = 0; index < this.ucExtends.garbageElementsHT.length; index++) {
-            const node  = this.ucExtends.garbageElementsHT[index] as HTMLElement;
+            const node = this.ucExtends.garbageElementsHT[index] as HTMLElement;
             if (!node.is(titleHT)) {
                 ctrls.push(node);
             }
@@ -43,6 +43,7 @@ export class winFrame extends Designer {
         super();
         this.initializecomponent(arguments, this);
         this.ucExtends.session.autoLoadSession = true;
+        this.drag.finalRect = this.SESSION_DATA.rect;
         //this.parentUCExt = this.ucExtends.PARENT.ucExtends;
         //this.parentElementHT = this.parentUCExt.wrapperHT;
         if (this.ucExtends.mode == 'client') {
@@ -50,14 +51,17 @@ export class winFrame extends Designer {
                 let form_container = this.parentUCExt.self.parentElement;
                 this.manage = winContiner.getManager(form_container, this);
                 this.parentElementHT.before(this.manage.transperency);
+                setTimeout(() => {
+                    let chd = window.getComputedStyle(this.ucExtends.wrapperHT);
+                    this.parentElementHT.style.width = chd.width;
+                    this.parentElementHT.style.height = chd.height;
+                    this.SESSION_DATA.rect.width = parseFloat(chd.width);
+                    this.SESSION_DATA.rect.height = parseFloat(chd.height);
+                }, 1)
+
             });
 
         }
-
-        this.drag.finalRect = this.SESSION_DATA.rect;
-        this.SESSION_DATA.rect.width = parseFloat(this.parentElementHT.style.width);
-        this.SESSION_DATA.rect.height = parseFloat(this.parentElementHT.style.height);
-
         this.init();
 
         this.parentUCExt.Events.activate.on(() => {
@@ -77,6 +81,7 @@ export class winFrame extends Designer {
         });
 
     }
+    
     loadSession(): void {
         let selectRect = this.SESSION_DATA.rect;
         let containerHT = this.drag.containerHT;
@@ -107,8 +112,8 @@ export class winFrame extends Designer {
                     width: this.SESSION_DATA.rect.width + "px",
                     height: this.SESSION_DATA.rect.height + "px",
                 });
-                       
-               // this.drag.resizer.cssDisplay("block");
+
+                // this.drag.resizer.cssDisplay("block");
                 break;
         }
     }
@@ -121,7 +126,7 @@ export class winFrame extends Designer {
     private drag: dragUc = new dragUc();
     private SESSION_DATA = {
         winState: 'normal' as UcStates,
-        oldstyleText : '',
+        oldstyleText: '',
         rect: {
             left: 0,
             top: 0,
@@ -133,7 +138,7 @@ export class winFrame extends Designer {
         //this.parentUCExt = this.ucExtends.PARENT.ucExtends;
         //this.parentElementHT = this.parentUCExt.wrapperHT;
 
-       // this.container = ResourcesUC.contentHT;
+        // this.container = ResourcesUC.contentHT;
 
         this.designAll();
 
@@ -162,7 +167,7 @@ export class winFrame extends Designer {
             }
         }, 1);
     }
-    
+
     showDialog({ defaultFocusAt = undefined }: { defaultFocusAt?: HTMLElement } = {}): void {
         this.manage.push(this.ucExtends.PARENT);
 
