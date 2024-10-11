@@ -36,7 +36,11 @@ export class ListView extends Designer {
     public set currentIndex(value) {
         this.navigate.config.currentIndex = value;
     }
-
+    public get currentRecord() {
+        
+                    
+        return this.source[this.currentIndex];
+    }
     constructor() {
         super(); this.initializecomponent(arguments, this);
         this.navigate.main =

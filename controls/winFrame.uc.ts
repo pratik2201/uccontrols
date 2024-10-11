@@ -80,6 +80,10 @@ export class winFrame extends Designer {
             this.ucExtends.session.onModify();
         });
 
+        this.parentUCExt.Events.afterClose.on(() => {
+            this.manage.pop();
+        });
+
     }
     
     loadSession(): void {
@@ -159,7 +163,7 @@ export class winFrame extends Designer {
         });
     }
     doCloseWindow(): void {
-        console.log('window is closing...');
+       // console.log('window is closing...');
         setTimeout(() => {
             let result = this.parentUCExt.destruct();
             if (result === true) {
