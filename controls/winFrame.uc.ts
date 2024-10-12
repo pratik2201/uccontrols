@@ -85,7 +85,7 @@ export class winFrame extends Designer {
         });
 
     }
-    
+
     loadSession(): void {
         let selectRect = this.SESSION_DATA.rect;
         let containerHT = this.drag.containerHT;
@@ -152,18 +152,13 @@ export class winFrame extends Designer {
             this.lbl_title.innerText = nval;
         });
         this.cmd_close.on('mouseup', (event) => {
-            this.doCloseWindow();
+
+            this.close();
         });
-        this.parentElementHT.addEventListener('keyup', (e) => {
-            switch (e.keyCode) {
-                case keyBoard.keys.escape:
-                    this.doCloseWindow();
-                    break;
-            }
-        });
+        
     }
-    doCloseWindow(): void {
-       // console.log('window is closing...');
+    close(): void {
+        // console.log('window is closing...');
         setTimeout(() => {
             let result = this.parentUCExt.destruct();
             if (result === true) {
