@@ -52,8 +52,8 @@ export class ListView extends Designer {
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             this.Events.refreshScrollSize();
-
             this.Refresh();
+            this.currentIndex = 0;
         });
         this.init();
 
@@ -65,6 +65,8 @@ export class ListView extends Designer {
         _this.rectObs = new ResizeObserver((this.resizerCall));
         _this.rectObs.observe(this.scroller1);
         _this.Events.init();
+
+        
     }
     focusAt0(fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;

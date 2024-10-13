@@ -6,40 +6,43 @@ import { winFrame } from './winFrame.uc';
 export class winContiner {
     static source: any[] = [];
     static randomName: string = 'w' + uniqOpt.randomNo();
-
-    static getManager(node: HTMLElement, frame: winFrame): winManager {
-        let rtrn: winManager = node.data(this.randomName);
-        if (rtrn == undefined) {
-            rtrn = new winManager(node, frame);
-            node.data(this.randomName, rtrn);
-        }
-        return rtrn;
-    }
+    // static mng = new winManager();
+    // static getManager(node: HTML;Element, frame: winFrame): winManager {
+    //     let rtrn: winManager = node.data(this.randomName);
+    //     if (rtrn == undefined) {
+    //         rtrn = new winManager(/*node, */frame);
+    //         node.data(this.randomName, rtrn);
+    //     }
+    //     return rtrn;
+    // }
 }
 
 export class winManager {
-    mainNode: HTMLElement;
-    curIndex: number = 0;
-    CURRENT_WIN: Usercontrol;
-    pages: Usercontrol[] = [];
-    transperency: HTMLElement = "<transperencyBack></transperencyBack>".$();
-    focusMng: FocusManager = new FocusManager();
+    //mainNode: HTMLElement;
+    static curIndex: number = 0;
+    static CURRENT_WIN: Usercontrol;
+    static pages: Usercontrol[] = [];
+    static transperency: HTMLElement = "<transperencyBack></transperencyBack>".$();
+    static focusMng: FocusManager = new FocusManager();
 
-    constructor(mainNode: HTMLElement, frame: winFrame) {
-        this.mainNode = mainNode;
-        frame.ucExtends.passElement(this.transperency);
-    }
+    // constructor(/*mainNode: HTMLElement, */frame: winFrame) {
+    //    // this.mainNode = mainNode;
+    //     frame.ucExtends.passElement(this.transperency);
+    // }
 
-    push = (form: Usercontrol): void => {
+    static push = (form: Usercontrol): void => {
         let _this = this;
-        if (_this.CURRENT_WIN != undefined)
+       
+        if (_this.CURRENT_WIN != undefined) {
             this.setfreez(true, _this.CURRENT_WIN.ucExtends.self);
+        }
+        form.ucExtends.wrapperHT.before(this.transperency);
         _this.CURRENT_WIN = form;
         _this.pages.push(_this.CURRENT_WIN);
         _this.curIndex = _this.pages.length - 1;
     }
 
-    pop = (): void => {
+    static pop = (): void => {
         this.curIndex = this.pages.length - 1;
         // 
         if (this.curIndex >= 0) {
@@ -64,7 +67,7 @@ export class winManager {
         }
     }
 
-    setfreez = (freez: boolean, element: HTMLElement): void => {
+    static setfreez = (freez: boolean, element: HTMLElement): void => {
         if (freez) {
             this.focusMng.fetch();
             element.setAttribute('active', '0');

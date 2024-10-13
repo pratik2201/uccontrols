@@ -22,10 +22,10 @@ export class Configuration {
     ci.index = value;
     ci.row = this.main.source[value];
     if (value <= 0) {
-      this.main.vscrollbar1.scrollTop = 
-      this.top = 0;
+      this.main.vscrollbar1.scrollTop =
+        this.top = 0;
     }
-      if (ci.element != undefined)
+    if (ci.element != undefined)
       ci.element.setAttribute('iscurrent', '1');
   }
   currentItem = {
@@ -60,7 +60,7 @@ export class NavigatePages {
   public set main(value) {
     this.config.main = this._main = value;
   }
-  constructor() {  }
+  constructor() { }
   setCurrentIndex(val: number, evt: MouseEvent | KeyboardEvent = undefined, eventType: ItemIndexChangeBy = 'Other'): void {
     let cfg = this.config;
     let oldIndex = cfg.currentIndex;
@@ -88,8 +88,8 @@ export class NavigatePages {
         let cfg = this.config;
         let nextPageBottom = cfg.bottomIndex + cfg.perPageRecord;
         //if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
-       // if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (nextPageBottom < cfg.length - 1) ? 'OUTSIDE' :  'LAST';
+        // if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
+        return (nextPageBottom < cfg.length - 1) ? 'OUTSIDE' : 'LAST';
       },
       Advance: {
         outside: (): void => {
@@ -100,8 +100,8 @@ export class NavigatePages {
           // let cfg = this.config;
           // cfg.top = cfg.currentIndex+cfg.perPageRecord;
           // cfg.currentIndex = cfg.top+1;
-           //this.pageTo.downSide.Advance.outside();
-           
+          //this.pageTo.downSide.Advance.outside();
+
         },
         noCoverageBottom: (evt: KeyboardEvent): void => {
           // let cfg = this.config;
@@ -123,7 +123,7 @@ export class NavigatePages {
         switch (cmd) {
           case "NO_COVERAGE_TOP": this.callNavigate(dwnSide.Advance.noCoverageTop, event); break;
           case "NO_COVERAGE_BOTTOM": this.callNavigate(dwnSide.Advance.noCoverageBottom, event); break;
-          case "OUTSIDE": this.callNavigate(dwnSide.Advance.outside, event);  break;
+          case "OUTSIDE": this.callNavigate(dwnSide.Advance.outside, event); break;
           case "LAST": this.callNavigate(dwnSide.Advance.last, event); break;
         }
         this.main.Refresh();
@@ -136,7 +136,7 @@ export class NavigatePages {
         let prevPageTop = cfg.top - cfg.perPageRecord;
         //if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
         //if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (prevPageTop > cfg.defaultIndex) ?  "OUTSIDE"  : "FIRST";
+        return (prevPageTop > cfg.defaultIndex) ? "OUTSIDE" : "FIRST";
       },
       Advance: {
         outside: (): void => {
@@ -268,7 +268,7 @@ export class NavigatePages {
         noCoverageBottom: (evt: KeyboardEvent, valToCount: number = 1): void => {
           let cfg = this.config;
           if (cfg.currentIndex < cfg.length - 1) this.moveTo.nextSide.Advance.dispayed(evt, valToCount);
-          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord+1, cfg.defaultIndex);
+          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord + 1, cfg.defaultIndex);
           this.main.Refresh();
         },
         last: (evt: KeyboardEvent, valToCount: number = 1): void => {
@@ -276,7 +276,7 @@ export class NavigatePages {
             this.config.top = 0;
             this.config.currentIndex = this.config.defaultIndex;
             this.main.Refresh();
-            
+
           }
           //console.log(this.main.source.rowInfo);
         }

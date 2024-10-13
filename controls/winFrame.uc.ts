@@ -50,8 +50,8 @@ export class winFrame extends Designer {
             this.parentUCExt.Events.afterInitlize.on(() => {
                 let form_container = this.parentUCExt.self.parentElement;
                 
-                this.manage = winContiner.getManager(form_container, this);
-                this.parentElementHT.before(this.manage.transperency);
+                //this.manage = winContiner.getManager(form_container, this);
+                this.parentElementHT.before(winManager.transperency);
                 setTimeout(() => {
                     let chd = window.getComputedStyle(this.ucExtends.wrapperHT);
                     this.parentElementHT.style.width = chd.width;
@@ -82,7 +82,7 @@ export class winFrame extends Designer {
         });
 
         this.parentUCExt.Events.afterClose.on(() => {
-            this.manage.pop();
+            winManager.pop();
         });
 
     }
@@ -160,17 +160,22 @@ export class winFrame extends Designer {
     }
     close(): void {
         // console.log('window is closing...');
-        setTimeout(() => {
+        //debugger;
+        //setTimeout(() => {
             let result = this.parentUCExt.destruct();
-            if (result === true) {
-                this.manage.pop();
-            }
-        }, 1);
+            /*if (result === true) {
+                winManager.pop();
+            }*/
+        //}, 1);
     }
 
     showDialog({ defaultFocusAt = undefined }: { defaultFocusAt?: HTMLElement } = {}): void {
-        this.manage.push(this.ucExtends.PARENT);
-
+      
+        this.ucExtends.passElement(winManager.transperency);
+        this.parentUCExt.isDialogBox = true;
+        winManager.push(this.ucExtends.PARENT);
+        //console.log(this.ucExtends.PARENT);
+        
         ResourcesUC.contentHT.append(this.parentElementHT);
         timeoutCall.start(() => {
             if (defaultFocusAt == undefined) {
