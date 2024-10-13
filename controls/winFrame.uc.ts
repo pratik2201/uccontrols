@@ -49,6 +49,7 @@ export class winFrame extends Designer {
         if (this.ucExtends.mode == 'client') {
             this.parentUCExt.Events.afterInitlize.on(() => {
                 let form_container = this.parentUCExt.self.parentElement;
+                
                 this.manage = winContiner.getManager(form_container, this);
                 this.parentElementHT.before(this.manage.transperency);
                 setTimeout(() => {
