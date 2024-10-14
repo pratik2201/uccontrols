@@ -44,7 +44,7 @@ export class nodeManage {
         elementHT.setAttribute("x.SESSION_DATA.type", `=${type}`);
         elementHT.setAttribute("x:generateNode", "false");
         let uc = intenseGenerator.generateUC("uccontrols/controls/Splitter.uc.html", {
-            wrapperHT: elementHT,
+            replaceWrapperWith: elementHT,
             parentUc: this.main
         }) as Splitter;
        

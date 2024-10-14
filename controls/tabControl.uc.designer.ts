@@ -38,6 +38,9 @@ export class Designer extends Usercontrol {
           this.tabView = CONTROLS.tabView as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
+        ucExt.session.prepareForAutoLoadIfExist();
+        if (args.loadAt) args.loadAt.appendChild(ucExt.wrapperHT);
+        ucExt.Events.loaded.fire();
         Usercontrol.assignPropertiesFromDesigner(form);
     }
 }

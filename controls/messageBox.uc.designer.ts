@@ -46,7 +46,7 @@ export class Designer extends Usercontrol {
                                 uniqueIdentity:"winframe1" , 
                                 addNodeToParentSession:true,
                             },                           
-                            wrapperHT : CONTROLS.winframe1 
+                            replaceWrapperWith : CONTROLS.winframe1 
                         }) as any;
           this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
           this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
@@ -60,6 +60,9 @@ export class Designer extends Usercontrol {
           this.cmd_ignore = CONTROLS.cmd_ignore as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
+        ucExt.session.prepareForAutoLoadIfExist();
+        if (args.loadAt) args.loadAt.appendChild(ucExt.wrapperHT);
+        ucExt.Events.loaded.fire();
         Usercontrol.assignPropertiesFromDesigner(form);
     }
 }

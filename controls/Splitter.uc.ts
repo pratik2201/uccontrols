@@ -117,7 +117,7 @@ export class Splitter extends Designer {
             this.mainContainer.appendChild(sadoNode.node);
             let elementHT = `<e${cell.data.attribList}></e>`.$();
             let ucs = intenseGenerator.generateUC(cell.data.ucPath, {
-                wrapperHT: elementHT,
+                replaceWrapperWith: elementHT,
                 session: { loadBySession: true },
                 parentUc: this
             });

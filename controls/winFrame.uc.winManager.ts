@@ -36,10 +36,15 @@ export class winManager {
         if (_this.CURRENT_WIN != undefined) {
             this.setfreez(true, _this.CURRENT_WIN.ucExtends.self);
         }
-        form.ucExtends.wrapperHT.before(this.transperency);
+       
         _this.CURRENT_WIN = form;
         _this.pages.push(_this.CURRENT_WIN);
         _this.curIndex = _this.pages.length - 1;
+        //console.log(form.ucExtends.wrapperHT.isConnected);
+        form.ucExtends.Events.loaded.on(() => {
+           
+            form.ucExtends.wrapperHT.before(this.transperency);
+        })
     }
 
     static pop = (): void => {

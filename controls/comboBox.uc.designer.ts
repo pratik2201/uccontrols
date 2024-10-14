@@ -40,10 +40,13 @@ export class Designer extends Usercontrol {
                                 uniqueIdentity:"ll_view" , 
                                 addNodeToParentSession:true,
                             },                           
-                            wrapperHT : CONTROLS.ll_view 
+                            replaceWrapperWith : CONTROLS.ll_view 
                         }) as any;
 
         ucExt.finalizeInit(args);
+        ucExt.session.prepareForAutoLoadIfExist();
+        if (args.loadAt) args.loadAt.appendChild(ucExt.wrapperHT);
+        ucExt.Events.loaded.fire();
         Usercontrol.assignPropertiesFromDesigner(form);
     }
 }

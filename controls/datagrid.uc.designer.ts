@@ -44,6 +44,9 @@ export class Designer extends Usercontrol {
           this.hscrollbar1 = CONTROLS.hscrollbar1 as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
+        ucExt.session.prepareForAutoLoadIfExist();
+        if (args.loadAt) args.loadAt.appendChild(ucExt.wrapperHT);
+        ucExt.Events.loaded.fire();
         Usercontrol.assignPropertiesFromDesigner(form);
     }
 }

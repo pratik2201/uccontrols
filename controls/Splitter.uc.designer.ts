@@ -26,6 +26,9 @@ export class Designer extends Usercontrol {
           this.mainContainer = CONTROLS.mainContainer as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
+        ucExt.session.prepareForAutoLoadIfExist();
+        if (args.loadAt) args.loadAt.appendChild(ucExt.wrapperHT);
+        ucExt.Events.loaded.fire();
         Usercontrol.assignPropertiesFromDesigner(form);
     }
 }
