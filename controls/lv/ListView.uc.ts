@@ -19,6 +19,7 @@ export class ListView extends Designer {
     public set itemTemplate(value: TemplateNode) {
         this._itemTemplate = value;
         setTimeout(() => {
+           // debugger;
             this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
             let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);   
             this.itemTemplate.extended.size.setBy.style(cmp);

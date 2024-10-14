@@ -3,7 +3,7 @@
         width: 10px;
         border-radius: 0px;
         height: 10px;
-        background-color: rgba(0, 0, 0, 0.329);
+       
     }
 
     ::-webkit-scrollbar-track {
@@ -11,10 +11,10 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: rgba(0, 0, 0, 0.300);
+        background-color: rgba(17, 135, 213, 0.329);
         border: solid 2px transparent;
         box-sizing: border-box;
-        border-radius: 0px;
+        border-radius: 2px;
 
     }
 

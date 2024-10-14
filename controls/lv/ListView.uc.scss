@@ -19,6 +19,7 @@ vscrollbar {
 vscrollbar {
     height: 100%;
     overflow-y: auto;
+    position: absolute; right: 0px; top: 0px; bottom: 0px;
     grid-column: 2;
     grid-row: 1 / span 3;
 }
