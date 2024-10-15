@@ -1,6 +1,8 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
+import { LinearList } from 'uccontrols/controls/LinearList.uc';
+
 /**
  *  code filename must same and case sensitive with classname 
  */
@@ -39,14 +41,15 @@ export class Designer extends Usercontrol {
                                 loadBySession:args.session.loadBySession,
                                 uniqueIdentity:"ll_view" , 
                                 addNodeToParentSession:true,
-                            },                           
-                            replaceWrapperWith : CONTROLS.ll_view 
+                            },   
+                            decisionForTargerElement:'replace',
+                            targetElement : CONTROLS.ll_view 
                         }) as any;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();
         if (args.loadAt) args.loadAt.appendChild(ucExt.wrapperHT);
-        ucExt.Events.loaded.fire();
+       
         Usercontrol.assignPropertiesFromDesigner(form);
     }
 }

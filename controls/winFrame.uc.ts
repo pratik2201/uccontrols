@@ -177,13 +177,13 @@ export class winFrame extends Designer {
         //console.log(this.ucExtends.PARENT);
         
         ResourcesUC.contentHT.append(this.parentElementHT);
-        timeoutCall.start(() => {
+       // timeoutCall.start(() => {
             if (defaultFocusAt == undefined) {
                 ResourcesUC.tabMng.moveNext(this.ucExtends.self);
             } else {
                 ResourcesUC.tabMng.focusTo(defaultFocusAt);
             }
-        });
+       // });
 
 
     }
