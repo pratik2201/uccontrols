@@ -33,16 +33,16 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
-          this.headerSectionHT = CONTROLS.headerSectionHT as HTMLElement;
-          this.headerGridHT1 = CONTROLS.headerGridHT1 as HTMLUnknownElement;
-          this.begin_scroll_text = CONTROLS.begin_scroll_text as HTMLElement;
-          this.pagercntnr1 = CONTROLS.pagercntnr1 as HTMLUnknownElement;
-          this.detailGridHT1 = CONTROLS.detailGridHT1 as HTMLUnknownElement;
-          this.end_scroll_text = CONTROLS.end_scroll_text as HTMLElement;
-          this.footerSectionHT = CONTROLS.footerSectionHT as HTMLElement;
-          this.footerGridHT1 = CONTROLS.footerGridHT1 as HTMLUnknownElement;
-          this.vscrollbar1 = CONTROLS.vscrollbar1 as HTMLUnknownElement;
-          this.hscrollbar1 = CONTROLS.hscrollbar1 as HTMLUnknownElement;
+        this.headerSectionHT = CONTROLS.headerSectionHT as HTMLElement;
+        this.headerGridHT1 = CONTROLS.headerGridHT1 as HTMLUnknownElement;
+        this.begin_scroll_text = CONTROLS.begin_scroll_text as HTMLElement;
+        this.pagercntnr1 = CONTROLS.pagercntnr1 as HTMLUnknownElement;
+        this.detailGridHT1 = CONTROLS.detailGridHT1 as HTMLUnknownElement;
+        this.end_scroll_text = CONTROLS.end_scroll_text as HTMLElement;
+        this.footerSectionHT = CONTROLS.footerSectionHT as HTMLElement;
+        this.footerGridHT1 = CONTROLS.footerGridHT1 as HTMLUnknownElement;
+        this.vscrollbar1 = CONTROLS.vscrollbar1 as HTMLUnknownElement;
+        this.hscrollbar1 = CONTROLS.hscrollbar1 as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

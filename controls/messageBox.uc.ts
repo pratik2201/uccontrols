@@ -1,6 +1,6 @@
 import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator.js';
-import { Designer } from './MessageBox.uc.designer.js';
+import { Designer } from './MessageBox.uc.designer';
 
 export type MessageBoxResult = "none" | "yes" | "no" | "ok" | "cancel" | "abort" | "retry" | "ignore";
 
@@ -23,7 +23,7 @@ export class MessageBox extends Designer {
             defaultFocus?: MessageBoxResult,
         } = {}
     ) {
-        let uc: MessageBox = intenseGenerator.generateUC('uccontrols/controls/messageBox.uc', {}, arguments[2]) as MessageBox;
+        let uc: MessageBox = intenseGenerator.generateUC('uccontrols/controls/MessageBox.uc', {}, arguments[2]) as MessageBox;
         uc.resultCallback = result;
         
         uc.lbl_message.innerHTML = message;
@@ -55,7 +55,7 @@ export class MessageBox extends Designer {
         let eleToFocus: HTMLElement | undefined = undefined;
         let ele = uc.ucExtends.find(`[role="${defaultFocus}"]`);
         if (ele.length == 1) eleToFocus = ele[0];
-        uc.winframe1.showDialog({
+        uc.ucExtends.showDialog({
             defaultFocusAt: eleToFocus
         });
     }

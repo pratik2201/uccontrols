@@ -29,8 +29,8 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
-          this.txt_editor = CONTROLS.txt_editor as HTMLUnknownElement;
-          this.cmd_drop = CONTROLS.cmd_drop as HTMLUnknownElement;
+        this.txt_editor = CONTROLS.txt_editor as HTMLUnknownElement;
+        this.cmd_drop = CONTROLS.cmd_drop as HTMLUnknownElement;
          
         
        
@@ -45,6 +45,7 @@ export class Designer extends Usercontrol {
                             decisionForTargerElement:'replace',
                             targetElement : CONTROLS.ll_view 
                         }) as any;
+        this.ll_view.ucExtends.show();
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

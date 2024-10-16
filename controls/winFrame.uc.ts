@@ -1,10 +1,10 @@
-import { Designer } from './winFrame.uc.designer.js';
-import { dragUc } from 'uccontrols/controls/common/draguc.js';
+import { Designer } from './winFrame.uc.designer';
+import { dragUc } from 'uccontrols/controls/common/draguc';
 import { UcStates } from 'ucbuilder/enumAndMore';
-import { ResourcesUC } from 'ucbuilder/ResourcesUC.js';
-import { winManager, winContiner } from 'uccontrols/controls/winFrame.uc.winManager.js';
+import { ResourcesUC } from 'ucbuilder/ResourcesUC';
+import { winManager, winContiner } from 'ucbuilder/global/winManager';
 import { timeoutCall } from "ucbuilder/global/timeoutCall";
-import { keyBoard } from 'ucbuilder/global/hardware/keyboard.js';
+import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 
 export class winFrame extends Designer {
 
@@ -12,7 +12,6 @@ export class winFrame extends Designer {
     set backgroundOpacity(val: number) { this._backgroundOpacity = val > 1 ? val / 1000 : val }
     get backgroundOpacity(): number { return this._backgroundOpacity; }
 
-    static transperency: HTMLElement = "<transperencyBack></transperencyBack>".$();
     static hasInitedTransperency: boolean = false;
 
     get allowMove(): boolean { return this.drag.allowMove; }
@@ -38,7 +37,7 @@ export class winFrame extends Designer {
     }
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
     get parentElementHT() { return this.parentUCExt.wrapperHT; }
-    private manage: winManager | undefined = undefined;
+    //private manage: winManager | undefined = undefined;
     constructor() {
         super();
         this.initializecomponent(arguments, this);
@@ -47,18 +46,20 @@ export class winFrame extends Designer {
         //this.parentUCExt = this.ucExtends.PARENT.ucExtends;
         //this.parentElementHT = this.parentUCExt.wrapperHT;
         if (this.ucExtends.mode == 'client') {
-            this.parentUCExt.Events.afterInitlize.on(() => {
-                let form_container = this.parentUCExt.self.parentElement;
+            this.parentUCExt.Events.loaded.on(() => {
+                ////let form_container = this.parentUCExt.self.parentElement;
+                //debugger;
+                //console.log('daf');
+                //console.log(this.ucExtends.PARENT);
                 
-                //this.manage = winContiner.getManager(form_container, this);
-                this.parentElementHT.before(winManager.transperency);
-                setTimeout(() => {
+                //setTimeout(() => {
                     let chd = window.getComputedStyle(this.ucExtends.wrapperHT);
                     this.parentElementHT.style.width = chd.width;
                     this.parentElementHT.style.height = chd.height;
+                    console.log(chd.height+":"+this.parentElementHT.offsetHeight);
                     this.SESSION_DATA.rect.width = parseFloat(chd.width);
                     this.SESSION_DATA.rect.height = parseFloat(chd.height);
-                }, 1)
+               // })
 
             });
 
@@ -81,9 +82,7 @@ export class winFrame extends Designer {
             this.ucExtends.session.onModify();
         });
 
-        this.parentUCExt.Events.afterClose.on(() => {
-            winManager.pop();
-        });
+       
 
     }
 
@@ -153,38 +152,8 @@ export class winFrame extends Designer {
             this.lbl_title.innerText = nval;
         });
         this.cmd_close.on('mouseup', (event) => {
-
-            this.close();
+            this.parentUCExt.close();
         });
         
-    }
-    close(): void {
-        // console.log('window is closing...');
-        //debugger;
-        //setTimeout(() => {
-            let result = this.parentUCExt.destruct();
-            /*if (result === true) {
-                winManager.pop();
-            }*/
-        //}, 1);
-    }
-
-    showDialog({ defaultFocusAt = undefined }: { defaultFocusAt?: HTMLElement } = {}): void {
-      
-        this.ucExtends.passElement(winManager.transperency);
-        this.parentUCExt.isDialogBox = true;
-        winManager.push(this.ucExtends.PARENT);
-        //console.log(this.ucExtends.PARENT);
-        
-        ResourcesUC.contentHT.append(this.parentElementHT);
-       // timeoutCall.start(() => {
-            if (defaultFocusAt == undefined) {
-                ResourcesUC.tabMng.moveNext(this.ucExtends.self);
-            } else {
-                ResourcesUC.tabMng.focusTo(defaultFocusAt);
-            }
-       // });
-
-
     }
 }

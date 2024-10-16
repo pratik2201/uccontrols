@@ -51,16 +51,17 @@ export class Designer extends Usercontrol {
                             decisionForTargerElement:'replace',
                             targetElement : CONTROLS.winframe1 
                         }) as any;
-          this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
-          this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
-          this.buttonList = CONTROLS.buttonList as HTMLElement;
-          this.cmd_yes = CONTROLS.cmd_yes as HTMLUnknownElement;
-          this.cmd_no = CONTROLS.cmd_no as HTMLUnknownElement;
-          this.cmd_ok = CONTROLS.cmd_ok as HTMLUnknownElement;
-          this.cmd_cancel = CONTROLS.cmd_cancel as HTMLUnknownElement;
-          this.cmd_abort = CONTROLS.cmd_abort as HTMLUnknownElement;
-          this.cmd_retry = CONTROLS.cmd_retry as HTMLUnknownElement;
-          this.cmd_ignore = CONTROLS.cmd_ignore as HTMLUnknownElement;
+        this.winframe1.ucExtends.show();
+        this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
+        this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
+        this.buttonList = CONTROLS.buttonList as HTMLElement;
+        this.cmd_yes = CONTROLS.cmd_yes as HTMLUnknownElement;
+        this.cmd_no = CONTROLS.cmd_no as HTMLUnknownElement;
+        this.cmd_ok = CONTROLS.cmd_ok as HTMLUnknownElement;
+        this.cmd_cancel = CONTROLS.cmd_cancel as HTMLUnknownElement;
+        this.cmd_abort = CONTROLS.cmd_abort as HTMLUnknownElement;
+        this.cmd_retry = CONTROLS.cmd_retry as HTMLUnknownElement;
+        this.cmd_ignore = CONTROLS.cmd_ignore as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

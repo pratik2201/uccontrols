@@ -24,7 +24,7 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
-          this.mainContainer = CONTROLS.mainContainer as HTMLUnknownElement;
+        this.mainContainer = CONTROLS.mainContainer as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

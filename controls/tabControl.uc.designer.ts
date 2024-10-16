@@ -35,9 +35,9 @@ export class Designer extends Usercontrol {
                             parentUc : this, 
                             elementHT : CONTROLS.tpt_itemnode 
                        }) as any;
-          this.container1 = CONTROLS.container1 as HTMLUnknownElement;
-          this.tabHeader = CONTROLS.tabHeader as HTMLElement;
-          this.tabView = CONTROLS.tabView as HTMLUnknownElement;
+        this.container1 = CONTROLS.container1 as HTMLUnknownElement;
+        this.tabHeader = CONTROLS.tabHeader as HTMLElement;
+        this.tabView = CONTROLS.tabView as HTMLUnknownElement;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();
