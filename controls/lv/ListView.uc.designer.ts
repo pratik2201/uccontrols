@@ -12,6 +12,10 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static Create(pera: UcOptions, ...args: any[]): ListView { 
+        /** uccontrols/controls/lv/ListView.uc */
+        return intenseGenerator.generateUC('uccontrols/controls/lv/ListView.uc',pera,...args) as ListView;
+    }
     
     public begin_scroll_text: HTMLElement;
     public scroller1: HTMLUnknownElement;

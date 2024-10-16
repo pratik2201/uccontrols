@@ -46,6 +46,14 @@ export class eventHandler {
 
   }
   init() {
+    this.main.ll_view.addEventListener("dblclick", (e: MouseEvent) => {
+      let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
+      if (itm != null) {
+        this.main.navigate.setCurrentIndex(itm.data(pagerATTR.itemIndex), e, "Mouse");
+        this.itemDoubleClick.fire([this.main.currentIndex, e]);
+      }
+    });
+    
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {

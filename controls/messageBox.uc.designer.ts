@@ -13,6 +13,10 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static Create(pera: UcOptions, ...args: any[]): MessageBox { 
+        /** uccontrols/controls/MessageBox.uc */
+        return intenseGenerator.generateUC('uccontrols/controls/MessageBox.uc',pera,...args) as MessageBox;
+    }
     
          
    
@@ -40,7 +44,7 @@ export class Designer extends Usercontrol {
          
         
        
-        this.winframe1 = intenseGenerator.generateUC('uccontrols/controls/winFrame.uc.ts',{ 
+        this.winframe1 = winFrame.Create({ 
                             parentUc : this, 
                             mode:args.mode,
                             session:{
@@ -50,7 +54,7 @@ export class Designer extends Usercontrol {
                             },   
                             decisionForTargerElement:'replace',
                             targetElement : CONTROLS.winframe1 
-                        }) as any;
+                        });
         this.winframe1.ucExtends.show();
         this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
         this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;

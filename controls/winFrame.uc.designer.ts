@@ -12,6 +12,10 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static Create(pera: UcOptions, ...args: any[]): winFrame { 
+        /** uccontrols/controls/winFrame.uc */
+        return intenseGenerator.generateUC('uccontrols/controls/winFrame.uc',pera,...args) as winFrame;
+    }
     
     public title_panel: HTMLElement;
     public lbl_title: HTMLElement;

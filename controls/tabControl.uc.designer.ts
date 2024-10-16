@@ -13,6 +13,10 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static Create(pera: UcOptions, ...args: any[]): tabControl { 
+        /** uccontrols/controls/tabControl.uc */
+        return intenseGenerator.generateUC('uccontrols/controls/tabControl.uc',pera,...args) as tabControl;
+    }
     
         
     public tpt_itemnode: import('uccontrols/controls/tabControl/itemNode.tpt').itemNode;

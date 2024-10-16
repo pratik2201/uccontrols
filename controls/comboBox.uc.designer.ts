@@ -13,6 +13,10 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static Create(pera: UcOptions, ...args: any[]): comboBox { 
+        /** uccontrols/controls/comboBox.uc */
+        return intenseGenerator.generateUC('uccontrols/controls/comboBox.uc',pera,...args) as comboBox;
+    }
     
     public txt_editor: HTMLUnknownElement;
     public cmd_drop: HTMLUnknownElement;
@@ -34,7 +38,7 @@ export class Designer extends Usercontrol {
          
         
        
-        this.ll_view = intenseGenerator.generateUC('uccontrols/controls/LinearList.uc.ts',{ 
+        this.ll_view = LinearList.Create({ 
                             parentUc : this, 
                             mode:args.mode,
                             session:{
@@ -44,7 +48,7 @@ export class Designer extends Usercontrol {
                             },   
                             decisionForTargerElement:'replace',
                             targetElement : CONTROLS.ll_view 
-                        }) as any;
+                        });
         this.ll_view.ucExtends.show();
 
         ucExt.finalizeInit(args);

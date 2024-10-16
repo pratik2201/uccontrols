@@ -12,6 +12,10 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static Create(pera: UcOptions, ...args: any[]): LinearList { 
+        /** uccontrols/controls/LinearList.uc */
+        return intenseGenerator.generateUC('uccontrols/controls/LinearList.uc',pera,...args) as LinearList;
+    }
     
 
     

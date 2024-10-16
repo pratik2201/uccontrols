@@ -47,20 +47,15 @@ export class winFrame extends Designer {
         //this.parentElementHT = this.parentUCExt.wrapperHT;
         if (this.ucExtends.mode == 'client') {
             this.parentUCExt.Events.loaded.on(() => {
-                ////let form_container = this.parentUCExt.self.parentElement;
-                //debugger;
-                //console.log('daf');
-                //console.log(this.ucExtends.PARENT);
-                
                 //setTimeout(() => {
-                    let chd = window.getComputedStyle(this.ucExtends.wrapperHT);
-                    this.parentElementHT.style.width = chd.width;
-                    this.parentElementHT.style.height = chd.height;
-                    console.log(chd.height+":"+this.parentElementHT.offsetHeight);
-                    this.SESSION_DATA.rect.width = parseFloat(chd.width);
-                    this.SESSION_DATA.rect.height = parseFloat(chd.height);
-               // })
-
+                // debugger;
+                let chd = window.getComputedStyle(this.ucExtends.wrapperHT);
+                this.parentElementHT.style.width = chd.width;
+                this.parentElementHT.style.height = chd.height;
+                //console.log(chd.height + ":" + this.parentElementHT.offsetHeight);
+                this.SESSION_DATA.rect.width = parseFloat(chd.width);
+                this.SESSION_DATA.rect.height = parseFloat(chd.height);
+                // })
             });
 
         }
@@ -82,7 +77,7 @@ export class winFrame extends Designer {
             this.ucExtends.session.onModify();
         });
 
-       
+
 
     }
 
@@ -154,6 +149,24 @@ export class winFrame extends Designer {
         this.cmd_close.on('mouseup', (event) => {
             this.parentUCExt.close();
         });
-        
+
     }
+
+
+    /*showDialog({ defaultFocusAt = undefined }: { defaultFocusAt?: HTMLElement } = {}): void {
+      
+        this.ucExtends.passElement(winManager.transperency);
+        this.parentUCExt.isDialogBox = true;
+        winManager.push(this.ucExtends.PARENT);
+        //console.log(this.ucExtends.PARENT);
+        
+        ResourcesUC.contentHT.append(this.parentElementHT);
+        timeoutCall.start(() => {
+            if (defaultFocusAt == undefined) {
+                ResourcesUC.tabMng.moveNext(this.ucExtends.self);
+            } else {
+                ResourcesUC.tabMng.focusTo(defaultFocusAt);
+            }
+        });
+    }*/
 }
