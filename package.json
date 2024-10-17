@@ -1,15 +1,18 @@
 {
   "name": "uccontrols",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "show your creativity/intelligence.. do free get free  :)",
   "main": "out/main.js", 
   "scripts": {},
   "author": "ap",
   "license": "ISC",
-  "dependencies": {
-    "ucbuilder": "^1.0.0-beta.0",
+  "devDependencies": {
     "@types/node": "^20.11.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "ucbuilder": "^1.0.0-beta.2"
   },
   "keywords": [
     "user controls"

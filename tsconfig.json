@@ -26,6 +26,7 @@
     ],
     "baseUrl": ".",
     "outDir": "out",
+    "rootDir": ".",
     "paths": {
       "uccontrols/*": ["./*"],
       "ucbuilder/*":["./node_modules/ucbuilder/*"]

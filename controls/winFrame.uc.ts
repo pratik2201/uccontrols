@@ -1,11 +1,6 @@
 import { Designer } from './winFrame.uc.designer';
 import { dragUc } from 'uccontrols/controls/common/draguc';
 import { UcStates } from 'ucbuilder/enumAndMore';
-import { ResourcesUC } from 'ucbuilder/ResourcesUC';
-import { winManager, winContiner } from 'ucbuilder/global/winManager';
-import { timeoutCall } from "ucbuilder/global/timeoutCall";
-import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
-
 export class winFrame extends Designer {
 
     private _backgroundOpacity: number = 0.500;
@@ -37,7 +32,6 @@ export class winFrame extends Designer {
     }
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
     get parentElementHT() { return this.parentUCExt.wrapperHT; }
-    //private manage: winManager | undefined = undefined;
     constructor() {
         super();
         this.initializecomponent(arguments, this);
@@ -152,21 +146,4 @@ export class winFrame extends Designer {
 
     }
 
-
-    /*showDialog({ defaultFocusAt = undefined }: { defaultFocusAt?: HTMLElement } = {}): void {
-      
-        this.ucExtends.passElement(winManager.transperency);
-        this.parentUCExt.isDialogBox = true;
-        winManager.push(this.ucExtends.PARENT);
-        //console.log(this.ucExtends.PARENT);
-        
-        ResourcesUC.contentHT.append(this.parentElementHT);
-        timeoutCall.start(() => {
-            if (defaultFocusAt == undefined) {
-                ResourcesUC.tabMng.moveNext(this.ucExtends.self);
-            } else {
-                ResourcesUC.tabMng.focusTo(defaultFocusAt);
-            }
-        });
-    }*/
 }
