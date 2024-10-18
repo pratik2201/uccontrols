@@ -1,6 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
+import { VariableList } from 'ucbuilder/global/stylerRegs';
 import { itemNode } from 'uccontrols/controls/tabControl/itemNode.tpt';
 
 /**
@@ -13,8 +14,8 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
-    static setCSS_globalVar (key: string, value: string): void  {
-        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/tabControl.uc`);
+    static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
+        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/tabControl.uc`);
     }
     static Create(pera: UcOptions, ...args: any[]): tabControl { 
         /** uccontrols/controls/tabControl.uc */

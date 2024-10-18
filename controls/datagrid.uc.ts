@@ -135,7 +135,7 @@ export class datagrid extends Designer {
       getVarValue: (varname: string) =>
         this.detail.itemTemplate.extended.getCSS_localVar(varname),
       setVarValue: (varname: string, val: string) =>
-        this.detail.itemTemplate.extended.setCSS_localVar(varname, val),
+        this.detail.itemTemplate.extended.setCSS_localVar({varname: val}),
     });
     this.resizer.init();
   }

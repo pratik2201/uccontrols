@@ -1,6 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
+import { VariableList } from 'ucbuilder/global/stylerRegs';
 import { LinearList } from 'uccontrols/controls/LinearList.uc';
 
 /**
@@ -13,8 +14,8 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
-    static setCSS_globalVar (key: string, value: string): void  {
-        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/comboBox.uc`);
+    static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
+        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/comboBox.uc`);
     }
     static Create(pera: UcOptions, ...args: any[]): comboBox { 
         /** uccontrols/controls/comboBox.uc */

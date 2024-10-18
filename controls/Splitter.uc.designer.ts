@@ -1,6 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
+import { VariableList } from 'ucbuilder/global/stylerRegs';
 
 /**
  *  code filename must same and case sensitive with classname 
@@ -12,8 +13,8 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
-    static setCSS_globalVar (key: string, value: string): void  {
-        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/Splitter.uc`);
+    static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
+        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/Splitter.uc`);
     }
     static Create(pera: UcOptions, ...args: any[]): Splitter { 
         /** uccontrols/controls/Splitter.uc */
