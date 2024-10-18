@@ -12,6 +12,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/lv/ListView.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): ListView { 
         /** uccontrols/controls/lv/ListView.uc */
         return intenseGenerator.generateUC('uccontrols/controls/lv/ListView.uc',pera,...args) as ListView;

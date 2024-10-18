@@ -13,6 +13,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/tabControl.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): tabControl { 
         /** uccontrols/controls/tabControl.uc */
         return intenseGenerator.generateUC('uccontrols/controls/tabControl.uc',pera,...args) as tabControl;

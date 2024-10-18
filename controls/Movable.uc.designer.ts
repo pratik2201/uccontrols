@@ -12,6 +12,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/Movable.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): Movable { 
         /** uccontrols/controls/Movable.uc */
         return intenseGenerator.generateUC('uccontrols/controls/Movable.uc',pera,...args) as Movable;

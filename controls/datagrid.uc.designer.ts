@@ -12,6 +12,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/datagrid.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): datagrid { 
         /** uccontrols/controls/datagrid.uc */
         return intenseGenerator.generateUC('uccontrols/controls/datagrid.uc',pera,...args) as datagrid;

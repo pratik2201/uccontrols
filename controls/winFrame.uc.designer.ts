@@ -12,6 +12,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/winFrame.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): winFrame { 
         /** uccontrols/controls/winFrame.uc */
         return intenseGenerator.generateUC('uccontrols/controls/winFrame.uc',pera,...args) as winFrame;

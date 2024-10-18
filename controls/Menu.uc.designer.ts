@@ -12,6 +12,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/Menu.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): Menu { 
         /** uccontrols/controls/Menu.uc */
         return intenseGenerator.generateUC('uccontrols/controls/Menu.uc',pera,...args) as Menu;

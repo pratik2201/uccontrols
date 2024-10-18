@@ -12,6 +12,9 @@ export class Designer extends Usercontrol {
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
+    static setCSS_globalVar (key: string, value: string): void  {
+        intenseGenerator.setCSS_globalVar(key, value,`uccontrols/controls/singleSplitter.uc`);
+    }
     static Create(pera: UcOptions, ...args: any[]): singleSplitter { 
         /** uccontrols/controls/singleSplitter.uc */
         return intenseGenerator.generateUC('uccontrols/controls/singleSplitter.uc',pera,...args) as singleSplitter;
