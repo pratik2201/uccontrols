@@ -18,11 +18,11 @@ export class ListView extends Designer {
     }
     public set itemTemplate(value: TemplateNode) {
         this._itemTemplate = value;
-            this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
-            let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);
-            this.itemTemplate.extended.size.setBy.style(cmp);
-            this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
-            this._itemTemplate.extended.sampleNode.remove();
+        this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
+        let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);
+        this.itemTemplate.extended.size.setBy.style(cmp);
+        this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
+        this._itemTemplate.extended.sampleNode.remove();
     }
     source = new SourceManage();
     navigate = new NavigatePages();
@@ -43,14 +43,17 @@ export class ListView extends Designer {
             this.nodes.main =
             this.Events.main = this;
         let config = this.navigate.config;
-        this.source.onUpdate.on((len) =>{
+        this.source.onUpdate.on((len) => {
             config.length = len; //this.source.length;
-            
+
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             this.Events.refreshScrollSize();
             this.Refresh();
             this.currentIndex = config.defaultIndex; // 0 changed..
+            //let config = this.navigate.config;
+            this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
+
         });
         this.init();
 
@@ -65,9 +68,14 @@ export class ListView extends Designer {
         });
         _this.rectObs.observe(this.scroller1);
         _this.Events.init();
-
+        this.Events.onChangeHiddenCount.on(this.changeHiddenCount);
+    }
+    changeHiddenCount = (topCount: number, bottomCount: number) => {
+        this.begin_scroll_text.innerHTML = topCount == 0 ? "&nbsp;" : "▲ " + topCount + "";
+        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;" : "▼ " + bottomCount + "";
 
     }
+
     focusAt0(fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;
         this.vscrollbar1.scrollTop = 0;
@@ -87,7 +95,7 @@ export class ListView extends Designer {
         config.viewSize.setBy.value(width, height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
         config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
-       // console.log(width,height);
+        // console.log(width,height);
 
         _this.Events.refreshScrollSize();
         //if (!_this.calledToFill) {

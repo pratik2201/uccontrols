@@ -11,6 +11,7 @@ export class eventHandler {
   beforeOldItemRemoved = new CommonEvent<(itemHT: HTMLElement) => void>();
   onClearContainer = new CommonEvent<() => void>();
   newItemGenerate = new CommonEvent<(itemnode: HTMLElement, index: number) => void>();
+  onChangeHiddenCount = new CommonEvent<(topHiddenCount: number, bottomHiddenCount: number) => void>();
   currentItemIndexChange = new CommonEvent<(
     oldIndex: number,
     newIndex: number,
@@ -53,7 +54,7 @@ export class eventHandler {
         this.itemDoubleClick.fire([this.main.currentIndex, e]);
       }
     });
-    
+
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
@@ -147,8 +148,8 @@ export class eventHandler {
   isfilling: boolean = false;
   doVerticalContentScrollAt(scrollval: number, useTimeOut: boolean = true) {
     //console.log(this.navigatePages.config.top);
-    
-    if (this.isfilling ) return;
+
+    if (this.isfilling) return;
     this.isfilling = true;
     let _this = this;
     let element = this.main.vscrollbar1;
@@ -158,14 +159,18 @@ export class eventHandler {
     if (useTimeOut) setTimeout(doscroll);
     else doscroll();
     function doscroll() {
-      _this.navigatePages.config.top = Math.floor(scrollval);
+      let config = _this.navigatePages.config;
+      config.top = Math.floor(scrollval);
       _this.main.nodes.fill();
       _this.isfilling = false;
+      _this.main.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
     }
   }
   refreshScrollbarSilantly() {
     this.fireScrollEvent = false;
-    this.main.vscrollbar1.scrollTop = (this.navigatePages.config.top * this.navigatePages.config.itemSize.height);
+    let config = this.navigatePages.config;
+    this.main.vscrollbar1.scrollTop = (config.top * config.itemSize.height);
+    this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);
     //this.Events.onChangeHiddenCount.fire([this.pageLvExtend.topHiddenRowCount, this.pageLvExtend.bottomHiddenRowCount]);
   }
   refreshScrollSize() {
@@ -177,7 +182,9 @@ export class eventHandler {
     //horizontalSizerHT: '<sizer></sizer>'.$(),
   }
   initVerticalScroller() {
+    let config = this.navigatePages.config;
     this.main.vscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.verticalSizerHT) as HTMLElement);
+    // this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);
     //this.main.hscrollbar1.appendChild(this._main.ucExtends.passElement(this.scrollSubElements.horizontalSizerHT) as HTMLElement);
   }
 }
