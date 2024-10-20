@@ -10,15 +10,16 @@ import { datagrid } from './datagrid.uc';
 
 
 export class Designer extends Usercontrol {    
+    static FILE_PATH = `uccontrols/controls/datagrid.uc`;
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
-        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/datagrid.uc`);
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): datagrid { 
         /** uccontrols/controls/datagrid.uc */
-        return intenseGenerator.generateUC('uccontrols/controls/datagrid.uc',pera,...args) as datagrid;
+        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as datagrid;
     }
     
     public headerSectionHT: HTMLElement;

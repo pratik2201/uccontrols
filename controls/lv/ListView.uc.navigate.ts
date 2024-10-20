@@ -20,7 +20,7 @@ export class Configuration {
     if (ci.element != undefined) ci.element.setAttribute('iscurrent', '0');
     ci.element = this.main.ll_view.children[eletof] as HTMLElement;
     ci.index = value;
-    ci.row = this.main.source[value];
+    ci.row = this.main.source[value] as object;
     if (value <= 0) {
       this.main.vscrollbar1.scrollTop =
         this.top = 0;
@@ -185,7 +185,7 @@ export class NavigatePages {
         let cfg = this.config;
         if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
         if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (cfg.currentIndex > cfg.top) ? "DISPLAYED" : (cfg.top > cfg.defaultIndex) ? "OUTSIDE" : "FIRST";
+        return (cfg.currentIndex > cfg.top) ? "DISPLAYED" : (cfg.top > 0) ? "OUTSIDE" : "FIRST"; ///@ cfg.defaultIndex
       },
       Advance: {
 

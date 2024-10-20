@@ -11,15 +11,16 @@ import { comboBox } from './comboBox.uc';
 
 
 export class Designer extends Usercontrol {    
+    static FILE_PATH = `uccontrols/controls/comboBox.uc`;
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
-        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/comboBox.uc`);
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): comboBox { 
         /** uccontrols/controls/comboBox.uc */
-        return intenseGenerator.generateUC('uccontrols/controls/comboBox.uc',pera,...args) as comboBox;
+        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as comboBox;
     }
     
     public txt_editor: HTMLUnknownElement;

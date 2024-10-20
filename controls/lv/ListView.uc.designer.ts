@@ -10,15 +10,16 @@ import { ListView } from './ListView.uc';
 
 
 export class Designer extends Usercontrol {    
+    static FILE_PATH = `uccontrols/controls/lv/ListView.uc`;
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
-        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/lv/ListView.uc`);
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): ListView { 
         /** uccontrols/controls/lv/ListView.uc */
-        return intenseGenerator.generateUC('uccontrols/controls/lv/ListView.uc',pera,...args) as ListView;
+        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as ListView;
     }
     
     public begin_scroll_text: HTMLElement;

@@ -18,14 +18,11 @@ export class ListView extends Designer {
     }
     public set itemTemplate(value: TemplateNode) {
         this._itemTemplate = value;
-        setTimeout(() => {
-           // debugger;
             this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
-            let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);   
+            let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);
             this.itemTemplate.extended.size.setBy.style(cmp);
             this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
             this._itemTemplate.extended.sampleNode.remove();
-        }, 1);
     }
     source = new SourceManage();
     navigate = new NavigatePages();
@@ -38,8 +35,6 @@ export class ListView extends Designer {
         this.navigate.config.currentIndex = value;
     }
     public get currentRecord() {
-        
-                    
         return this.source[this.currentIndex];
     }
     constructor() {
@@ -48,13 +43,14 @@ export class ListView extends Designer {
             this.nodes.main =
             this.Events.main = this;
         let config = this.navigate.config;
-        this.source.onUpdate.on((len) => {
-            config.length = len;
+        this.source.onUpdate.on((len) =>{
+            config.length = len; //this.source.length;
+            
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             this.Events.refreshScrollSize();
             this.Refresh();
-            this.currentIndex = 0;
+            this.currentIndex = config.defaultIndex; // 0 changed..
         });
         this.init();
 
@@ -63,11 +59,14 @@ export class ListView extends Designer {
     private init(): void {
         let config = this.navigate.config;
         let _this = this;
-        _this.rectObs = new ResizeObserver((this.resizerCall));
+        _this.rectObs = new ResizeObserver((e: ResizeObserverEntry[]) => {
+            let rect = e[0].contentRect;
+            this.resizerCall({ width: rect.width, height: rect.height });
+        });
         _this.rectObs.observe(this.scroller1);
         _this.Events.init();
 
-        
+
     }
     focusAt0(fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;
@@ -78,18 +77,17 @@ export class ListView extends Designer {
         this.Events.fireScrollEvent = fireScrollEvent;
         this.vscrollbar1.scrollTop = topPos;
     }
-    private resizerCall = (e: ResizeObserverEntry[]): void => {
+    private resizerCall = ({ width = 0, height = 0 }: { width: number, height: number }): void => {
         let _this = this;
         let config = _this.navigate.config;
         // console.log("Refresh =  0: "+_this.calledToFill);
 
         let ppr = config.perPageRecord;
-        let rect = e[0].contentRect;
 
-        config.viewSize.setBy.value(rect.width, rect.height);
+        config.viewSize.setBy.value(width, height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
         config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
-        //console.log(config.perPageRecord);
+       // console.log(width,height);
 
         _this.Events.refreshScrollSize();
         //if (!_this.calledToFill) {

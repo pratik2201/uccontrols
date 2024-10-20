@@ -9,7 +9,7 @@ export interface RowInfo {
   isModified: boolean,
   index: number
 }
-export class SourceManage extends Array {
+export class SourceManage<K> extends Array<K> {
   /*_rows: any[] = [];
   get rows(): any[] { return this._rows; }
   set rows(value: any[]) {

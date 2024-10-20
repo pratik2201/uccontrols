@@ -10,15 +10,16 @@ import { LinearList } from './LinearList.uc';
 
 
 export class Designer extends Usercontrol {    
+    static FILE_PATH = `uccontrols/controls/LinearList.uc`;
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
-        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/LinearList.uc`);
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): LinearList { 
         /** uccontrols/controls/LinearList.uc */
-        return intenseGenerator.generateUC('uccontrols/controls/LinearList.uc',pera,...args) as LinearList;
+        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as LinearList;
     }
     
 

@@ -10,15 +10,16 @@ import { Splitter } from './Splitter.uc';
 
 
 export class Designer extends Usercontrol {    
+    static FILE_PATH = `uccontrols/controls/Splitter.uc`;
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
-        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/Splitter.uc`);
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): Splitter { 
         /** uccontrols/controls/Splitter.uc */
-        return intenseGenerator.generateUC('uccontrols/controls/Splitter.uc',pera,...args) as Splitter;
+        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as Splitter;
     }
     
     public mainContainer: HTMLUnknownElement;

@@ -10,15 +10,16 @@ import { Menu } from './Menu.uc';
 
 
 export class Designer extends Usercontrol {    
+    static FILE_PATH = `uccontrols/controls/Menu.uc`;
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
-        intenseGenerator.setCSS_globalVar(varList,`uccontrols/controls/Menu.uc`);
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): Menu { 
         /** uccontrols/controls/Menu.uc */
-        return intenseGenerator.generateUC('uccontrols/controls/Menu.uc',pera,...args) as Menu;
+        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as Menu;
     }
     
 
