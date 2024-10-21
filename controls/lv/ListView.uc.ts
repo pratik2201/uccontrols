@@ -21,7 +21,9 @@ export class ListView extends Designer {
         this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
         let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);
         this.itemTemplate.extended.size.setBy.style(cmp);
+
         this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
+
         this._itemTemplate.extended.sampleNode.remove();
     }
     source = new SourceManage();
@@ -37,26 +39,69 @@ export class ListView extends Designer {
     public get currentRecord() {
         return this.source[this.currentIndex];
     }
-    constructor() {
-        super(); this.initializecomponent(arguments, this);
+    constructor() { super(); this.initializecomponent(arguments, this); }
+    0() {
         this.navigate.main =
             this.nodes.main =
             this.Events.main = this;
         let config = this.navigate.config;
         this.source.onUpdate.on((len) => {
             config.length = len; //this.source.length;
-
+            this.setRowInfos();
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
-            this.Events.refreshScrollSize();
             this.Refresh();
+            //console.log(config.defaultIndex);
+            this.Events.refreshScrollSize();
+            config.top = 0;
+            this.Events.scrollSubElements.verticalSizerHT.scrollTop = 0;
             this.currentIndex = config.defaultIndex; // 0 changed..
             //let config = this.navigate.config;
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
 
         });
         this.init();
+    }
+    setRowInfos = () => {
+        let _this = this;
+        let _tpt = _this._itemTemplate;
+        _this.source.loop_RowInfo((row, rowInfo,index) => {
+            let genNode = this.itemTemplate.extended.generateNode(row);
+            _this.ll_view.appendChild(genNode);
+            rowInfo.element = genNode;
+            genNode.data(pagerATTR.itemIndex, index);
 
+            let cmp = window.getComputedStyle(genNode);
+            rowInfo.height = Size.getFullHeight(cmp);
+          //  this.Events.newItemGenerate.fire([genNode, index]);
+            genNode.remove();
+        });
+       // this.rectObs.observe(this.scroller1);
+
+    }
+    private _paging = false;
+    public get paging() {
+        return this._paging;
+    }
+    public set paging(value) {
+        if (!value) {
+            this.rectObs.disconnect();
+            let config = this.navigate.config;
+            config.viewSize.setBy.HTMLEle(this.scroller1);
+            config.perPageRecord = Number.MAX_VALUE;
+            this.begin_scroll_text.style.display =
+                this.end_scroll_text.style.display = 'none';
+
+        } else {
+            this.begin_scroll_text.style.display =
+                this.end_scroll_text.style.display = 'block';
+            let config = this.navigate.config;
+            config.viewSize.setBy.HTMLEle(this.scroller1);
+            this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });            
+            if (!this.paging)
+                this.rectObs.observe(this.scroller1);
+        }
+        this._paging = value;
     }
     rectObs: ResizeObserver;
     private init(): void {
@@ -88,25 +133,11 @@ export class ListView extends Designer {
     private resizerCall = ({ width = 0, height = 0 }: { width: number, height: number }): void => {
         let _this = this;
         let config = _this.navigate.config;
-        // console.log("Refresh =  0: "+_this.calledToFill);
-
-        let ppr = config.perPageRecord;
-
         config.viewSize.setBy.value(width, height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
         config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
-        // console.log(width,height);
-
         _this.Events.refreshScrollSize();
-        //if (!_this.calledToFill) {
-        //_this.isResizing = true;
-        //setTimeout(() => {
         _this.Refresh();
-
-        //console.log(rect.height + ' : Refresh..');
-        // _this.isResizing = false;
-        //}, 1);
-        // }
     }
     isResizing = false;
     calledToFill = false;
@@ -124,7 +155,7 @@ export class ListView extends Designer {
                 element.remove();
             }
         }
-
+        
         // this.ll_view.innerHTML = '';
         this.nodes.fill();
         //console.log("Refresh = 2 : "+this.calledToFill);

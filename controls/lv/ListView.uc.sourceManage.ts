@@ -7,6 +7,7 @@ export interface ListViewItemInfo {
 export interface RowInfo {
   element: HTMLElement,
   isModified: boolean,
+  height?: number,
   index: number
 }
 export class SourceManage<K> extends Array<K> {
@@ -29,15 +30,32 @@ export class SourceManage<K> extends Array<K> {
   rowInfo: RowInfo[] = [];
   clear() {
     this.length = 0;
+    this.rowInfo.length = 0;
     this.update();
   }
+  length: number;
+  loop_RowInfo(callback = (row: K, info: RowInfo,index:number) => { }) {
+    let rInfo: RowInfo;
+    for (let i = 0, len = this.length; i < len; i++) {
+      rInfo = this.rowInfo[i];
+      if (rInfo == undefined) {
+        rInfo = {
+          element: undefined,
+          isModified: false,
+          index: i,
+        }
+        this.rowInfo[i] = rInfo;
+      }
+      callback(this[i], rInfo,i);
+    }
+  }
   update(...indexes) {
-    let len = this.length;
-    if(indexes.length==0)
+    let len = this.length; 
+    if (indexes.length == 0)
       this.rowInfo = new Array(len);
     else for (let i = 0; i < indexes.length; i++) {
       let row = this.rowInfo[indexes[i]];
-      if (row!=undefined) row.isModified = true;
+      if (row != undefined) row.isModified = true;
     }
     this.onUpdate.fire([len]);
     //console.log(this.rowInfo);
