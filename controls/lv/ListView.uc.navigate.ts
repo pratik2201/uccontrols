@@ -37,16 +37,39 @@ export class Configuration {
   defaultIndex = 0;
   top = 0;
 
-  get minBottomIndex() { return Math.min(this.bottomIndex, this.length - 1); }
+  get minBottomIndex() {
+   // console.log(this.bottomIndex);
+    return Math.min(this.bottomIndex, this.length - 1);
+  }
 
-  get bottomIndex() { return (this.top + this.perPageRecord) - 1; }
+  //private get _bottomIndex() { return (this.top + this.perPageRecord) - 1; }
+  get bottomIndex() {
+    let newBIndex = this.main.source.getBottomIndex(this.top, this.viewSize.height);
+
+    //console.log(this.main.source.length+" %%%% "+this.viewSize.height+"  ===  "+newBIndex);
+
+    //let bIndex = (this.top + this.perPageRecord) - 1;
+    //console.log(this.top+"====="+this.perPageRecord+":::"+bIndex +"<<<>>>"+newBIndex);
+
+    return newBIndex.index;
+
+  }
+  get sourceLength() { return this.main.source.length; }
   get topHiddenRowCount() {
-    return ((this.bottomIndex - this.perPageRecord) + 1);
+   // console.log("topHiddenRowCount:" + this.top);
+
+    return this.top;
+    //return ((this.bottomIndex - this.top) + 1);
   }
   get bottomHiddenRowCount() {
-    return Math.max(0, (this.length - (this.top + this.perPageRecord)));
+    return Math.max(0, this.sourceLength - (this.bottomIndex) - 1);
+    //return Math.max(0, (this.length - (this.top + this.perPageRecord)));
   }
-  get lastSideTopIndex() { return Math.max(0, this.length - this.perPageRecord); }
+  get lastSideTopIndex() {
+    let src = this.main.source;
+    return src.getTopIndex(src.length - 1, this.viewSize.height).index;
+    //return Math.max(0, this.length - this.perPageRecord);
+  }
   get isLastSideTopIndex() { return this.lastSideTopIndex == this.top; }
 }
 type KeyboardNavigationCallback = (evt: KeyboardEvent, valToAddRemove: number) => void;
@@ -86,10 +109,10 @@ export class NavigatePages {
     downSide: {
       check: (): PageNavigationResult => {
         let cfg = this.config;
-        let nextPageBottom = cfg.bottomIndex + cfg.perPageRecord;
-        //if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
-        // if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (nextPageBottom < cfg.length - 1) ? 'OUTSIDE' : 'LAST';
+        //let nextPageBottom = cfg.bottomIndex + cfg.perPageRecord;
+        let nextPageBottom = this.main.source.getBottomIndex(cfg.top, cfg.viewSize.height * 2);
+
+        return (nextPageBottom.index < cfg.length - 1) ? 'OUTSIDE' : 'LAST';
       },
       Advance: {
         outside: (): void => {
@@ -118,7 +141,26 @@ export class NavigatePages {
         },
       },
       Go: (event: KeyboardEvent): void => {
-        let dwnSide = this.pageTo.downSide;
+        let cfg = this.config;
+        let src = this.main.source;
+        let len = src.length;
+        let bindex = cfg.bottomIndex;        
+        if (bindex==len-1)return;        
+        let nextPageBottom = src.getBottomIndex(cfg.top, cfg.viewSize.height * 2);
+        switch (nextPageBottom.status) {
+          case 'continue':
+            this.callNavigate(() => {
+              cfg.top = bindex+1;
+            }, event);
+            //this.callNavigate(dwnSide.Advance.outside, event);
+            break;
+          case 'isAtLast':
+            cfg.top = src.getTopIndex(len, cfg.viewSize.height).index;
+            break;
+        }
+        this.main.Refresh();
+        /*
+         let dwnSide = this.pageTo.downSide;
         let cmd = dwnSide.check();
         switch (cmd) {
           case "NO_COVERAGE_TOP": this.callNavigate(dwnSide.Advance.noCoverageTop, event); break;
@@ -126,7 +168,7 @@ export class NavigatePages {
           case "OUTSIDE": this.callNavigate(dwnSide.Advance.outside, event); break;
           case "LAST": this.callNavigate(dwnSide.Advance.last, event); break;
         }
-        this.main.Refresh();
+        this.main.Refresh();*/
         //this.config.currentIndex = this.config.minBottomIndex;
       }
     },
@@ -165,6 +207,24 @@ export class NavigatePages {
         },
       },
       Go: (event: KeyboardEvent): void => {
+        let cfg = this.config;
+        let src = this.main.source;
+        if (cfg.top==0)return;        
+        let previousPageTop = src.getTopIndex(cfg.top, cfg.viewSize.height);
+        switch (previousPageTop.status) {
+          case 'continue':
+            this.callNavigate(() => {
+              cfg.top = previousPageTop.index;
+            }, event);
+            break;
+          case 'isAtTop':
+            cfg.top = 0;
+            break;
+        }
+        this.main.Refresh();
+
+
+        /*
         let upSd = this.pageTo.upSide;
         let cmd = upSd.check();
         switch (cmd) {
@@ -173,7 +233,7 @@ export class NavigatePages {
           case "OUTSIDE": this.callNavigate(upSd.Advance.outside, event); break;
           case "FIRST": this.callNavigate(upSd.Advance.first, event); break;
         }
-        this.main.Refresh();
+        this.main.Refresh();*/
         //this.config.currentIndex = this.config.top;
         //this.main.nodes.render();
       }

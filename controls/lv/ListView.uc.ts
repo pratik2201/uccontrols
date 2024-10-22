@@ -2,7 +2,7 @@ import { R } from 'uccontrols/R';
 import { Designer } from './ListView.uc.designer';
 import { TemplateNode } from 'ucbuilder/Template';
 import { CommonEvent } from 'ucbuilder/global/commonEvent';
-import { SourceManage } from './ListView.uc.sourceManage';
+import { BasicSize, SourceManage } from './ListView.uc.sourceManage';
 import { Size } from 'ucbuilder/global/drawing/shapes';
 import { ItemIndexChangeBy, NavigatePages } from './ListView.uc.navigate';
 import { timeoutCall } from 'ucbuilder/global/timeoutCall';
@@ -46,38 +46,41 @@ export class ListView extends Designer {
             this.Events.main = this;
         let config = this.navigate.config;
         this.source.onUpdate.on((len) => {
-            config.length = len; //this.source.length;
             this.setRowInfos();
+
+            config.length = len; //this.source.length;
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
+            config.top = 0;
+            this.currentIndex = config.defaultIndex; // 0 changed..
+            this.vscrollbar1.scrollTop = 0;
             this.Refresh();
             //console.log(config.defaultIndex);
             this.Events.refreshScrollSize();
-            config.top = 0;
-            this.Events.scrollSubElements.verticalSizerHT.scrollTop = 0;
-            this.currentIndex = config.defaultIndex; // 0 changed..
             //let config = this.navigate.config;
+            // debugger;
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
 
         });
         this.init();
     }
+    onLoaded = new CommonEvent<() => {}>();
     setRowInfos = () => {
         let _this = this;
-        let _tpt = _this._itemTemplate;
-        _this.source.loop_RowInfo((row, rowInfo,index) => {
-            let genNode = this.itemTemplate.extended.generateNode(row);
+        _this.ll_view.innerHTML = '';
+        _this.source.loop_RowInfo((row, rowInfo, index) => {
+            let genNode = _this.itemTemplate.extended.generateNode(row);
             _this.ll_view.appendChild(genNode);
             rowInfo.element = genNode;
             genNode.data(pagerATTR.itemIndex, index);
-
             let cmp = window.getComputedStyle(genNode);
-            rowInfo.height = Size.getFullHeight(cmp);
-          //  this.Events.newItemGenerate.fire([genNode, index]);
+            rowInfo.size = Size.getFullSize(cmp);
             genNode.remove();
-        });
-       // this.rectObs.observe(this.scroller1);
 
+        });
+        this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
+        this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
+        this.onLoaded.fire();
     }
     private _paging = false;
     public get paging() {
@@ -97,7 +100,7 @@ export class ListView extends Designer {
                 this.end_scroll_text.style.display = 'block';
             let config = this.navigate.config;
             config.viewSize.setBy.HTMLEle(this.scroller1);
-            this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });            
+            this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);
         }
@@ -107,12 +110,25 @@ export class ListView extends Designer {
     private init(): void {
         let config = this.navigate.config;
         let _this = this;
+        let hasCalled_resizerCall = false;
+
+        this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
+            this.resizerCall(Size.getFullSize(window.getComputedStyle(this.scroller1)), false);
+            _this.rectObs.observe(this.scroller1);
+        });
+
         _this.rectObs = new ResizeObserver((e: ResizeObserverEntry[]) => {
             let rect = e[0].contentRect;
-            this.resizerCall({ width: rect.width, height: rect.height });
+            //console.log(this.scroller1.offsetHeight);
+            _this.resizerCall({ width: rect.width, height: rect.height });
         });
-        _this.rectObs.observe(this.scroller1);
+
+
         _this.Events.init();
+        // console.log(window.getComputedStyle(this.scroller1));
+        // console.log("====> "+this.scroller1.isConnected);
+
+
         this.Events.onChangeHiddenCount.on(this.changeHiddenCount);
     }
     changeHiddenCount = (topCount: number, bottomCount: number) => {
@@ -130,19 +146,21 @@ export class ListView extends Designer {
         this.Events.fireScrollEvent = fireScrollEvent;
         this.vscrollbar1.scrollTop = topPos;
     }
-    private resizerCall = ({ width = 0, height = 0 }: { width: number, height: number }): void => {
+    private resizerCall = ({ width = 0, height = 0 }: { width: number, height: number }, callRefresh = true): void => {
         let _this = this;
         let config = _this.navigate.config;
         config.viewSize.setBy.value(width, height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
         config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
         _this.Events.refreshScrollSize();
-        _this.Refresh();
+        // console.log("*** "+height);
+        if (callRefresh)
+            _this.Refresh();
     }
     isResizing = false;
     calledToFill = false;
     public Refresh(): boolean {
-        //console.log("Refresh = 1 : "+this.calledToFill);
+        // console.log("Refresh =  : "+this.calledToFill);
         if (this.calledToFill) return false;
 
         this.calledToFill = true;
@@ -155,7 +173,7 @@ export class ListView extends Designer {
                 element.remove();
             }
         }
-        
+
         // this.ll_view.innerHTML = '';
         this.nodes.fill();
         //console.log("Refresh = 2 : "+this.calledToFill);

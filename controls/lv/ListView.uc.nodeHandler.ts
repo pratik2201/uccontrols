@@ -25,6 +25,8 @@ export class nodeHandler {
     let _records = this.main.navigate.config;
     this.clear();
     let ht: HTMLElement;
+   /// console.log('fill...called');
+    
     let curIndex = this.navigate.config.currentIndex;
       for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++) {
       ht = this.append(index);
