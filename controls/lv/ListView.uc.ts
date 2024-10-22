@@ -47,7 +47,8 @@ export class ListView extends Designer {
         let config = this.navigate.config;
         this.source.onUpdate.on((len) => {
             this.setRowInfos();
-
+           // console.log(this.source.rowInfo.map(s=>s.size.height));
+            
             config.length = len; //this.source.length;
             config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;

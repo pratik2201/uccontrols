@@ -122,13 +122,14 @@ export class eventHandler {
         break;
       case keyBoard.keys.pageUp: // page up key
         this.navigatePages.pageTo.upSide.Go(e);
-        this.navigatePages.config.currentIndex = this.navigatePages.config.top;
-        this.main.Refresh();
+        let cfg = this.navigatePages.config;
+        cfg.currentIndex = cfg.top==0?cfg.defaultIndex:cfg.top;
+        //this.main.Refresh();
         break;
       case keyBoard.keys.pageDown: // page down key
         this.navigatePages.pageTo.downSide.Go(e);
         this.navigatePages.config.currentIndex = this.navigatePages.config.minBottomIndex;
-        this.main.Refresh();
+        //this.main.Refresh();
         break;
       case keyBoard.keys.end: // end key
         this.navigatePages.config.top = this.navigatePages.config.lastSideTopIndex;

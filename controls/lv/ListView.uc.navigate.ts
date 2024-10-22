@@ -38,8 +38,9 @@ export class Configuration {
   top = 0;
 
   get minBottomIndex() {
-   // console.log(this.bottomIndex);
-    return Math.min(this.bottomIndex, this.length - 1);
+    // console.log(this.bottomIndex);
+    return this.bottomIndex;
+//    return Math.min(this.bottomIndex, this.length - 1);
   }
 
   //private get _bottomIndex() { return (this.top + this.perPageRecord) - 1; }
@@ -145,7 +146,8 @@ export class NavigatePages {
         let src = this.main.source;
         let len = src.length;
         let bindex = cfg.bottomIndex;        
-        if (bindex==len-1)return;        
+        if (bindex == len - 1) return;        
+      //  debugger;
         let nextPageBottom = src.getBottomIndex(cfg.top, cfg.viewSize.height * 2);
         switch (nextPageBottom.status) {
           case 'continue':
