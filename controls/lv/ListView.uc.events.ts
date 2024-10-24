@@ -3,6 +3,7 @@ import { R } from "uccontrols/R";
 import { ItemIndexChangeBy } from "./ListView.uc.navigate";
 import { pagerATTR } from "./ListView.uc.nodeHandler";
 import { keyBoard } from "ucbuilder/global/hardware/keyboard";
+import { numOpt } from "ucbuilder/build/common";
 export class eventHandler {
   //#region  EVENT DECLARATION
   itemDoubleClick = new CommonEvent<(index: number, evt: MouseEvent) => void>();
@@ -71,8 +72,30 @@ export class eventHandler {
     this.fireScrollEvent = true;
     this.main.vscrollbar1.addEventListener("scroll", (e: Event) => {
       if (!this.fireScrollEvent) { this.fireScrollEvent = true; return; }
-      let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
-      this.doVerticalContentScrollAt(scrollTop, false);
+      let vScroll = this.main.vscrollbar1;
+   
+      const scrollTop = vScroll.scrollTop || document.body.scrollTop;
+      const scrollHeight = vScroll.scrollHeight - vScroll.clientHeight;
+      const scrollPercentage = Math.ceil((scrollTop / scrollHeight) * 100);
+      
+      let cfg = this.navigatePages.config;
+      let src = this.main.source;
+      
+      //let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
+      let tval = numOpt.gtvc(100, cfg.itemsTotalSize.height-cfg.viewSize.height, scrollPercentage);
+      tval = Math.floor(tval);
+     // console.log(tval);
+      let top = this.main.source.getIndex(tval);
+     //console.log(top);
+     
+      this.doVerticalContentScrollAt(top, false);
+      
+      //console.log([top,tval]);
+     // this.doVerticalContentScrollAt(top, false);
+      //let topInfo = src.getTopIndex(bottom,cfg.viewSize.height,{overflowed:false});  
+     // console.log([topInfo.index,topInfo.status,tval]);
+      
+      //this.doVerticalContentScrollAt(top, false);
     });
     /*this.main.hscrollbar1.addEventListener("scroll", (e: Event) => {
       let scrollLeft = this.main.hscrollbar1.scrollLeft; //Math.floor(this.main.scroller1.scrollLeft / this.navigatePages.config.itemSize.width);
@@ -123,7 +146,7 @@ export class eventHandler {
       case keyBoard.keys.pageUp: // page up key
         this.navigatePages.pageTo.upSide.Go(e);
         let cfg = this.navigatePages.config;
-        cfg.currentIndex = cfg.top==0?cfg.defaultIndex:cfg.top;
+        cfg.currentIndex = cfg.top == 0 ? cfg.defaultIndex : cfg.top;
         //this.main.Refresh();
         break;
       case keyBoard.keys.pageDown: // page down key
@@ -149,14 +172,13 @@ export class eventHandler {
   isfilling: boolean = false;
   doVerticalContentScrollAt(scrollval: number, useTimeOut: boolean = true) {
     //console.log(this.navigatePages.config.top);
-
     if (this.isfilling) return;
     this.isfilling = true;
     let _this = this;
-    let element = this.main.vscrollbar1;
+    /*let element = this.main.vscrollbar1;
     if (element.scrollTop + element.offsetHeight >= element.scrollHeight - 1) { // is bottom reached
       scrollval = this.main.source.length - this.navigatePages.config.perPageRecord;
-    }
+    }*/
     if (useTimeOut) setTimeout(doscroll);
     else doscroll();
     function doscroll() {
@@ -170,9 +192,12 @@ export class eventHandler {
   refreshScrollbarSilantly() {
     this.fireScrollEvent = false;
     let config = this.navigatePages.config;
-    this.main.vscrollbar1.scrollTop = (config.top * config.itemSize.height);
+    let vScroll = this.main.vscrollbar1;
+    let src = this.main.source;
+    let top = src.rowInfo[config.top];
+    let rw = top.runningHeight-top.height;
+    vScroll.scrollTo(0,rw);
     this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);
-    //this.Events.onChangeHiddenCount.fire([this.pageLvExtend.topHiddenRowCount, this.pageLvExtend.bottomHiddenRowCount]);
   }
   refreshScrollSize() {
     this.scrollSubElements.verticalSizerHT.style['height'] = this.main.navigate.config.itemsTotalSize.height + 'px';

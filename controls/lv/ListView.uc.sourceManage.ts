@@ -8,12 +8,17 @@ export interface ListViewItemInfo {
   height: number
 }
 export interface RowInfo {
-  element: HTMLElement,
-  isModified: boolean,
-  size?: BasicSize,
-  index: number
+  element?: HTMLElement,
+  isModified?: boolean,
+  //size?: BasicSize,
+  height?: number,
+  width?: number,
+  runningHeight?: number,
+  index?: number,
+  next?: RowInfo,
+  prev?: RowInfo
 }
-type IndexType = "isAtLast" | "isAtTop" | "continue";
+type IndexType = "isAtLast" | "isAtTop" | "continue" | "undefined";
 export class SourceManage<K> extends Array<K> {
   /*_rows: any[] = [];
   get rows(): any[] { return this._rows; }
@@ -41,80 +46,126 @@ export class SourceManage<K> extends Array<K> {
     this.rowInfo.length = 0;
     //this.update();
   }
-  getBottomIndex(topIndex: number, containerHeight: number): { index: number, status: IndexType } {
+  getBottomIndex(topIndex: number, containerHeight: number, { length = undefined, overflowed = false }: { length?: number, overflowed?: boolean }): { index: number, status: IndexType } {
     let h = 0;
-    let index = topIndex;
-    let obj: RowInfo;
-    // console.log(`[${containerHeight}]`);
-    index = topIndex - 1;
-    do {
-      index++;
-      obj = this.rowInfo[index];
-      if (!obj) break;
-      h += obj.size.height;
-    } while (h < containerHeight);
-    index -= 1;
-    let len = this.length;
+    let len = length ? length : this.length;
+    let rows = this.rowInfo;
+    let i = topIndex;
+    for (; i <= len - 1; i++) {
+      //if (!this.rowInfo[i]) debugger;
+      h += rows[i].height;
+      if (h > containerHeight) break;
+    }
+    topIndex = overflowed ? i : i - 1;
+
+    let status: IndexType = 'continue';
+    if (topIndex == len - 1) status = 'isAtLast';
+    else if (topIndex == -1) status = 'undefined';
     return {
-      index: index < 0 ? len : index,
-      status: index == len - 1 ? "isAtLast" : "continue",
+      index: topIndex,//index < 0 ? len : index,
+      status: status,
     }
   }
-  getTopIndex(botomIndex: number, containerHeight: number): { index: number, status: IndexType } {
+  getTopIndex(botomIndex: number, containerHeight: number, { overflowed = false }: { length?: number, overflowed?: boolean }): { index: number, status: IndexType } {
     let h = 0;
+    //let len = length ? length : this.length;
+    let b = botomIndex;
+    let rows = this.rowInfo;
+    for (let i = botomIndex; i > 0; i--) {
+      h += rows[i].height;
+      console.log('==========>' + h + "   ||   " + containerHeight);
+
+      if (h > containerHeight) {
+        botomIndex = overflowed ? i : i - 1;
+        break;
+      }
+    }
+    console.log(b + " ==< " + botomIndex);
+    //console.log(botomIndex);
+
+    let status: IndexType = 'continue';
+    if (botomIndex == 0) status = 'isAtTop';
+    else if (botomIndex == -1) status = 'undefined';
+    return {
+      index: botomIndex,//index < 0 ? len : index,
+      status: status,
+    }
+    /*let h = 0;
     let index = botomIndex;
     let obj: RowInfo;
     //console.log(`[${containerHeight}]`);
     index = botomIndex;
-    do {
+    while (h < containerHeight) {
       index--;
       obj = this.rowInfo[index];
       if (!obj) break;
-      h += obj.size.height;
-    } while (h < containerHeight);
+      h += obj.height;
+    }
     index += 1;
     let len = this.length;
     //return index >= len ? len - 1 : index;
     return {
       index: index >= len ? 0 : index,
       status: index == 0 ? "isAtTop" : "continue",
+    }*/
+  }
+  getIndex(topPoint: number, length: number = undefined) {
+    let len = length ? length : this.length;
+    let rows = this.rowInfo;
+    let i = 0;
+    let h = 0;
+    for (; i <= len - 1; i++) {
+      h = rows[i].runningHeight;
+      if (h > topPoint) break;
+
     }
+    return topPoint == 0 ? 0 : i + 1;
   }
   loop_RowInfo(callback = (row: K, info: RowInfo, index: number) => { }) {
     let rInfo: RowInfo;
     console.log('loop_RowInfo...called');
-    let w: number, h: number;
+    let w: number = 0, h: number = 0;
     for (let i = 0, len = this.length; i < len; i++) {
       rInfo = this.rowInfo[i];
       if (rInfo == undefined) {
+        rInfo = { isModified: false, index: i, height: 0, width: 0, runningHeight: 0 };
+        this.rowInfo[i] = rInfo;
+      }
+      /*if (rInfo == undefined) {
         rInfo = {
           element: undefined,
           isModified: false,
-          size: { width: 0, height: 0 },
+          width: 0, height: 0,
+          runningHeight: 0,
           index: i,
         }
         this.rowInfo[i] = rInfo;
-      }
+      }*/
       callback(this[i], rInfo, i);
-      h += rInfo.size.height;
-      w = Math.max(w, rInfo.size.width);
+      h += rInfo.height;
+      w = Math.max(w, rInfo.width);
+      rInfo.runningHeight = h;
+      console.log([rInfo.index, rInfo.height, rInfo.runningHeight]);
+
     }
     this.allElementSize = {
       width: w,
       height: h
     };
+    this.onUpdateRowInfo.fire();
   }
   update(...indexes) {
     let len = this.length;
     if (indexes.length == 0)
-      this.rowInfo = new Array(len);
+      this.rowInfo = new Array<RowInfo>(len);//.fill({ element:undefined,height:0,index:-1,isModified:false,width:0,runningHeight:0 });
     else for (let i = 0; i < indexes.length; i++) {
       let row = this.rowInfo[indexes[i]];
-      if (row != undefined) row.isModified = true;
+      if (row) row.isModified = true;
     }
     this.onUpdate.fire([len]);
     //console.log(this.rowInfo);
-
   }
+
   onUpdate = new CommonEvent<(arrayLen: number) => void>();
+  onUpdateRowInfo = new CommonEvent<() => void>();
 };

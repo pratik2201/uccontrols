@@ -39,7 +39,8 @@ export class ListView extends Designer {
     public get currentRecord() {
         return this.source[this.currentIndex];
     }
-    constructor() { super(); this.initializecomponent(arguments, this); }
+    constructor() { super(); this.initializecomponent(arguments, this); console.clear();
+    }
     0() {
         this.navigate.main =
             this.nodes.main =
@@ -50,7 +51,7 @@ export class ListView extends Designer {
            // console.log(this.source.rowInfo.map(s=>s.size.height));
             
             config.length = len; //this.source.length;
-            config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
+            //config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             config.top = 0;
             this.currentIndex = config.defaultIndex; // 0 changed..
@@ -64,6 +65,9 @@ export class ListView extends Designer {
 
         });
         this.init();
+        this.source.onUpdateRowInfo.on(() => {
+            
+        });
     }
     onLoaded = new CommonEvent<() => {}>();
     setRowInfos = () => {
@@ -75,10 +79,12 @@ export class ListView extends Designer {
             rowInfo.element = genNode;
             genNode.data(pagerATTR.itemIndex, index);
             let cmp = window.getComputedStyle(genNode);
-            rowInfo.size = Size.getFullSize(cmp);
+            rowInfo.height = Size.getFullHeight(cmp);
+            rowInfo.width = Size.getFullWidth(cmp);
             genNode.remove();
 
         });
+        
         this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
         this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
         this.onLoaded.fire();
@@ -152,7 +158,7 @@ export class ListView extends Designer {
         let config = _this.navigate.config;
         config.viewSize.setBy.value(width, height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
-        config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
+      //  config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
         _this.Events.refreshScrollSize();
         // console.log("*** "+height);
         if (callRefresh)

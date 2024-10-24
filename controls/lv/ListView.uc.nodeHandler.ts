@@ -52,7 +52,10 @@ export class nodeHandler {
       src.rowInfo[index] = {
         element: element,
         isModified: false,
-        index:index,
+        index: index,
+        height: 0,
+        width:0,
+        runningHeight:0,
       }
     }
     return {

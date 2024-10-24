@@ -1,6 +1,6 @@
 import { R } from "uccontrols/R";
 import { Size } from "ucbuilder/global/drawing/shapes";
-import { ListViewItemInfo } from "./ListView.uc.sourceManage";
+import { ListViewItemInfo, RowInfo } from "./ListView.uc.sourceManage";
 
 export type ItemIndexChangeBy = "Other" | "Keyboard" | "Mouse";
 export class Configuration {
@@ -18,9 +18,9 @@ export class Configuration {
     let eletof = value - this.top;
     let ci = this.currentItem;
     if (ci.element != undefined) ci.element.setAttribute('iscurrent', '0');
-    ci.element = this.main.ll_view.children[eletof] as HTMLElement;
-    ci.index = value;
     ci.row = this.main.source[value] as object;
+    ci.element = this.main.source.rowInfo[value].element;//this.main.ll_view.children[eletof] as HTMLElement;
+    ci.index = value;
     if (value <= 0) {
       this.main.vscrollbar1.scrollTop =
         this.top = 0;
@@ -40,12 +40,12 @@ export class Configuration {
   get minBottomIndex() {
     // console.log(this.bottomIndex);
     return this.bottomIndex;
-//    return Math.min(this.bottomIndex, this.length - 1);
+    //    return Math.min(this.bottomIndex, this.length - 1);
   }
 
   //private get _bottomIndex() { return (this.top + this.perPageRecord) - 1; }
   get bottomIndex() {
-    let newBIndex = this.main.source.getBottomIndex(this.top, this.viewSize.height);
+    let newBIndex = this.main.source.getBottomIndex(this.top, this.viewSize.height, { overflowed: false });
 
     //console.log(this.main.source.length+" %%%% "+this.viewSize.height+"  ===  "+newBIndex);
 
@@ -57,18 +57,20 @@ export class Configuration {
   }
   get sourceLength() { return this.main.source.length; }
   get topHiddenRowCount() {
-   // console.log("topHiddenRowCount:" + this.top);
+    // console.log("topHiddenRowCount:" + this.top);
 
     return this.top;
     //return ((this.bottomIndex - this.top) + 1);
   }
   get bottomHiddenRowCount() {
-    return Math.max(0, this.sourceLength - (this.bottomIndex) - 1);
+    let len = this.sourceLength;
+    let bIndex = this.main.source.getBottomIndex(this.top, this.viewSize.height, { length: len, overflowed: false })
+    return Math.max(0, len - (bIndex.index) - 1);
     //return Math.max(0, (this.length - (this.top + this.perPageRecord)));
   }
   get lastSideTopIndex() {
     let src = this.main.source;
-    return src.getTopIndex(src.length - 1, this.viewSize.height).index;
+    return src.getTopIndex(src.length - 1, this.viewSize.height, { overflowed: false }).index;
     //return Math.max(0, this.length - this.perPageRecord);
   }
   get isLastSideTopIndex() { return this.lastSideTopIndex == this.top; }
@@ -111,7 +113,7 @@ export class NavigatePages {
       check: (): PageNavigationResult => {
         let cfg = this.config;
         //let nextPageBottom = cfg.bottomIndex + cfg.perPageRecord;
-        let nextPageBottom = this.main.source.getBottomIndex(cfg.top, cfg.viewSize.height * 2);
+        let nextPageBottom = this.main.source.getBottomIndex(cfg.top, cfg.viewSize.height * 2, { overflowed: false });
 
         return (nextPageBottom.index < cfg.length - 1) ? 'OUTSIDE' : 'LAST';
       },
@@ -145,19 +147,19 @@ export class NavigatePages {
         let cfg = this.config;
         let src = this.main.source;
         let len = src.length;
-        let bindex = cfg.bottomIndex;        
-        if (bindex == len - 1) return;        
-      //  debugger;
-        let nextPageBottom = src.getBottomIndex(cfg.top, cfg.viewSize.height * 2);
+        let bindex = cfg.bottomIndex;
+        if (bindex == len - 1) return;
+        //  debugger;
+        let nextPageBottom = src.getBottomIndex(cfg.top, cfg.viewSize.height * 2, { length: len, overflowed: false });
         switch (nextPageBottom.status) {
           case 'continue':
             this.callNavigate(() => {
-              cfg.top = bindex+1;
+              cfg.top = bindex + 1;
             }, event);
             //this.callNavigate(dwnSide.Advance.outside, event);
             break;
           case 'isAtLast':
-            cfg.top = src.getTopIndex(len, cfg.viewSize.height).index;
+            cfg.top = src.getTopIndex(len, cfg.viewSize.height, { length: len, overflowed: false }).index;
             break;
         }
         this.main.Refresh();
@@ -211,8 +213,8 @@ export class NavigatePages {
       Go: (event: KeyboardEvent): void => {
         let cfg = this.config;
         let src = this.main.source;
-        if (cfg.top==0)return;        
-        let previousPageTop = src.getTopIndex(cfg.top, cfg.viewSize.height);
+        if (cfg.top == 0) return;
+        let previousPageTop = src.getTopIndex(cfg.top, cfg.viewSize.height, { overflowed: false });
         switch (previousPageTop.status) {
           case 'continue':
             this.callNavigate(() => {
@@ -345,14 +347,111 @@ export class NavigatePages {
       },
       Go: (event: KeyboardEvent, valToCount: number = 1): void => {
         let nxtSide = this.moveTo.nextSide;
-        let cmd = nxtSide.check(valToCount);
+        let cfg = this.config;
+        let src = this.main.source;
+        let len = this.main.source.length;
+        let cindex = cfg.currentIndex;
+        let containerHeight = cfg.viewSize.height;
+        let tmpRow: RowInfo;
+        //debugger;
+        let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
+        //btmInf.index--;
+        if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
+          if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
+          let topRw = src.rowInfo[cfg.top];
+          let nextRow = src.rowInfo[bottomInfo.index + 1];
+          let contentHeight = src.rowInfo[bottomInfo.index].runningHeight - (topRw.runningHeight - topRw.height);
+          this.main.nodes.append(nextRow.index);
+          contentHeight += nextRow.height;
+          let diff = contentHeight - containerHeight;
+          if (diff > 0) {
+            let topInfo = src.getBottomIndex(cfg.top, diff, { length: len, overflowed: true });
+            if (topInfo.status == 'continue') {
+              for (let i = cfg.top; i <= topInfo.index; i++) {
+                tmpRow = src.rowInfo[i];
+                this.main.Events.beforeOldItemRemoved.fire([tmpRow.element]);
+                tmpRow.element.remove();
+                contentHeight -= tmpRow.height;
+              }
+              cfg.top = topInfo.index + 1;
+            }
+            diff = containerHeight - contentHeight;
+            if (diff > 0) {
+              let nindex = nextRow.index + 1;
+              bottomInfo = src.getBottomIndex(nindex, diff, { length: len });
+              if (bottomInfo.status != 'undefined') {
+                for (let i = nindex; i <= bottomInfo.index; i++) {
+                  this.main.nodes.append(i);
+                }
+                //cfg.top = topInfo.index+1;
+              }
+            }
+            /* */
+          }
+
+          //console.log(src.rowInfo[1].runningHeight);
+          //console.log(diff);
+
+          //console.log([containerHeight, contentHeight]);
+
+          cfg.currentIndex = nextRow.index;
+
+          /*let topSpace = src.getBottomIndex(cfg.top, nextRow.height);
+          for (let i = cfg.top; i < topSpace.index; i++) {
+            src.rowInfo[i].element.remove();
+          }*/
+
+          //console.log(diff);
+          //  console.log([cindex,btmInf.index]);
+
+          /*if (diff < 0) {  // IF TOP HEIGHT LARGER THAN NEW ROW
+           
+          } else if (diff == 0) {
+            topRw.element.remove();
+            let ele = this.main.nodes.append(nextRow.index);
+            cfg.top = topRw.index + 1;
+            cfg.currentIndex = nextRow.index;
+          } else {  // IF BOTTOM ROW HEIGHT LARGER THAN TOP ROW
+            let nindex = src.getBottomIndex(cfg.top + 1, diff);
+            if (nindex.index == -1) {  // IF NO INDEX FOUND 
+              let ele = this.main.nodes.append(nextRow.index);
+            }
+            //  if (nindex.status == 'isAtTop') {
+            let ele = this.main.nodes.append(nextRow.index);
+            for (let i = topRw.index; i <= nindex.index; i++) {
+              src.rowInfo[i].element.remove();
+            }
+            cfg.top = nindex.index + 1;
+            cfg.currentIndex = nextRow.index;
+            //  }
+          }*/
+
+
+
+
+        } else {
+          this.main.currentIndex++;
+        }
+        /*if (this.config.top < lastTopIndex) {            
+          let eleToRem = this.main.ll_view.firstElementChild as HTMLElement;
+          this.main.Events.beforeOldItemRemoved.fire([eleToRem]);
+          eleToRem.remove();
+          this.config.top++;
+        } else this.config.top = lastTopIndex;
+        let newItemEle = this.main.nodes.append(this.config.minBottomIndex);
+        this.config.currentIndex++;
+        return newItemEle;*/
+
+
+
+        /*let cmd = nxtSide.check(valToCount);
         switch (cmd) {
           case "NO_COVERAGE_TOP": this.callNavigate(nxtSide.Advance.noCoverageTop, event, valToCount); break;
           case "NO_COVERAGE_BOTTOM": this.callNavigate(nxtSide.Advance.noCoverageBottom, event, valToCount); break;
           case "DISPLAYED": this.callNavigate(nxtSide.Advance.dispayed, event, valToCount); break;
           case "OUTSIDE": this.callNavigate(nxtSide.Advance.outside, event, valToCount); break;
           case "LAST": this.callNavigate(nxtSide.Advance.last, event, valToCount); break;
-        }
+        }*/
       }
     }
   };
