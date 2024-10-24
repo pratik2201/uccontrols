@@ -159,21 +159,10 @@ export class NavigatePages {
             //this.callNavigate(dwnSide.Advance.outside, event);
             break;
           case 'isAtLast':
-            cfg.top = src.getTopIndex(len, cfg.viewSize.height, { length: len, overflowed: false }).index;
+            cfg.top = src.getTopIndex(len-1, cfg.viewSize.height, { length: len, overflowed: false }).index;
             break;
         }
         this.main.Refresh();
-        /*
-         let dwnSide = this.pageTo.downSide;
-        let cmd = dwnSide.check();
-        switch (cmd) {
-          case "NO_COVERAGE_TOP": this.callNavigate(dwnSide.Advance.noCoverageTop, event); break;
-          case "NO_COVERAGE_BOTTOM": this.callNavigate(dwnSide.Advance.noCoverageBottom, event); break;
-          case "OUTSIDE": this.callNavigate(dwnSide.Advance.outside, event); break;
-          case "LAST": this.callNavigate(dwnSide.Advance.last, event); break;
-        }
-        this.main.Refresh();*/
-        //this.config.currentIndex = this.config.minBottomIndex;
       }
     },
     upSide: {
@@ -353,10 +342,8 @@ export class NavigatePages {
         let cindex = cfg.currentIndex;
         let containerHeight = cfg.viewSize.height;
         let tmpRow: RowInfo;
-        //debugger;
         let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
-        //btmInf.index--;
-        if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
+       if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
           let topRw = src.rowInfo[cfg.top];
           let nextRow = src.rowInfo[bottomInfo.index + 1];
@@ -383,7 +370,6 @@ export class NavigatePages {
                 for (let i = nindex; i <= bottomInfo.index; i++) {
                   this.main.nodes.append(i);
                 }
-                //cfg.top = topInfo.index+1;
               }
             }
             /* */

@@ -67,21 +67,15 @@ export class SourceManage<K> extends Array<K> {
     }
   }
   getTopIndex(botomIndex: number, containerHeight: number, { overflowed = false }: { length?: number, overflowed?: boolean }): { index: number, status: IndexType } {
-    let h = 0;
     //let len = length ? length : this.length;
-    let b = botomIndex;
     let rows = this.rowInfo;
-    for (let i = botomIndex; i > 0; i--) {
+    let i = botomIndex;
+    let h = 0;
+    for (; i >= 0; i--) {
       h += rows[i].height;
-      console.log('==========>' + h + "   ||   " + containerHeight);
-
-      if (h > containerHeight) {
-        botomIndex = overflowed ? i : i - 1;
-        break;
-      }
+      if (h > containerHeight) { break;  }
     }
-    console.log(b + " ==< " + botomIndex);
-    //console.log(botomIndex);
+    botomIndex = overflowed ? i : i + 1;
 
     let status: IndexType = 'continue';
     if (botomIndex == 0) status = 'isAtTop';
@@ -90,6 +84,7 @@ export class SourceManage<K> extends Array<K> {
       index: botomIndex,//index < 0 ? len : index,
       status: status,
     }
+
     /*let h = 0;
     let index = botomIndex;
     let obj: RowInfo;
