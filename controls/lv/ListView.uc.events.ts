@@ -86,8 +86,6 @@ export class eventHandler {
       tval = Math.floor(tval);
      // console.log(tval);
       let top = this.main.source.getIndex(tval);
-     //console.log(top);
-     
       this.doVerticalContentScrollAt(top, false);
       
       //console.log([top,tval]);

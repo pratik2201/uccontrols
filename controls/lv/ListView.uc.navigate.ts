@@ -159,7 +159,7 @@ export class NavigatePages {
             //this.callNavigate(dwnSide.Advance.outside, event);
             break;
           case 'isAtLast':
-            cfg.top = src.getTopIndex(len-1, cfg.viewSize.height, { length: len, overflowed: false }).index;
+            cfg.top = src.getTopIndex(len - 1, cfg.viewSize.height, { length: len, overflowed: false }).index;
             break;
         }
         this.main.Refresh();
@@ -279,14 +279,96 @@ export class NavigatePages {
       },
       Go: (event: KeyboardEvent, valToCount: number = 1): void => {
         let prvSide = this.moveTo.prevSide;
-        let cmd = prvSide.check();
+        let cfg = this.config;
+        let src = this.main.source;
+        let len = this.main.source.length;
+        let cindex = cfg.currentIndex;
+        let containerHeight = cfg.viewSize.height;
+        let tmpRow: RowInfo;
+        if (cfg.top == cindex) {
+          if (cfg.top == 0) return;
+          let bottomRw = src.rowInfo[src.getBottomIndex(cfg.top, containerHeight, { length: len }).index];
+          let prevRow = src.rowInfo[cfg.top - 1];
+          let contentHeight = bottomRw.runningHeight - (src.rowInfo[cfg.top].runningHeight - src.rowInfo[cfg.top].height);
+          let tIndex = cfg.top;
+          this.main.nodes.prepend(prevRow.index);
+          cfg.top = tIndex = prevRow.index;
+          contentHeight += prevRow.height;
+          let diff = contentHeight - containerHeight;
+          if (diff > 0) { // IF CONTENT IS LARGER THAN CONTAINER
+            //console.log(diff);
+            let bottomInfo = src.getTopIndex(bottomRw.index, diff, { length: len, overflowed: true });
+            if (bottomInfo.status == 'continue') {
+              for (let i = bottomInfo.index; i <= bottomRw.index; i++) {
+                tmpRow = src.rowInfo[i];
+                this.main.Events.beforeOldItemRemoved.fire([tmpRow.element]);
+                tmpRow.element.remove();
+                contentHeight -= tmpRow.height;
+              }
+            }
+          }
+          diff = containerHeight - contentHeight;
+          if (diff > 0) {  // IF  CONTAINER IS LARGER THAN CONTENT
+
+            let nindex = prevRow.index - 1;
+
+            let topInfo = src.getTopIndex(nindex, diff, { length: len });
+            if (topInfo.status != 'undefined') {
+              for (let i = nindex; i >= topInfo.index; i--) {
+                this.main.nodes.prepend(i);
+              }
+              cfg.top = topInfo.index;
+            }
+          }
+          cfg.currentIndex = tIndex;
+        } else {
+          cfg.currentIndex--;
+        }
+        /* let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
+        if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
+           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
+           let topRw = src.rowInfo[cfg.top];
+           let nextRow = src.rowInfo[bottomInfo.index + 1];
+           let contentHeight = src.rowInfo[bottomInfo.index].runningHeight - (topRw.runningHeight - topRw.height);
+           this.main.nodes.append(nextRow.index);
+           contentHeight += nextRow.height;
+           let diff = contentHeight - containerHeight;
+           if (diff > 0) {
+             let topInfo = src.getBottomIndex(cfg.top, diff, { length: len, overflowed: true });
+             if (topInfo.status == 'continue') {
+               for (let i = cfg.top; i <= topInfo.index; i++) {
+                 tmpRow = src.rowInfo[i];
+                 this.main.Events.beforeOldItemRemoved.fire([tmpRow.element]);
+                 tmpRow.element.remove();
+                 contentHeight -= tmpRow.height;
+               }
+               cfg.top = topInfo.index + 1;
+             }
+             diff = containerHeight - contentHeight;
+             if (diff > 0) {
+               let nindex = nextRow.index + 1;
+               bottomInfo = src.getBottomIndex(nindex, diff, { length: len });
+               if (bottomInfo.status != 'undefined') {
+                 for (let i = nindex; i <= bottomInfo.index; i++) {
+                   this.main.nodes.append(i);
+                 }
+               }
+             }
+           }*/
+
+        // cfg.currentIndex = nextRow.index;
+
+
+
+
+        /*let cmd = prvSide.check();
         switch (cmd) {
           case "NO_COVERAGE_TOP": this.callNavigate(prvSide.Advance.noCoverageTop, event, valToCount); break;
           case "NO_COVERAGE_BOTTOM": this.callNavigate(prvSide.Advance.noCoverageBottom, event, valToCount); break;
           case "DISPLAYED": this.callNavigate(prvSide.Advance.dispayed, event, valToCount); break;
           case "OUTSIDE": this.callNavigate(prvSide.Advance.outside, event, valToCount); break;
           case "FIRST": this.callNavigate(prvSide.Advance.first, event, valToCount); break;
-        }
+        }*/
       }
     },
     nextSide: {
@@ -343,7 +425,7 @@ export class NavigatePages {
         let containerHeight = cfg.viewSize.height;
         let tmpRow: RowInfo;
         let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
-       if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
+        if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
           let topRw = src.rowInfo[cfg.top];
           let nextRow = src.rowInfo[bottomInfo.index + 1];
@@ -351,7 +433,7 @@ export class NavigatePages {
           this.main.nodes.append(nextRow.index);
           contentHeight += nextRow.height;
           let diff = contentHeight - containerHeight;
-          if (diff > 0) {
+          if (diff > 0) {  // IF CONTENT IS LARGER THAN CONTAINER
             let topInfo = src.getBottomIndex(cfg.top, diff, { length: len, overflowed: true });
             if (topInfo.status == 'continue') {
               for (let i = cfg.top; i <= topInfo.index; i++) {
@@ -372,7 +454,6 @@ export class NavigatePages {
                 }
               }
             }
-            /* */
           }
 
           //console.log(src.rowInfo[1].runningHeight);
