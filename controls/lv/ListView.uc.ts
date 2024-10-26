@@ -85,12 +85,14 @@ export class ListView extends Designer {
             rowInfo.height = Size.getFullHeight(cmp);
             rowInfo.width = Size.getFullWidth(cmp);
             genNode.remove();
-
+            
         });
         
         this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
         this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
-        this.onLoaded.fire();
+      
+        this.onLoaded.fire();  
+    
     }
     private _paging = false;
     public get paging() {
