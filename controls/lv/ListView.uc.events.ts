@@ -4,6 +4,7 @@ import { ItemIndexChangeBy } from "./ListView.uc.navigate";
 import { pagerATTR } from "./ListView.uc.nodeHandler";
 import { keyBoard } from "ucbuilder/global/hardware/keyboard";
 import { numOpt } from "ucbuilder/build/common";
+import { log } from "console";
 export class eventHandler {
   //#region  EVENT DECLARATION
   itemDoubleClick = new CommonEvent<(index: number, evt: MouseEvent) => void>();
@@ -184,6 +185,7 @@ export class eventHandler {
       config.top = Math.floor(scrollval);
       _this.main.nodes.fill();
       _this.isfilling = false;
+       
       _this.main.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
     }
   }

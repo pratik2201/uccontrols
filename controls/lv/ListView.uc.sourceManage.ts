@@ -140,7 +140,7 @@ export class SourceManage<K> extends Array<K> {
       h += rInfo.height;
       w = Math.max(w, rInfo.width);
       rInfo.runningHeight = h;
-      console.log([rInfo.index, rInfo.height, rInfo.runningHeight]);
+      //console.log([rInfo.index, rInfo.height, rInfo.runningHeight,this[i]]);
 
     }
     this.allElementSize = {

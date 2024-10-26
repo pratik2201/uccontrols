@@ -64,13 +64,16 @@ export class winFrame extends Designer {
             this.loadSession();
         });
         this.drag.Events.onmouseup = (evt) => {
-            this.ucExtends.session.onModify();
+            this.ucExtends?.session.onModify();
             return false;
         }
         this.drag.Events.onResizeEnd.on(() => {
-            this.ucExtends.session.onModify();
+            this.ucExtends?.session.onModify();
         });
-
+        this.ucExtends.Events.afterClose.on(() => {
+            
+            this.drag.Events = undefined;
+        })
 
 
     }
@@ -140,10 +143,14 @@ export class winFrame extends Designer {
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;
         });
+        this.cmd_close.on('mousedown', (event) => {
+            event.stopImmediatePropagation();
+        });
         this.cmd_close.on('mouseup', (event) => {
+            event.stopImmediatePropagation();
             this.parentUCExt.close();
         });
-
+       
     }
 
 }

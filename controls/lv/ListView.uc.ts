@@ -39,9 +39,9 @@ export class ListView extends Designer {
     public get currentRecord() {
         return this.source[this.currentIndex];
     }
-    constructor() { super(); this.initializecomponent(arguments, this); console.clear();
+    constructor() { super(); this.initializecomponent(arguments, this); 
     }
-    0() {
+    $() {
         this.navigate.main =
             this.nodes.main =
             this.Events.main = this;
@@ -67,6 +67,9 @@ export class ListView extends Designer {
         this.init();
         this.source.onUpdateRowInfo.on(() => {
             
+        });
+        this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
+            this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
         });
     }
     onLoaded = new CommonEvent<() => {}>();
@@ -129,7 +132,9 @@ export class ListView extends Designer {
             //console.log(this.scroller1.offsetHeight);
             _this.resizerCall({ width: rect.width, height: rect.height });
         });
-
+        this.ucExtends.Events.afterClose.on(() => {
+            _this.rectObs.disconnect();
+        });
 
         _this.Events.init();
         // console.log(window.getComputedStyle(this.scroller1));

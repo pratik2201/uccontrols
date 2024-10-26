@@ -14,8 +14,8 @@ export class Configuration {
     return this.currentItem.index;
   }
   public set currentIndex(value) {
-
-    let eletof = value - this.top;
+    //let eletof = value - this.top;
+    if (value >= this.sourceLength) return;
     let ci = this.currentItem;
     if (ci.element != undefined) ci.element.setAttribute('iscurrent', '0');
     ci.row = this.main.source[value] as object;
@@ -45,15 +45,9 @@ export class Configuration {
 
   //private get _bottomIndex() { return (this.top + this.perPageRecord) - 1; }
   get bottomIndex() {
-    let newBIndex = this.main.source.getBottomIndex(this.top, this.viewSize.height, { overflowed: false });
-
-    //console.log(this.main.source.length+" %%%% "+this.viewSize.height+"  ===  "+newBIndex);
-
-    //let bIndex = (this.top + this.perPageRecord) - 1;
-    //console.log(this.top+"====="+this.perPageRecord+":::"+bIndex +"<<<>>>"+newBIndex);
-
-    return newBIndex.index;
-
+    let vh = this.viewSize.height;
+    if (vh == 0) return this.sourceLength - 1;
+    return this.main.source.getBottomIndex(this.top, this.viewSize.height, { overflowed: false }).index;
   }
   get sourceLength() { return this.main.source.length; }
   get topHiddenRowCount() {
@@ -64,7 +58,9 @@ export class Configuration {
   }
   get bottomHiddenRowCount() {
     let len = this.sourceLength;
-    let bIndex = this.main.source.getBottomIndex(this.top, this.viewSize.height, { length: len, overflowed: false })
+    let vh = this.viewSize.height;
+    if (vh == 0) return 0;
+    let bIndex = this.main.source.getBottomIndex(this.top, vh, { length: len, overflowed: false })
     return Math.max(0, len - (bIndex.index) - 1);
     //return Math.max(0, (this.length - (this.top + this.perPageRecord)));
   }
