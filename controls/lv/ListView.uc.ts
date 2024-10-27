@@ -39,7 +39,8 @@ export class ListView extends Designer {
     public get currentRecord() {
         return this.source[this.currentIndex];
     }
-    constructor() { super(); this.initializecomponent(arguments, this); 
+    constructor() {
+        super(); this.initializecomponent(arguments, this);
     }
     $() {
         this.navigate.main =
@@ -47,9 +48,11 @@ export class ListView extends Designer {
             this.Events.main = this;
         let config = this.navigate.config;
         this.source.onUpdate.on((len) => {
-            this.setRowInfos();
-           // console.log(this.source.rowInfo.map(s=>s.size.height));
-            
+
+            // console.log(this.source.rowInfo.map(s=>s.size.height));
+            this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
+            this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
+
             config.length = len; //this.source.length;
             //config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
@@ -64,10 +67,13 @@ export class ListView extends Designer {
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
 
         });
+        this.source.onCompleteUserSide.on(() => {
+            this.setRowInfos();
+        })
         this.init();
-        this.source.onUpdateRowInfo.on(() => {
-            
-        });
+        /* this.source.onUpdateRowInfo.on(() => {
+             
+         });*/
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
         });
@@ -85,14 +91,14 @@ export class ListView extends Designer {
             rowInfo.height = Size.getFullHeight(cmp);
             rowInfo.width = Size.getFullWidth(cmp);
             genNode.remove();
-            
+
         });
-        
+
         this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
         this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
-      
-        this.onLoaded.fire();  
-    
+
+        this.onLoaded.fire();
+
     }
     private _paging = false;
     public get paging() {
@@ -165,7 +171,7 @@ export class ListView extends Designer {
         let config = _this.navigate.config;
         config.viewSize.setBy.value(width, height);
         config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
-      //  config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
+        //  config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
         _this.Events.refreshScrollSize();
         // console.log("*** "+height);
         if (callRefresh)

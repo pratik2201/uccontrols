@@ -60,12 +60,14 @@ export class eventHandler {
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
+        
         this.main.navigate.setCurrentIndex(itm.data(pagerATTR.itemIndex), e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
     });
     this.main.ll_view.addEventListener("mouseup", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
+      
       if (itm != null) {
         this.itemMouseUp.fire([this.main.currentIndex, e]);
       }
@@ -194,7 +196,7 @@ export class eventHandler {
     let config = this.navigatePages.config;
     let vScroll = this.main.vscrollbar1;
     let src = this.main.source;
-    let top = src.rowInfo[config.top];
+    let top = src.getRow(config.top);
     let rw = top.runningHeight-top.height;
     vScroll.scrollTo(0,rw);
     this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);

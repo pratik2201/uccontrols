@@ -1,4 +1,6 @@
+import { uniqOpt } from "ucbuilder/build/common";
 import { CommonEvent } from "ucbuilder/global/commonEvent";
+import { pagerATTR } from "./ListView.uc.nodeHandler";
 export interface ListViewItemInfo {
   row: object,
   element: HTMLElement,
@@ -14,7 +16,8 @@ export interface RowInfo {
   height?: number,
   width?: number,
   runningHeight?: number,
-  index?: number,
+  index?: number,  filterIndex?: number,
+
   next?: RowInfo,
   prev?: RowInfo
 }
@@ -36,24 +39,38 @@ export class SourceManage<K> extends Array<K> {
       this._rows.splice(atIndex, 0, ...value);
     this.update();
   }*/
-  rowInfo: RowInfo[] = [];
+  //rowInfo: RowInfo[] = [];
+  getRow(index: number): RowInfo {
+   /* if (!this[index]) debugger;
+    else */return this[index][SourceManage.ACCESS_KEY];
+  }
+  getRowByObj(row: K): RowInfo {
+    return row[SourceManage.ACCESS_KEY];
+  }
+  setRow(index: number, val: RowInfo) {
+    let row = this[index];
+    if (row) {
+      let obj = row[SourceManage.ACCESS_KEY] as RowInfo;
+      row[SourceManage.ACCESS_KEY] = val;
+    }
+  }
   allElementSize: BasicSize = {
     width: 0,
     height: 0
   }
   clear() {
     this.length = 0;
-    this.rowInfo.length = 0;
+    //this.rowInfo.length = 0;
     //this.update();
   }
   getBottomIndex(topIndex: number, containerHeight: number, { length = undefined, overflowed = false }: { length?: number, overflowed?: boolean }): { index: number, status: IndexType } {
     let h = 0;
     let len = length ? length : this.length;
-    let rows = this.rowInfo;
+    //let rows = this.rowInfo;
     let i = topIndex;
     for (; i <= len - 1; i++) {
       //if (!this.rowInfo[i]) debugger;
-      h += rows[i].height;
+      h += this.getRow(i).height;
       if (h > containerHeight) break;
     }
     topIndex = overflowed ? i : i - 1;
@@ -68,12 +85,12 @@ export class SourceManage<K> extends Array<K> {
   }
   getTopIndex(botomIndex: number, containerHeight: number, { overflowed = false }: { length?: number, overflowed?: boolean }): { index: number, status: IndexType } {
     //let len = length ? length : this.length;
-    let rows = this.rowInfo;
+    // let rows = this.rowInfo;
     let i = botomIndex;
     let h = 0;
     for (; i >= 0; i--) {
-      h += rows[i].height;
-      if (h > containerHeight) { break;  }
+      h += this.getRow(i).height;
+      if (h > containerHeight) { break; }
     }
     botomIndex = overflowed ? i : i + 1;
 
@@ -106,61 +123,83 @@ export class SourceManage<K> extends Array<K> {
   }
   getIndex(topPoint: number, length: number = undefined) {
     let len = length ? length : this.length;
-    let rows = this.rowInfo;
+    //let rows = this.rowInfo;
     let i = 0;
     let h = 0;
     for (; i <= len - 1; i++) {
-      h = rows[i].runningHeight;
+      h = this.getRow(i).runningHeight;
       if (h > topPoint) break;
 
     }
     return topPoint == 0 ? 0 : i + 1;
   }
-  loop_RowInfo(callback = (row: K, info: RowInfo, index: number) => { }) {
+  loop_PerticularInfo(src: K[], callback = (row: K, info: RowInfo, index: number) => { }) {
     let rInfo: RowInfo;
-    console.log('loop_RowInfo...called');
-    let w: number = 0, h: number = 0;
-    for (let i = 0, len = this.length; i < len; i++) {
-      rInfo = this.rowInfo[i];
+    // let w: number = 0, h: number = 0;
+    let akey = SourceManage.ACCESS_KEY;
+    let obj: K = undefined;
+    for (let i = 0, len = src.length; i < len; i++) {
+      //rInfo = this.rowInfo[i];
+      let obj = src[i];
+      rInfo = obj[akey];
       if (rInfo == undefined) {
         rInfo = { isModified: false, index: i, height: 0, width: 0, runningHeight: 0 };
-        this.rowInfo[i] = rInfo;
+        obj[akey] = rInfo;
+        //this.rowInfo[i] = rInfo;
       }
-      /*if (rInfo == undefined) {
-        rInfo = {
-          element: undefined,
-          isModified: false,
-          width: 0, height: 0,
-          runningHeight: 0,
-          index: i,
-        }
-        this.rowInfo[i] = rInfo;
-      }*/
-      callback(this[i], rInfo, i);
+      callback(src[i], rInfo, i);
+    }
+    this.updateRunningSize();
+  }
+  loop_RowInfo(callback = (row: K, info: RowInfo, index: number) => { }) {
+    console.log('loop_RowInfo...called');
+    this.loop_PerticularInfo(this, callback);
+    this.onUpdateRowInfo.fire();
+  }
+  private updateRunningSize() {
+    let w: number = 0, h: number = 0; let rInfo: RowInfo;
+    let akey = SourceManage.ACCESS_KEY;
+    let obj: K = undefined;
+    for (let i = 0, len = this.length; i < len; i++) {
+      let obj = this[i];
+      rInfo = obj[akey];
+      rInfo.filterIndex = i;
+      rInfo.element?.data(pagerATTR.itemIndex, i);
       h += rInfo.height;
       w = Math.max(w, rInfo.width);
       rInfo.runningHeight = h;
-      //console.log([rInfo.index, rInfo.height, rInfo.runningHeight,this[i]]);
-
     }
     this.allElementSize = {
       width: w,
       height: h
     };
-    this.onUpdateRowInfo.fire();
   }
-  update(...indexes) {
+  ihaveCompletedByMySide() {
     let len = this.length;
-    if (indexes.length == 0)
-      this.rowInfo = new Array<RowInfo>(len);//.fill({ element:undefined,height:0,index:-1,isModified:false,width:0,runningHeight:0 });
-    else for (let i = 0; i < indexes.length; i++) {
-      let row = this.rowInfo[indexes[i]];
+    //this.rowInfo = new Array<RowInfo>(len);
+    //let rInfo = this.rowInfo;
+    this.originalSource = [];
+    for (let i = 0; i < len; i++) {
+      let obj = this[i];
+      obj[SourceManage.ACCESS_KEY] = { isModified: false, index: i, height: 0, width: 0, runningHeight: 0 };
+      this.originalSource.push(obj);
+    }
+    this.updateRunningSize();
+    this.onCompleteUserSide.fire([len]);
+    this.onUpdate.fire([len]);
+  }
+  originalSource: K[] = []
+  callToFill(...indexes) {
+    let len = this.length;
+    for (let i = 0; i < indexes.length; i++) {
+      let row = this[indexes[i]][SourceManage.ACCESS_KEY] as RowInfo;
       if (row) row.isModified = true;
     }
+    this.updateRunningSize();
     this.onUpdate.fire([len]);
-    //console.log(this.rowInfo);
   }
-
+  static ACCESS_KEY = uniqOpt.guid;
+  onCompleteUserSide = new CommonEvent<(arrayLen: number) => void>();
   onUpdate = new CommonEvent<(arrayLen: number) => void>();
   onUpdateRowInfo = new CommonEvent<() => void>();
 };

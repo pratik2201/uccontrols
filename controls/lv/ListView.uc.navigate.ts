@@ -19,7 +19,7 @@ export class Configuration {
     let ci = this.currentItem;
     if (ci.element != undefined) ci.element.setAttribute('iscurrent', '0');
     ci.row = this.main.source[value] as object;
-    ci.element = this.main.source.rowInfo[value].element;//this.main.ll_view.children[eletof] as HTMLElement;
+    ci.element = this.main.source.getRow(value).element;//this.main.ll_view.children[eletof] as HTMLElement;
     ci.index = value;
     if (value <= 0) {
       this.main.vscrollbar1.scrollTop =
@@ -283,9 +283,9 @@ export class NavigatePages {
         let tmpRow: RowInfo;
         if (cfg.top == cindex) {
           if (cfg.top == 0) return;
-          let bottomRw = src.rowInfo[src.getBottomIndex(cfg.top, containerHeight, { length: len }).index];
-          let prevRow = src.rowInfo[cfg.top - 1];
-          let contentHeight = bottomRw.runningHeight - (src.rowInfo[cfg.top].runningHeight - src.rowInfo[cfg.top].height);
+          let bottomRw = src.getRow(src.getBottomIndex(cfg.top, containerHeight, { length: len }).index);
+          let prevRow = src.getRow(cfg.top - 1);
+          let contentHeight = bottomRw.runningHeight - (src.getRow(cfg.top).runningHeight - src.getRow(cfg.top).height);
           let tIndex = cfg.top;
           this.main.nodes.prepend(prevRow.index);
           cfg.top = tIndex = prevRow.index;
@@ -296,7 +296,7 @@ export class NavigatePages {
             let bottomInfo = src.getTopIndex(bottomRw.index, diff, { length: len, overflowed: true });
             if (bottomInfo.status == 'continue') {
               for (let i = bottomInfo.index; i <= bottomRw.index; i++) {
-                tmpRow = src.rowInfo[i];
+                tmpRow = src.getRow(i);
                 this.main.Events.beforeOldItemRemoved.fire([tmpRow.element]);
                 tmpRow.element.remove();
                 contentHeight -= tmpRow.height;
@@ -417,23 +417,24 @@ export class NavigatePages {
         let cfg = this.config;
         let src = this.main.source;
         let len = this.main.source.length;
+        //debugger;
         let cindex = cfg.currentIndex;
         let containerHeight = cfg.viewSize.height;
         let tmpRow: RowInfo;
         let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
         if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
-          let topRw = src.rowInfo[cfg.top];
-          let nextRow = src.rowInfo[bottomInfo.index + 1];
-          let contentHeight = src.rowInfo[bottomInfo.index].runningHeight - (topRw.runningHeight - topRw.height);
-          this.main.nodes.append(nextRow.index);
+          let topRw = src.getRow(cfg.top);
+          let nextRow = src.getRow(bottomInfo.index + 1);
+          let contentHeight = src.getRow(bottomInfo.index).runningHeight - (topRw.runningHeight - topRw.height);
+          this.main.nodes.append(nextRow.filterIndex);
           contentHeight += nextRow.height;
           let diff = contentHeight - containerHeight;
           if (diff > 0) {  // IF CONTENT IS LARGER THAN CONTAINER
             let topInfo = src.getBottomIndex(cfg.top, diff, { length: len, overflowed: true });
             if (topInfo.status == 'continue') {
               for (let i = cfg.top; i <= topInfo.index; i++) {
-                tmpRow = src.rowInfo[i];
+                tmpRow = src.getRow(i);
                 this.main.Events.beforeOldItemRemoved.fire([tmpRow.element]);
                 tmpRow.element.remove();
                 contentHeight -= tmpRow.height;

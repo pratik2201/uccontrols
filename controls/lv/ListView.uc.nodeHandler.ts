@@ -25,38 +25,38 @@ export class nodeHandler {
     let _records = this.main.navigate.config;
     this.clear();
     let ht: HTMLElement;
-   /// console.log('fill...called');
-    
+    /// console.log('fill...called');
+
     let curIndex = this.navigate.config.currentIndex;
-      for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++) {
+    for (let index = _records.top, len = _records.minBottomIndex; index <= len; index++) {
       ht = this.append(index);
-      
+
       if (index == curIndex)
         this.main.currentIndex = index;
     }
-
   };
   generateElement(index: number): { hasGenerated: boolean, element: HTMLElement } {
     let hasGenerated = false;
     let element: HTMLElement = undefined;
     let src = this.main.source;
-    let row = src.rowInfo[index];
+    let row = src.getRow(index);
     if (row != undefined) {
       hasGenerated = row.isModified;
       element = hasGenerated ? this.getNode(index) : row.element;
       row.isModified = false;
-      row.index = index;      
+      row.index = index;
+      row.element = element;
     } else {
       element = this.getNode(index);
       hasGenerated = true;
-      src.rowInfo[index] = {
+      src.setRow(index, {
         element: element,
         isModified: false,
         index: index,
         height: 0,
-        width:0,
-        runningHeight:0,
-      }
+        width: 0,
+        runningHeight: 0,
+      });
     }
     return {
       hasGenerated: hasGenerated,
@@ -65,7 +65,7 @@ export class nodeHandler {
   }
   prepend(index: number, replaceNode: boolean = false): HTMLElement {
     let itemNode = this.generateElement(index);
-   
+
     let allHT = this.allItemHT;
     if (allHT.length == 0)
       this.main.ll_view.appendChild(itemNode.element);
@@ -77,12 +77,13 @@ export class nodeHandler {
       }
     }
     if (itemNode.hasGenerated) {
-      itemNode.element.data(pagerATTR.itemIndex, index);    
+      itemNode.element.data(pagerATTR.itemIndex, index);
       this.main.Events.newItemGenerate.fire([itemNode.element, index]);
     }
     return itemNode.element;
   }
   append(index: number, replaceNode: boolean = false): HTMLElement {
+    
     let itemNode = this.generateElement(index);
     let allHT = this.allItemHT;
     if (allHT.length == 0)
