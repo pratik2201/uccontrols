@@ -1,7 +1,7 @@
 import { CommonEvent } from "ucbuilder/global/commonEvent";
 import { R } from "uccontrols/R";
 import { ItemIndexChangeBy } from "./ListView.uc.navigate";
-import { pagerATTR } from "./ListView.uc.nodeHandler";
+import { SourceIndexElementAttr } from "ucbuilder/global/datasources/SourceManage";
 import { keyBoard } from "ucbuilder/global/hardware/keyboard";
 import { numOpt } from "ucbuilder/build/common";
 import { log } from "console";
@@ -52,7 +52,7 @@ export class eventHandler {
     this.main.ll_view.addEventListener("dblclick", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
-        this.main.navigate.setCurrentIndex(itm.data(pagerATTR.itemIndex), e, "Mouse");
+        this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr), e, "Mouse");
         this.itemDoubleClick.fire([this.main.currentIndex, e]);
       }
     });
@@ -61,7 +61,7 @@ export class eventHandler {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
         
-        this.main.navigate.setCurrentIndex(itm.data(pagerATTR.itemIndex), e, "Mouse");
+        this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr), e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
     });
@@ -135,6 +135,7 @@ export class eventHandler {
   onkeyDown_callback = (e): boolean => {
     return false;
   }
+  
   doKeyEvent(e: KeyboardEvent): boolean {
     if (this.onkeyDown_callback(e) === true) return true;
     switch (e.keyCode) {
@@ -152,7 +153,7 @@ export class eventHandler {
         break;
       case keyBoard.keys.pageDown: // page down key
         this.navigatePages.pageTo.downSide.Go(e);
-        this.navigatePages.config.currentIndex = this.navigatePages.config.minBottomIndex;
+        this.navigatePages.config.currentIndex = this.navigatePages.config.bottomIndex;
         //this.main.Refresh();
         break;
       case keyBoard.keys.end: // end key

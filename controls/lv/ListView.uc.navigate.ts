@@ -1,6 +1,6 @@
 import { R } from "uccontrols/R";
 import { Size } from "ucbuilder/global/drawing/shapes";
-import { ListViewItemInfo, RowInfo } from "./ListView.uc.sourceManage";
+import { ListViewItemInfo, RowInfo } from "ucbuilder/global/datasources/SourceManage";
 
 export type ItemIndexChangeBy = "Other" | "Keyboard" | "Mouse";
 export class Configuration {
@@ -11,37 +11,48 @@ export class Configuration {
   itemsTotalSize = new Size(0, 0);
   //private _currentIndex = 0;
   public get currentIndex() {
-    return this.currentItem.index;
+    return this.currentItem?.filterIndex ?? 0;
   }
   public set currentIndex(value) {
     //let eletof = value - this.top;
     if (value >= this.sourceLength) return;
-    let ci = this.currentItem;
-    if (ci.element != undefined) ci.element.setAttribute('iscurrent', '0');
-    ci.row = this.main.source[value] as object;
-    ci.element = this.main.source.getRow(value).element;//this.main.ll_view.children[eletof] as HTMLElement;
-    ci.index = value;
+    let src = this.main.source;
+    let cItem = this.currentItem;
+    let prevIndex = 0;
+    let isPreviousUndefined = (cItem == undefined);
+    if (!isPreviousUndefined) { prevIndex = cItem.filterIndex;cItem.element.setAttribute('iscurrent', '0'); }
+    let rObj = src.getRow(value);
+    if (!rObj.isSelectable) {
+      this.currentItem = rObj;
+      if (prevIndex > value) {
+        this.main.navigate.moveTo.prevSide.Go(undefined as KeyboardEvent);
+      } else {
+        this.main.navigate.moveTo.nextSide.Go(undefined as KeyboardEvent);
+      } 
+      return;
+    }
+
+
+    
+    cItem = this.currentItem = rObj;
+
     if (value <= 0) {
       this.main.vscrollbar1.scrollTop =
         this.top = 0;
     }
-    if (ci.element != undefined)
-      ci.element.setAttribute('iscurrent', '1');
+    cItem.element.setAttribute('iscurrent', '1');
   }
-  currentItem = {
+  currentItem: RowInfo;
+  /*currentItem = {
     element: undefined,
     index: -1,
     row: undefined,
-  } as ListViewItemInfo;
+  } as ListViewItemInfo;*/
   public length = 0;
   defaultIndex = 0;
   top = 0;
 
-  get minBottomIndex() {
-    // console.log(this.bottomIndex);
-    return this.bottomIndex;
-    //    return Math.min(this.bottomIndex, this.length - 1);
-  }
+
 
   //private get _bottomIndex() { return (this.top + this.perPageRecord) - 1; }
   get bottomIndex() {
@@ -87,8 +98,8 @@ export class NavigatePages {
     let cfg = this.config;
     let oldIndex = cfg.currentIndex;
     let changed = (val !== oldIndex);
-    let currentItem = cfg.currentItem;
-    let bIndex = cfg.minBottomIndex;
+    // let currentItem = cfg.currentItem;
+    let bIndex = cfg.bottomIndex;
     if (val >= cfg.top && val <= bIndex) {
       cfg.currentIndex = val;
     } else {
@@ -232,7 +243,7 @@ export class NavigatePages {
     prevSide: {
       check: (): PageNavigationResult => {
         let cfg = this.config;
-        if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
+        if (cfg.currentIndex > cfg.bottomIndex) return 'NO_COVERAGE_BOTTOM';
         if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
         return (cfg.currentIndex > cfg.top) ? "DISPLAYED" : (cfg.top > 0) ? "OUTSIDE" : "FIRST"; ///@ cfg.defaultIndex
       },
@@ -269,7 +280,7 @@ export class NavigatePages {
           if (this.main.Events.onReachFirstRecord()) {
             cfg.top = cfg.lastSideTopIndex;
             this.main.Refresh();
-            cfg.currentIndex = cfg.minBottomIndex;
+            cfg.currentIndex = cfg.bottomIndex;
           }
         }
       },
@@ -370,9 +381,9 @@ export class NavigatePages {
     nextSide: {
       check: (valToCount: number = 1): PageNavigationResult => {
         let cfg = this.config;
-        if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
+        if (cfg.currentIndex > cfg.bottomIndex) return 'NO_COVERAGE_BOTTOM';
         if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (cfg.currentIndex < cfg.minBottomIndex) ? "DISPLAYED" : (cfg.bottomIndex < cfg.length - 1) ? "OUTSIDE" : "LAST";
+        return (cfg.currentIndex < cfg.bottomIndex) ? "DISPLAYED" : (cfg.bottomIndex < cfg.length - 1) ? "OUTSIDE" : "LAST";
       },
       Advance: {
         dispayed: (evt: KeyboardEvent, valToCount: number = 1): void => {
@@ -386,7 +397,7 @@ export class NavigatePages {
             eleToRem.remove();
             this.config.top++;
           } else this.config.top = lastTopIndex;
-          let newItemEle = this.main.nodes.append(this.config.minBottomIndex);
+          let newItemEle = this.main.nodes.append(this.config.bottomIndex);
           this.config.currentIndex++;
           return newItemEle;
         },
@@ -416,13 +427,17 @@ export class NavigatePages {
         let nxtSide = this.moveTo.nextSide;
         let cfg = this.config;
         let src = this.main.source;
-        let len = this.main.source.length;
+        let len = src.length;
         //debugger;
         let cindex = cfg.currentIndex;
         let containerHeight = cfg.viewSize.height;
         let tmpRow: RowInfo;
         let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
+        let bObj = src.getRow(cindex);
+        //console.log('IS SELECTABLE :- ' + bObj.isSelectable);
         if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
+         // debugger;
+       
           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
           let topRw = src.getRow(cfg.top);
           let nextRow = src.getRow(bottomInfo.index + 1);

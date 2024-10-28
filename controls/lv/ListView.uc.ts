@@ -2,11 +2,11 @@ import { R } from 'uccontrols/R';
 import { Designer } from './ListView.uc.designer';
 import { TemplateNode } from 'ucbuilder/Template';
 import { CommonEvent } from 'ucbuilder/global/commonEvent';
-import { BasicSize, SourceManage } from './ListView.uc.sourceManage';
 import { Size } from 'ucbuilder/global/drawing/shapes';
 import { ItemIndexChangeBy, NavigatePages } from './ListView.uc.navigate';
 import { timeoutCall } from 'ucbuilder/global/timeoutCall';
-import { nodeHandler, pagerATTR } from './ListView.uc.nodeHandler';
+import { nodeHandler } from './ListView.uc.nodeHandler';
+import { SourceIndexElementAttr,BasicSize, SourceManage } from "ucbuilder/global/datasources/SourceManage";
 import { eventHandler } from './ListView.uc.events';
 
 
@@ -50,8 +50,8 @@ export class ListView extends Designer {
         this.source.onUpdate.on((len) => {
 
             // console.log(this.source.rowInfo.map(s=>s.size.height));
-            this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
-            this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
+            this.navigate.config.itemsTotalSize.height = this.source.info.height;
+            this.navigate.config.itemsTotalSize.width = this.source.info.width;
 
             config.length = len; //this.source.length;
             //config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
@@ -86,16 +86,17 @@ export class ListView extends Designer {
             let genNode = _this.itemTemplate.extended.generateNode(row);
             _this.ll_view.appendChild(genNode);
             rowInfo.element = genNode;
-            genNode.data(pagerATTR.itemIndex, index);
+            genNode.data(SourceIndexElementAttr, index);
             let cmp = window.getComputedStyle(genNode);
             rowInfo.height = Size.getFullHeight(cmp);
             rowInfo.width = Size.getFullWidth(cmp);
             genNode.remove();
 
         });
-
-        this.navigate.config.itemsTotalSize.height = this.source.allElementSize.height;
-        this.navigate.config.itemsTotalSize.width = this.source.allElementSize.width;
+        //console.log(this.source.info);
+        
+        this.navigate.config.itemsTotalSize.height = this.source.info.height;
+        this.navigate.config.itemsTotalSize.width = this.source.info.width;
 
         this.onLoaded.fire();
 
@@ -145,10 +146,6 @@ export class ListView extends Designer {
         });
 
         _this.Events.init();
-        // console.log(window.getComputedStyle(this.scroller1));
-        // console.log("====> "+this.scroller1.isConnected);
-
-
         this.Events.onChangeHiddenCount.on(this.changeHiddenCount);
     }
     changeHiddenCount = (topCount: number, bottomCount: number) => {
