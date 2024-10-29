@@ -11,7 +11,7 @@ export class Configuration {
   itemsTotalSize = new Size(0, 0);
   //private _currentIndex = 0;
   public get currentIndex() {
-    return this.currentItem?.filterIndex ?? 0;
+    return this.currentItem?.index ?? 0;
   }
   public set currentIndex(value) {
     //let eletof = value - this.top;
@@ -20,7 +20,7 @@ export class Configuration {
     let prevIndex = 0;
     let isPreviousUndefined = (cItem == undefined);
 
-    if (!isPreviousUndefined) {  prevIndex = cItem.filterIndex; cItem.element.setAttribute('iscurrent', '0'); }
+    if (!isPreviousUndefined) {  prevIndex = cItem.index; cItem.element.setAttribute('aria-current', `false`); }
     let src = this.main.source;
     let rObj = src.getRow(value);
     if (!rObj.isSelectable) {
@@ -43,9 +43,9 @@ export class Configuration {
       this.main.vscrollbar1.scrollTop =
         this.top = 0;
     }
-    cItem.element.setAttribute('iscurrent', '1');
+    cItem.element.setAttribute('aria-current', 'true');
   }
-  currentItem: RowInfo;
+  currentItem: RowInfo<any>;
   /*currentItem = {
     element: undefined,
     index: -1,
@@ -294,7 +294,7 @@ export class NavigatePages {
         let len = this.main.source.length;
         let cindex = cfg.currentIndex;
         let containerHeight = cfg.viewSize.height;
-        let tmpRow: RowInfo;
+        let tmpRow: RowInfo<any>;
         if (cfg.top == cindex) {
           if (cfg.top == 0) return;
           let bottomRw = src.getRow(src.getBottomIndex(cfg.top, containerHeight, { length: len }).index);
@@ -434,7 +434,7 @@ export class NavigatePages {
         //debugger;
         let cindex = cfg.currentIndex;
         let containerHeight = cfg.viewSize.height;
-        let tmpRow: RowInfo;
+        let tmpRow: RowInfo<any>;
         let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
         let bObj = src.getRow(cindex);
         //console.log('IS SELECTABLE :- ' + bObj.isSelectable);
@@ -445,7 +445,7 @@ export class NavigatePages {
           let topRw = src.getRow(cfg.top);
           let nextRow = src.getRow(bottomInfo.index + 1);
           let contentHeight = src.getRow(bottomInfo.index).runningHeight - (topRw.runningHeight - topRw.height);
-          this.main.nodes.append(nextRow.filterIndex);
+          this.main.nodes.append(nextRow.index);
           contentHeight += nextRow.height;
           let diff = contentHeight - containerHeight;
           if (diff > 0) {  // IF CONTENT IS LARGER THAN CONTAINER
