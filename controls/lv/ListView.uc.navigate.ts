@@ -16,26 +16,29 @@ export class Configuration {
   public set currentIndex(value) {
     //let eletof = value - this.top;
     if (value >= this.sourceLength) return;
-    let src = this.main.source;
     let cItem = this.currentItem;
     let prevIndex = 0;
     let isPreviousUndefined = (cItem == undefined);
-    if (!isPreviousUndefined) { prevIndex = cItem.filterIndex;cItem.element.setAttribute('iscurrent', '0'); }
+
+    if (!isPreviousUndefined) {  prevIndex = cItem.filterIndex; cItem.element.setAttribute('iscurrent', '0'); }
+    let src = this.main.source;
     let rObj = src.getRow(value);
     if (!rObj.isSelectable) {
       this.currentItem = rObj;
-      if (prevIndex > value) {
-        this.main.navigate.moveTo.prevSide.Go(undefined as KeyboardEvent);
-      } else {
+      if (prevIndex > value) { //  IF TOP SIDE SELECTED
+        this.main.navigate.moveTo.prevSide.Go(undefined as KeyboardEvent);        
+      } else {      //  IF BOTTOM SIDE SELECTED
         this.main.navigate.moveTo.nextSide.Go(undefined as KeyboardEvent);
       } 
-      return;
+      if (this.currentIndex != value) return;
+      else { 
+       
+        //console.log(prevIndex);
+        rObj = src.getRow(prevIndex);
+          
+      }
     }
-
-
-    
     cItem = this.currentItem = rObj;
-
     if (value <= 0) {
       this.main.vscrollbar1.scrollTop =
         this.top = 0;
@@ -60,7 +63,7 @@ export class Configuration {
     if (vh == 0) return this.sourceLength - 1;
     return this.main.source.getBottomIndex(this.top, this.viewSize.height, { overflowed: false }).index;
   }
-  get sourceLength() { return this.main.source.length; }
+  get sourceLength() { return this.main.source.info.length; /*this.main.source.length*/ }
   get topHiddenRowCount() {
     // console.log("topHiddenRowCount:" + this.top);
 
