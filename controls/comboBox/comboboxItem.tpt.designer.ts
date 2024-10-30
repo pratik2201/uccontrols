@@ -15,6 +15,8 @@ class primary_TEMPLATE extends TemplateNode{
 
 
 export class Designer extends Template {
+    static FILE_PATH = `uccontrols/controls/comboBox/comboboxItem.tpt`;
+    
         
     public primary:primary_TEMPLATE; 
    

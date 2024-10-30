@@ -15,6 +15,8 @@ class primary_TEMPLATE extends TemplateNode{
 
 
 export class Designer extends Template {
+    static FILE_PATH = `uccontrols/controls/tabControl/itemNode.tpt`;
+    
         
     public primary:primary_TEMPLATE; 
    
