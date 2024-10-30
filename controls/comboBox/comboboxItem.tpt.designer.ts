@@ -15,7 +15,13 @@ class primary_TEMPLATE extends TemplateNode{
 
 
 export class Designer extends Template {
-    static FILE_PATH = `uccontrols/controls/comboBox/comboboxItem.tpt`;
+    /** uccontrols/controls/comboBox/comboboxItem.tpt
+     *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
+     */
+    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy9jb21ib0JveC9jb21ib2JveEl0ZW0udHB0');
+    public static get FILE_PATH() {
+        return Designer._FILE_PATH;
+    }
     
         
     public primary:primary_TEMPLATE; 

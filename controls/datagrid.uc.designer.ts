@@ -10,7 +10,13 @@ import { datagrid } from './datagrid.uc';
 
 
 export class Designer extends Usercontrol {    
-    static FILE_PATH = `uccontrols/controls/datagrid.uc`;
+    /**  uccontrols/controls/datagrid.uc
+     *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
+     */
+    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy9kYXRhZ3JpZC51Yw==');
+    public static get FILE_PATH() {
+        return Designer._FILE_PATH;
+    }
     static get giveMeHug(): string {
         return Usercontrol.giveMeHug;
     }
