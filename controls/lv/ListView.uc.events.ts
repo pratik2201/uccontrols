@@ -1,10 +1,10 @@
 import { CommonEvent } from "ucbuilder/global/commonEvent";
-import { ItemIndexChangeBy } from "./ListView.uc.navigate";
+import { ItemIndexChangeBy } from "uccontrols/controls/lv/ListView.uc.navigate";
 import { SourceIndexElementAttr } from "ucbuilder/global/datasources/SourceManage";
 import { keyBoard } from "ucbuilder/global/hardware/keyboard";
 import { numOpt } from "ucbuilder/build/common";
 import { log } from "console";
-import { ListView } from "./ListView.uc";
+import { ListView } from "uccontrols/controls/lv/ListView.uc";
 export class eventHandler {
   //#region  EVENT DECLARATION
   itemDoubleClick = new CommonEvent<(index: number, evt: MouseEvent) => void>();

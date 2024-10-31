@@ -1,11 +1,11 @@
-import { objectOpt, looping } from 'ucbuilder/build/common.js';
-import { Usercontrol } from 'ucbuilder/Usercontrol.js';
-import { TabChilds, tabChilds } from 'uccontrols/controls/Splitter.uc.enumAndMore';
-import { dragHandler } from 'uccontrols/controls/tabControl.uc.drag.js';
-import { intenseGenerator } from 'ucbuilder/intenseGenerator.js';
-import { Designer } from './tabControl.uc.designer.js';
-import { ResourcesUC } from 'ucbuilder/ResourcesUC.js';
-import { newObjectOpt } from 'ucbuilder/global/objectOpt.js';
+import { objectOpt, looping } from "ucbuilder/build/common.js";
+import { Usercontrol } from "ucbuilder/Usercontrol.js";
+import { TabChilds, tabChilds } from "uccontrols/controls/Splitter.uc.enumAndMore";
+import { dragHandler } from "uccontrols/controls/tabControl.uc.drag.js";
+import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
+import { Designer } from "uccontrols/controls/tabControl.uc.designer.js";
+import { ResourcesUC } from "ucbuilder/ResourcesUC.js";
+import { newObjectOpt } from "ucbuilder/global/objectOpt.js";
 
 interface TabRecord {
     caption: string;

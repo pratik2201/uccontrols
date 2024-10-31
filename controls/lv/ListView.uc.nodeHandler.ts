@@ -1,7 +1,7 @@
 
 import { NavigatePages } from "uccontrols/controls/lv/ListView.uc.navigate";
 import { SourceIndexElementAttr, RowInfo } from "ucbuilder/global/datasources/SourceManage";
-import { ListView } from "./ListView.uc";
+import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
 export class nodeHandler {
   navigate: NavigatePages;

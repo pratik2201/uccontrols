@@ -1,9 +1,9 @@
-import { Designer } from './Movable.uc.designer.js';
-import { dragUc } from 'uccontrols/controls/common/draguc.js';
-import { UcStates } from 'ucbuilder/enumAndMore';
-import { CommonEvent } from 'ucbuilder/global/commonEvent.js';
-import { Usercontrol } from 'ucbuilder/Usercontrol.js';
-import { DragHelper } from 'ucbuilder/global/drag/dragHelper.js';
+import { Designer } from "uccontrols/controls/Movable.uc.designer.js";
+import { dragUc } from "uccontrols/controls/common/draguc.js";
+import { UcStates } from "ucbuilder/enumAndMore";
+import { CommonEvent } from "ucbuilder/global/commonEvent.js";
+import { Usercontrol } from "ucbuilder/Usercontrol.js";
+import { DragHelper } from "ucbuilder/global/drag/dragHelper.js";
 
 export class Movable extends Designer {
 

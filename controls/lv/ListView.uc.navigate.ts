@@ -1,7 +1,7 @@
 
 import { Size } from "ucbuilder/global/drawing/shapes";
 import { ListViewItemInfo, RowInfo } from "ucbuilder/global/datasources/SourceManage";
-import { ListView } from "./ListView.uc";
+import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
 export type ItemIndexChangeBy = "Other" | "Keyboard" | "Mouse";
 export class Configuration {

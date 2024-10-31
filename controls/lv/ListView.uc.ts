@@ -1,13 +1,13 @@
-import { R } from 'uccontrols/R';
-import { Designer } from './ListView.uc.designer';
-import { TemplateNode } from 'ucbuilder/Template';
-import { CommonEvent } from 'ucbuilder/global/commonEvent';
-import { Size } from 'ucbuilder/global/drawing/shapes';
-import { ItemIndexChangeBy, NavigatePages } from './ListView.uc.navigate';
-import { timeoutCall } from 'ucbuilder/global/timeoutCall';
-import { nodeHandler } from './ListView.uc.nodeHandler';
+import { R } from "uccontrols/R";
+import { Designer } from "uccontrols/controls/lv/ListView.uc.designer";
+import { TemplateNode } from "ucbuilder/Template";
+import { CommonEvent } from "ucbuilder/global/commonEvent";
+import { Size } from "ucbuilder/global/drawing/shapes";
+import { ItemIndexChangeBy, NavigatePages } from "uccontrols/controls/lv/ListView.uc.navigate";
+import { timeoutCall } from "ucbuilder/global/timeoutCall";
+import { nodeHandler } from "uccontrols/controls/lv/ListView.uc.nodeHandler";
 import { SourceIndexElementAttr, BasicSize, SourceManage } from "ucbuilder/global/datasources/SourceManage";
-import { eventHandler } from './ListView.uc.events';
+import { eventHandler } from "uccontrols/controls/lv/ListView.uc.events";
 
 
 export class ListView extends Designer {

@@ -5,7 +5,7 @@ import { controlOpt, objectOpt, arrayOpt } from "ucbuilder/build/common";
 import { SpliterType, splitterCell, SplitterMeasurementRow, TabChilds, tabChilds, SplitterCell } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
 import { intenseGenerator } from "ucbuilder/intenseGenerator";
-import { Designer } from "./Splitter.uc.designer";
+import { Designer } from "uccontrols/controls/Splitter.uc.designer";
 import { resizeHandler } from "uccontrols/controls/Splitter.uc.resizeHandler";
 import { jqFeatures } from "ucbuilder/global/jqFeatures";
 

@@ -1,6 +1,6 @@
-import { Designer } from './winFrame.uc.designer';
-import { dragUc } from 'uccontrols/controls/common/draguc';
-import { UcStates } from 'ucbuilder/enumAndMore';
+import { Designer } from "uccontrols/controls/winFrame.uc.designer";
+import { dragUc } from "uccontrols/controls/common/draguc";
+import { UcStates } from "ucbuilder/enumAndMore";
 export class winFrame extends Designer {
 
     private _backgroundOpacity: number = 0.500;

@@ -1,6 +1,6 @@
-import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
-import { intenseGenerator } from 'ucbuilder/intenseGenerator.js';
-import { Designer } from './MessageBox.uc.designer';
+import { keyBoard } from "ucbuilder/global/hardware/keyboard";
+import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
+import { Designer } from "uccontrols/controls/MessageBox.uc.designer";
 
 export type MessageBoxResult = "none" | "yes" | "no" | "ok" | "cancel" | "abort" | "retry" | "ignore";
 
