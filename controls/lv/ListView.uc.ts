@@ -1,4 +1,3 @@
-import { R } from "uccontrols/R";
 import { Designer } from "uccontrols/controls/lv/ListView.uc.designer";
 import { TemplateNode } from "ucbuilder/Template";
 import { CommonEvent } from "ucbuilder/global/commonEvent";
@@ -88,8 +87,8 @@ export class ListView extends Designer {
             rowInfo.element = genNode;
             genNode.data(SourceIndexElementAttr, index);
             let cmp = window.getComputedStyle(genNode);
-            rowInfo.height = Size.getFullHeight(cmp);
-            rowInfo.width = Size.getFullWidth(cmp);
+            rowInfo.height = Size.getFullHeight(cmp) || genNode.offsetHeight;
+            rowInfo.width = Size.getFullWidth(cmp) || genNode.offsetWidth;
             genNode.remove();
 
         });
