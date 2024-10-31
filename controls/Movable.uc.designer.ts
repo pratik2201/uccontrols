@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { Movable } from './Movable.uc';
+import { Movable } from 'uccontrols/controls/Movable.uc';
 
 
 export class Designer extends Usercontrol {    

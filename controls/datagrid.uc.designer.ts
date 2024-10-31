@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { datagrid } from './datagrid.uc';
+import { datagrid } from 'uccontrols/controls/datagrid.uc';
 
 
 export class Designer extends Usercontrol {    

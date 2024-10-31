@@ -7,7 +7,7 @@ import { winFrame } from 'uccontrols/controls/winFrame.uc';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { MessageBox } from './MessageBox.uc';
+import { MessageBox } from 'uccontrols/controls/MessageBox.uc';
 
 
 export class Designer extends Usercontrol {    

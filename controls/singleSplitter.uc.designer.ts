@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { singleSplitter } from './singleSplitter.uc';
+import { singleSplitter } from 'uccontrols/controls/singleSplitter.uc';
 
 
 export class Designer extends Usercontrol {    

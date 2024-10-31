@@ -7,7 +7,7 @@ import { itemNode } from 'uccontrols/controls/tabControl/itemNode.tpt';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { tabControl } from './tabControl.uc';
+import { tabControl } from 'uccontrols/controls/tabControl.uc';
 
 
 export class Designer extends Usercontrol {    

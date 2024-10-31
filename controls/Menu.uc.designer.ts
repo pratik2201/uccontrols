@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { Menu } from './Menu.uc';
+import { Menu } from 'uccontrols/controls/Menu.uc';
 
 
 export class Designer extends Usercontrol {    

@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { ListView } from './ListView.uc';
+import { ListView } from 'uccontrols/controls/lv/ListView.uc';
 
 
 export class Designer extends Usercontrol {    

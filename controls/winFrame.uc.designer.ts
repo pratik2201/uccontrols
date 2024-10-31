@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { winFrame } from './winFrame.uc';
+import { winFrame } from 'uccontrols/controls/winFrame.uc';
 
 
 export class Designer extends Usercontrol {    

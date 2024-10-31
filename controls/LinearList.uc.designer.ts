@@ -6,7 +6,7 @@ import { VariableList } from 'ucbuilder/global/stylerRegs';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { LinearList } from './LinearList.uc';
+import { LinearList } from 'uccontrols/controls/LinearList.uc';
 
 
 export class Designer extends Usercontrol {    

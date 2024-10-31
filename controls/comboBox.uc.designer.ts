@@ -7,7 +7,7 @@ import { LinearList } from 'uccontrols/controls/LinearList.uc';
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { comboBox } from './comboBox.uc';
+import { comboBox } from 'uccontrols/controls/comboBox.uc';
 
 
 export class Designer extends Usercontrol {    
