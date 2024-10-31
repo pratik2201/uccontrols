@@ -13,7 +13,7 @@ export class Designer extends Usercontrol {
     /**  uccontrols/controls/Movable.uc
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
      */
-    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy9Nb3ZhYmxlLnVj');
+    private static _FILE_PATH = 'uccontrols/controls/Movable.uc';//window.atob('dWNjb250cm9scy9jb250cm9scy9Nb3ZhYmxlLnVj');
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }

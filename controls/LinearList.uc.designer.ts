@@ -13,7 +13,7 @@ export class Designer extends Usercontrol {
     /**  uccontrols/controls/LinearList.uc
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
      */
-    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy9MaW5lYXJMaXN0LnVj');
+    private static _FILE_PATH = 'uccontrols/controls/LinearList.uc';//window.atob('dWNjb250cm9scy9jb250cm9scy9MaW5lYXJMaXN0LnVj');
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }

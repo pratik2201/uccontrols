@@ -1,9 +1,9 @@
 import { Rect } from 'ucbuilder/global/drawing/shapes';
 import { Template, TemplateNode } from 'ucbuilder/Template';
-import { comboboxItem } from 'uccontrols/controls/combobox/comboboxitem.tpt';
+import { comboboxItem } from 'uccontrols/controls/comboBox/comboboxItem.tpt';
 import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { Designer } from './combobox.uc.designer';
+import { Designer } from 'uccontrols/controls/comboBox.uc.designer';
 import { binderNode } from 'uccontrols/controls/comboBox.uc.binderNode';
 
 export class comboBox extends Designer {

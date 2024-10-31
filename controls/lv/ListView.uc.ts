@@ -6,7 +6,7 @@ import { Size } from 'ucbuilder/global/drawing/shapes';
 import { ItemIndexChangeBy, NavigatePages } from './ListView.uc.navigate';
 import { timeoutCall } from 'ucbuilder/global/timeoutCall';
 import { nodeHandler } from './ListView.uc.nodeHandler';
-import { SourceIndexElementAttr,BasicSize, SourceManage } from "ucbuilder/global/datasources/SourceManage";
+import { SourceIndexElementAttr, BasicSize, SourceManage } from "ucbuilder/global/datasources/SourceManage";
 import { eventHandler } from './ListView.uc.events';
 
 
@@ -94,7 +94,7 @@ export class ListView extends Designer {
 
         });
         //console.log(this.source.info);
-        
+
         this.navigate.config.itemsTotalSize.height = this.source.info.height;
         this.navigate.config.itemsTotalSize.width = this.source.info.width;
 

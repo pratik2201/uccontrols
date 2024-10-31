@@ -1,7 +1,14 @@
-import { Template, TemplateNode } from 'ucbuilder/Template.js';
+import { Template, TemplateNode } from 'ucbuilder/Template';
+import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { TptOptions, templatePathOptions } from 'ucbuilder/enumAndMore';
-import { R } from 'uccontrols/R';
+import { VariableList } from 'ucbuilder/global/stylerRegs';
 
+ /**
+ *  code filename must same and case sensitive with classname 
+ */
+import { comboboxItem } from 'uccontrols/controls/comboBox/comboboxItem.tpt';
+
+    
  
 
 type primary_ELEMENT_MAP = {}
@@ -18,11 +25,18 @@ export class Designer extends Template {
     /** uccontrols/controls/comboBox/comboboxItem.tpt
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
      */
-    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy9jb21ib0JveC9jb21ib2JveEl0ZW0udHB0');
+    private static _FILE_PATH =  'uccontrols/controls/comboBox/comboboxItem.tpt'; //window.atob('dWNjb250cm9scy9jb250cm9scy9jb21ib0JveC9jb21ib2JveEl0ZW0udHB0');
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }
     
+    static setCSS_globalVar (varList:VariableList): void  {
+        intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
+    }
+    static Create(pera: TptOptions): comboboxItem { 
+        return intenseGenerator.generateTPT(this.FILE_PATH,pera) as comboboxItem;
+    }
+
         
     public primary:primary_TEMPLATE; 
    

@@ -1,11 +1,12 @@
-import { R } from "uccontrols/R";
+
 import { NavigatePages } from "uccontrols/controls/lv/ListView.uc.navigate";
 import { SourceIndexElementAttr, RowInfo } from "ucbuilder/global/datasources/SourceManage";
+import { ListView } from "./ListView.uc";
 
 export class nodeHandler {
   navigate: NavigatePages;
   allItemHT: NodeListOf<HTMLElement>;
-  private _main = R.controls.lv.ListView.type;
+  private _main :ListView;
   get main() {
     return this._main;
   }

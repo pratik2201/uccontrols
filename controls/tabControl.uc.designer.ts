@@ -14,7 +14,7 @@ export class Designer extends Usercontrol {
     /**  uccontrols/controls/tabControl.uc
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
      */
-    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy90YWJDb250cm9sLnVj');
+    private static _FILE_PATH = 'uccontrols/controls/tabControl.uc';//window.atob('dWNjb250cm9scy9jb250cm9scy90YWJDb250cm9sLnVj');
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }
@@ -46,10 +46,10 @@ export class Designer extends Usercontrol {
         let CONTROLS = ucExt.designer.getAllControls();
         
         
-        this.tpt_itemnode = intenseGenerator.generateTPT('uccontrols/controls/tabControl/itemNode.tpt.ts',{ 
-                            parentUc : this, 
-                            elementHT : CONTROLS.tpt_itemnode 
-                       }) as any;
+    this.tpt_itemnode = itemNode.Create({ 
+                        parentUc : this, 
+                        elementHT :CONTROLS.tpt_itemnode 
+                    });
         this.container1 = CONTROLS.container1 as HTMLUnknownElement;
         this.tabHeader = CONTROLS.tabHeader as HTMLElement;
         this.tabView = CONTROLS.tabView as HTMLUnknownElement;

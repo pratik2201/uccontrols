@@ -1,10 +1,10 @@
 import { CommonEvent } from "ucbuilder/global/commonEvent";
-import { R } from "uccontrols/R";
 import { ItemIndexChangeBy } from "./ListView.uc.navigate";
 import { SourceIndexElementAttr } from "ucbuilder/global/datasources/SourceManage";
 import { keyBoard } from "ucbuilder/global/hardware/keyboard";
 import { numOpt } from "ucbuilder/build/common";
 import { log } from "console";
+import { ListView } from "./ListView.uc";
 export class eventHandler {
   //#region  EVENT DECLARATION
   itemDoubleClick = new CommonEvent<(index: number, evt: MouseEvent) => void>();
@@ -34,7 +34,7 @@ export class eventHandler {
     return false;
   };
   //#endregion
-  private _main = R.controls.lv.ListView.type;
+  private _main : ListView;
   public get main() {
     return this._main;
   }

@@ -1,10 +1,11 @@
-import { R } from "uccontrols/R";
+
 import { Size } from "ucbuilder/global/drawing/shapes";
 import { ListViewItemInfo, RowInfo } from "ucbuilder/global/datasources/SourceManage";
+import { ListView } from "./ListView.uc";
 
 export type ItemIndexChangeBy = "Other" | "Keyboard" | "Mouse";
 export class Configuration {
-  main = R.controls.lv.ListView.type;
+  main : ListView;
   viewSize = new Size(0, 0);
   itemSize = new Size(0, 0);
   perPageRecord = 20;
@@ -89,7 +90,7 @@ type KeyboardNavigationCallback = (evt: KeyboardEvent, valToAddRemove: number) =
 export type PageNavigationResult = "DISPLAYED" | "NO_COVERAGE_TOP" | "NO_COVERAGE_BOTTOM" | "OUTSIDE" | "LAST" | "FIRST";
 export class NavigatePages {
   public config = new Configuration();
-  private _main = R.controls.lv.ListView.type;
+  private _main : ListView;
   public get main() {
     return this._main;
   }

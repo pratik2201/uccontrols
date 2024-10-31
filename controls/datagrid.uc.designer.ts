@@ -13,7 +13,7 @@ export class Designer extends Usercontrol {
     /**  uccontrols/controls/datagrid.uc
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
      */
-    private static _FILE_PATH = window.atob('dWNjb250cm9scy9jb250cm9scy9kYXRhZ3JpZC51Yw==');
+    private static _FILE_PATH = 'uccontrols/controls/datagrid.uc';//window.atob('dWNjb250cm9scy9jb250cm9scy9kYXRhZ3JpZC51Yw==');
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }
