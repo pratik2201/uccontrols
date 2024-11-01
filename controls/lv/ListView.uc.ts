@@ -1,4 +1,4 @@
-import { Designer } from "uccontrols/controls/lv/ListView.uc.designer";
+import { Designer } from "uccontrols/designer/controls/lv/ListView.uc.designer";
 import { TemplateNode } from "ucbuilder/Template";
 import { CommonEvent } from "ucbuilder/global/commonEvent";
 import { Size } from "ucbuilder/global/drawing/shapes";

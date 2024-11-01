@@ -1,4 +1,4 @@
-import { Designer } from "uccontrols/controls/winFrame.uc.designer";
+import { Designer } from "uccontrols/designer/controls/winFrame.uc.designer";
 import { dragUc } from "uccontrols/controls/common/draguc";
 import { UcStates } from "ucbuilder/enumAndMore";
 export class winFrame extends Designer {

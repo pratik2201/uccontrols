@@ -3,7 +3,7 @@ import { Usercontrol } from "ucbuilder/Usercontrol.js";
 import { TabChilds, tabChilds } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { dragHandler } from "uccontrols/controls/tabControl.uc.drag.js";
 import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
-import { Designer } from "uccontrols/controls/tabControl.uc.designer.js";
+import { Designer } from "uccontrols/designer/controls/tabControl.uc.designer.js";
 import { ResourcesUC } from "ucbuilder/ResourcesUC.js";
 import { newObjectOpt } from "ucbuilder/global/objectOpt.js";
 
