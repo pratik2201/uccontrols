@@ -6,13 +6,17 @@
   "scripts": {},
   "author": "ap",
   "license": "ISC",
+  "_moduleAliases": {
+      "uccontrols/*": "./*"
+  },
   "devDependencies": {
     "@types/node": "^20.11.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "ucbuilder": "^1.0.0-beta.2"
+    "ucbuilder": "^1.0.0-beta.2",
+     "module-alias": "^2.2.2"
   },
   "keywords": [
     "user controls"

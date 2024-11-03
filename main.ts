@@ -1,8 +1,9 @@
-//console.log('~~~:['+ __dirname +']');
 import path from "path";
-import ucb from "ucbuilder/register"; 
+import ucr from "ucbuilder";
+import 'module-alias/register';
 import "ucbuilder/extension";
-ucb.registar({
+
+ucr.registar({
     outDir: "/out/",    
     designerDir:"/designer/",
     rootDir: path.dirname(__dirname)
