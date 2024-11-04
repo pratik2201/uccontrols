@@ -161,6 +161,9 @@ export class dragUc {
                             _this.containerHT.style.top = controlRect.top + "px";
                             _this.containerHT.style.width = controlRect.width + "px";
                             _this.containerHT.style.height = controlRect.height + "px";
+                            //let cmpt = window.getComputedStyle(_this.containerHT);
+                            //console.log([controlRect.width,Size.getFullWidth(cmpt)]);
+                            
                             _this.Events.onResizeEnd.fire();
                             break;
                     }
