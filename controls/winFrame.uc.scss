@@ -21,8 +21,8 @@ indicator[dir]{
 }   
 
 mainContainer {
-    width: inherit;
-    height: inherit;
+    width: max-content;
+    height: max-content;
     display: grid;
     box-sizing: border-box;
     border-bottom: solid 1px black;
@@ -72,8 +72,8 @@ title-bar icon:hover {
 
 container {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: inherit;
+    height: inherit;
     display: block;
     box-sizing: border-box;
     overflow: hidden;

@@ -128,7 +128,6 @@ export class ListView extends Designer {
     private init(): void {
         let config = this.navigate.config;
         let _this = this;
-        let hasCalled_resizerCall = false;
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             this.resizerCall(Size.getFullSize(window.getComputedStyle(this.scroller1)), false);
@@ -137,8 +136,16 @@ export class ListView extends Designer {
 
         _this.rectObs = new ResizeObserver((e: ResizeObserverEntry[]) => {
             let rect = e[0].contentRect;
-            //console.log(this.scroller1.offsetHeight);
-            _this.resizerCall({ width: rect.width, height: rect.height });
+            let visibility = _this.ucExtends.getVisibility();
+            switch (visibility) {
+                case 'visible':
+                    _this.resizerCall({ width: rect.width, height: rect.height });
+                    break;
+                case 'hidden':
+                    _this.rectObs.disconnect();
+                    break;
+            }
+           
         });
         this.ucExtends.Events.afterClose.on(() => {
             _this.rectObs.disconnect();

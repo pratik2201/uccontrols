@@ -66,7 +66,8 @@ export class Designer extends Usercontrol {
                             decisionForTargerElement:'replace',
                             targetElement : CONTROLS.winframe1 
                         });
-        this.winframe1.ucExtends.show();
+            this.winframe1.ucExtends.show();
+            this.winframe1.ucExtends.visibility = 'inherit';
         this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
         this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
         this.buttonList = CONTROLS.buttonList as HTMLElement;

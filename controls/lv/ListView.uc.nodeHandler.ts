@@ -22,6 +22,7 @@ export class nodeHandler {
   public fill(): void {
     let _records = this.main.navigate.config;
     this.clear();
+   
     let ht: HTMLElement;
     /// console.log('fill...called');
 

@@ -60,7 +60,8 @@ export class Designer extends Usercontrol {
                             decisionForTargerElement:'replace',
                             targetElement : CONTROLS.ll_view 
                         });
-        this.ll_view.ucExtends.show();
+            this.ll_view.ucExtends.show();
+            this.ll_view.ucExtends.visibility = 'inherit';
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();
