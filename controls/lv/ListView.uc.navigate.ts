@@ -53,7 +53,8 @@ export class Configuration {
     row: undefined,
   } as ListViewItemInfo;*/
   public length = 0;
-  defaultIndex = 0;
+
+  
   top = 0;
 
 
@@ -182,7 +183,7 @@ export class NavigatePages {
         let prevPageTop = cfg.top - cfg.perPageRecord;
         //if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
         //if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (prevPageTop > cfg.defaultIndex) ? "OUTSIDE" : "FIRST";
+        return (prevPageTop > this.main.source.info.defaultIndex) ? "OUTSIDE" : "FIRST";
       },
       Advance: {
         outside: (): void => {
@@ -269,13 +270,13 @@ export class NavigatePages {
         noCoverageTop: (evt: KeyboardEvent, valToCount: number = 1): void => {
           let cfg = this.config;
           cfg.top = cfg.currentIndex;
-          if (cfg.currentIndex > cfg.defaultIndex + 1)
+          if (cfg.currentIndex > this.main.source.info.defaultIndex + 1)
             this.moveTo.prevSide.Advance.outside(evt, valToCount);
           this.main.Refresh();
         },
         noCoverageBottom: (evt: KeyboardEvent, valToCount: number = 1): void => {
           let cfg = this.config;
-          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord, cfg.defaultIndex);
+          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord, this.main.source.info.defaultIndex);
           this.moveTo.prevSide.Advance.dispayed(evt, valToCount);
           this.main.Refresh();
         },
@@ -414,13 +415,13 @@ export class NavigatePages {
         noCoverageBottom: (evt: KeyboardEvent, valToCount: number = 1): void => {
           let cfg = this.config;
           if (cfg.currentIndex < cfg.length - 1) this.moveTo.nextSide.Advance.dispayed(evt, valToCount);
-          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord + 1, cfg.defaultIndex);
+          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord + 1, this.main.source.info.defaultIndex);
           this.main.Refresh();
         },
         last: (evt: KeyboardEvent, valToCount: number = 1): void => {
           if (this.main.Events.onReachLastRecord()) {
             this.config.top = 0;
-            this.config.currentIndex = this.config.defaultIndex;
+            this.config.currentIndex = this.main.source.info.defaultIndex;
             this.main.Refresh();
 
           }

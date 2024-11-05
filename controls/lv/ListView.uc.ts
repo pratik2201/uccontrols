@@ -56,7 +56,7 @@ export class ListView extends Designer {
             //config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             config.top = 0;
-            this.currentIndex = config.defaultIndex; // 0 changed..
+            this.currentIndex = this.source.info.defaultIndex; // 0 changed..
             this.vscrollbar1.scrollTop = 0;
             this.Refresh();
             //console.log(config.defaultIndex);
@@ -163,7 +163,7 @@ export class ListView extends Designer {
     focusAt0(fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;
         this.vscrollbar1.scrollTop = 0;
-        this.currentIndex = this.navigate.config.defaultIndex;
+        this.currentIndex = this.source.info.defaultIndex;
     }
     scrollTop(topPos: number, fireScrollEvent = true) {
         this.Events.fireScrollEvent = fireScrollEvent;

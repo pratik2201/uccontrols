@@ -148,7 +148,7 @@ export class eventHandler {
       case keyBoard.keys.pageUp: // page up key
         this.navigatePages.pageTo.upSide.Go(e);
         let cfg = this.navigatePages.config;
-        cfg.currentIndex = cfg.top == 0 ? cfg.defaultIndex : cfg.top;
+        cfg.currentIndex = cfg.top == 0 ? this.main.source.info.defaultIndex : cfg.top;
         //this.main.Refresh();
         break;
       case keyBoard.keys.pageDown: // page down key
