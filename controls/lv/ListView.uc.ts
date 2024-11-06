@@ -56,18 +56,20 @@ export class ListView extends Designer {
             //config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
             this.Events.fireScrollEvent = false;
             config.top = 0;
-            this.currentIndex = this.source.info.defaultIndex; // 0 changed..
             this.vscrollbar1.scrollTop = 0;
+            this.currentIndex = this.source.info.defaultIndex; // 0 changed..
             this.Refresh();
             //console.log(config.defaultIndex);
             this.Events.refreshScrollSize();
             //let config = this.navigate.config;
             // debugger;
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
-
+           // console.log([this.source.info.defaultIndex,this.source]);
+            
+           
         });
-        this.source.onCompleteUserSide.on(() => {
-            this.setRowInfos();
+        this.source.onCompleteUserSide.on((rows) => {
+            this.setRowInfos(rows);
         })
         this.init();
         /* this.source.onUpdateRowInfo.on(() => {
@@ -78,11 +80,12 @@ export class ListView extends Designer {
         });
     }
     onLoaded = new CommonEvent<() => {}>();
-    setRowInfos = () => {
+    setRowInfos = (src:any[]) => {
         let _this = this;
         _this.ll_view.innerHTML = '';
-        _this.source.loop_RowInfo((row, rowInfo, index) => {
-            let genNode = _this.itemTemplate.extended.generateNode(row);
+        let tExtebded = _this.itemTemplate.extended;
+        _this.source.loop_RowInfo(src,(row, rowInfo, index) => {
+            let genNode = tExtebded.generateNode(row);
             _this.ll_view.appendChild(genNode);
             rowInfo.element = genNode;
             genNode.data(SourceIndexElementAttr, index);
