@@ -29,6 +29,7 @@ export class winFrame extends Designer {
             this.container1.appendChild(ctr);
         });
         this.ucExtends.stageHT = this.container1;
+        this.ucExtends.wrapperHT.setAttribute('x-tabindex', '0');
     }
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
     get parentElementHT() { return this.parentUCExt.wrapperHT; }

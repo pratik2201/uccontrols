@@ -17,13 +17,11 @@ export class ListView extends Designer {
     }
     public set itemTemplate(value: TemplateNode) {
         this._itemTemplate = value;
-        this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
+        /*this.ll_view.appendChild(this._itemTemplate.extended.sampleNode);
         let cmp = window.getComputedStyle(this._itemTemplate.extended.sampleNode);
         this.itemTemplate.extended.size.setBy.style(cmp);
-
         this.navigate.config.itemSize.setBy.size(this.itemTemplate.extended.size);
-
-        this._itemTemplate.extended.sampleNode.remove();
+        this._itemTemplate.extended.sampleNode.remove();*/
     }
     source = new SourceManage();
     navigate = new NavigatePages();
