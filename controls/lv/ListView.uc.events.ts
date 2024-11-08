@@ -58,6 +58,7 @@ export class eventHandler {
     });
 
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
+      
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
         
@@ -85,7 +86,7 @@ export class eventHandler {
       let src = this.main.source;
       
       //let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
-      let tval = numOpt.gtvc(100, cfg.itemsTotalSize.height-cfg.viewSize.height, scrollPercentage);
+      let tval = numOpt.gtvc(100, src.info.height-cfg.viewSize.height, scrollPercentage);
       tval = Math.floor(tval);
      // console.log(tval);
       let top = this.main.source.getIndex(tval);
@@ -203,7 +204,7 @@ export class eventHandler {
     this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);
   }
   refreshScrollSize() {
-    this.scrollSubElements.verticalSizerHT.style['height'] = this.main.navigate.config.itemsTotalSize.height + 'px';
+    this.scrollSubElements.verticalSizerHT.style['height'] = this.main.source.info.height + 'px';
     //this.scrollSubElements.horizontalSizerHT.style['width'] = this.main.navigate.config.itemsTotalSize.width + 'px';
   }
   scrollSubElements = {

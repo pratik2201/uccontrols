@@ -9,7 +9,7 @@ export class Configuration {
   viewSize = new Size(0, 0);
   itemSize = new Size(0, 0);
   perPageRecord = 20;
-  itemsTotalSize = new Size(0, 0);
+  //itemsTotalSize = new Size(0, 0);
   //private _currentIndex = 0;
   public get currentIndex() {
     return this.currentItem?.index ?? 0;

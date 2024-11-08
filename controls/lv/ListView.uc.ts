@@ -47,8 +47,8 @@ export class ListView extends Designer {
         this.source.onUpdate.on((len) => {
 
             // console.log(this.source.rowInfo.map(s=>s.size.height));
-            this.navigate.config.itemsTotalSize.height = this.source.info.height;
-            this.navigate.config.itemsTotalSize.width = this.source.info.width;
+            //this.navigate.config.itemsTotalSize.height = this.source.info.height;
+            //this.navigate.config.itemsTotalSize.width = this.source.info.width;
 
             config.length = len; //this.source.length;
             //config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * this.source.length);
@@ -95,13 +95,13 @@ export class ListView extends Designer {
         });
         //console.log(this.source.info);
 
-        this.navigate.config.itemsTotalSize.height = this.source.info.height;
-        this.navigate.config.itemsTotalSize.width = this.source.info.width;
+        //this.navigate.config.itemsTotalSize.height = this.source.info.height;
+        //this.navigate.config.itemsTotalSize.width = this.source.info.width;
 
         this.onLoaded.fire();
 
     }
-    private _paging = false;
+    private _paging = true;
     public get paging() {
         return this._paging;
     }
@@ -119,6 +119,7 @@ export class ListView extends Designer {
                 this.end_scroll_text.style.display = 'block';
             let config = this.navigate.config;
             config.viewSize.setBy.HTMLEle(this.scroller1);
+            
             this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);
@@ -132,12 +133,14 @@ export class ListView extends Designer {
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             this.resizerCall(Size.getFullSize(window.getComputedStyle(this.scroller1)), false);
-            _this.rectObs.observe(this.scroller1);
+            if(_this.paging)
+                _this.rectObs.observe(this.scroller1);
         });
 
         _this.rectObs = new ResizeObserver((e: ResizeObserverEntry[]) => {
             let rect = e[0].contentRect;
             let visibility = _this.ucExtends.getVisibility();
+            
             switch (visibility) {
                 case 'visible':
                     _this.resizerCall({ width: rect.width, height: rect.height });
@@ -173,8 +176,9 @@ export class ListView extends Designer {
     private resizerCall = ({ width = 0, height = 0 }: { width: number, height: number }, callRefresh = true): void => {
         let _this = this;
         let config = _this.navigate.config;
+        
         config.viewSize.setBy.value(width, height);
-        config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
+       // config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
         //  config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
         _this.Events.refreshScrollSize();
         // console.log("*** "+height);
