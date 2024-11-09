@@ -114,7 +114,7 @@ export class eventHandler {
       this.refreshScrollbarSilantly();
     });
     let hasCompleteKeyDownEvent = true;
-    this.main.scroller1.addEventListener("keydown", (e: KeyboardEvent) => {
+    this.main.ucExtends.wrapperHT.addEventListener("keydown", (e: KeyboardEvent) => {
       if (!hasCompleteKeyDownEvent) return;
       hasCompleteKeyDownEvent = false;
       setTimeout(() => {
