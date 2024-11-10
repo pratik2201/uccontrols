@@ -1,9 +1,10 @@
-import { Designer } from "uccontrols/designer/controls/Movable.uc.designer.js";
-import { dragUc } from "uccontrols/controls/common/draguc.js";
+import { Designer } from "uccontrols/designer/controls/Movable.uc.designer";
+import { objectResizer } from "uccontrols/controls/common/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
-import { CommonEvent } from "ucbuilder/global/commonEvent.js";
-import { Usercontrol } from "ucbuilder/Usercontrol.js";
-import { DragHelper } from "ucbuilder/global/drag/dragHelper.js";
+import { CommonEvent } from "ucbuilder/global/commonEvent";
+import { Usercontrol } from "ucbuilder/Usercontrol";
+import { DragHelper } from "ucbuilder/global/drag/dragHelper";
+import { DragMoveEvent } from "uccontrols/controls/common/DragMoveEvent";
 
 export class Movable extends Designer {
 
@@ -13,10 +14,10 @@ export class Movable extends Designer {
 
     allowResize: boolean = true;
 
-    get allowMove(): boolean { return this.drag.allowMove; }
-    set allowMove(val: boolean) { this.drag.allowMove = val; }
+/*    get allowMove(): boolean { return this.drag.allowMove; }
+    set allowMove(val: boolean) { this.drag.allowMove = val; }*/
 
-    designAll(): void {
+    fatchFromGarbage(): void {
         let titleHT: HTMLElement = this.ucExtends.wrapperHT;
         let ctrls: HTMLElement[] = [];
         for (let index = 0; index < this.ucExtends.garbageElementsHT.length; index++) {
@@ -31,7 +32,7 @@ export class Movable extends Designer {
         this.ucExtends.stageHT = this.container1;
     }
 
-    drag: dragUc = new dragUc();
+    drag: objectResizer;
     SESSION_DATA = {
         winState: 'normal' as UcStates,
         oldstyleText: "",
@@ -45,11 +46,16 @@ export class Movable extends Designer {
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends }
     get parentElementHT() { return this.parentUCExt.wrapperHT }
     constructor() {
-        super();
-        this.initializecomponent(arguments, this);
-
+        super(); this.initializecomponent(arguments, this);
+    }
+    get DragEvents() { return this.dragMoveEvent.Events; }
+    dragMoveEvent: DragMoveEvent;
+   
+    $(){
         this.ucExtends.session.autoLoadSession = true;
 
+        this.dragMoveEvent = new DragMoveEvent();
+        this.drag = new objectResizer(this.dragMoveEvent);
         this.drag.finalRect = this.SESSION_DATA.rect;
         this.SESSION_DATA.rect.width = parseFloat(this.parentElementHT.style.width);
         this.SESSION_DATA.rect.height = parseFloat(this.parentElementHT.style.height);
@@ -71,10 +77,10 @@ export class Movable extends Designer {
     init(): void {
         this.initEvent();
         this.lbl_title.innerText = this.parentUCExt.wrapperHT.getAttribute("x-caption");
-        this.drag.Events.onmouseup = (evt) => {
+        /*this.drag.Events.onmouseup = (evt) => {
             this.ucExtends.session.onModify();
             return false;
-        }
+        }*/
         this.dragme.addEventListener("dragstart", (e) => {
             e.dataTransfer.setDragImage(this.parentElementHT, 0, 0);
         })
@@ -115,10 +121,10 @@ export class Movable extends Designer {
 
        // this.container = ResourcesUC.contentHT;
 
-        this.designAll();
-
-        this.drag.init(this.parentElementHT, this.title_panel);
-        this.drag.resizer.connect(this);
+        this.fatchFromGarbage();
+        this.drag.containerHT = this.parentElementHT;
+        this.drag.passElement(this);
+        this.drag.activate();
 
         DragHelper.DRAG_ME(this.dragme,
             (evt) => {

@@ -1,6 +1,9 @@
 import { Designer } from "uccontrols/designer/controls/winFrame.uc.designer";
-import { dragUc } from "uccontrols/controls/common/draguc";
+import { objectResizer } from "uccontrols/controls/common/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
+import { DragMoveEvent } from "uccontrols/controls/common/DragMoveEvent";
+import { objectMover } from "uccontrols/controls/common/objectMover";
+export type winStates = "maximize" | "normal";
 export class winFrame extends Designer {
 
     private _backgroundOpacity: number = 0.500;
@@ -9,11 +12,10 @@ export class winFrame extends Designer {
 
     static hasInitedTransperency: boolean = false;
 
-    get allowMove(): boolean { return this.drag.allowMove; }
+    /*get allowMove(): boolean { return this.drag.allowMove; }
     set allowMove(val: boolean) { this.drag.allowMove = val; }
     get allowResize(): boolean { return this.drag.allowResize; }
-    set allowResize(val: boolean) { this.drag.allowResize = val; }
-
+    set allowResize(val: boolean) { this.drag.allowResize = val; }*/
     designAll(): void {
 
         let titleHT: HTMLElement = this.ucExtends.wrapperHT;
@@ -34,12 +36,29 @@ export class winFrame extends Designer {
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
     get parentElementHT() { return this.parentUCExt.wrapperHT; }
     constructor() {
-        super();
-        this.initializecomponent(arguments, this);
+        super(); this.initializecomponent(arguments, this);
+    }
+    get DragEvents() { return this.dragMoveEvent.Events; }
+    dragMoveEvent: DragMoveEvent;
+     resizer: objectResizer;
+     mover: objectMover;
+    $() {
         this.ucExtends.session.autoLoadSession = true;
-        this.drag.finalRect = this.SESSION_DATA.rect;
-        //this.parentUCExt = this.ucExtends.PARENT.ucExtends;
-        //this.parentElementHT = this.parentUCExt.wrapperHT;
+        this.init();
+        this.dragMoveEvent = new DragMoveEvent();
+        
+        this.resizer = new objectResizer(this.dragMoveEvent);
+        this.resizer.finalRect = this.SESSION_DATA.rect;
+        this.resizer.containerHT = this.parentElementHT;
+        this.resizer.passElement(this);
+        this.resizer.activate();
+        
+        this.mover = new objectMover(this.dragMoveEvent);
+        this.mover.finalRect = this.SESSION_DATA.rect;
+        this.mover.holderHT.push(this.title_panel);
+        this.mover.containerHT = this.parentElementHT;
+        this.mover.activate();
+        
         if (this.ucExtends.mode == 'client') {
             this.parentUCExt.Events.loaded.on(() => {
                 //setTimeout(() => {
@@ -52,36 +71,33 @@ export class winFrame extends Designer {
                 this.SESSION_DATA.rect.height = parseFloat(chd.height);
                 // })
             });
-
         }
-        this.init();
 
         this.parentUCExt.Events.activate.on(() => {
             //this.parentElementHT.before(winFrame.transperency);
         });
         this.ucExtends.Events.loadLastSession.on(() => {
             //debugger;
-            this.drag.finalRect = this.SESSION_DATA.rect;
+            this.resizer.finalRect = this.SESSION_DATA.rect;
             this.loadSession();
         });
-        this.drag.Events.onmouseup = (evt) => {
+        /*this.drag.Events.onmouseup = (evt) => {
             this.ucExtends?.session.onModify();
             return false;
-        }
-        this.drag.Events.onResizeEnd.on(() => {
+        }*/
+        this.resizer.Events.onResizeEnd.on(() => {
             this.ucExtends?.session.onModify();
         });
         this.ucExtends.Events.afterClose.on(() => {
-            
-            this.drag.Events = undefined;
+
+            this.resizer.Events = undefined;
         })
 
 
     }
-
     loadSession(): void {
         let selectRect = this.SESSION_DATA.rect;
-        let containerHT = this.drag.containerHT;
+        let containerHT = this.resizer.containerHT;
         this.ucExtends.windowstate = this.SESSION_DATA.winState;
         this.checkState(this.SESSION_DATA.winState);
     }
@@ -97,7 +113,7 @@ export class winFrame extends Designer {
                     height: "100%",
                     display: "block",
                 });
-                this.drag.resizer.cssDisplay("none");
+                this.resizer.resizer.cssDisplay("none");
                 break;
             case 'normal':
                 this.ucExtends.self.setAttribute("win-state", "normal");
@@ -120,7 +136,6 @@ export class winFrame extends Designer {
         this.lbl_title.innerText = this.parentUCExt.wrapperHT.getAttribute("x-caption");
 
     }
-    private drag: dragUc = new dragUc();
     private SESSION_DATA = {
         winState: 'normal' as UcStates,
         oldstyleText: '',
@@ -132,15 +147,9 @@ export class winFrame extends Designer {
         }
     }
     initEvent(): void {
-        //this.parentUCExt = this.ucExtends.PARENT.ucExtends;
-        //this.parentElementHT = this.parentUCExt.wrapperHT;
-
-        // this.container = ResourcesUC.contentHT;
-
         this.designAll();
+        
 
-        this.drag.init(this.parentElementHT, this.title_panel);
-        this.drag.resizer.connect(this);
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;
         });
@@ -151,7 +160,7 @@ export class winFrame extends Designer {
             event.stopImmediatePropagation();
             this.parentUCExt.close();
         });
-       
+
     }
 
 }
