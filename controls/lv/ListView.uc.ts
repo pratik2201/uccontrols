@@ -66,8 +66,9 @@ export class ListView extends Designer {
             
            
         });
+        let _this = this;
         this.source.onCompleteUserSide.on((rows) => {
-            this.setRowInfos(rows);
+            _this.setRowInfos(rows);
         })
         this.init();
         /* this.source.onUpdateRowInfo.on(() => {
