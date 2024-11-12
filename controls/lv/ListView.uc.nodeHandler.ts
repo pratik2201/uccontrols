@@ -1,10 +1,11 @@
 
-import { NavigatePages } from "uccontrols/controls/lv/ListView.uc.navigate";
+import { Configuration, NavigatePages } from "uccontrols/controls/lv/ListView.uc.navigate";
 import { SourceIndexElementAttr, RowInfo } from "ucbuilder/global/datasources/SourceManage";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
 export class nodeHandler {
   navigate: NavigatePages;
+  config: Configuration;
   allItemHT: NodeListOf<HTMLElement>;
   private _main :ListView;
   get main() {
@@ -13,6 +14,7 @@ export class nodeHandler {
   public set main(value) {
     this._main = value;
     this.navigate = this.main.navigate;
+    this.config = this.navigate.config;
     this.allItemHT = this.main.ll_view.childNodes as NodeListOf<HTMLElement>;
   }
   public clear(): void {
@@ -26,7 +28,7 @@ export class nodeHandler {
     let ht: HTMLElement;
     /// console.log('fill...called');
 
-    let curIndex = this.navigate.config.currentIndex;
+    let curIndex = _records.currentIndex;
     for (let index = _records.top, len = _records.bottomIndex; index <= len; index++) {
       ht = this.append(index);
 
@@ -38,8 +40,9 @@ export class nodeHandler {
     let hasGenerated = false;
     let element: HTMLElement = undefined;
     let src = this.main.source;
-    let obj = src[index];
+    let obj = src[index];    
     let row = src.getRowByObj(obj);
+    
     if (row != undefined) {
       hasGenerated = row.isModified;
       element = hasGenerated ? this.getNode(index) : row.element;
@@ -57,6 +60,8 @@ export class nodeHandler {
       row.row = obj;
       src.setRow(index, row);
     }
+    //if(!element.hasAttribute('x-tabindex'))
+    element.setAttribute('x-tabindex', ''+(index - this.config.top));
     return {
       hasGenerated: hasGenerated,
       element: element
