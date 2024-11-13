@@ -45,6 +45,7 @@ export class nodeHandler {
     
     if (row != undefined) {
       hasGenerated = row.isModified;
+      
       element = hasGenerated ? this.getNode(index) : row.element;
       row.isModified = false;
       row.index = index;
@@ -60,7 +61,8 @@ export class nodeHandler {
       row.row = obj;
       src.setRow(index, row);
     }
-    //if(!element.hasAttribute('x-tabindex'))
+    console.log([hasGenerated, (this.config.top)]);
+    
     element.setAttribute('x-tabindex', ''+(index - this.config.top));
     return {
       hasGenerated: hasGenerated,

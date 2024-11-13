@@ -447,7 +447,7 @@ export class NavigatePages {
           let topRw = src.getRow(cfg.top);
           let nextRow = src.getRow(bottomInfo.index + 1);
           let contentHeight = src.getRow(bottomInfo.index).runningHeight - (topRw.runningHeight - topRw.height);
-          this.main.nodes.append(nextRow.index);
+          this.main.nodes.append(nextRow.index);//.setAttribute('x-tabindex',''+(nextRow.index-cfg.top));
           contentHeight += nextRow.height;
           let diff = contentHeight - containerHeight;
           if (diff > 0) {  // IF CONTENT IS LARGER THAN CONTAINER
@@ -467,7 +467,7 @@ export class NavigatePages {
               bottomInfo = src.getBottomIndex(nindex, diff, { length: len });
               if (bottomInfo.status != 'undefined') {
                 for (let i = nindex; i <= bottomInfo.index; i++) {
-                  this.main.nodes.append(i);
+                  this.main.nodes.append(i);//.setAttribute('x-tabindex',''+(i-cfg.top));
                 }
               }
             }

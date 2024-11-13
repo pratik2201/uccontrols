@@ -34,7 +34,7 @@ export class eventHandler {
     return false;
   };
   //#endregion
-  private _main : ListView;
+  private _main: ListView;
   public get main() {
     return this._main;
   }
@@ -56,19 +56,19 @@ export class eventHandler {
         this.itemDoubleClick.fire([this.main.currentIndex, e]);
       }
     });
-
+    let _main = this.main;
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
-      
+
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
-        
+
         this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr), e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
     });
     this.main.ll_view.addEventListener("mouseup", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
-      
+
       if (itm != null) {
         this.itemMouseUp.fire([this.main.currentIndex, e]);
       }
@@ -77,26 +77,26 @@ export class eventHandler {
     this.main.vscrollbar1.addEventListener("scroll", (e: Event) => {
       if (!this.fireScrollEvent) { this.fireScrollEvent = true; return; }
       let vScroll = this.main.vscrollbar1;
-   
+
       const scrollTop = vScroll.scrollTop || document.body.scrollTop;
       const scrollHeight = vScroll.scrollHeight - vScroll.clientHeight;
       const scrollPercentage = Math.ceil((scrollTop / scrollHeight) * 100);
-      
+
       let cfg = this.navigatePages.config;
-      let src = this.main.source;
-      
+
+
       //let scrollTop = Math.floor(this.main.vscrollbar1.scrollTop / this.navigatePages.config.itemSize.height);
-      let tval = numOpt.gtvc(100, src.info.height-cfg.viewSize.height, scrollPercentage);
+      let tval = numOpt.gtvc(100, _main.source.info.height - cfg.viewSize.height, scrollPercentage);
       tval = Math.floor(tval);
-     // console.log(tval);
+      // console.log(tval);
       let top = this.main.source.getIndex(tval);
       this.doVerticalContentScrollAt(top, false);
-      
+
       //console.log([top,tval]);
-     // this.doVerticalContentScrollAt(top, false);
+      // this.doVerticalContentScrollAt(top, false);
       //let topInfo = src.getTopIndex(bottom,cfg.viewSize.height,{overflowed:false});  
-     // console.log([topInfo.index,topInfo.status,tval]);
-      
+      // console.log([topInfo.index,topInfo.status,tval]);
+
       //this.doVerticalContentScrollAt(top, false);
     });
     /*this.main.hscrollbar1.addEventListener("scroll", (e: Event) => {
@@ -116,11 +116,13 @@ export class eventHandler {
     let hasCompleteKeyDownEvent = true;
     this.main.ucExtends.wrapperHT.addEventListener("keydown", (e: KeyboardEvent) => {
       if (!hasCompleteKeyDownEvent) return;
+      
+      if (_main.source.info.EditorMode && !e.shiftKey) return;      
       hasCompleteKeyDownEvent = false;
-      setTimeout(() => {
-        this.doKeyEvent(e);
-        hasCompleteKeyDownEvent = true;
-      }, 1);
+        setTimeout(() => {
+          this.doKeyEvent(e);
+          hasCompleteKeyDownEvent = true;
+        }, 1);
     });
     /*this.pagerLv.Events.onkeydown = (e: KeyboardEvent) => {
         if (!hasCompleteKeyDownEvent) return;
@@ -136,7 +138,7 @@ export class eventHandler {
   onkeyDown_callback = (e): boolean => {
     return false;
   }
-  
+
   doKeyEvent(e: KeyboardEvent): boolean {
     if (this.onkeyDown_callback(e) === true) return true;
     switch (e.keyCode) {
@@ -189,7 +191,7 @@ export class eventHandler {
       config.top = Math.floor(scrollval);
       _this.main.nodes.fill();
       _this.isfilling = false;
-       
+
       _this.main.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
     }
   }
@@ -199,8 +201,8 @@ export class eventHandler {
     let vScroll = this.main.vscrollbar1;
     let src = this.main.source;
     let top = src.getRow(config.top);
-    let rw = top.runningHeight-top.height;
-    vScroll.scrollTo(0,rw);
+    let rw = top.runningHeight - top.height;
+    vScroll.scrollTo(0, rw);
     this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);
   }
   refreshScrollSize() {
