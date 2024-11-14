@@ -61,9 +61,9 @@ export class nodeHandler {
       row.row = obj;
       src.setRow(index, row);
     }
-    console.log([hasGenerated, (this.config.top)]);
-    
-    element.setAttribute('x-tabindex', ''+(index - this.config.top));
+    ///console.log([hasGenerated, (this.config.top)]);
+    element.setAttribute('x-tabindex', ''+index);
+    //element.setAttribute('x-tabindex', ''+(index - this.config.top));
     return {
       hasGenerated: hasGenerated,
       element: element

@@ -63,8 +63,9 @@ export class ListView extends Designer {
            
         });
         let _this = this;
-        this.source.onCompleteUserSide.on((rows) => {
-            _this.setRowInfos(rows);
+        _this.ll_view.innerHTML = '';
+        this.source.onCompleteUserSide.on((rows) => {           
+            _this.measureItems(rows);
         })
         this.init();
         /* this.source.onUpdateRowInfo.on(() => {
@@ -74,10 +75,14 @@ export class ListView extends Designer {
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
         });
     }
-    onLoaded = new CommonEvent<() => {}>();
-    setRowInfos = (src:any[]) => {
+    //onLoaded = new CommonEvent<() => {}>();
+    /**
+     * 
+     * @param src source items which will add and measure
+     */
+    measureItems = (src:any[]) => {
         let _this = this;
-        _this.ll_view.innerHTML = '';
+       
         let tExtebded = _this.itemTemplate.extended;
         _this.source.loop_RowInfo(src,(row, rowInfo, index) => {
             let genNode = tExtebded.generateNode(row);
@@ -87,15 +92,17 @@ export class ListView extends Designer {
             let cmp = window.getComputedStyle(genNode);
             rowInfo.height = Size.getFullHeight(cmp) || genNode.offsetHeight;
             rowInfo.width = Size.getFullWidth(cmp) || genNode.offsetWidth;
+            //console.log(_this.ll_view.offsetHeight);
             genNode.remove();
-
+            
+            
         });
         //console.log(this.source.info);
 
         //this.navigate.config.itemsTotalSize.height = this.source.info.height;
         //this.navigate.config.itemsTotalSize.width = this.source.info.width;
 
-        this.onLoaded.fire();
+        //this.onLoaded.fire();
 
     }
     private _paging = true;
@@ -156,8 +163,8 @@ export class ListView extends Designer {
         this.Events.onChangeHiddenCount.on(this.changeHiddenCount);
     }
     changeHiddenCount = (topCount: number, bottomCount: number) => {
-        this.begin_scroll_text.innerHTML = topCount == 0 ? "&nbsp;" : "▲ " + topCount + "";
-        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;" : "▼ " + bottomCount + "";
+        this.begin_scroll_text.innerHTML = topCount == 0 ? "&nbsp;  " : "&#11165; " + topCount + "";
+        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;  " : "&#11167; " + bottomCount + "";
 
     }
 
