@@ -199,9 +199,10 @@ export class eventHandler {
   }
   refreshScrollbarSilantly() {
     this.fireScrollEvent = false;
+    let src = this.main.source;
+    if (src.length == 0) { this.fireScrollEvent = true; return; }
     let config = this.navigatePages.config;
     let vScroll = this.main.vscrollbar1;
-    let src = this.main.source;
     let top = src.getRow(config.top);
     let rw = top.runningHeight - top.height;
     vScroll.scrollTo(0, rw);

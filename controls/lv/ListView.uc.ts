@@ -66,9 +66,9 @@ export class ListView extends Designer {
         });
         let _this = this;
         _this.ll_view.innerHTML = '';
-        this.source.onCompleteUserSide.on((rows) => {
-            _this.measureItems(rows);
-        })
+        this.source.onCompleteUserSide.on((rows,indexCounter) => {
+            _this.measureItems(rows,indexCounter);
+        });
         this.init();
         /* this.source.onUpdateRowInfo.on(() => {
              
@@ -83,11 +83,12 @@ export class ListView extends Designer {
      * 
      * @param src source items which will add and measure
      */
-    measureItems = (src: any[]) => {
+    measureItems = (src: any[],indexCounter = 0) => {
         let _this = this;
 
         let tExtebded = _this.itemTemplate.extended;
         _this.source.loop_RowInfo(src, (row, rowInfo, index) => {
+            
             let genNode = tExtebded.generateNode(row);
             _this.ll_view.appendChild(genNode);
             rowInfo.element = genNode;
@@ -97,9 +98,7 @@ export class ListView extends Designer {
             rowInfo.width = Size.getFullWidth(cmp) || genNode.offsetWidth;
             //console.log(_this.ll_view.offsetHeight);
             genNode.remove();
-
-
-        });
+        },indexCounter);
         //console.log(this.source.info);
 
         //this.navigate.config.itemsTotalSize.height = this.source.info.height;
