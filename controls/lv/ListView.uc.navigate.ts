@@ -4,8 +4,11 @@ import { ListViewItemInfo, RowInfo } from "ucbuilder/global/datasources/SourceMa
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
 export type ItemIndexChangeBy = "Other" | "Keyboard" | "Mouse";
+interface PosNode {
+  topIndex: number, append: number[], prepend: number[], remove: number[],
+}
 export class Configuration {
-  main : ListView;
+  main: ListView;
   viewSize = new Size(0, 0);
   itemSize = new Size(0, 0);
   perPageRecord = 20;
@@ -16,27 +19,27 @@ export class Configuration {
   }
   public set currentIndex(value) {
     //let eletof = value - this.top;
-    if (value >= this.sourceLength) return;
+    if (value < 0 || value >= this.sourceLength) return;
     let cItem = this.currentItem;
     let prevIndex = 0;
     let isPreviousUndefined = (cItem == undefined);
 
-    if (!isPreviousUndefined) {  prevIndex = cItem.index; cItem.element.setAttribute('aria-current', `false`); }
+    if (!isPreviousUndefined) { prevIndex = cItem.index; cItem.element.setAttribute('aria-current', `false`); }
     let src = this.main.source;
     let rObj = src.getRow(value);
     if (!rObj.isSelectable) {
       this.currentItem = rObj;
       if (prevIndex > value) { //  IF TOP SIDE SELECTED
-        this.main.navigate.moveTo.prevSide.Go(undefined as KeyboardEvent);        
+        this.main.navigate.moveTo.prevSide.Go(undefined as KeyboardEvent);
       } else {      //  IF BOTTOM SIDE SELECTED
         this.main.navigate.moveTo.nextSide.Go(undefined as KeyboardEvent);
-      } 
+      }
       if (this.currentIndex != value) return;
-      else { 
-       
+      else {
+
         //console.log(prevIndex);
         rObj = src.getRow(prevIndex);
-          
+
       }
     }
     cItem = this.currentItem = rObj;
@@ -54,8 +57,98 @@ export class Configuration {
   } as ListViewItemInfo;*/
   public length = 0;
 
-  
+  applyPos(whatsNext: PosNode) {
+    let nodes = this.main.nodes;
+    let src = this.main.source;
+    let _append = whatsNext.append;
+    for (let i = 0; i < _append.length; i++) nodes.append(_append[i]);
+    let _prepend = whatsNext.prepend;
+    for (let i = 0; i < _prepend.length; i++) nodes.prepend(_prepend[i]);
+
+    let _remove = whatsNext.remove;
+    for (let i = 0; i < _remove.length; i++) src.getRow(_remove[i]).element.remove();
+    this.top = whatsNext.topIndex;
+  }
   top = 0;
+  getPos(cIndex = this.currentIndex): PosNode {
+    let top = this.top;
+    let rtrn: PosNode = { topIndex: top, prepend: [], append: [], remove: [], }
+    let src = this.main.source;
+    if (cIndex < 0 || cIndex >= src.info.length) return rtrn;
+    let curBottomIndex = this.bottomIndex;
+    let bottom = curBottomIndex;
+    // let cIndex = this.currentIndex;
+    let viewHeight = this.viewSize.height;
+
+    let freespace = 0;
+    if (cIndex < top) {
+      top = cIndex;
+      let bottomObj = src.getBottomIndex(top, viewHeight, { overflowed: false });
+      bottom = bottomObj.index;
+      freespace = viewHeight - bottomObj.size;
+      if (freespace > 0)
+        top = src.getTopIndex(top - 1, freespace, { overflowed: false }).index;
+      for (let i = this.top - 1; i >= top; i--)rtrn.prepend.push(i);
+      for (let i = bottom + 1; i <= curBottomIndex; i++)rtrn.remove.push(i);
+      /*for (let i = this.newTop - 1; i >= top; i--) {
+        //console.log('UP ADDED...'+i);
+        this.main.nodes.prepend(i)
+      }
+      for (let i = bottom + 1; i <= this.newBottom; i++) {
+        //console.log('UP REMOVED...'+i);
+        SourceManage.getRow(src[i]).element.remove();
+      }*/
+      // console.log([this.newTop-top, this.newBottom-bottom,prevIndex,cIndex]);
+    }
+    if (bottom == 0) bottom = src.getBottomIndex(top, viewHeight, { overflowed: false }).index;
+    if (cIndex > bottom) {
+      bottom = cIndex;
+      let topObj = src.getTopIndex(bottom, viewHeight, { overflowed: false });
+      top = topObj.index;
+      freespace = viewHeight - topObj.size;
+      if (freespace > 0)
+        bottom = src.getBottomIndex(bottom + 1, freespace, { overflowed: false }).index;
+
+      for (let i = this.top; i < top; i++)
+        rtrn.remove.push(i);
+      for (let i = curBottomIndex + 1; i <= bottom; i++)
+        rtrn.append.push(i);
+      /*for (let i = this.newTop; i < top; i++) {
+        console.log('DOWN REMOVED...' + i);
+        SourceManage.getRow(src[i]).element.remove();
+      }
+      for (let i = this.newBottom + 1; i <= bottom; i++) {
+        console.log('DOWN ADDED...' + i);
+        this.main.nodes.append(i)
+      }
+      console.log([top - this.newTop, bottom - this.newBottom, this.newTop, this.newBottom,cIndex]);*/
+    }
+    rtrn.topIndex = top;
+    //for (let i = this.newTop; i < top; i++)
+    return rtrn;
+  }
+  updatePos() {
+    this.top = this.getPos().topIndex;
+    this.main.Events.refreshScrollbarSilantly();
+    /* this._newBottom = bottom;
+ 
+     this.main.ll_view.innerHTML = '';
+     console.log([this._newTop, this._newBottom]);
+     for (let i = this._newTop; i <= this._newBottom; i++) {
+       let obj = SourceManage.getRow(src[i]);
+       console.log(obj.isModified);
+ 
+       ///if (!obj.element.isConnected)
+       this.main.nodes.append(i);
+     }
+     this.top = top;*/
+    /*if (this.newTop != this.top) {
+      console.log(['=TOP==' + freespace + '===> ', this.newTop, this.newBottom, this.top, this.bottomIndex]);
+    } else if (this.newBottom != this.bottomIndex) {
+      console.log(['=BOTTOM==' + freespace + '===> ', this.newTop, this.newBottom, this.top, this.bottomIndex]);
+    }*/
+  }
+
 
 
 
@@ -91,7 +184,7 @@ type KeyboardNavigationCallback = (evt: KeyboardEvent, valToAddRemove: number) =
 export type PageNavigationResult = "DISPLAYED" | "NO_COVERAGE_TOP" | "NO_COVERAGE_BOTTOM" | "OUTSIDE" | "LAST" | "FIRST";
 export class NavigatePages {
   public config = new Configuration();
-  private _main : ListView;
+  private _main: ListView;
   public get main() {
     return this._main;
   }
@@ -122,39 +215,6 @@ export class NavigatePages {
   };
   pageTo = {
     downSide: {
-      check: (): PageNavigationResult => {
-        let cfg = this.config;
-        //let nextPageBottom = cfg.bottomIndex + cfg.perPageRecord;
-        let nextPageBottom = this.main.source.getBottomIndex(cfg.top, cfg.viewSize.height * 2, { overflowed: false });
-
-        return (nextPageBottom.index < cfg.length - 1) ? 'OUTSIDE' : 'LAST';
-      },
-      Advance: {
-        outside: (): void => {
-          this.config.top += this.config.perPageRecord;
-        },
-        noCoverageTop: (evt: KeyboardEvent): void => {
-          console.log('adsa');
-          // let cfg = this.config;
-          // cfg.top = cfg.currentIndex+cfg.perPageRecord;
-          // cfg.currentIndex = cfg.top+1;
-          //this.pageTo.downSide.Advance.outside();
-
-        },
-        noCoverageBottom: (evt: KeyboardEvent): void => {
-          // let cfg = this.config;
-          // if (cfg.currentIndex < cfg.length - 1) this.moveTo.nextSide.Advance.dispayed(evt, valToCount);
-          // cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord+1, cfg.defaultIndex);
-          // this.main.Refresh();
-        },
-        last: (): void => {
-          let cfg = this.config;
-          if (cfg.bottomIndex > cfg.length) {
-            cfg.top = 0;
-            //cfg.currentIndex = this.config.defaultIndex;
-          } else cfg.top = cfg.length - cfg.perPageRecord;
-        },
-      },
       Go: (event: KeyboardEvent): void => {
         let cfg = this.config;
         let src = this.main.source;
@@ -178,39 +238,6 @@ export class NavigatePages {
       }
     },
     upSide: {
-      check: (): PageNavigationResult => {
-        let cfg = this.config;
-        let prevPageTop = cfg.top - cfg.perPageRecord;
-        //if (cfg.currentIndex > cfg.minBottomIndex) return 'NO_COVERAGE_BOTTOM';
-        //if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (prevPageTop > this.main.source.info.defaultIndex) ? "OUTSIDE" : "FIRST";
-      },
-      Advance: {
-        outside: (): void => {
-          this.config.top -= this.config.perPageRecord;
-          //this.main.Refresh();
-          //this.config.currentIndex = this.config.top;
-        },
-        noCoverageTop: (evt: KeyboardEvent): void => {
-          // let cfg = this.config;
-          // cfg.top = cfg.currentIndex;
-          // if (cfg.currentIndex > cfg.defaultIndex + 1)
-          //   this.moveTo.prevSide.Advance.outside(evt, valToCount);
-          // this.main.Refresh();
-        },
-        noCoverageBottom: (evt: KeyboardEvent): void => {
-          // let cfg = this.config;
-          // cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord, cfg.defaultIndex);
-          // this.moveTo.prevSide.Advance.dispayed(evt, valToCount);
-          // this.main.Refresh();
-        },
-        first: (): void => {
-          this.config.top = 0;
-          //this.config.currentIndex = this.config.defaultIndex;
-          //this.main.Refresh();
-          //this.config.currentIndex = this.config.top;
-        },
-      },
       Go: (event: KeyboardEvent): void => {
         let cfg = this.config;
         let src = this.main.source;
@@ -227,72 +254,22 @@ export class NavigatePages {
             break;
         }
         this.main.Refresh();
-
-
-        /*
-        let upSd = this.pageTo.upSide;
-        let cmd = upSd.check();
-        switch (cmd) {
-          case "NO_COVERAGE_TOP": this.callNavigate(upSd.Advance.noCoverageTop, event); break;
-          case "NO_COVERAGE_BOTTOM": this.callNavigate(upSd.Advance.noCoverageBottom, event); break;
-          case "OUTSIDE": this.callNavigate(upSd.Advance.outside, event); break;
-          case "FIRST": this.callNavigate(upSd.Advance.first, event); break;
-        }
-        this.main.Refresh();*/
-        //this.config.currentIndex = this.config.top;
-        //this.main.nodes.render();
       }
     }
   };
   moveTo = {
     prevSide: {
-      check: (): PageNavigationResult => {
-        let cfg = this.config;
-        if (cfg.currentIndex > cfg.bottomIndex) return 'NO_COVERAGE_BOTTOM';
-        if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (cfg.currentIndex > cfg.top) ? "DISPLAYED" : (cfg.top > 0) ? "OUTSIDE" : "FIRST"; ///@ cfg.defaultIndex
-      },
-      Advance: {
 
-        dispayed: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          this.config.currentIndex -= valToCount;
-        },
-        outside: (evt: KeyboardEvent, valToCount: number = 1): HTMLElement => {
-          let eleToRem = this.main.ll_view.lastElementChild as HTMLElement;
-          let cfg = this.config;
-          this.main.Events.beforeOldItemRemoved.fire([eleToRem]);
-          eleToRem.remove();
-          cfg.top--;
-          let ele = this.main.nodes.prepend(cfg.top);
-          cfg.currentIndex--;
-          return ele;
-        },
-        noCoverageTop: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          let cfg = this.config;
-          cfg.top = cfg.currentIndex;
-          if (cfg.currentIndex > this.main.source.info.defaultIndex + 1)
-            this.moveTo.prevSide.Advance.outside(evt, valToCount);
-          this.main.Refresh();
-        },
-        noCoverageBottom: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          let cfg = this.config;
-          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord, this.main.source.info.defaultIndex);
-          this.moveTo.prevSide.Advance.dispayed(evt, valToCount);
-          this.main.Refresh();
-        },
-        first: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          let cfg = this.config;
-          if (this.main.Events.onReachFirstRecord()) {
-            cfg.top = cfg.lastSideTopIndex;
-            this.main.Refresh();
-            cfg.currentIndex = cfg.bottomIndex;
-          }
-        }
-      },
       Go: (event: KeyboardEvent, valToCount: number = 1): void => {
-        let prvSide = this.moveTo.prevSide;
+       
         let cfg = this.config;
         let src = this.main.source;
+        let whatsNext = cfg.getPos(cfg.currentIndex -1);
+        if (whatsNext.topIndex == cfg.top) { cfg.currentIndex--; return; }
+        cfg.applyPos(whatsNext);
+        cfg.currentIndex--;
+        return;
+        
         let len = this.main.source.length;
         let cindex = cfg.currentIndex;
         let containerHeight = cfg.viewSize.height;
@@ -336,102 +313,18 @@ export class NavigatePages {
         } else {
           cfg.currentIndex--;
         }
-        /* let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
-        if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
-           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
-           let topRw = src.rowInfo[cfg.top];
-           let nextRow = src.rowInfo[bottomInfo.index + 1];
-           let contentHeight = src.rowInfo[bottomInfo.index].runningHeight - (topRw.runningHeight - topRw.height);
-           this.main.nodes.append(nextRow.index);
-           contentHeight += nextRow.height;
-           let diff = contentHeight - containerHeight;
-           if (diff > 0) {
-             let topInfo = src.getBottomIndex(cfg.top, diff, { length: len, overflowed: true });
-             if (topInfo.status == 'continue') {
-               for (let i = cfg.top; i <= topInfo.index; i++) {
-                 tmpRow = src.rowInfo[i];
-                 this.main.Events.beforeOldItemRemoved.fire([tmpRow.element]);
-                 tmpRow.element.remove();
-                 contentHeight -= tmpRow.height;
-               }
-               cfg.top = topInfo.index + 1;
-             }
-             diff = containerHeight - contentHeight;
-             if (diff > 0) {
-               let nindex = nextRow.index + 1;
-               bottomInfo = src.getBottomIndex(nindex, diff, { length: len });
-               if (bottomInfo.status != 'undefined') {
-                 for (let i = nindex; i <= bottomInfo.index; i++) {
-                   this.main.nodes.append(i);
-                 }
-               }
-             }
-           }*/
-
-        // cfg.currentIndex = nextRow.index;
-
-
-
-
-        /*let cmd = prvSide.check();
-        switch (cmd) {
-          case "NO_COVERAGE_TOP": this.callNavigate(prvSide.Advance.noCoverageTop, event, valToCount); break;
-          case "NO_COVERAGE_BOTTOM": this.callNavigate(prvSide.Advance.noCoverageBottom, event, valToCount); break;
-          case "DISPLAYED": this.callNavigate(prvSide.Advance.dispayed, event, valToCount); break;
-          case "OUTSIDE": this.callNavigate(prvSide.Advance.outside, event, valToCount); break;
-          case "FIRST": this.callNavigate(prvSide.Advance.first, event, valToCount); break;
-        }*/
       }
     },
     nextSide: {
-      check: (valToCount: number = 1): PageNavigationResult => {
-        let cfg = this.config;
-        if (cfg.currentIndex > cfg.bottomIndex) return 'NO_COVERAGE_BOTTOM';
-        if (cfg.currentIndex < cfg.top) return 'NO_COVERAGE_TOP';
-        return (cfg.currentIndex < cfg.bottomIndex) ? "DISPLAYED" : (cfg.bottomIndex < cfg.length - 1) ? "OUTSIDE" : "LAST";
-      },
-      Advance: {
-        dispayed: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          this.config.currentIndex += valToCount;
-        },
-        outside: (evt: KeyboardEvent, valToCount: number = 1): HTMLElement => {
-          let lastTopIndex = this.config.lastSideTopIndex;
-          if (this.config.top < lastTopIndex) {
-            let eleToRem = this.main.ll_view.firstElementChild as HTMLElement;
-            this.main.Events.beforeOldItemRemoved.fire([eleToRem]);
-            eleToRem.remove();
-            this.config.top++;
-          } else this.config.top = lastTopIndex;
-          let newItemEle = this.main.nodes.append(this.config.bottomIndex);
-          this.config.currentIndex++;
-          return newItemEle;
-        },
-        noCoverageTop: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          let cfg = this.config;
-          cfg.top = cfg.currentIndex + 1;
-          this.moveTo.nextSide.Advance.dispayed(evt, valToCount);
-          this.main.Refresh();
-        },
-        noCoverageBottom: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          let cfg = this.config;
-          if (cfg.currentIndex < cfg.length - 1) this.moveTo.nextSide.Advance.dispayed(evt, valToCount);
-          cfg.top = Math.max(cfg.currentIndex - cfg.perPageRecord + 1, this.main.source.info.defaultIndex);
-          this.main.Refresh();
-        },
-        last: (evt: KeyboardEvent, valToCount: number = 1): void => {
-          if (this.main.Events.onReachLastRecord()) {
-            this.config.top = 0;
-            this.config.currentIndex = this.main.source.info.defaultIndex;
-            this.main.Refresh();
 
-          }
-          //console.log(this.main.source.rowInfo);
-        }
-      },
       Go: (event: KeyboardEvent, valToCount: number = 1): void => {
-        let nxtSide = this.moveTo.nextSide;
         let cfg = this.config;
         let src = this.main.source;
+        let whatsNext = cfg.getPos(cfg.currentIndex + 1);
+        if (whatsNext.topIndex == cfg.top) { cfg.currentIndex++; return; }
+        cfg.applyPos(whatsNext);
+        cfg.currentIndex++;
+        return;
         let len = src.length;
         //debugger;
         let cindex = cfg.currentIndex;
@@ -439,10 +332,10 @@ export class NavigatePages {
         let tmpRow: RowInfo<any>;
         let bottomInfo = src.getBottomIndex(cfg.top, containerHeight, { length: len });
         let bObj = src.getRow(cindex);
+
         //console.log('IS SELECTABLE :- ' + bObj.isSelectable);
         if (cindex == bottomInfo.index) {  // IF IS AT BOTTOM 
-         // debugger;
-       
+          //debugger;
           if (bottomInfo.index == len - 1) return; //  IF IS LAST INDEX
           let topRw = src.getRow(cfg.top);
           let nextRow = src.getRow(bottomInfo.index + 1);
@@ -472,70 +365,10 @@ export class NavigatePages {
               }
             }
           }
-
-          //console.log(src.rowInfo[1].runningHeight);
-          //console.log(diff);
-
-          //console.log([containerHeight, contentHeight]);
-
           cfg.currentIndex = nextRow.index;
-
-          /*let topSpace = src.getBottomIndex(cfg.top, nextRow.height);
-          for (let i = cfg.top; i < topSpace.index; i++) {
-            src.rowInfo[i].element.remove();
-          }*/
-
-          //console.log(diff);
-          //  console.log([cindex,btmInf.index]);
-
-          /*if (diff < 0) {  // IF TOP HEIGHT LARGER THAN NEW ROW
-           
-          } else if (diff == 0) {
-            topRw.element.remove();
-            let ele = this.main.nodes.append(nextRow.index);
-            cfg.top = topRw.index + 1;
-            cfg.currentIndex = nextRow.index;
-          } else {  // IF BOTTOM ROW HEIGHT LARGER THAN TOP ROW
-            let nindex = src.getBottomIndex(cfg.top + 1, diff);
-            if (nindex.index == -1) {  // IF NO INDEX FOUND 
-              let ele = this.main.nodes.append(nextRow.index);
-            }
-            //  if (nindex.status == 'isAtTop') {
-            let ele = this.main.nodes.append(nextRow.index);
-            for (let i = topRw.index; i <= nindex.index; i++) {
-              src.rowInfo[i].element.remove();
-            }
-            cfg.top = nindex.index + 1;
-            cfg.currentIndex = nextRow.index;
-            //  }
-          }*/
-
-
-
-
         } else {
           this.main.currentIndex++;
         }
-        /*if (this.config.top < lastTopIndex) {            
-          let eleToRem = this.main.ll_view.firstElementChild as HTMLElement;
-          this.main.Events.beforeOldItemRemoved.fire([eleToRem]);
-          eleToRem.remove();
-          this.config.top++;
-        } else this.config.top = lastTopIndex;
-        let newItemEle = this.main.nodes.append(this.config.minBottomIndex);
-        this.config.currentIndex++;
-        return newItemEle;*/
-
-
-
-        /*let cmd = nxtSide.check(valToCount);
-        switch (cmd) {
-          case "NO_COVERAGE_TOP": this.callNavigate(nxtSide.Advance.noCoverageTop, event, valToCount); break;
-          case "NO_COVERAGE_BOTTOM": this.callNavigate(nxtSide.Advance.noCoverageBottom, event, valToCount); break;
-          case "DISPLAYED": this.callNavigate(nxtSide.Advance.dispayed, event, valToCount); break;
-          case "OUTSIDE": this.callNavigate(nxtSide.Advance.outside, event, valToCount); break;
-          case "LAST": this.callNavigate(nxtSide.Advance.last, event, valToCount); break;
-        }*/
       }
     }
   };

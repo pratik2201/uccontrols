@@ -117,7 +117,7 @@ export class eventHandler {
     this.main.ucExtends.wrapperHT.addEventListener("keydown", (e: KeyboardEvent) => {
       if (!hasCompleteKeyDownEvent) return;
       
-      if (_main.source.info.EditorMode && !e.shiftKey) return;      
+      if (_main.editor.EditorMode && !e.shiftKey) return;      
       hasCompleteKeyDownEvent = false;
         setTimeout(() => {
           this.doKeyEvent(e);
@@ -138,11 +138,12 @@ export class eventHandler {
   onkeyDown_callback = (e): boolean => {
     return false;
   }
-
+  isKeyEventActive = false;
   doKeyEvent(e: KeyboardEvent): boolean {
     if (this.onkeyDown_callback(e) === true) return true;
+    this.isKeyEventActive = true; 
     switch (e.keyCode) {
-      case keyBoard.keys.up: // up key
+      case keyBoard.keys.up: // up key 
         this.navigatePages.moveTo.prevSide.Go(e);
         break;
       case keyBoard.keys.down: // down key
@@ -169,9 +170,10 @@ export class eventHandler {
         this.main.Refresh();
         this._main.currentIndex = 0;
         break;
-      default: return false;
+      default: this.isKeyEventActive = false;  return false;
     }
     this.refreshScrollbarSilantly();
+    this.isKeyEventActive = false; 
     return true;
   }
   isfilling: boolean = false;

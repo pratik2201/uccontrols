@@ -7,6 +7,7 @@ import { timeoutCall } from "ucbuilder/global/timeoutCall";
 import { nodeHandler } from "uccontrols/controls/lv/ListView.uc.nodeHandler";
 import { SourceIndexElementAttr, BasicSize, SourceManage } from "ucbuilder/global/datasources/SourceManage";
 import { eventHandler } from "uccontrols/controls/lv/ListView.uc.events";
+import { editorManage } from "uccontrols/controls/lv/ListView.uc.editorManage";
 
 
 export class ListView extends Designer {
@@ -22,7 +23,7 @@ export class ListView extends Designer {
     navigate = new NavigatePages();
     nodes = new nodeHandler();
     Events = new eventHandler();
-    
+    editor: editorManage;
     public get currentIndex() {
         return this.navigate.config.currentIndex;
     }
@@ -34,6 +35,7 @@ export class ListView extends Designer {
     }
     constructor() {
         super(); this.initializecomponent(arguments, this);
+        this.editor = new editorManage(this);
     }
     $() {
         this.navigate.main =
@@ -58,13 +60,13 @@ export class ListView extends Designer {
             //let config = this.navigate.config;
             // debugger;
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
-           // console.log([this.source.info.defaultIndex,this.source]);
-            
-           
+            // console.log([this.source.info.defaultIndex,this.source]);
+
+
         });
         let _this = this;
         _this.ll_view.innerHTML = '';
-        this.source.onCompleteUserSide.on((rows) => {           
+        this.source.onCompleteUserSide.on((rows) => {
             _this.measureItems(rows);
         })
         this.init();
@@ -73,6 +75,7 @@ export class ListView extends Designer {
          });*/
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
+
         });
     }
     //onLoaded = new CommonEvent<() => {}>();
@@ -80,11 +83,11 @@ export class ListView extends Designer {
      * 
      * @param src source items which will add and measure
      */
-    measureItems = (src:any[]) => {
+    measureItems = (src: any[]) => {
         let _this = this;
-       
+
         let tExtebded = _this.itemTemplate.extended;
-        _this.source.loop_RowInfo(src,(row, rowInfo, index) => {
+        _this.source.loop_RowInfo(src, (row, rowInfo, index) => {
             let genNode = tExtebded.generateNode(row);
             _this.ll_view.appendChild(genNode);
             rowInfo.element = genNode;
@@ -94,8 +97,8 @@ export class ListView extends Designer {
             rowInfo.width = Size.getFullWidth(cmp) || genNode.offsetWidth;
             //console.log(_this.ll_view.offsetHeight);
             genNode.remove();
-            
-            
+
+
         });
         //console.log(this.source.info);
 
@@ -123,7 +126,7 @@ export class ListView extends Designer {
                 this.end_scroll_text.style.display = 'block';
             let config = this.navigate.config;
             config.viewSize.setBy.HTMLEle(this.scroller1);
-            
+
             this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);
@@ -137,14 +140,15 @@ export class ListView extends Designer {
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             this.resizerCall(Size.getFullSize(window.getComputedStyle(this.scroller1)), false);
-            if(_this.paging)
+            if (_this.paging)
                 _this.rectObs.observe(this.scroller1);
         });
 
         _this.rectObs = new ResizeObserver((e: ResizeObserverEntry[]) => {
             let rect = e[0].contentRect;
             let visibility = _this.ucExtends.getVisibility();
-            
+            //console.log(['....resizerCall',rect.height]);
+
             switch (visibility) {
                 case 'visible':
                     _this.resizerCall({ width: rect.width, height: rect.height });
@@ -153,7 +157,7 @@ export class ListView extends Designer {
                     _this.rectObs.disconnect();
                     break;
             }
-           
+
         });
         this.ucExtends.Events.afterClose.on(() => {
             _this.rectObs.disconnect();
@@ -180,14 +184,13 @@ export class ListView extends Designer {
     private resizerCall = ({ width = 0, height = 0 }: { width: number, height: number }, callRefresh = true): void => {
         let _this = this;
         let config = _this.navigate.config;
-        
         config.viewSize.setBy.value(width, height);
-       // config.perPageRecord = Math.floor(config.viewSize.height / config.itemSize.height);
-        //  config.itemsTotalSize.setBy.value(config.itemSize.width, config.itemSize.height * _this.source.length);
         _this.Events.refreshScrollSize();
-        // console.log("*** "+height);
-        if (callRefresh)
-            _this.Refresh();
+        if (callRefresh) {
+            config.top = config.getPos().topIndex;
+            _this.Refresh();           
+        }
+
     }
     isResizing = false;
     calledToFill = false;
@@ -197,19 +200,19 @@ export class ListView extends Designer {
 
         this.calledToFill = true;
         //timeoutCall.start(() => {
-        if (this.Events.beforeOldItemRemoved.length != 0) {
-            let cntnr = this.ll_view.children;
-            for (let index = 0; index < cntnr.length; index++) {
-                const element = cntnr.item(index) as HTMLElement;
-                this.Events.beforeOldItemRemoved.fire([element]);
-                element.remove();
-            }
-        }
+        /* if (this.Events.beforeOldItemRemoved.length != 0) {
+             let cntnr = this.ll_view.children;
+             for (let index = 0; index < cntnr.length; index++) {
+                 const element = cntnr.item(index) as HTMLElement;
+                 this.Events.beforeOldItemRemoved.fire([element]);
+                 element.remove();
+             }
+         }*/
 
         // this.ll_view.innerHTML = '';
         this.nodes.fill();
         //console.log("Refresh = 2 : "+this.calledToFill);
-
+        this.Events.refreshScrollbarSilantly();
         this.calledToFill = false;
         //console.log("Refresh = 3 : "+this.calledToFill);
         return true;
