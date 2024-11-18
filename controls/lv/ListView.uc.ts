@@ -115,7 +115,7 @@ export class ListView extends Designer {
         if (!value) {
             this.rectObs.disconnect();
             let config = this.navigate.config;
-            config.viewSize.setBy.HTMLEle(this.scroller1);
+            config.viewSize.setBy.value(0,0);
             config.perPageRecord = Number.MAX_VALUE;
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'none';
@@ -125,7 +125,7 @@ export class ListView extends Designer {
                 this.end_scroll_text.style.display = 'block';
             let config = this.navigate.config;
             config.viewSize.setBy.HTMLEle(this.scroller1);
-
+            
             this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);

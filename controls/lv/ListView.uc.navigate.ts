@@ -154,9 +154,10 @@ export class Configuration {
 
   //private get _bottomIndex() { return (this.top + this.perPageRecord) - 1; }
   get bottomIndex() {
+    let src = this.main.source;
     let vh = this.viewSize.height;
-    if (vh == 0) return this.sourceLength - 1;
-    return this.main.source.getBottomIndex(this.top, this.viewSize.height, { overflowed: false }).index;
+    if (vh == 0) return src.length - 1;
+    return src.getBottomIndex(this.top, vh, { overflowed: false }).index;
   }
   get sourceLength() { return this.main.source.info.length; /*this.main.source.length*/ }
   get topHiddenRowCount() {
