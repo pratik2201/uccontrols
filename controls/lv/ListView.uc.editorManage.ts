@@ -1,6 +1,5 @@
 import { SourceManage } from "ucbuilder/global/datasources/SourceManage";
-import { TabContainerClearNode } from "ucbuilder/global/tabIndexManager";
-import { ResourcesUC } from "ucbuilder/ResourcesUC";
+import { TabIndexManager } from "ucbuilder/global/tabIndexManager";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
 export class editorManage {
@@ -11,7 +10,7 @@ export class editorManage {
     this.main = main;
   }
   init(onDemandNewRow: () => {}) {
-    let resEvents = ResourcesUC.tabMng.Events;
+    let resEvents = TabIndexManager.Events;
     let lst = this.main;
     let lstEle = lst.ll_view;
     let cfg = lst.navigate.config;
@@ -37,7 +36,7 @@ export class editorManage {
       callback: () => {
         //cfg.top = 0;
         this.main.currentIndex = this.main.source.info.defaultIndex;
-        ResourcesUC.tabMng.moveNext(lstEle);
+        TabIndexManager.moveNext(lstEle);
         return true;
       }
     });
