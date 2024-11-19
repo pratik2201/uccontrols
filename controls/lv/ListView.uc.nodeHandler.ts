@@ -7,7 +7,7 @@ export class nodeHandler {
   navigate: NavigatePages;
   config: Configuration;
   allItemHT: NodeListOf<HTMLElement>;
-  private _main :ListView;
+  private _main: ListView;
   get main() {
     return this._main;
   }
@@ -24,7 +24,7 @@ export class nodeHandler {
   public fill(): void {
     let _records = this.main.navigate.config;
     this.clear();
-   
+
     let ht: HTMLElement;
     /// console.log('fill...called');
 
@@ -40,19 +40,19 @@ export class nodeHandler {
     let hasGenerated = false;
     let element: HTMLElement = undefined;
     let src = this.main.source;
-    let obj = src[index];    
+    let obj = src[index];
     let row = src.getRowByObj(obj);
-    
+
     if (row != undefined) {
       hasGenerated = row.isModified;
-      
+
       element = hasGenerated ? this.getNode(index) : row.element;
       row.isModified = false;
       row.index = index;
       row.element = element;
     } else {
-     // console.log('----NEW `RowInfo` ADDED----');
-      console.warn('----NEW `RowInfo` ADDED----');      
+      // console.log('----NEW `RowInfo` ADDED----');
+      console.warn('----NEW `RowInfo` ADDED----');
       element = this.getNode(index);
       hasGenerated = true;
       row = new RowInfo();
@@ -61,8 +61,12 @@ export class nodeHandler {
       row.row = obj;
       src.setRow(index, row);
     }
+    //
+      row.element.data(SourceIndexElementAttr, row);
+     
+    //}
     ///console.log([hasGenerated, (this.config.top)]);
-    element.setAttribute('x-tabindex', ''+index);
+    //element.setAttribute('x-tabindex', '' + index);
     //element.setAttribute('x-tabindex', ''+(index - this.config.top));
     return {
       hasGenerated: hasGenerated,
@@ -82,10 +86,7 @@ export class nodeHandler {
         allHT[index].replaceWith(itemNode.element);
       }
     }
-    if (itemNode.hasGenerated) {
-      itemNode.element.data(SourceIndexElementAttr, index);
-      this.main.Events.newItemGenerate.fire([itemNode.element, index]);
-    }
+    if (itemNode.hasGenerated)  this.main.Events.newItemGenerate.fire([itemNode.element, index]);
     return itemNode.element;
   }
   append(index: number, replaceNode: boolean = false): HTMLElement {
@@ -101,14 +102,14 @@ export class nodeHandler {
         allHT[index].replaceWith(itemNode.element);
       }
     }
-    if (itemNode.hasGenerated) {
-      itemNode.element.data(SourceIndexElementAttr, index);
-      this.main.Events.newItemGenerate.fire([itemNode.element, index]);
-    }
+    if (itemNode.hasGenerated)  this.main.Events.newItemGenerate.fire([itemNode.element, index]);
     return itemNode.element;
   }
   itemAt = (index: number) => {
     return this.allItemHT[index];
+  }
+  getRowInfoFromChild(ele: HTMLElement): RowInfo<any> {
+    return this.getItemFromChild(ele).data(SourceIndexElementAttr);
   }
   getItemFromChild(ele: HTMLElement): HTMLElement {
     let _container = this.main.ll_view;

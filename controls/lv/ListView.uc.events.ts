@@ -52,7 +52,7 @@ export class eventHandler {
     this.main.ll_view.addEventListener("dblclick", (e: MouseEvent) => {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
-        this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr), e, "Mouse");
+        this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemDoubleClick.fire([this.main.currentIndex, e]);
       }
     });
@@ -62,7 +62,7 @@ export class eventHandler {
       let itm = this.main.nodes.getItemFromChild(e.target as HTMLElement);
       if (itm != null) {
 
-        this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr), e, "Mouse");
+        this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
     });

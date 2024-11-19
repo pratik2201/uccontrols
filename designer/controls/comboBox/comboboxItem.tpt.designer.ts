@@ -15,7 +15,7 @@ type primary_ELEMENT_MAP = {}
 class primary_TEMPLATE extends TemplateNode{
     constructor(tpt:Template) { super(tpt);   }
    
-    getAllControls(elementHT: HTMLElement): primary_ELEMENT_MAP {
+    getAllControls(elementHT?: HTMLElement): primary_ELEMENT_MAP {
         return this.extended.getAllControls(undefined,elementHT) as primary_ELEMENT_MAP;
     }
 }

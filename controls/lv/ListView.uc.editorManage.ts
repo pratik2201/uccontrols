@@ -1,4 +1,4 @@
-import { SourceManage } from "ucbuilder/global/datasources/SourceManage";
+import { RowInfo, SourceManage } from "ucbuilder/global/datasources/SourceManage";
 import { TabIndexManager } from "ucbuilder/global/tabIndexManager";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
@@ -18,16 +18,21 @@ export class editorManage {
     resEvents.onContainerBottomLeave.push({
       target: lstEle,
       callback: () => {
+        let bRInfo: RowInfo<any>;
+        
         if (lst.currentIndex == lst.source.length - 1) {
           src.pushNew(onDemandNewRow());
           this.main.Events.refreshScrollSize();
-          let bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
+          bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
           if (!bRInfo.element.isConnected) {
             lst.nodes.append(bRInfo.index);
-            //this.indexing();
+            lst.currentIndex = bRInfo.index;          
           }
-        }
+        }else bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
         this.main.navigate.moveTo.nextSide.Go(undefined, 1);
+        TabIndexManager.moveNext(bRInfo.element);
+        TabIndexManager.breakTheLoop = true;
+        TabIndexManager.music = false;
         this.main.Events.refreshScrollbarSilantly();
       }
     });
@@ -48,6 +53,17 @@ export class editorManage {
         this.main.Events.refreshScrollbarSilantly();
       }
     });
+
+    /*node.addEventListener('focusin', (e) => {
+      let rInfo = SourceManage.getRow(row);
+      if (this.lastTabIndex != rInfo.index) {
+          this.main.lst_ledgerExpenses.currentIndex = rInfo.index;
+
+          this.lastTabIndex = rInfo.index;
+      }
+  });*/
+
+
     this.EditorMode = true;
   }
 

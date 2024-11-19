@@ -92,7 +92,7 @@ export class ListView extends Designer {
             let genNode = tExtebded.generateNode(row);
             _this.ll_view.appendChild(genNode);
             rowInfo.element = genNode;
-            genNode.data(SourceIndexElementAttr, index);
+            //genNode.data(SourceIndexElementAttr, index);
             let cmp = window.getComputedStyle(genNode);
             rowInfo.height = Size.getFullHeight(cmp) || genNode.offsetHeight;
             rowInfo.width = Size.getFullWidth(cmp) || genNode.offsetWidth;
