@@ -53,7 +53,11 @@ export class ListView extends Designer {
             this.Events.fireScrollEvent = false;
             config.top = 0;
             this.vscrollbar1.scrollTop = 0;
-            this.currentIndex = this.source.info.defaultIndex; // 0 changed..
+           
+            if(this.source.category.startWithBeginIndex == -1)
+                this.currentIndex = this.source.info.defaultIndex; // 0 changed..
+            else 
+                this.currentIndex = this.source.category.startWithBeginIndex; 
             this.Refresh();
             //console.log(config.defaultIndex);
             this.Events.refreshScrollSize();
@@ -66,7 +70,7 @@ export class ListView extends Designer {
         });
         let _this = this;
         _this.ll_view.innerHTML = '';
-        this.source.onCompleteUserSide.on((rows,indexCounter) => {
+        this.source.onCompleteUserSide.on((rows, indexCounter) => {
             _this.measureItems(rows,indexCounter);
         });
         this.init();
@@ -90,7 +94,15 @@ export class ListView extends Designer {
         _this.source.loop_RowInfo(src, (row, rowInfo, index) => {
             
             let genNode = tExtebded.generateNode(row);
-            _this.ll_view.appendChild(genNode);
+            if(rowInfo.elementReplaceWith==undefined)
+                _this.ll_view.appendChild(genNode);
+            else {
+                rowInfo.elementReplaceWith.after(genNode);
+                genNode.setAttribute('x-tabindex', rowInfo.elementReplaceWith.getAttribute('x-tabindex'));
+                rowInfo.element = genNode;
+                rowInfo.elementReplaceWith.remove();
+                rowInfo.elementReplaceWith = undefined;
+            }
             rowInfo.element = genNode;
             //genNode.data(SourceIndexElementAttr, index);
             let cmp = window.getComputedStyle(genNode);
@@ -194,9 +206,7 @@ export class ListView extends Designer {
     isResizing = false;
     calledToFill = false;
     public Refresh(): boolean {
-        // console.log("Refresh =  : "+this.calledToFill);
         if (this.calledToFill) return false;
-
         this.calledToFill = true;
         //timeoutCall.start(() => {
         /* if (this.Events.beforeOldItemRemoved.length != 0) {
@@ -206,12 +216,9 @@ export class ListView extends Designer {
                  this.Events.beforeOldItemRemoved.fire([element]);
                  element.remove();
              }
-         }*/
-        
+         }*/        
         // this.ll_view.innerHTML = '';
-        
         this.nodes.fill();
-        //console.log("Refresh = 2 : "+this.calledToFill);
         this.Events.refreshScrollbarSilantly();
         this.calledToFill = false;
         //console.log("Refresh = 3 : "+this.calledToFill);

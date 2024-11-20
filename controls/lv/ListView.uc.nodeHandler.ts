@@ -25,10 +25,7 @@ export class nodeHandler {
   public fill(): void {
     let _records = this.main.navigate.config;
     this.clear();
-
-    let ht: HTMLElement;
-    /// console.log('fill...called');
-
+    let ht: HTMLElement;    
     let curIndex = _records.currentIndex;
     for (let index = _records.top, len = _records.bottomIndex; index <= len; index++) {
       ht = this.append(index);
@@ -45,12 +42,12 @@ export class nodeHandler {
     let row = src.getRowByObj(obj);
 
     if (row != undefined) {
-      hasGenerated = row.element==undefined;//row.isModified;
-
-      element = hasGenerated ? this.getNode(index) : row.element;
+      hasGenerated = false; //row.elementReplaceWith!=undefined;//row.isModified;
+      element = hasGenerated ? this.getNode(index) : row.element;      
       row.isModified = false;
       row.index = index;
       row.element = element;
+      
     } else {
       // console.log('----NEW `RowInfo` ADDED----');
       console.warn('----NEW `RowInfo` ADDED----');
