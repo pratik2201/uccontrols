@@ -32,7 +32,7 @@ export class nodeHandler {
     let curIndex = _records.currentIndex;
     for (let index = _records.top, len = _records.bottomIndex; index <= len; index++) {
       ht = this.append(index);
-
+      ht.style.display = 'block';
       if (index == curIndex)
         this.main.currentIndex = index;
     }
@@ -45,7 +45,7 @@ export class nodeHandler {
     let row = src.getRowByObj(obj);
 
     if (row != undefined) {
-      hasGenerated = row.isModified;
+      hasGenerated = row.element==undefined;//row.isModified;
 
       element = hasGenerated ? this.getNode(index) : row.element;
       row.isModified = false;
@@ -76,8 +76,9 @@ export class nodeHandler {
   }
   prepend(index: number, replaceNode: boolean = false): HTMLElement {
     let itemNode = this.generateElement(index);
-
+   
     let allHT = this.allItemHT;
+    
     if (allHT.length == 0)
       this.main.ll_view.appendChild(itemNode.element);
     else {
@@ -94,7 +95,7 @@ export class nodeHandler {
 
     let itemNode = this.generateElement(index);
     let allHT = this.allItemHT;
-    itemNode.element.style.display = 'block';
+   
     /*if (allHT.length == 0)
       this.main.ll_view.appendChild(itemNode.element);
     else {

@@ -209,6 +209,7 @@ export class ListView extends Designer {
          }*/
         
         // this.ll_view.innerHTML = '';
+        
         this.nodes.fill();
         //console.log("Refresh = 2 : "+this.calledToFill);
         this.Events.refreshScrollbarSilantly();
