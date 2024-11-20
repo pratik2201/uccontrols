@@ -97,7 +97,7 @@ export class ListView extends Designer {
             rowInfo.height = Size.getFullHeight(cmp) || genNode.offsetHeight;
             rowInfo.width = Size.getFullWidth(cmp) || genNode.offsetWidth;
             //console.log(_this.ll_view.offsetHeight);
-            genNode.remove();
+            //genNode.remove();
         },indexCounter);
         //console.log(this.source.info);
 
@@ -207,7 +207,7 @@ export class ListView extends Designer {
                  element.remove();
              }
          }*/
-
+        
         // this.ll_view.innerHTML = '';
         this.nodes.fill();
         //console.log("Refresh = 2 : "+this.calledToFill);

@@ -18,7 +18,8 @@ export class nodeHandler {
     this.allItemHT = this.main.ll_view.childNodes as NodeListOf<HTMLElement>;
   }
   public clear(): void {
-    this.main.ll_view.innerHTML = "";
+    // this.main.ll_view.innerHTML = "";
+    
     this.main.Events.onClearContainer.fire();
   };
   public fill(): void {
@@ -93,7 +94,8 @@ export class nodeHandler {
 
     let itemNode = this.generateElement(index);
     let allHT = this.allItemHT;
-    if (allHT.length == 0)
+    itemNode.element.style.display = 'block';
+    /*if (allHT.length == 0)
       this.main.ll_view.appendChild(itemNode.element);
     else {
       if (!replaceNode) {
@@ -101,7 +103,7 @@ export class nodeHandler {
       } else {
         allHT[index].replaceWith(itemNode.element);
       }
-    }
+    }*/
     if (itemNode.hasGenerated)  this.main.Events.newItemGenerate.fire([itemNode.element, index]);
     return itemNode.element;
   }
