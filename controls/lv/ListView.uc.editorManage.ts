@@ -13,8 +13,8 @@ export class editorManage {
     let resEvents = TabIndexManager.Events;
     let lst = this.main;
     let lstEle = lst.ll_view;
-    let cfg = lst.navigate.config;
     let src = this.main.source;
+    let cfg = src.info;
     resEvents.onContainerBottomLeave.push({
       target: lstEle,
       callback: () => {
@@ -22,18 +22,18 @@ export class editorManage {
         
         if (lst.currentIndex == lst.source.length - 1) {
           src.pushNew(onDemandNewRow());
-          this.main.Events.refreshScrollSize();
+          src.scrollbar.refreshScrollSize();
           bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
           if (!bRInfo.element.isConnected) {
-            lst.nodes.append(bRInfo.index);
+            src.nodes.append(bRInfo.index);
             lst.currentIndex = bRInfo.index;          
           }
         }else bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
-        this.main.navigate.moveTo.nextSide.Go(undefined, 1);
+        cfg.moveNext(undefined, 1);
         TabIndexManager.moveNext(bRInfo.element);
         TabIndexManager.breakTheLoop = true;
         TabIndexManager.music = false;
-        this.main.Events.refreshScrollbarSilantly();
+        src.scrollbar.refreshScrollbarSilantly();
       }
     });
     resEvents.onContainerTopEnter.push({
@@ -49,8 +49,8 @@ export class editorManage {
       target: lstEle,
       callback: () => {
         if (lst.currentIndex == src.info.defaultIndex) return;
-        this.main.navigate.moveTo.prevSide.Go(undefined, 1);
-        this.main.Events.refreshScrollbarSilantly();
+        cfg.movePrev(undefined, 1);
+        src.scrollbar.refreshScrollbarSilantly();
       }
     });
 
