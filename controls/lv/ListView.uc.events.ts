@@ -41,7 +41,7 @@ export class eventHandler {
     this.sconfig = value.sconfig;
   }
 
-  fireScrollEvent: boolean = true;
+  //fireScrollEvent: boolean = true;
   constructor() {
 
   }
@@ -119,6 +119,8 @@ export class eventHandler {
   doKeyEvent(e: KeyboardEvent): boolean {
     if (this.onkeyDown_callback(e) === true) return true;
     let cfg = this.sconfig;
+    
+    cfg.main.ArrangingContents = true;
     this.isKeyEventActive = true;
     switch (e.keyCode) {
       case keyBoard.keys.up: // up key 
@@ -149,23 +151,12 @@ export class eventHandler {
         break;
       default: this.isKeyEventActive = false; return false;
     }
+    
     cfg.main.scrollbar.refreshScrollbarSilantly();
     this.isKeyEventActive = false;
     return true;
   }
   
-  refreshScrollbarSilantly() {
-    this.fireScrollEvent = false;
-    let src = this.main.source;
-    if (src.length == 0) { this.fireScrollEvent = true; return; }
-    let config = this.main.sconfig;
-    let vScroll = this.main.vscrollbar1;
-    let top = src.getRow(config.top);
-    let rw = top.runningHeight - top.height;
-    vScroll.scrollTo(0, rw);
 
-    this.onChangeHiddenCount.fire([config.topHiddenRowCount, config.bottomHiddenRowCount]);
-
-  }
 
 }

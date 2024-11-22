@@ -7,6 +7,7 @@
     "./package.json",
   ],
   "compileOnSave": true,
+  
   "compilerOptions": {
     "target": "es2016",
     "module": "CommonJS",
@@ -20,7 +21,6 @@
     // "suppressImplicitAnyIndexErrors": true,  
     "esModuleInterop": true,
     "skipLibCheck": true,
-    
     "typeRoots": [
       "./node_modules/@types",
     ],
@@ -28,9 +28,12 @@
     "outDir": "out",
     "rootDir": ".",
     "paths": {
-      "uccontrols/*": ["./*"],
-      "ucbuilder/*":["./node_modules/ucbuilder/*"]
+      "uccontrols/*": [
+        "./*"
+      ],
+      "ucbuilder/*": [
+        "./node_modules/ucbuilder/*"
+      ]
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
-    
   },
 }
