@@ -25,7 +25,7 @@ export class editorManage {
           src.scrollbar.refreshScrollSize();
           bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
           if (!bRInfo.element.isConnected) {
-            src.nodes.InView(bRInfo.index);
+            src.nodes.generate(bRInfo.index,true);
             lst.currentIndex = bRInfo.index;          
           }
         }else bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);

@@ -37,9 +37,10 @@ export class ListView extends Designer {
         this.editor = new editorManage(this);
     }
     $() {
-            this.Events.main = this;
+        this.Events.main = this;
         let config = this.sconfig;
-        this.source.onUpdate.on((len) => {
+        this.source.nodes.container = this.ll_view;
+        this.source.onUpdate.on((len, fillRecommand) => {
 
             // console.log(this.source.rowInfo.map(s=>s.size.height));
             //this.navigate.config.itemsTotalSize.height = this.source.info.height;
@@ -50,18 +51,20 @@ export class ListView extends Designer {
             this.scrollbar.fireScrollEvent = false;
             config.top = 0;
             this.vscrollbar1.scrollTop = 0;
-           // debugger;
+            // debugger;
             if (this.source.category.startWithBeginIndex == -1)
                 this.currentIndex = this.source.info.defaultIndex; // 0 changed..
             else
                 this.currentIndex = this.source.category.startWithBeginIndex;
 
-            this.source.nodes.fill();
-            //console.log(config.defaultIndex);
-            this.scrollbar.refreshScrollSize();
-            //let config = this.navigate.config;
-            // debugger;
-            this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
+            if (fillRecommand) {
+                this.source.nodes.fill();
+                //console.log(config.defaultIndex);
+                this.scrollbar.refreshScrollSize();
+                //let config = this.navigate.config;
+                // debugger;
+                this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
+            }
             // console.log([this.source.info.defaultIndex,this.source]);
 
 
@@ -69,16 +72,18 @@ export class ListView extends Designer {
         let _this = this;
         _this.ll_view.innerHTML = '';
         this.source.onCompleteUserSide.on((rows, indexCounter) => {
-            _this.source.nodes.container = _this.ll_view;
-           // _this.measureItems(rows, indexCounter);
+
+            // _this.measureItems(rows, indexCounter);
         });
         this.init();
-        
-        this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
-            this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
 
+        this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
+            //            console.log(['here',this.ucExtends.PARENT]);
+            if (this.source.isLoaded == false)
+                this.source.ihaveCompletedByMySide();
         });
     }
+
     /*
     measureItems = (src: any[], indexCounter = 0) => {
         let _this = this;
@@ -146,7 +151,7 @@ export class ListView extends Designer {
             //console.log(['....resizerCall',rect.height]);
             if (_this.source.ArrangingContents) {
                 _this.source.ArrangingContents = false; return;
-        }
+            }
             switch (visibility) {
                 case 'visible':
                     _this.resizerCall({ width: rect.width, height: rect.height });
@@ -202,6 +207,6 @@ export class ListView extends Designer {
 
     }
     isResizing = false;
-   
+
 
 }
