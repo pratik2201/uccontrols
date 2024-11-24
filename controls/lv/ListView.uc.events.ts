@@ -61,9 +61,9 @@ export class eventHandler {
 
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
 
-      let itm = nodes.getItemFromChild(e.target as HTMLElement);
+      let itm = nodes.getRow(e.target as HTMLElement);
       if (itm != null) {
-        cfg.currentIndex = nodes.getRowInfoFromChild(itm).index;
+        cfg.currentIndex = itm.index;
         //this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
