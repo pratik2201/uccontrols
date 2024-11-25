@@ -123,6 +123,7 @@ export class ListView extends Designer {
             config.viewSize.setBy.value(0, 0);
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'none';
+               // this.w
 
         } else {
             this.begin_scroll_text.style.display =
@@ -177,7 +178,7 @@ export class ListView extends Designer {
     }
     changeHiddenCount = (topCount: number, bottomCount: number) => {
         this.begin_scroll_text.innerHTML = topCount == 0 ? "&nbsp;  " : "&#11165; " + topCount + "";
-        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;  " : "&#11167; " + bottomCount + "";
+        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;  " :  bottomCount + " &#11167;";
 
     }
 

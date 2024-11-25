@@ -43,7 +43,7 @@ hscrollbar sizer {
 
 scroll-text[role="begin"] {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1; margin-left: 5px;
 }
 
 pagecntnr {
@@ -54,6 +54,7 @@ pagecntnr {
 scroll-text[role="end"] {
     grid-column: 1;
     grid-row: 3;
+    text-align: right; margin-right: 5px;
 }
 
 

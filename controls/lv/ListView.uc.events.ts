@@ -63,15 +63,15 @@ export class eventHandler {
 
       let itm = nodes.getRow(e.target as HTMLElement);
       if (itm != null) {
-        cfg.currentIndex = itm.index;
+        
         //this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
     });
     this.main.ll_view.addEventListener("mouseup", (e: MouseEvent) => {
-      let itm = nodes.getItemFromChild(e.target as HTMLElement);
-
+      let itm = nodes.getRow(e.target as HTMLElement);
       if (itm != null) {
+        cfg.currentIndex = itm.index;
         this.itemMouseUp.fire([cfg.currentIndex, e]);
       }
     });
