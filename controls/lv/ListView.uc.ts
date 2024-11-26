@@ -123,8 +123,7 @@ export class ListView extends Designer {
             config.viewSize.setBy.value(0, 0);
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'none';
-               // this.w
-
+            
         } else {
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'block';

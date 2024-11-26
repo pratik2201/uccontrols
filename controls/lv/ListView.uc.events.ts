@@ -53,12 +53,18 @@ export class eventHandler {
         //this.main.navigate.config.currentIndex = nodes.getRowInfoFromChild(itm).index;
         //this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemDoubleClick.fire([this.main.currentIndex, e]);
+       
       }
     });
     let _main = this.main;
     let cfg = this.sconfig;
     let scrollbar = cfg.main.scrollbar;
-
+    this.main.ll_view.addEventListener('focusin', (e: MouseEvent) => {
+      let src = this.main.source;
+      let row = src.nodes.getRowInfoFromChild(e.target as any);
+      if (row != undefined && row.index != src.info.currentIndex)
+        src.info.currentIndex = row.index;      
+    });
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
 
       let itm = nodes.getRow(e.target as HTMLElement);

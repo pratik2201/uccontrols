@@ -30,7 +30,8 @@ export class winFrame extends Designer {
         ctrls.forEach(ctr => {
             this.container1.appendChild(ctr);
         });
-        this.ucExtends.stageHT = this.container1;
+        
+        this.parentUCExt.stageHT = this.container1;
         this.ucExtends.wrapperHT.setAttribute('x-tabindex', '0');
     }
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
