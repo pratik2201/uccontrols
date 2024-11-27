@@ -37,7 +37,12 @@ export class winFrame extends Designer {
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
     get parentElementHT() { return this.parentUCExt.wrapperHT; }
     constructor() {
-        super(); this.initializecomponent(arguments, this);
+        super();
+        this.initializecomponent(arguments, this);
+        let p = this.ucExtends.PARENT;
+        p.ucExtends.dialogForm = p;
+        
+        
     }
     get DragEvents() { return this.dragMoveEvent.Events; }
     dragMoveEvent: DragMoveEvent;

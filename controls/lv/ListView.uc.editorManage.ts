@@ -25,7 +25,7 @@ export class editorManage {
           src.scrollbar.refreshScrollSize();
           bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
           src.generator.refresh();
-          if (!bRInfo.element.isConnected) {
+          if (bRInfo.index>=srclen) {
             src.nodes.generate(bRInfo.index, true);           
             lst.currentIndex = bRInfo.index;          
           }
