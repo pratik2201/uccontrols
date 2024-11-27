@@ -19,13 +19,14 @@ export class editorManage {
       target: lstEle,
       callback: () => {
         let bRInfo: RowInfo<any>;
-        
-        if (lst.currentIndex == lst.source.length - 1) {
+        let srclen = lst.source.length;
+        if (lst.currentIndex == srclen - 1) {
           src.pushNew(onDemandNewRow());
           src.scrollbar.refreshScrollSize();
           bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
+          src.generator.refresh();
           if (!bRInfo.element.isConnected) {
-            src.nodes.generate(bRInfo.index,true);
+            src.nodes.generate(bRInfo.index, true);           
             lst.currentIndex = bRInfo.index;          
           }
         }else bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
