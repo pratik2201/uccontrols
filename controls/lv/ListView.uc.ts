@@ -40,7 +40,7 @@ export class ListView extends Designer {
         this.Events.main = this;
         let config = this.sconfig;
         this.source.nodes.container = this.ll_view;
-        this.source.onUpdate.on((len, fillRecommand) => {
+        this.source.Events.onUpdate.on((len, fillRecommand) => {
 
             // console.log(this.source.rowInfo.map(s=>s.size.height));
             //this.navigate.config.itemsTotalSize.height = this.source.info.height;
@@ -71,10 +71,7 @@ export class ListView extends Designer {
         });
         let _this = this;
         _this.ll_view.innerHTML = '';
-        this.source.onCompleteUserSide.on((rows, indexCounter) => {
-
-            // _this.measureItems(rows, indexCounter);
-        });
+        
         this.init();
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
