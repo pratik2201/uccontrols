@@ -20,21 +20,30 @@ export class editorManage {
       callback: () => {
         let bRInfo: RowInfo<any>;
         let srclen = lst.source.length;
+
         if (lst.currentIndex == srclen - 1) {
           src.pushNew(onDemandNewRow());
           src.scrollbar.refreshScrollSize();
           bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
           src.generator.refresh();
-          if (bRInfo.index>=srclen) {
-            src.nodes.generate(bRInfo.index, true);           
-            lst.currentIndex = bRInfo.index;          
+          if (bRInfo.index >= srclen) {
+            src.nodes.generate(bRInfo.index, true);
+            lst.currentIndex = bRInfo.index;
           }
-        }else bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
-        cfg.moveNext(undefined, 1);
-        TabIndexManager.moveNext(bRInfo.element);
-        TabIndexManager.breakTheLoop = true;
-        TabIndexManager.music = false;
-        src.scrollbar.refreshScrollbarSilantly();
+          cfg.moveNext(undefined, 1);
+          TabIndexManager.moveNext(bRInfo.element);
+          TabIndexManager.breakTheLoop = true;
+          TabIndexManager.music = false;
+          src.scrollbar.refreshScrollbarSilantly();
+        } else {
+        
+          cfg.moveNext(undefined, 1);
+          bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
+          TabIndexManager.moveNext(bRInfo.element);
+          TabIndexManager.breakTheLoop = true;
+          TabIndexManager.music = false;
+          src.scrollbar.refreshScrollbarSilantly();
+        }
       }
     });
     resEvents.onContainerTopEnter.push({
@@ -42,6 +51,7 @@ export class editorManage {
       callback: () => {
         //cfg.top = 0;
         this.main.currentIndex = this.main.source.info.defaultIndex;
+        this.main.source.info.setPos();
         TabIndexManager.moveNext(lstEle);
         return true;
       }

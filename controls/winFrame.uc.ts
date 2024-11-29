@@ -30,7 +30,7 @@ export class winFrame extends Designer {
         ctrls.forEach(ctr => {
             this.container1.appendChild(ctr);
         });
-        
+
         this.parentUCExt.stageHT = this.container1;
         this.ucExtends.wrapperHT.setAttribute('x-tabindex', '0');
     }
@@ -41,36 +41,36 @@ export class winFrame extends Designer {
         this.initializecomponent(arguments, this);
         let p = this.ucExtends.PARENT;
         p.ucExtends.dialogForm = p;
-        
-        
+
+
     }
     get DragEvents() { return this.dragMoveEvent.Events; }
     dragMoveEvent: DragMoveEvent;
-     resizer: objectResizer;
-     mover: objectMover;
+    resizer: objectResizer;
+    mover: objectMover;
     $() {
         this.ucExtends.session.autoLoadSession = true;
-         this.init();
+        this.init();
         this.dragMoveEvent = new DragMoveEvent();
-        
+
         this.resizer = new objectResizer(this.dragMoveEvent);
         this.resizer.finalRect = this.SESSION_DATA.rect;
         this.resizer.containerHT = this.parentElementHT;
         this.resizer.passElement(this);
-        this.resizer.activate();
+        //this.resizer.activate();
         this.mover = new objectMover(this.dragMoveEvent);
         this.mover.finalRect = this.SESSION_DATA.rect;
         this.mover.holderHT.push(this.title_panel);
         this.mover.containerHT = this.parentElementHT;
-        this.mover.activate();
-        
+        //this.mover.activate();
+
         if (this.ucExtends.mode == 'client') {
             this.parentUCExt.Events.loaded.on(() => {
                 //setTimeout(() => {
                 // debugger;
                 let chd = window.getComputedStyle(this.ucExtends.wrapperHT);
-               // this.parentElementHT.style.width = chd.width;
-               // this.parentElementHT.style.height = chd.height;
+                // this.parentElementHT.style.width = chd.width;
+                // this.parentElementHT.style.height = chd.height;
                 //console.log(chd.height + ":" + this.parentElementHT.offsetHeight);
                 this.SESSION_DATA.rect.width = parseFloat(chd.width);
                 this.SESSION_DATA.rect.height = parseFloat(chd.height);
@@ -83,7 +83,7 @@ export class winFrame extends Designer {
         });
         this.ucExtends.Events.loadLastSession.on(() => {
             //debugger;
-            
+
             this.resizer.finalRect = this.SESSION_DATA.rect;
             this.loadSession();
         });
@@ -109,7 +109,7 @@ export class winFrame extends Designer {
     }
     checkState(state: UcStates): void {
         this.SESSION_DATA.winState = state;
-        
+
         switch (state) {
             case 'dock':
                 this.ucExtends.self.setAttribute("win-state", "dock");
@@ -124,7 +124,7 @@ export class winFrame extends Designer {
                 break;
             case 'normal':
                 this.ucExtends.self.setAttribute("win-state", "normal");
-                
+
                 Object.assign(this.parentElementHT.style, {
                     position: "absolute",
                     left: this.SESSION_DATA.rect.left + "px",
@@ -155,7 +155,7 @@ export class winFrame extends Designer {
     }
     initEvent(): void {
         this.designAll();
-        
+
 
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;
