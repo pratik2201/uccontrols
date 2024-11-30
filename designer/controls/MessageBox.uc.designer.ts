@@ -1,7 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylerRegs';
+import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
 import { winFrame } from 'uccontrols/controls/winFrame.uc';
 
 /**
@@ -58,6 +58,7 @@ export class Designer extends Usercontrol {
         this.winframe1 = winFrame.Create({ 
                             parentUc : this, 
                             mode:args.mode,
+                            accessName:"winframe1" , 
                             session:{
                                 loadBySession:args.session.loadBySession,
                                 uniqueIdentity:"winframe1" , 

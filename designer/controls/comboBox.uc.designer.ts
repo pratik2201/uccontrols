@@ -1,7 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylerRegs';
+import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
 import { LinearList } from 'uccontrols/controls/LinearList.uc';
 
 /**
@@ -52,6 +52,7 @@ export class Designer extends Usercontrol {
         this.ll_view = LinearList.Create({ 
                             parentUc : this, 
                             mode:args.mode,
+                            accessName:"ll_view" , 
                             session:{
                                 loadBySession:args.session.loadBySession,
                                 uniqueIdentity:"ll_view" , 

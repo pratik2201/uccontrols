@@ -1,7 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylerRegs';
+import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
 
 /**
  *  code filename must same and case sensitive with classname 

@@ -1,7 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylerRegs';
+import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
 import { itemNode } from 'uccontrols/controls/tabControl/itemNode.tpt';
 
 /**
@@ -47,7 +47,8 @@ export class Designer extends Usercontrol {
         
         
     this.tpt_itemnode = itemNode.Create({ 
-                        parentUc : this, 
+                        parentUc: this, 
+                        accessName:"tpt_itemnode" , 
                         elementHT :CONTROLS.tpt_itemnode 
                     });
         this.container1 = CONTROLS.container1 as HTMLUnknownElement;
