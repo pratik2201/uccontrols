@@ -1,4 +1,4 @@
-import { Designer } from "uccontrols/designer/controls/ListView.uc.designer.js";
+import { Designer } from "uccontrols/_designer/controls/ListView.uc.designer.js";
 import { propOpt } from "ucbuilder/build/common.js";
 import { intenseGenerator } from "ucbuilder/intenseGenerator";
 import { pagerLV } from "ucbuilder/global/listUI/pagerLV";

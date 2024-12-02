@@ -1,4 +1,4 @@
-import { Designer } from "uccontrols/designer/controls/winFrame.uc.designer";
+import { Designer } from "uccontrols/_designer/controls/winFrame.uc.designer";
 import { objectResizer } from "uccontrols/controls/common/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
 import { DragMoveEvent } from "uccontrols/controls/common/DragMoveEvent";

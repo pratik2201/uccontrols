@@ -3,7 +3,7 @@ import { Template, TemplateNode } from 'ucbuilder/Template';
 import { comboboxItem } from 'uccontrols/controls/comboBox/comboboxItem.tpt';
 import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { Designer } from 'uccontrols/designer/controls/comboBox.uc.designer';
+import { Designer } from 'uccontrols/_designer/controls/comboBox.uc.designer';
 import { binderNode } from 'uccontrols/controls/comboBox.uc.binderNode';
 
 export class comboBox extends Designer {

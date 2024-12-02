@@ -1,4 +1,4 @@
-import { Designer } from "uccontrols/designer/controls/Movable.uc.designer";
+import { Designer } from "uccontrols/_designer/controls/Movable.uc.designer";
 import { objectResizer } from "uccontrols/controls/common/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
 import { CommonEvent } from "ucbuilder/global/commonEvent";

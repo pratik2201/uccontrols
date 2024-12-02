@@ -1,5 +1,5 @@
 import { resizeManage } from "ucbuilder/global/resizer/resizeManage";
-import { Designer } from "uccontrols/designer/controls/datagrid.uc.designer.js";
+import { Designer } from "uccontrols/_designer/controls/datagrid.uc.designer.js";
 import { pagerLV } from "ucbuilder/global/listUI/pagerLV";
 import { TemplateNode } from "ucbuilder/Template";
 import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
