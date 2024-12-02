@@ -15,8 +15,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "ucbuilder": "^1.0.0-beta.2",
-     "module-alias": "^2.2.2"
+    "ucbuilder": "^1.0.0-beta.2"
   },
   "keywords": [
     "user controls"

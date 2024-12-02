@@ -1,7 +1,10 @@
 {
-  "outDir": "out",
-  "designerDir": "designer",
-  "paths": {
-    "uccontrols/*": "./*"
-  }
+    "projectName": "uccontrols",
+    "rootDir": "D:/projects/electronProjects/uccontrols",
+    "outDir": "out",
+    "designerDir": "/_designer/",
+    "paths": {
+        "": "./",
+        "ucbuilder": "node_modules/ucbuilder"
+    }
 }
