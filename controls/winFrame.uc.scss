@@ -50,7 +50,7 @@ title-bar {
 }
 title-text {
     background: rgb(104, 104, 104);
-   
+    width: var($g-title_width 15px);
     font-weight: bold;
     /* font-family:Arial;*/border-right:  solid 1px black;
     font-size:small!important;
