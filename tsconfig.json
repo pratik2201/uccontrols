@@ -30,9 +30,7 @@
       "uccontrols/*": [
         "./*"
       ],
-      "ucbuilder/*": [
-        "./node_modules/ucbuilder/*"
-      ]
+      "ucbuilder/*": [ "./node_modules/ucbuilder/*" ]
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
   },
 }

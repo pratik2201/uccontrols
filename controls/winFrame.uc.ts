@@ -1,68 +1,48 @@
-import { Designer } from "uccontrols/_designer/controls/winFrame.uc.designer";
-import { objectResizer } from "uccontrols/controls/common/objectResizer";
+import { Designer } from "sharepnl/_designer/util/controls/fixedWindow.uc.designer";
+import { objectResizer } from "ucbuilder/global/draging/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
-import { DragMoveEvent } from "uccontrols/controls/common/DragMoveEvent";
-import { objectMover } from "uccontrols/controls/common/objectMover";
+import { ResizeMoveEvent } from "ucbuilder/global/draging/ResizeMoveEvent";
+import { objectMover } from "ucbuilder/global/draging/objectMover";
+import { CommonEvent } from "ucbuilder/global/commonEvent";
 export type winStates = "maximize" | "normal";
 export class winFrame extends Designer {
-
     private _backgroundOpacity: number = 0.500;
     set backgroundOpacity(val: number) { this._backgroundOpacity = val > 1 ? val / 1000 : val }
     get backgroundOpacity(): number { return this._backgroundOpacity; }
-
     static hasInitedTransperency: boolean = false;
 
-    /*get allowMove(): boolean { return this.drag.allowMove; }
-    set allowMove(val: boolean) { this.drag.allowMove = val; }
-    get allowResize(): boolean { return this.drag.allowResize; }
-    set allowResize(val: boolean) { this.drag.allowResize = val; }*/
-    designAll(): void {
-
-        let titleHT: HTMLElement = this.ucExtends.wrapperHT;
-
-        let ctrls: HTMLElement[] = [];
-        for (let index = 0; index < this.ucExtends.garbageElementsHT.length; index++) {
-            const node = this.ucExtends.garbageElementsHT[index] as HTMLElement;
-            if (!node.is(titleHT)) {
-                ctrls.push(node);
-            }
-        }
-        ctrls.forEach(ctr => {
-            this.container1.appendChild(ctr);
-        });
-
-        this.parentUCExt.stageHT = this.container1;
-        this.ucExtends.wrapperHT.setAttribute('x-tabindex', '0');
-    }
+    
     get parentUCExt() { return this.ucExtends.PARENT.ucExtends; }
     get parentElementHT() { return this.parentUCExt.wrapperHT; }
     constructor() {
         super();
         this.initializecomponent(arguments, this);
         let p = this.ucExtends.PARENT;
+
         p.ucExtends.dialogForm = p;
-
-
     }
+    
     get DragEvents() { return this.dragMoveEvent.Events; }
-    dragMoveEvent: DragMoveEvent;
+
+    dragMoveEvent: ResizeMoveEvent;
     resizer: objectResizer;
     mover: objectMover;
     $() {
         this.ucExtends.session.autoLoadSession = true;
         this.init();
-        this.dragMoveEvent = new DragMoveEvent();
+        this.dragMoveEvent = new ResizeMoveEvent();
 
         this.resizer = new objectResizer(this.dragMoveEvent);
         this.resizer.finalRect = this.SESSION_DATA.rect;
         this.resizer.containerHT = this.parentElementHT;
         this.resizer.passElement(this);
-        //this.resizer.activate();
+        this.resizer.activate();
         this.mover = new objectMover(this.dragMoveEvent);
         this.mover.finalRect = this.SESSION_DATA.rect;
         this.mover.holderHT.push(this.title_panel);
         this.mover.containerHT = this.parentElementHT;
-        //this.mover.activate();
+        this.mover.activate();
+
 
         if (this.ucExtends.mode == 'client') {
             this.parentUCExt.Events.loaded.on(() => {
@@ -87,10 +67,6 @@ export class winFrame extends Designer {
             this.resizer.finalRect = this.SESSION_DATA.rect;
             this.loadSession();
         });
-        /*this.drag.Events.onmouseup = (evt) => {
-            this.ucExtends?.session.onModify();
-            return false;
-        }*/
         this.resizer.Events.onResizeEnd.on(() => {
             this.ucExtends?.session.onModify();
         });
@@ -154,8 +130,8 @@ export class winFrame extends Designer {
         }
     }
     initEvent(): void {
-        this.designAll();
-
+        this.ucExtends.initalComponents.changeStage(this.container1);
+       // this.ucExtends.wrapperHT.setAttribute('x-tabindex', '0');
 
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;

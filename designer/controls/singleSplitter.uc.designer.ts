@@ -18,7 +18,7 @@ export class Designer extends Usercontrol {
         return Designer._FILE_PATH;
     }
     static get giveMeHug(): string {
-        return Usercontrol.giveMeHug;
+        return Usercontrol.designerToCode;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);

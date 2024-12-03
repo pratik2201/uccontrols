@@ -1,10 +1,10 @@
 import { Designer } from "uccontrols/_designer/controls/Movable.uc.designer";
-import { objectResizer } from "uccontrols/controls/common/objectResizer";
+import { objectResizer } from "ucbuilder/global/draging/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
 import { CommonEvent } from "ucbuilder/global/commonEvent";
 import { Usercontrol } from "ucbuilder/Usercontrol";
 import { DragHelper } from "ucbuilder/global/drag/dragHelper";
-import { DragMoveEvent } from "uccontrols/controls/common/DragMoveEvent";
+import { ResizeMoveEvent } from "ucbuilder/global/draging/ResizeMoveEvent";
 
 export class Movable extends Designer {
 
@@ -20,8 +20,8 @@ export class Movable extends Designer {
     fatchFromGarbage(): void {
         let titleHT: HTMLElement = this.ucExtends.wrapperHT;
         let ctrls: HTMLElement[] = [];
-        for (let index = 0; index < this.ucExtends.garbageElementsHT.length; index++) {
-            const node = this.ucExtends.garbageElementsHT[index] as HTMLElement;
+        for (let index = 0; index < this.ucExtends.initalComponents.elements.length; index++) {
+            const node = this.ucExtends.initalComponents.elements[index] as HTMLElement;
             if (!node.is(titleHT)) {
                 ctrls.push(node);
             }
@@ -29,7 +29,7 @@ export class Movable extends Designer {
         ctrls.forEach(ctr => {
             this.container1.append(ctr);
         });
-        this.ucExtends.stageHT = this.container1;
+        this.ucExtends.initalComponents.stageHT = this.container1;
     }
 
     drag: objectResizer;
@@ -49,12 +49,12 @@ export class Movable extends Designer {
         super(); this.initializecomponent(arguments, this);
     }
     get DragEvents() { return this.dragMoveEvent.Events; }
-    dragMoveEvent: DragMoveEvent;
+    dragMoveEvent: ResizeMoveEvent;
    
     $(){
         this.ucExtends.session.autoLoadSession = true;
 
-        this.dragMoveEvent = new DragMoveEvent();
+        this.dragMoveEvent = new ResizeMoveEvent();
         this.drag = new objectResizer(this.dragMoveEvent);
         this.drag.finalRect = this.SESSION_DATA.rect;
         this.SESSION_DATA.rect.width = parseFloat(this.parentElementHT.style.width);

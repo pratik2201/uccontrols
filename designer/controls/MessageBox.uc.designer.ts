@@ -1,13 +1,13 @@
-import { Usercontrol } from 'ucbuilder/Usercontrol';
-import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
-import { winFrame } from 'uccontrols/controls/winFrame.uc';
+import { Usercontrol } from "ucbuilder/Usercontrol";
+import { intenseGenerator } from "ucbuilder/intenseGenerator";
+import { UcOptions } from "ucbuilder/enumAndMore";
+import { VariableList } from "ucbuilder/global/stylers/StylerRegs";
+import { winFrame } from "sharepnl/util/controls/fixedWindow.uc";
 
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { MessageBox } from 'uccontrols/controls/MessageBox.uc';
+import { MessageBox } from "uccontrols/controls/MessageBox.uc";
 
 
 export class Designer extends Usercontrol {    
@@ -19,7 +19,7 @@ export class Designer extends Usercontrol {
         return Designer._FILE_PATH;
     }
     static get giveMeHug(): string {
-        return Usercontrol.giveMeHug;
+        return Usercontrol.designerToCode;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
@@ -31,7 +31,7 @@ export class Designer extends Usercontrol {
     
          
    
-    public winframe1: import('uccontrols/controls/winFrame.uc').winFrame;
+    public winframe1: import('sharepnl/util/controls/fixedWindow.uc').winFrame;
     public lbl_message: HTMLUnknownElement;
     public lbl_messagedetail: HTMLElement;
     public buttonList: HTMLElement;

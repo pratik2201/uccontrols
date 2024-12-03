@@ -2,7 +2,7 @@ import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
 import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
-import { winFrame } from 'uccontrols/controls/winFrame.uc';
+import { fixedWindow } from 'sharepnl/util/controls/fixedWindow.uc';
 
 /**
  *  code filename must same and case sensitive with classname 
@@ -18,8 +18,8 @@ export class Designer extends Usercontrol {
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }
-    static get giveMeHug(): string {
-        return Usercontrol.giveMeHug;
+    static get designerToCode(): string {
+        return Usercontrol.designerToCode;
     }
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
@@ -31,7 +31,7 @@ export class Designer extends Usercontrol {
     
          
    
-    public winframe1: import('uccontrols/controls/winFrame.uc').winFrame;
+    public winframe1: import('sharepnl/util/controls/fixedWindow.uc').fixedWindow;
     public lbl_message: HTMLUnknownElement;
     public lbl_messagedetail: HTMLElement;
     public buttonList: HTMLElement;
@@ -55,7 +55,7 @@ export class Designer extends Usercontrol {
          
         
        
-        this.winframe1 = winFrame.Create({ 
+        this.winframe1 = fixedWindow.Create({ 
                             parentUc : this, 
                             mode:args.mode,
                             accessName:"winframe1" , 
