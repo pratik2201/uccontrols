@@ -1,4 +1,4 @@
-import { Designer } from "sharepnl/_designer/util/controls/fixedWindow.uc.designer";
+import { Designer } from "uccontrols/designer/controls/winFrame.uc.designer";
 import { objectResizer } from "ucbuilder/global/draging/objectResizer";
 import { UcStates } from "ucbuilder/enumAndMore";
 import { ResizeMoveEvent } from "ucbuilder/global/draging/ResizeMoveEvent";

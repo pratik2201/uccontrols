@@ -3,7 +3,7 @@ import { Rect } from 'ucbuilder/global/drawing/shapes.js';
 import { Template, TemplateNode } from "ucbuilder/Template";
 import {LinearList} from "uccontrols/controls/LinearList.uc";
 import { Positionar } from "uccontrols/controls/comboBox.uc.positionar";
-import { keyBoard } from "ucbuilder/global/hardware/keyboard";
+import { KeyboardKeys } from "ucbuilder/lib/hardware";
 
 export class binderNode {
     private boundElement: HTMLElement;
@@ -142,7 +142,7 @@ export class binderNode {
 
     public keyup_listner = (evt: KeyboardEvent): void => {
         switch (evt.keyCode) {
-            case keyBoard.keys.enter:
+            case KeyboardKeys.Enter:
                 this.fireSelectedIndexChangeEvent = true;
                 this.selectedIndex = this.main.lvUI.currentIndex;
                 this.hide();

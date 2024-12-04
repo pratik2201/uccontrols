@@ -1,5 +1,5 @@
-import { RowInfo, SourceManage } from "ucbuilder/global/datasources/SourceManage";
-import { TabIndexManager } from "ucbuilder/global/tabIndexManager";
+import { RowInfo, SourceManage } from "ucbuilder/lib/datasources/SourceManage";
+import { TabIndexManager } from "ucbuilder/lib/TabIndexManager";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
 
 export class editorManage {

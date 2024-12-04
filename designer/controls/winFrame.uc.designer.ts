@@ -6,14 +6,14 @@ import { VariableList } from "ucbuilder/global/stylers/StylerRegs";
 /**
  *  code filename must same and case sensitive with classname 
  */
-import { winFrame } from "sharepnl/util/controls/fixedWindow.uc";
+import { winFrame } from "uccontrols/controls/winFrame.uc";
 
 
 export class Designer extends Usercontrol {    
-    /**  sharepnl/util/controls/fixedWindow.uc
+    /**  uccontrols/controls/winFrame.uc
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
      */
-    private static _FILE_PATH = 'sharepnl/util/controls/fixedWindow.uc';//window.atob('dWNjb250cm9scy9jb250cm9scy93aW5GcmFtZS51Yw==');
+    private static _FILE_PATH = 'uccontrols/controls/winFrame.uc';//window.atob('dWNjb250cm9scy9jb250cm9scy93aW5GcmFtZS51Yw==');
     public static get FILE_PATH() {
         return Designer._FILE_PATH;
     }
@@ -24,7 +24,7 @@ export class Designer extends Usercontrol {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: UcOptions, ...args: any[]): winFrame { 
-        /** sharepnl/util/controls/fixedWindow.uc */
+        /** uccontrols/controls/winFrame.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as winFrame;
     }
     

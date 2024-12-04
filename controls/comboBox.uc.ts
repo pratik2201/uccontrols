@@ -1,7 +1,7 @@
 import { Rect } from 'ucbuilder/global/drawing/shapes';
 import { Template, TemplateNode } from 'ucbuilder/Template';
 import { comboboxItem } from 'uccontrols/controls/comboBox/comboboxItem.tpt';
-import { keyBoard } from 'ucbuilder/global/hardware/keyboard';
+import { KeyboardKeys } from "ucbuilder/lib/hardware";
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { Designer } from 'uccontrols/_designer/controls/comboBox.uc.designer';
 import { binderNode } from 'uccontrols/controls/comboBox.uc.binderNode';
@@ -73,14 +73,14 @@ export class comboBox extends Designer {
 
         this.ucExtends.self.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
-                case keyBoard.keys.space:
+                case KeyboardKeys.Space:
                     this.openComboByEvent(e);
                     break;
-                case keyBoard.keys.up:
+                case KeyboardKeys.Up:
                     this.binder.fireSelectedIndexChangeEvent = !this.binder.hasBound;
                     this.selectedIndex--;
                     break;
-                case keyBoard.keys.down:
+                case KeyboardKeys.Down:
                     this.binder.fireSelectedIndexChangeEvent = !this.binder.hasBound;
                     this.selectedIndex++;
                     break;

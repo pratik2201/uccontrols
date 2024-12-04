@@ -3,6 +3,7 @@
     "rootDir": "D:/projects/electronProjects/uccontrols",
     "outDir": "out",
     "designerDir": "/_designer/",
+    "type": "ts",
     "paths": {
         "": "./",
         "ucbuilder": "node_modules/ucbuilder"

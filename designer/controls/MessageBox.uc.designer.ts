@@ -2,7 +2,7 @@ import { Usercontrol } from "ucbuilder/Usercontrol";
 import { intenseGenerator } from "ucbuilder/intenseGenerator";
 import { UcOptions } from "ucbuilder/enumAndMore";
 import { VariableList } from "ucbuilder/global/stylers/StylerRegs";
-import { winFrame } from "sharepnl/util/controls/fixedWindow.uc";
+import { winFrame } from "uccontrols/controls/winFrame.uc";
 
 /**
  *  code filename must same and case sensitive with classname 
@@ -31,7 +31,7 @@ export class Designer extends Usercontrol {
     
          
    
-    public winframe1: import('sharepnl/util/controls/fixedWindow.uc').winFrame;
+    public winframe1: import('uccontrols/controls/winFrame.uc').winFrame;
     public lbl_message: HTMLUnknownElement;
     public lbl_messagedetail: HTMLElement;
     public buttonList: HTMLElement;

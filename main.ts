@@ -1,8 +1,8 @@
 //import path from "path";
 //import ucr from "ucbuilder/register";
 
-import  { registar } from "ucbuilder";
-let cfg = registar(__dirname);
+import ucr from "ucbuilder";
+let cfg = ucr.registar(__dirname);
 
 import "ucbuilder/extension";
 /*import { registerDir } from "ucbuilder/start";

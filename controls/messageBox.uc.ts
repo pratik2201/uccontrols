@@ -1,4 +1,4 @@
-import { keyBoard } from "ucbuilder/global/hardware/keyboard";
+import { KeyboardKeys } from "ucbuilder/lib/hardware";
 import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
 import { Designer } from "uccontrols/_designer/controls/MessageBox.uc.designer";
 
@@ -92,28 +92,28 @@ export class MessageBox extends Designer {
 
         this.buttonList.addEventListener('keyup', (e) => {
             switch (e.keyCode) {
-                case keyBoard.keys.enter:
+                case KeyboardKeys.Enter:
                     this.fire((<HTMLElement>document.activeElement).stamp());
                     break;
-                case keyBoard.keys.y:
+                case KeyboardKeys.Y:
                     this.fire(this.cmd_yes.stamp());
                     break;
-                case keyBoard.keys.n:
+                case KeyboardKeys.N:
                     this.fire(this.cmd_no.stamp());
                     break;
-                case keyBoard.keys.o:
+                case KeyboardKeys.O:
                     this.fire(this.cmd_ok.stamp());
                     break;
-                case keyBoard.keys.c:
+                case KeyboardKeys.C:
                     this.fire(this.cmd_cancel.stamp());
                     break;
-                case keyBoard.keys.a:
+                case KeyboardKeys.A:
                     this.fire(this.cmd_abort.stamp());
                     break;
-                case keyBoard.keys.r:
+                case KeyboardKeys.R:
                     this.fire(this.cmd_retry.stamp());
                     break;
-                case keyBoard.keys.i:
+                case KeyboardKeys.I:
                     this.fire(this.cmd_ignore.stamp());
                     break;
             }

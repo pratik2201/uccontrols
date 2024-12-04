@@ -1,7 +1,7 @@
 import { CommonEvent } from "ucbuilder/global/commonEvent";
-import { keyBoard } from "ucbuilder/global/hardware/keyboard";
+import { KeyboardKeys } from "ucbuilder/lib/hardware";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
-import { SourceProperties } from "ucbuilder/global/datasources/PropertiesHandler";
+import { SourceProperties } from "ucbuilder/lib/datasources/PropertiesHandler";
 export class eventHandler {
   //#region  EVENT DECLARATION
   itemDoubleClick = new CommonEvent<(index: number, evt: MouseEvent) => void>();
@@ -129,28 +129,28 @@ export class eventHandler {
     cfg.main.ArrangingContents = true;
     this.isKeyEventActive = true;
     switch (e.keyCode) {
-      case keyBoard.keys.up: // up key 
+      case KeyboardKeys.Up: // up key 
         cfg.movePrev(e);
         break;
-      case keyBoard.keys.down: // down key
+      case KeyboardKeys.Down: // down key
         cfg.moveNext(e);
         break;
-      case keyBoard.keys.pageUp: // page up key
+      case KeyboardKeys.PageUp: // page up key
         cfg.pagePrev(e);
         cfg.currentIndex = cfg.top == 0 ? this.main.source.info.defaultIndex : cfg.top;
         //this.main.Refresh();
         break;
-      case keyBoard.keys.pageDown: // page down key
+      case KeyboardKeys.PageDown: // page down key
         cfg.pageNext(e);
         cfg.currentIndex = cfg.bottomIndex;
         //this.main.Refresh();
         break;
-      case keyBoard.keys.end: // end key
+      case KeyboardKeys.End: // end key
         cfg.top = cfg.lastSideTopIndex;
         cfg.main.nodes.fill();
         cfg.currentIndex = cfg.sourceLength - 1;
         break;
-      case keyBoard.keys.home: // home key  
+      case KeyboardKeys.Home: // home key  
         cfg.top = 0;
         cfg.main.nodes.fill();
         cfg.currentIndex = 0;

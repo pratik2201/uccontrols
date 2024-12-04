@@ -2,12 +2,12 @@
   "name": "uccontrols",
   "version": "1.0.0-beta.4",
   "description": "show your creativity/intelligence.. do free get free  :)",
-  "main": "out/main.js", 
+  "main": "out/main.js",
   "scripts": {},
   "author": "ap",
   "license": "ISC",
   "_moduleAliases": {
-      "uccontrols/*": "./*"
+    "uccontrols/*": "./*"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
