@@ -1,7 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
+import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
 import { winFrame } from 'uccontrols/controls/winFrame.uc';
 
 /**
@@ -68,7 +68,6 @@ export class Designer extends Usercontrol {
                             targetElement : CONTROLS.winframe1 
                         });
             this.winframe1.ucExtends.show();
-            this.winframe1.ucExtends.visibility = 'inherit';
         this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
         this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
         this.buttonList = CONTROLS.buttonList as HTMLElement;

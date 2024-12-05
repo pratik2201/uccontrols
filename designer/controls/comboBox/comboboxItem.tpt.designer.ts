@@ -1,7 +1,7 @@
 import { Template, TemplateNode } from 'ucbuilder/Template';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { TptOptions, templatePathOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
+import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
 
  /**
  *  code filename must same and case sensitive with classname 

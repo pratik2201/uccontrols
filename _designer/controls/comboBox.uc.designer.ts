@@ -1,7 +1,7 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
 import { UcOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/global/stylers/StylerRegs';
+import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
 import { LinearList } from 'uccontrols/controls/LinearList.uc';
 
 /**
@@ -62,7 +62,6 @@ export class Designer extends Usercontrol {
                             targetElement : CONTROLS.ll_view 
                         });
             this.ll_view.ucExtends.show();
-            this.ll_view.ucExtends.visibility = 'inherit';
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

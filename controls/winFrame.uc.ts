@@ -131,7 +131,7 @@ export class winFrame extends Designer {
     }
     initEvent(): void {
         this.ucExtends.initalComponents.changeStage(this.container1);
-       // this.ucExtends.wrapperHT.setAttribute('x-tabindex', '0');
+        this.parentUCExt.initalComponents.stageHT = this.container1;
 
         this.parentUCExt.Events.captionChanged.on((nval) => {
             this.lbl_title.innerText = nval;

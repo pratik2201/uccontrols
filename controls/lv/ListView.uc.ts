@@ -25,7 +25,11 @@ export class ListView extends Designer {
         return this.sconfig.currentIndex;
     }
     public set currentIndex(value) {
-        this.sconfig.currentIndex = value;
+        try {
+            this.sconfig.currentIndex = value;            
+        } catch {
+            debugger;
+        }
     }
     public get currentRecord() {
         return this.source[this.currentIndex];
