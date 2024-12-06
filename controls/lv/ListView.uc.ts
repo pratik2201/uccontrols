@@ -128,8 +128,7 @@ export class ListView extends Designer {
         } else {
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'block';
-            config.viewSize.setBy.HTMLEle(this.scroller1);
-
+            
             this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);
@@ -195,17 +194,16 @@ export class ListView extends Designer {
         let _this = this;
         let config = _this.sconfig;
         config.viewSize.setBy.value(width, height);
-        // if (this.source.ArrangingContents) { this.source.ArrangingContents = false; return; }
+        config.setPos();
+        /*if (callRefresh) {
 
-        // _this.Events.refreshScrollSize();
-        if (callRefresh) {
             config.top = config.getPos().topIndex;
-            console.log('resizerCall');
+            console.log([_this.scroller1]);
+            console.log(['resizerCall',config.viewSize.height]);
 
             _this.source.nodes.fill();
-            this.scrollbar.refreshScrollSize();
-        }
-
+            _this.scrollbar.refreshScrollSize();
+        }*/
     }
     isResizing = false;
 
