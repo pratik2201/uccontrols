@@ -22,19 +22,27 @@ export class editorManage {
         let srclen = lst.source.length;
 
         if (lst.currentIndex == srclen - 1) {
+          src.ArrangingContents = true;
+          let nIndex = lst.currentIndex+1;
           src.pushNew(onDemandNewRow());
           src.scrollbar.refreshScrollSize();
-          bRInfo = SourceManage.getRow(src[cfg.bottomIndex]);
+          bRInfo = SourceManage.getRow(src[nIndex]);
           src.generator.refresh();
-          if (bRInfo.index >= srclen) {
-            src.nodes.generate(bRInfo.index, true);
+          // if (bRInfo.index >= srclen) {
+          src.nodes.generate(bRInfo.index, true);
+          
             lst.currentIndex = bRInfo.index;
-          }
-          cfg.moveNext(undefined, 1);
+          // }
+          console.log([bRInfo.index,bRInfo.element]);
+          
+         // cfg.moveNext(undefined, 1);
           TabIndexManager.moveNext(bRInfo.element);
           TabIndexManager.breakTheLoop = true;
           TabIndexManager.music = false;
           src.scrollbar.refreshScrollbarSilantly();
+          src.ArrangingContents = false;
+          //console.log(bRInfo.element);
+          
         } else {
         
           cfg.moveNext(undefined, 1);
