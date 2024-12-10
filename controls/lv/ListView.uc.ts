@@ -3,7 +3,6 @@ import { TemplateNode } from "ucbuilder/Template";
 import { Size } from "ucbuilder/global/drawing/shapes";
 import { SourceManage } from "ucbuilder/lib/datasources/SourceManage";
 import { eventHandler } from "uccontrols/controls/lv/ListView.uc.events";
-import { editorManage } from "uccontrols/controls/lv/ListView.uc.editorManage";
 import { SourceProperties } from "ucbuilder/lib/datasources/PropertiesHandler";
 import { SourceScrollHandler } from "ucbuilder/lib/datasources/ScrollHandler";
 
@@ -20,7 +19,6 @@ export class ListView extends Designer {
     source = new SourceManage();
     scrollbar: SourceScrollHandler;
     Events = new eventHandler();
-    editor: editorManage;
     public get currentIndex() {
         return this.sconfig.currentIndex;
     }
@@ -38,12 +36,12 @@ export class ListView extends Designer {
         super(); this.initializecomponent(arguments, this);
         this.sconfig = this.source.info;
         this.scrollbar = this.source.scrollbar;
-        this.editor = new editorManage(this);
+        this.sconfig.refUC = this;
     }
     $() {
         this.Events.main = this;
         let config = this.sconfig;
-        this.source.nodes.container = this.ll_view;
+        config.container = this.ll_view;
         this.source.Events.onUpdate.on((len, fillRecommand) => {
 
             // console.log(this.source.rowInfo.map(s=>s.size.height));

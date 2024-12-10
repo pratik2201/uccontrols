@@ -2,6 +2,7 @@ import { CommonEvent } from "ucbuilder/global/commonEvent";
 import { KeyboardKeys } from "ucbuilder/lib/hardware";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
 import { SourceProperties } from "ucbuilder/lib/datasources/PropertiesHandler";
+import { TabIndexManager } from "ucbuilder/lib/TabIndexManager";
 export class eventHandler {
   //#region  EVENT DECLARATION
   itemDoubleClick = new CommonEvent<(index: number, evt: MouseEvent) => void>();
@@ -53,7 +54,7 @@ export class eventHandler {
         //this.main.navigate.config.currentIndex = nodes.getRowInfoFromChild(itm).index;
         //this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemDoubleClick.fire([this.main.currentIndex, e]);
-       
+
       }
     });
     let _main = this.main;
@@ -63,13 +64,13 @@ export class eventHandler {
       let src = this.main.source;
       let row = src.nodes.getRowInfoFromChild(e.target as any);
       if (row != undefined && row.index != src.info.currentIndex)
-        src.info.currentIndex = row.index;      
+        src.info.currentIndex = row.index;
     });
     this.main.ll_view.addEventListener("mousedown", (e: MouseEvent) => {
 
       let itm = nodes.getRow(e.target as HTMLElement);
       if (itm != null) {
-        
+
         //this.main.navigate.setCurrentIndex(itm.data(SourceIndexElementAttr).index, e, "Mouse");
         this.itemMouseDown.fire([this.main.currentIndex, e]);
       }
@@ -81,7 +82,7 @@ export class eventHandler {
         this.itemMouseUp.fire([cfg.currentIndex, e]);
       }
     });
-    
+
     /*this.main.hscrollbar1.addEventListener("scroll", (e: Event) => {
       let scrollLeft = this.main.hscrollbar1.scrollLeft; //Math.floor(this.main.scroller1.scrollLeft / this.navigatePages.config.itemSize.width);
       //console.log(this.main.hscrollbar1.scrollLeft);
@@ -96,17 +97,19 @@ export class eventHandler {
       }
       //scrollbar.refreshScrollbarSilantly();
     });
-    let hasCompleteKeyDownEvent = true;
-    this.main.ucExtends.wrapperHT.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (!hasCompleteKeyDownEvent) return;
+   // let hasCompleteKeyDownEvent = true;
+   // this.main.ucExtends.wrapperHT  OLD WAS THIS 
+   /*this.main.ll_view.addEventListener("keydown", (e: KeyboardEvent) => {
+   //   if (!hasCompleteKeyDownEvent) return;
 
-      if (_main.editor.EditorMode && !e.shiftKey) return;
-      hasCompleteKeyDownEvent = false;
-      setTimeout(() => {
-        this.doKeyEvent(e);
-        hasCompleteKeyDownEvent = true;
-      }, 1);
-    });
+
+    //  hasCompleteKeyDownEvent = false;
+      //setTimeout(() => {
+      this.doKeyEvent(e);
+      //hasCompleteKeyDownEvent = true;
+      //}, 1);
+   });
+    */
     /*this.pagerLv.Events.onkeydown = (e: KeyboardEvent) => {
         if (!hasCompleteKeyDownEvent) return;
         hasCompleteKeyDownEvent = false;
@@ -116,18 +119,21 @@ export class eventHandler {
         }, 1);
     };*/
 
-   
+
   }
-  onkeyDown_callback = (e): boolean => {
-    return false;
-  }
-  isKeyEventActive = false;
-  doKeyEvent(e: KeyboardEvent): boolean {
-    if (this.onkeyDown_callback(e) === true) return true;
+  
+  /*doKeyEvent(e: KeyboardEvent): boolean {
+    //if (!e.shiftKey) return false;
+    let editMode = this.main.source.EditorMode;
     let cfg = this.sconfig;
-    
+    let selectorTxt = '';
+    if (editMode && cfg.currentItem!=undefined) {      
+      selectorTxt = document.activeElement.selector(cfg.currentItem.element);
+     // console.log(selectorTxt);
+    }
+    let cIndex = cfg.currentIndex;
+    let result = false;
     cfg.main.ArrangingContents = true;
-    this.isKeyEventActive = true;
     switch (e.keyCode) {
       case KeyboardKeys.Up: // up key 
         cfg.movePrev(e);
@@ -155,14 +161,25 @@ export class eventHandler {
         cfg.main.nodes.fill();
         cfg.currentIndex = 0;
         break;
-      default: this.isKeyEventActive = false; return false;
+      default:
+        cfg.main.ArrangingContents = false;
+        return cIndex != cfg.currentIndex;
     }
-    
+
     cfg.main.scrollbar.refreshScrollbarSilantly();
-    this.isKeyEventActive = false;
-    return true;
-  }
-  
+    cfg.main.ArrangingContents = false;
+    let res = cIndex != cfg.currentIndex;    
+    if (res) {
+      let ci = cfg.currentItem;
+      if (editMode && ci!=undefined && selectorTxt!='') {
+        let ele = ci.element.querySelector(selectorTxt) as HTMLInputElement;
+        if (ele != null)  ele.focus();
+        else TabIndexManager.moveNext(ci.element)
+      }
+    }
+    return res;
+  }*/
+
 
 
 }
