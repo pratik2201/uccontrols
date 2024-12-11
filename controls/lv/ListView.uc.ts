@@ -57,7 +57,8 @@ export class ListView extends Designer {
             
             if (fillRecommand) {
                 let ci = (this.source.category.startWithBeginIndex == -1) ?
-                        this.source.info.defaultIndex:this.source.category.startWithBeginIndex;
+                    this.source.info.defaultIndex : this.source.category.startWithBeginIndex;
+                
                 this.sconfig.setPos(ci,true);
                 //this.source.nodes.fill();
                 //console.log(config.defaultIndex);
@@ -122,6 +123,7 @@ export class ListView extends Designer {
     }
     public set paging(value) {
         let config = this.sconfig;
+
         if (!value) {
             this.rectObs.disconnect();
             config.viewSize.setBy.value(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
@@ -132,7 +134,7 @@ export class ListView extends Designer {
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'block';
             
-            this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
+           // this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);
         }
