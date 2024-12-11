@@ -54,18 +54,23 @@ export class ListView extends Designer {
             config.top = 0;
             this.vscrollbar1.scrollTop = 0;
             // debugger;
-            if (this.source.category.startWithBeginIndex == -1)
-                this.currentIndex = this.source.info.defaultIndex; // 0 changed..
-            else
-                this.currentIndex = this.source.category.startWithBeginIndex;
-
+            
             if (fillRecommand) {
-                this.source.nodes.fill();
+                let ci = (this.source.category.startWithBeginIndex == -1) ?
+                        this.source.info.defaultIndex:this.source.category.startWithBeginIndex;
+                this.sconfig.setPos(ci,true);
+                //this.source.nodes.fill();
                 //console.log(config.defaultIndex);
                 this.scrollbar.refreshScrollSize();
                 //let config = this.navigate.config;
                 // debugger;
                 this.changeHiddenCount(config.topHiddenRowCount, config.bottomHiddenRowCount);
+            } else {
+                if (this.source.category.startWithBeginIndex == -1)
+                    this.currentIndex = this.source.info.defaultIndex; // 0 changed..
+                else
+                    this.currentIndex = this.source.category.startWithBeginIndex;
+    
             }
             // console.log([this.source.info.defaultIndex,this.source]);
 
@@ -119,7 +124,7 @@ export class ListView extends Designer {
         let config = this.sconfig;
         if (!value) {
             this.rectObs.disconnect();
-            config.viewSize.setBy.value(0, 0);
+            config.viewSize.setBy.value(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'none';
             
