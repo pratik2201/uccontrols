@@ -5,7 +5,7 @@
     box-sizing: border-box;
     position: relative;
     grid-template-columns: auto max-content;
-    grid-template-rows: max-content minmax(auto, 100%) max-content;
+    grid-template-rows: max-content max-content minmax(auto, 100%) max-content max-content;
 }
 
 hscrollbar,
@@ -22,7 +22,7 @@ vscrollbar {
     overflow-y: auto;
     position: absolute; right: 0px; top: 0px; bottom: 0px;
     grid-column: 2;
-    grid-row: 1 / span 3;
+    grid-row: 2 / span 3;
 }
 hscrollbar {
     width: 100%;
@@ -43,20 +43,30 @@ hscrollbar sizer {
 
 scroll-text[role="begin"] {
     grid-column: 1;
-    grid-row: 1; margin-left: 5px;
+    grid-row: 2; margin-left: 5px;
 }
 
 pagecntnr {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
 }
+
+header-row{
+    grid-column: 1/span 1;
+    grid-row: 1;
+}
+
+
 
 scroll-text[role="end"] {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 5;
     text-align: right; margin-right: 5px;
 }
-
+footer-row{
+    grid-column: 1/span 1;
+    grid-row: 6;
+}
 
 
 

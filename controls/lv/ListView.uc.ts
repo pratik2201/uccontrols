@@ -14,7 +14,47 @@ export class ListView extends Designer {
     }
     public set itemTemplate(value: TemplateNode) {
         this.source.nodes.template = value;
+        if (this.autoGenerateHeader) {
+            this.GenerateHeader();
+        }
+        if (this.autoGenerateFooter) {
+            this.GenerateFooter();
+        }
     }
+    GenerateHeader(row = {}): { tpt: TemplateNode, node: HTMLElement } {
+        this.headerrow.innerHTML = '';
+        let tpt = this.source.nodes.template.extended.main;
+        let headerTptNode = tpt['_header'] as TemplateNode;
+        if (headerTptNode != undefined) {
+            let node = headerTptNode.extended.generateNode(row);
+            node.removeAttribute('x-tabindex');
+            this.headerrow.appendChild(node);
+            return {
+                tpt: headerTptNode,
+                node: node
+            };
+        }
+
+    }
+    GenerateFooter(row = {}): { tpt: TemplateNode, node: HTMLElement } {
+        this.footerrow.innerHTML = '';
+        let tpt = this.source.nodes.template.extended.main;
+        let footerTptNode = tpt['_footer'] as TemplateNode;
+        if (footerTptNode != undefined) {
+            let node = footerTptNode.extended.generateNode(row);
+            node.removeAttribute('x-tabindex');
+            this.footerrow.appendChild(node);
+            return {
+                tpt: footerTptNode,
+                node: node
+            };
+        }
+    }
+    set autoGenerateBoth(val: boolean) {
+        this.autoGenerateFooter = this.autoGenerateHeader = val;
+    }
+    autoGenerateHeader = true;
+    autoGenerateFooter = true;
     sconfig: SourceProperties;
     source = new SourceManage();
     scrollbar: SourceScrollHandler;
@@ -24,7 +64,7 @@ export class ListView extends Designer {
     }
     public set currentIndex(value) {
         try {
-            this.sconfig.currentIndex = value;            
+            this.sconfig.currentIndex = value;
         } catch {
             debugger;
         }
@@ -54,12 +94,12 @@ export class ListView extends Designer {
             config.top = 0;
             this.vscrollbar1.scrollTop = 0;
             // debugger;
-            
+
             if (fillRecommand) {
                 let ci = (this.source.category.startWithBeginIndex == -1) ?
                     this.source.info.defaultIndex : this.source.category.startWithBeginIndex;
-                
-                this.sconfig.setPos(ci,true);
+
+                this.sconfig.setPos(ci, true);
                 //this.source.nodes.fill();
                 //console.log(config.defaultIndex);
                 this.scrollbar.refreshScrollSize();
@@ -71,7 +111,7 @@ export class ListView extends Designer {
                     this.currentIndex = this.source.info.defaultIndex; // 0 changed..
                 else
                     this.currentIndex = this.source.category.startWithBeginIndex;
-    
+
             }
             // console.log([this.source.info.defaultIndex,this.source]);
 
@@ -79,13 +119,19 @@ export class ListView extends Designer {
         });
         let _this = this;
         _this.ll_view.innerHTML = '';
-        
+
         this.init();
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
+            let onDemandNewItem = this.source.Events.onDemandNewItem;
+            if (onDemandNewItem != undefined && this.source.length==0) {
+                this.source.push(onDemandNewItem());
+            }
             //            console.log(['here',this.ucExtends.PARENT]);
-            if (this.source.isLoaded == false)
+            if (this.source.isLoaded == false) {
                 this.source.ihaveCompletedByMySide();
+            }
+            
         });
     }
 
@@ -129,12 +175,12 @@ export class ListView extends Designer {
             config.viewSize.setBy.value(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'none';
-            
+
         } else {
             this.begin_scroll_text.style.display =
                 this.end_scroll_text.style.display = 'block';
-            
-           // this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
+
+            // this.resizerCall({ width: config.viewSize.width, height: config.viewSize.height });
             if (!this.paging)
                 this.rectObs.observe(this.scroller1);
         }
@@ -182,7 +228,7 @@ export class ListView extends Designer {
     }
     changeHiddenCount = (topCount: number, bottomCount: number) => {
         this.begin_scroll_text.innerHTML = topCount == 0 ? "&nbsp;  " : "&#11165; " + topCount + "";
-        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;  " :  bottomCount + " &#11167;";
+        this.end_scroll_text.innerHTML = bottomCount == 0 ? "&nbsp;  " : bottomCount + " &#11167;";
 
     }
 

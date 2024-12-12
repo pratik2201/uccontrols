@@ -28,11 +28,13 @@ export class Designer extends Usercontrol {
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as ListView;
     }
     
+    public headerrow: HTMLElement;
     public begin_scroll_text: HTMLElement;
     public scroller1: HTMLUnknownElement;
     public ll_view: HTMLUnknownElement;
     public end_scroll_text: HTMLElement;
     public vscrollbar1: HTMLUnknownElement;
+    public footerrow: HTMLElement;
 
     
     constructor(){ super(); }
@@ -43,11 +45,13 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
+        this.headerrow = CONTROLS.headerrow as HTMLElement;
         this.begin_scroll_text = CONTROLS.begin_scroll_text as HTMLElement;
         this.scroller1 = CONTROLS.scroller1 as HTMLUnknownElement;
         this.ll_view = CONTROLS.ll_view as HTMLUnknownElement;
         this.end_scroll_text = CONTROLS.end_scroll_text as HTMLElement;
         this.vscrollbar1 = CONTROLS.vscrollbar1 as HTMLUnknownElement;
+        this.footerrow = CONTROLS.footerrow as HTMLElement;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();
