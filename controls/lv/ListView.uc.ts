@@ -124,14 +124,14 @@ export class ListView extends Designer {
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             let onDemandNewItem = this.source.Events.onDemandNewItem;
-            if (onDemandNewItem != undefined && this.source.length==0) {
+            if (onDemandNewItem != undefined && this.source.length == 0) {
                 this.source.push(onDemandNewItem());
             }
             //            console.log(['here',this.ucExtends.PARENT]);
             if (this.source.isLoaded == false) {
                 this.source.ihaveCompletedByMySide();
             }
-            
+
         });
     }
 
@@ -191,9 +191,10 @@ export class ListView extends Designer {
         let _this = this;
 
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
-            this.resizerCall(Size.getFullSize(window.getComputedStyle(this.scroller1)), false);
-            if (_this.paging)
-                _this.rectObs.observe(this.scroller1);
+            if (_this.paging) {
+                _this.resizerCall(Size.getFullSize(window.getComputedStyle(_this.scroller1)), false);
+                _this.rectObs.observe(_this.scroller1);
+            }
         });
 
         _this.rectObs = new ResizeObserver((e: ResizeObserverEntry[]) => {
@@ -211,7 +212,6 @@ export class ListView extends Designer {
                     _this.rectObs.disconnect();
                     break;
             }
-
         });
         this.ucExtends.Events.afterClose.on(() => {
             _this.rectObs.disconnect();
@@ -245,6 +245,8 @@ export class ListView extends Designer {
         let _this = this;
         let config = _this.sconfig;
         config.viewSize.setBy.value(width, height);
+       // console.log([this, 'resizerCall']);
+
         config.setPos();
         /*if (callRefresh) {
 
