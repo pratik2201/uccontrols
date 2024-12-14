@@ -125,7 +125,7 @@ export class ListView extends Designer {
         this.ucExtends.PARENT.ucExtends.Events.loaded.on(() => {
             let onDemandNewItem = this.source.Events.onDemandNewItem;
             if (onDemandNewItem != undefined && this.source.length == 0) {
-                this.source.push(onDemandNewItem());
+                this.source.push(onDemandNewItem(0));
             }
             //            console.log(['here',this.ucExtends.PARENT]);
             if (this.source.isLoaded == false) {

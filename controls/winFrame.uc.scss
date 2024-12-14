@@ -45,12 +45,12 @@ title-bar {
 [SELF_]:focus-within title-text {
    
     /*box-shadow: 3px 0px 5px rgb(205 205 205 / 63%);*/
-    background-color:var($g-winFrame_backcolor rgb(228, 148, 0));
-    color: var($g-winFrame_forecolor rgb(0, 0, 0));
+    background-color:-g-winFrame_backcolor rgb(228, 148, 0)--;
+    color: -g-winFrame_forecolor rgb(0, 0, 0)--;
 }
 title-text {
     background: rgb(104, 104, 104);
-    width: var($g-title_width 15px);
+    width: -g-title_width 15px--;
     font-weight: bold;
     /* font-family:Arial;*/border-right:  solid 1px black;
     font-size:small!important;
