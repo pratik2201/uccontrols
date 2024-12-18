@@ -21,6 +21,12 @@ class primary_TEMPLATE extends TemplateNode{
 }
 
 
+
+
+export const cMap_comboboxItem: {
+    primary?: primary_ELEMENT_MAP;
+} = {};
+
 export class Designer extends Template {
     /** uccontrols/controls/comboBox/comboboxItem.tpt
      *  AUTO RENAMING IS DEPEND ON `_FILE_PATH` SO KEEP YOUR SELF FAR FROM THIS :-)
