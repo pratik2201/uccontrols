@@ -27,6 +27,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/Movable.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as Movable;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
     public dragme: HTMLUnknownElement;
     public title_panel: HTMLElement;

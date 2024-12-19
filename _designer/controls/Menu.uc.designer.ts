@@ -27,6 +27,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/Menu.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as Menu;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
 
     

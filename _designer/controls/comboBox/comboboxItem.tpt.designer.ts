@@ -43,6 +43,7 @@ export class Designer extends Template {
         return intenseGenerator.generateTPT(this.FILE_PATH,pera) as comboboxItem;
     }
 
+    
         
     public primary:primary_TEMPLATE; 
    

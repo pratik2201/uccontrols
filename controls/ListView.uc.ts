@@ -8,7 +8,7 @@ import { Template, TemplateNode } from "ucbuilder/Template.js";
 
 export class ListView extends Designer {
 
-    accessKey: string = propOpt.ATTR.ACCESS_KEY;
+    accessKey: string = propOpt.ATTR.X_NAME;
     lvUI = new pagerLV();
     get source() { return this.lvUI.source; }
     indexOf(ele: any): number { return this.lvUI.nodes.indexOf(ele); }

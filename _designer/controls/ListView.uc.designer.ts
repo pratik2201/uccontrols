@@ -27,6 +27,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/ListView.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as ListView;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
     public begin_scroll_text: HTMLElement;
     public scroller1: HTMLUnknownElement;

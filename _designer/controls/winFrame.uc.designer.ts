@@ -27,6 +27,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/winFrame.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as winFrame;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
     public title_panel: HTMLElement;
     public lbl_title: HTMLElement;

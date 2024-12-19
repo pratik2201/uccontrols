@@ -27,6 +27,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/datagrid.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as datagrid;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
     public headerSectionHT: HTMLElement;
     public headerGridHT1: HTMLUnknownElement;

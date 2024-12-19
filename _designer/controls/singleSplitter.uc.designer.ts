@@ -27,6 +27,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/singleSplitter.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as singleSplitter;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
     public mainGrid: HTMLUnknownElement;
 

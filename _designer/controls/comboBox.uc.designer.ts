@@ -28,6 +28,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/comboBox.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as comboBox;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
     public txt_editor: HTMLUnknownElement;
     public cmd_drop: HTMLUnknownElement;

@@ -28,6 +28,11 @@ export class Designer extends Usercontrol {
         /** uccontrols/controls/tabControl.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as tabControl;
     }
+    get(id:"") {
+        return this.ucExtends.find(`[id="${id}"]`)[0];
+    }
+
+
     
         
     public tpt_itemnode: import('uccontrols/controls/tabControl/itemNode.tpt').itemNode;
