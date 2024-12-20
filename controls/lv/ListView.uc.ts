@@ -1,10 +1,10 @@
 import { Designer } from "uccontrols/_designer/controls/lv/ListView.uc.designer";
 import { TemplateNode } from "ucbuilder/Template";
 import { Size } from "ucbuilder/global/drawing/shapes";
-import { SourceManage } from "ucbuilder/lib/datasources/SourceManage";
+import { SourceManage } from "sharepnl/util/datasources/SourceManage";
 import { eventHandler } from "uccontrols/controls/lv/ListView.uc.events";
-import { SourceProperties } from "ucbuilder/lib/datasources/PropertiesHandler";
-import { SourceScrollHandler } from "ucbuilder/lib/datasources/ScrollHandler";
+import { SourceProperties } from "sharepnl/util/datasources/PropertiesHandler";
+import { SourceScrollHandler } from "sharepnl/util/datasources/ScrollHandler";
 
 
 export class ListView extends Designer {
