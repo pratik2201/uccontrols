@@ -1,4 +1,4 @@
-import { uniqOpt } from "ucbuilder/build/common.js";
+import { uniqOpt } from "ucbuilder/enumAndMore";
 import { TemplateNode } from "ucbuilder/Template.js";
 import { ScrollerLV } from "ucbuilder/global/listUI/scrollerLV";
 import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
