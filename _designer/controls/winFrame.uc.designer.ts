@@ -47,10 +47,10 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
-        this.title_panel = CONTROLS.title_panel as HTMLElement;
-        this.lbl_title = CONTROLS.lbl_title as HTMLElement;
-        this.cmd_close = CONTROLS.cmd_close as HTMLUnknownElement;
-        this.container1 = CONTROLS.container1 as HTMLUnknownElement;
+        this.title_panel = CONTROLS.title_panel as FieldBox;
+        this.lbl_title = CONTROLS.lbl_title as FieldBox;
+        this.cmd_close = CONTROLS.cmd_close as FieldBox;
+        this.container1 = CONTROLS.container1 as FieldBox;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

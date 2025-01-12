@@ -50,13 +50,13 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
-        this.headerrow = CONTROLS.headerrow as HTMLElement;
-        this.begin_scroll_text = CONTROLS.begin_scroll_text as HTMLElement;
-        this.scroller1 = CONTROLS.scroller1 as HTMLUnknownElement;
-        this.ll_view = CONTROLS.ll_view as HTMLUnknownElement;
-        this.end_scroll_text = CONTROLS.end_scroll_text as HTMLElement;
-        this.vscrollbar1 = CONTROLS.vscrollbar1 as HTMLUnknownElement;
-        this.footerrow = CONTROLS.footerrow as HTMLElement;
+        this.headerrow = CONTROLS.headerrow as FieldBox;
+        this.begin_scroll_text = CONTROLS.begin_scroll_text as FieldBox;
+        this.scroller1 = CONTROLS.scroller1 as FieldBox;
+        this.ll_view = CONTROLS.ll_view as FieldBox;
+        this.end_scroll_text = CONTROLS.end_scroll_text as FieldBox;
+        this.vscrollbar1 = CONTROLS.vscrollbar1 as FieldBox;
+        this.footerrow = CONTROLS.footerrow as FieldBox;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

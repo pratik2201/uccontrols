@@ -44,7 +44,7 @@ export class Designer extends Usercontrol {
         
         ucExt.initializecomponent(args);        
         let CONTROLS = ucExt.designer.getAllControls();
-        this.mainGrid = CONTROLS.mainGrid as HTMLUnknownElement;
+        this.mainGrid = CONTROLS.mainGrid as FieldBox;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

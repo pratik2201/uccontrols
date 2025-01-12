@@ -56,9 +56,9 @@ export class Designer extends Usercontrol {
                         accessName:"tpt_itemnode" , 
                         elementHT :CONTROLS.tpt_itemnode 
                     });
-        this.container1 = CONTROLS.container1 as HTMLUnknownElement;
-        this.tabHeader = CONTROLS.tabHeader as HTMLElement;
-        this.tabView = CONTROLS.tabView as HTMLUnknownElement;
+        this.container1 = CONTROLS.container1 as FieldBox;
+        this.tabHeader = CONTROLS.tabHeader as FieldBox;
+        this.tabView = CONTROLS.tabView as FieldBox;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();

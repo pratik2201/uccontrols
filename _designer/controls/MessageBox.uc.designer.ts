@@ -73,16 +73,16 @@ export class Designer extends Usercontrol {
                             targetElement : CONTROLS.winframe1 
                         });
             this.winframe1.ucExtends.show();
-        this.lbl_message = CONTROLS.lbl_message as HTMLUnknownElement;
-        this.lbl_messagedetail = CONTROLS.lbl_messagedetail as HTMLElement;
-        this.buttonList = CONTROLS.buttonList as HTMLElement;
-        this.cmd_yes = CONTROLS.cmd_yes as HTMLUnknownElement;
-        this.cmd_no = CONTROLS.cmd_no as HTMLUnknownElement;
-        this.cmd_ok = CONTROLS.cmd_ok as HTMLUnknownElement;
-        this.cmd_cancel = CONTROLS.cmd_cancel as HTMLUnknownElement;
-        this.cmd_abort = CONTROLS.cmd_abort as HTMLUnknownElement;
-        this.cmd_retry = CONTROLS.cmd_retry as HTMLUnknownElement;
-        this.cmd_ignore = CONTROLS.cmd_ignore as HTMLUnknownElement;
+        this.lbl_message = CONTROLS.lbl_message as FieldBox;
+        this.lbl_messagedetail = CONTROLS.lbl_messagedetail as FieldBox;
+        this.buttonList = CONTROLS.buttonList as FieldBox;
+        this.cmd_yes = CONTROLS.cmd_yes as FieldBox;
+        this.cmd_no = CONTROLS.cmd_no as FieldBox;
+        this.cmd_ok = CONTROLS.cmd_ok as FieldBox;
+        this.cmd_cancel = CONTROLS.cmd_cancel as FieldBox;
+        this.cmd_abort = CONTROLS.cmd_abort as FieldBox;
+        this.cmd_retry = CONTROLS.cmd_retry as FieldBox;
+        this.cmd_ignore = CONTROLS.cmd_ignore as FieldBox;
 
         ucExt.finalizeInit(args);
         ucExt.session.prepareForAutoLoadIfExist();
