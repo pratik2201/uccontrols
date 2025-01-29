@@ -1,4 +1,4 @@
-[theme="uccontrols/controls/winFrame.uc.frameless.scss"]
+@use "uccontrols/controls/winFrame.uc.frameless.scss";
 [SELF_] {
     background-color: white;
 }
