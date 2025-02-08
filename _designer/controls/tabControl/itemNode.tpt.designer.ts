@@ -1,6 +1,6 @@
 import { Template, TemplateNode } from 'ucbuilder/Template';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { TptOptions, templatePathOptions } from 'ucbuilder/enumAndMore';
+import { ITptOptions, templatePathOptions } from 'ucbuilder/enumAndMore';
 import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
 
  /**
@@ -39,7 +39,7 @@ export class Designer extends Template {
     static setCSS_globalVar (varList:VariableList): void  {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
-    static Create(pera: TptOptions): itemNode { 
+    static Create(pera: ITptOptions): itemNode { 
         return intenseGenerator.generateTPT(this.FILE_PATH,pera) as itemNode;
     }
 
@@ -51,7 +51,7 @@ export class Designer extends Template {
     constructor(args:IArguments){    
         super();    
         let aargs = Template.extractArgs(arguments);
-        let fargs = aargs[aargs.length - 1] as TptOptions;
+        let fargs = aargs[aargs.length - 1] as ITptOptions;
         this.extended.parentUc = fargs.parentUc;
         //let fargs = Template.extractArgs(arguments) as TptOptions;
         

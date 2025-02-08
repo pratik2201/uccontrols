@@ -1,6 +1,6 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { UcOptions } from 'ucbuilder/enumAndMore';
+import { IUcOptions } from 'ucbuilder/enumAndMore';
 import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
 
 /**
@@ -23,7 +23,7 @@ export class Designer extends Usercontrol {
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
-    static Create(pera: UcOptions, ...args: any[]): singleSplitter { 
+    static Create(pera: IUcOptions, ...args: any[]): singleSplitter { 
         /** uccontrols/controls/singleSplitter.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as singleSplitter;
     }
@@ -39,7 +39,7 @@ export class Designer extends Usercontrol {
     constructor(){ super(); }
     initializecomponent(argsLst: IArguments, form: singleSplitter) {
         let fargs = Usercontrol.extractArgs(arguments);
-        let args = fargs[fargs.length-1] as UcOptions;
+        let args = fargs[fargs.length-1] as IUcOptions;
         let ucExt = this.ucExtends;
         
         ucExt.initializecomponent(args);        

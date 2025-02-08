@@ -1,6 +1,6 @@
 import { Usercontrol } from 'ucbuilder/Usercontrol';
 import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { UcOptions } from 'ucbuilder/enumAndMore';
+import { IUcOptions } from 'ucbuilder/enumAndMore';
 import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
 import { itemNode } from 'uccontrols/controls/tabControl/itemNode.tpt';
 
@@ -24,7 +24,7 @@ export class Designer extends Usercontrol {
     static setCSS_globalVar (varList:VariableList /*key: string, value: string*/): void  {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
-    static Create(pera: UcOptions, ...args: any[]): tabControl { 
+    static Create(pera: IUcOptions, ...args: any[]): tabControl { 
         /** uccontrols/controls/tabControl.uc */
         return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as tabControl;
     }
@@ -44,7 +44,7 @@ export class Designer extends Usercontrol {
     constructor(){ super(); }
     initializecomponent(argsLst: IArguments, form: tabControl) {
         let fargs = Usercontrol.extractArgs(arguments);
-        let args = fargs[fargs.length-1] as UcOptions;
+        let args = fargs[fargs.length-1] as IUcOptions;
         let ucExt = this.ucExtends;
         
         ucExt.initializecomponent(args);        
