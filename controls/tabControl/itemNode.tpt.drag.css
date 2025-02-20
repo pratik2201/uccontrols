@@ -1,5 +1,5 @@
 
-[SELF_][drag-here="ok"] container{
+&[drag-here="ok"] container{
    border-style: solid;
    background-color: silver;
    color: black;

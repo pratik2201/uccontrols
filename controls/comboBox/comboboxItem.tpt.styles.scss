@@ -1,4 +1,4 @@
-[SELF_]{
+&{
     width: 100%;
     display:block;
     background-color: white;
@@ -6,10 +6,10 @@
     padding-left: 4px;
     box-sizing: border-box;
 }
-[SELF_]:hover{
+&:hover{
     background-color: lightcyan;
     border-color: cyan;
 }
-[SELF_][is-current="1"]{
+&[is-current="1"]{
     background-color:yellow;
 }

@@ -1,8 +1,8 @@
 [inside="uccontrols/controls/linearlist.uc"] {
-    [SELF_]:focus{
+    &:focus{
         outline: none;
     }
-    [SELF_]{
+    &{
         border: none;
         display: inline-block;        
         min-width: 100%;   
@@ -10,7 +10,7 @@
         width: auto;
         height: auto;
     }
-    [SELF_] > * {
+    & > * {
         white-space: nowrap;
     }
 }

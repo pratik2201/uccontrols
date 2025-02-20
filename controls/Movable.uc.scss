@@ -1,6 +1,6 @@
 @import "uccontrols/controls/common/resizer.scss";
 
-[SELF_]{
+&{
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     display: block;
     position: absolute;
@@ -9,19 +9,19 @@
    
     box-sizing: border-box;
 }
-[SELF_][win-state="normal"] {
+&[win-state="normal"] {
     box-shadow: 3px 3px 10px black;
     background: transparent;
 }
-[SELF_][win-state="dock"] {
+&[win-state="dock"] {
     box-shadow: none;
     background: transparent;
 }
-[SELF_][win-state="dock"] > mainContainer > header{
+&[win-state="dock"] > mainContainer > header{
    visibility: collapse;
    height: 0px;
 }
-[SELF_][win-state="dock"] > mainContainer{
+&[win-state="dock"] > mainContainer{
     border: none;
  }
 mainContainer {
@@ -39,7 +39,7 @@ title-bar {
     display: block;
 }
 
-[SELF_]:focus-within title-text[SELF_] {
+&:focus-within title-text& {
     background-color: black;
     color: whitesmoke;
 }

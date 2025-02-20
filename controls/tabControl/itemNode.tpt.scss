@@ -1,5 +1,5 @@
 @import "uccontrols/controls/tabControl/itemNode.tpt.drag.css";
-[SELF_] {
+& {
     background-color: white;
     display: inline-block;
     box-sizing: border-box;
@@ -26,33 +26,33 @@ span {
     font-size: smaller;
     margin-left: 3px;
 }
-[SELF_][active="1"] span{
+&[active="1"] span{
     font-weight: bold;
 }
-[SELF_][active="1"] container {
+&[active="1"] container {
     border-color: transparent;
     
     color: black;
 }
 
-[SELF_][active="1"] {
+&[active="1"] {
     background-color: white;
     border-color: black;
     border-bottom-color: transparent;
    
 }
 
-[SELF_][active="0"] {
+&[active="0"] {
     border-bottom-color: black;
     
 }
-[SELF_][active="0"]:hover container {
+&[active="0"]:hover container {
    /* border:solid 1px black;*/
     background-color: rgb(247, 243, 235);
     color: black;
 }
 
-[SELF_]:hover icon{
+&:hover icon{
     opacity: 1;
 }
 

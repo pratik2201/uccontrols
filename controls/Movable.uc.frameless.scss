@@ -1,5 +1,5 @@
 [inside="uccontrols/controls/Movable.uc"] {
-    [SELF_] mainContainer {
+    & mainContainer {
         display: block;
         border: none;
     }

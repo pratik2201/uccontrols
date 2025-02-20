@@ -1,5 +1,5 @@
 @use "uccontrols/controls/comboBox.uc.dropdownlist.scss";
-[SELF_] {
+& {
     width: inherit;
     height: auto;
     display: block;

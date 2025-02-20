@@ -1,6 +1,6 @@
 @import "uccontrols/controls/common/resizer.scss";
 
-[SELF_] {
+& {
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     display: block;
     position: absolute;
@@ -42,7 +42,7 @@ title-bar {
     
 }
 
-[SELF_]:focus-within title-text {
+&:focus-within title-text {
    
     /*box-shadow: 3px 0px 5px rgb(205 205 205 / 63%);*/
     background-color:-g-winFrame_backcolor rgb(228, 148, 0)--;

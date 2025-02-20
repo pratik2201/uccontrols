@@ -1,5 +1,5 @@
 [inside="uccontrols/controls/linearlist.uc"] {
-    [SELF_] {
+    & {
         width: max-content;
         height: max-content;
         display: inline-block;
@@ -16,7 +16,7 @@
         animation-fill-mode: forwards;
     }
 
-    [SELF_][dir="bottom"] {
+    &[dir="bottom"] {
         transform-origin: top;
         border-bottom-width: 3px;
         border-left-width: 1px;
@@ -24,7 +24,7 @@
         animation-name: slide_to_bottom;
     }
 
-    [SELF_][dir="top"] {
+    &[dir="top"] {
         transform-origin: bottom;
         border-top-width: 3px;
         border-left-width: 1px;
@@ -32,11 +32,11 @@
         animation-name: slide_to_top;
     }
 
-    [SELF_][dir="right"] {
+    &[dir="right"] {
         animation-name: slide_to_right;
     }
 
-    [SELF_][dir="left"] {
+    &[dir="left"] {
         animation-name: slide_to_left;
     }
 
