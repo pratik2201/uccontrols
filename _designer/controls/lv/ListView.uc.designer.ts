@@ -25,7 +25,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): ListView { 
         /** uccontrols/controls/lv/ListView.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as ListView;
+        return intenseGenerator.generateUC(this.FILE_PATH,ListView,pera,...args) as ListView;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];

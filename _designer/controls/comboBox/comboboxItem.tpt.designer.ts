@@ -40,7 +40,7 @@ export class Designer extends Template {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: ITptOptions): comboboxItem { 
-        return intenseGenerator.generateTPT(this.FILE_PATH,pera) as comboboxItem;
+        return intenseGenerator.generateTPT(this.FILE_PATH,comboboxItem,pera) as comboboxItem;
     }
 
     

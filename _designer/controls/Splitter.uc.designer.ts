@@ -25,7 +25,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): Splitter { 
         /** uccontrols/controls/Splitter.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as Splitter;
+        return intenseGenerator.generateUC(this.FILE_PATH,Splitter,pera,...args) as Splitter;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];

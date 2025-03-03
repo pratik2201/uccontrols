@@ -25,7 +25,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): Movable { 
         /** uccontrols/controls/Movable.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as Movable;
+        return intenseGenerator.generateUC(this.FILE_PATH,Movable,pera,...args) as Movable;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];

@@ -40,7 +40,7 @@ export class Designer extends Template {
         intenseGenerator.setCSS_globalVar(varList,this.FILE_PATH);
     }
     static Create(pera: ITptOptions): itemNode { 
-        return intenseGenerator.generateTPT(this.FILE_PATH,pera) as itemNode;
+        return intenseGenerator.generateTPT(this.FILE_PATH,itemNode,pera) as itemNode;
     }
 
     

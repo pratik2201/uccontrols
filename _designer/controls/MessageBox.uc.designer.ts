@@ -26,7 +26,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): MessageBox { 
         /** uccontrols/controls/MessageBox.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as MessageBox;
+        return intenseGenerator.generateUC(this.FILE_PATH,MessageBox,pera,...args) as MessageBox;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];

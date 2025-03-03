@@ -26,7 +26,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): comboBox { 
         /** uccontrols/controls/comboBox.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as comboBox;
+        return intenseGenerator.generateUC(this.FILE_PATH,comboBox,pera,...args) as comboBox;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];

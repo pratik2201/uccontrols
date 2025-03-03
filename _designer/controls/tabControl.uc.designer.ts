@@ -26,7 +26,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): tabControl { 
         /** uccontrols/controls/tabControl.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as tabControl;
+        return intenseGenerator.generateUC(this.FILE_PATH,tabControl,pera,...args) as tabControl;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];

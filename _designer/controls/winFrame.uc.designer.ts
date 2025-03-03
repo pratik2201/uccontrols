@@ -25,7 +25,7 @@ export class Designer extends Usercontrol {
     }
     static Create(pera: IUcOptions, ...args: any[]): winFrame { 
         /** uccontrols/controls/winFrame.uc */
-        return intenseGenerator.generateUC(this.FILE_PATH,pera,...args) as winFrame;
+        return intenseGenerator.generateUC(this.FILE_PATH,winFrame,pera,...args) as winFrame;
     }
     get(id:"") {
         return this.ucExtends.find(`[id="${id}"]`)[0];
