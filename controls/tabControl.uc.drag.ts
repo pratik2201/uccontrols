@@ -1,5 +1,5 @@
-import { DragHelper } from "ucbuilder/global/drag/dragHelper";
-import { Usercontrol } from "ucbuilder/Usercontrol";
+import { DragHelper } from "ucbuilder/global/drag/dragHelper.js";
+import { Usercontrol } from "ucbuilder/Usercontrol.js";
 import { tabControl } from "uccontrols/controls/tabControl.uc";
 
 export class dragHandler {

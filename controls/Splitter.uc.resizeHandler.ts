@@ -1,12 +1,12 @@
-import { Usercontrol } from "ucbuilder/Usercontrol";
-import { Rect, Point } from "ucbuilder/global/drawing/shapes";
-import { getConvertedNames, GridResizer, NamingConversion } from "ucbuilder/global/GridResizer";
-import { MouseForMove } from "ucbuilder/global/mouseForMove";
+import { Usercontrol } from "ucbuilder/Usercontrol.js";
+import { Rect, Point } from "ucbuilder/global/drawing/shapes.js";
+import { getConvertedNames, GridResizer, NamingConversion } from "ucbuilder/global/GridResizer.js";
+import { MouseForMove } from "ucbuilder/global/mouseForMove.js";
 import { Splitter } from "uccontrols/controls/Splitter.uc";
 import { boxHandler } from "uccontrols/controls/Splitter.uc.boxHandler";
 import { splitterMeasurementRow,SplitterMeasurementRow, SpliterType, splitterCell } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
-import { objectOpt } from "ucbuilder/build/common";
+import { objectOpt } from "ucbuilder/build/common.js";
 
 export class resizeHandler {
     nameList: NamingConversion = getConvertedNames('grid-template-columns');

@@ -1,9 +1,9 @@
 import { Designer } from "uccontrols/designer/controls/winFrame.uc.designer";
-import { objectResizer } from "ucbuilder/global/draging/objectResizer";
-import { UcStates } from "ucbuilder/enumAndMore";
-import { ResizeMoveEvent } from "ucbuilder/global/draging/ResizeMoveEvent";
-import { objectMover } from "ucbuilder/global/draging/objectMover";
-import { CommonEvent } from "ucbuilder/global/commonEvent";
+import { objectResizer } from "ucbuilder/global/draging/objectResizer.js";
+import { UcStates } from "ucbuilder/enumAndMore.js";
+import { ResizeMoveEvent } from "ucbuilder/global/draging/ResizeMoveEvent.js";
+import { objectMover } from "ucbuilder/global/draging/objectMover.js";
+import { CommonEvent } from "ucbuilder/global/commonEvent.js";
 export type winStates = "maximize" | "normal";
 export class winFrame extends Designer {
     private _backgroundOpacity: number = 0.500;

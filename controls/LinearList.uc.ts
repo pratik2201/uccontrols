@@ -1,7 +1,7 @@
-import { uniqOpt } from "ucbuilder/enumAndMore";
-import { TemplateNode } from "ucbuilder/Template.js";
-import { ScrollerLV } from "ucbuilder/global/listUI/scrollerLV";
-import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
+import { uniqOpt } from "ucbuilder/enumAndMore.js";
+import { TemplateNode } from "ucbuilder/Template.js.js";
+import { ScrollerLV } from "ucbuilder/global/listUI/scrollerLV.js";
+import { intenseGenerator } from "ucbuilder/intenseGenerator.js.js";
 import { Designer } from "uccontrols/_designer/controls/LinearList.uc.designer.js";
 export class LinearList extends Designer {
     lvUI: ScrollerLV = new ScrollerLV();

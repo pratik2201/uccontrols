@@ -1,10 +1,10 @@
 import { Designer } from "uccontrols/_designer/controls/ListView.uc.designer.js";
-import { propOpt } from "ucbuilder/build/common.js";
-import { intenseGenerator } from "ucbuilder/intenseGenerator";
-import { pagerLV } from "ucbuilder/global/listUI/pagerLV";
-import { simpleScroll } from "ucbuilder/global/listUI/pager/scrollNodes/simpleScroll";
-import { newPagerScroll } from "ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js";
-import { Template, TemplateNode } from "ucbuilder/Template.js";
+import { propOpt } from "ucbuilder/build/common.js.js";
+import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
+import { pagerLV } from "ucbuilder/global/listUI/pagerLV.js";
+import { simpleScroll } from "ucbuilder/global/listUI/pager/scrollNodes/simpleScroll.js";
+import { newPagerScroll } from "ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js.js";
+import { Template, TemplateNode } from "ucbuilder/Template.js.js";
 
 export class ListView extends Designer {
 

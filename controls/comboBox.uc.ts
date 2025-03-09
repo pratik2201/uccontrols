@@ -1,8 +1,8 @@
-import { Rect } from 'ucbuilder/global/drawing/shapes';
-import { Template, TemplateNode } from 'ucbuilder/Template';
+import { Rect } from "ucbuilder/global/drawing/shapes.js";
+import { Template, TemplateNode } from "ucbuilder/Template.js";
 import { comboboxItem } from 'uccontrols/controls/comboBox/comboboxItem.tpt';
-import { KeyboardKeys } from "ucbuilder/lib/hardware";
-import { intenseGenerator } from 'ucbuilder/intenseGenerator';
+import { KeyboardKeys } from "ucbuilder/lib/hardware.js";
+import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
 import { Designer } from 'uccontrols/_designer/controls/comboBox.uc.designer';
 import { binderNode } from 'uccontrols/controls/comboBox.uc.binderNode';
 

@@ -1,7 +1,7 @@
-import { Template, TemplateNode } from 'ucbuilder/Template';
-import { intenseGenerator } from 'ucbuilder/intenseGenerator';
-import { ITptOptions, templatePathOptions } from 'ucbuilder/enumAndMore';
-import { VariableList } from 'ucbuilder/lib/stylers/StylerRegs';
+import { Template, TemplateNode } from "ucbuilder/Template.js";
+import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
+import { ITptOptions, templatePathOptions } from "ucbuilder/enumAndMore.js";
+import { VariableList } from "ucbuilder/lib/stylers/StylerRegs.js";
 
  /**
  *  code filename must same and case sensitive with classname 

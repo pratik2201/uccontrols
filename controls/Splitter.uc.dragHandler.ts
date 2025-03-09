@@ -1,4 +1,4 @@
-import { DragHelper } from "ucbuilder/global/drag/dragHelper";
+import { DragHelper } from "ucbuilder/global/drag/dragHelper.js";
 import { boxHandler } from "uccontrols/controls/Splitter.uc.boxHandler";
 import { dropIndictors,PossiblePlaces } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
