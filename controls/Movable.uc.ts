@@ -1,10 +1,10 @@
 import { Designer } from "uccontrols/_designer/controls/Movable.uc.designer";
-import { objectResizer } from "ucbuilder/global/draging/objectResizer.js";
-import { UcStates } from "ucbuilder/enumAndMore.js";
-import { CommonEvent } from "ucbuilder/global/commonEvent.js";
-import { Usercontrol } from "ucbuilder/Usercontrol.js";
-import { DragHelper } from "ucbuilder/global/drag/dragHelper.js";
-import { ResizeMoveEvent } from "ucbuilder/global/draging/ResizeMoveEvent.js";
+import { objectResizer } from "@ucbuilder/global/draging/objectResizer.js";
+import { UcStates } from "@ucbuilder/enumAndMore.js";
+import { CommonEvent } from "@ucbuilder/global/commonEvent.js";
+import { Usercontrol } from "@ucbuilder/Usercontrol.js";
+import { DragHelper } from "@ucbuilder/global/drag/dragHelper.js";
+import { ResizeMoveEvent } from "@ucbuilder/global/draging/ResizeMoveEvent.js";
 
 export class Movable extends Designer {
 

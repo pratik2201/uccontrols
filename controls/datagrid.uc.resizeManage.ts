@@ -1,7 +1,7 @@
-import { MouseForMove } from "ucbuilder/global/mouseForMove.js";
-import { GridResizer, NamingConversion } from "ucbuilder/global/gridResizer.js";
-import { Point } from "ucbuilder/global/drawing/shapes.js";
-import { CommonEvent } from "ucbuilder/global/commonEvent.js";
+import { MouseForMove } from "@ucbuilder/global/mouseForMove.js";
+import { GridResizer, NamingConversion } from "@ucbuilder/global/gridResizer.js";
+import { Point } from "@ucbuilder/global/drawing/shapes.js";
+import { CommonEvent } from "@ucbuilder/global/commonEvent.js";
 
 export class measurementNode {
   size: number = 0;

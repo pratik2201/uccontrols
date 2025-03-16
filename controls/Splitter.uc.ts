@@ -1,13 +1,13 @@
-import { Usercontrol } from "ucbuilder/Usercontrol.js";
+import { Usercontrol } from "@ucbuilder/Usercontrol.js";
 import { boxHandler } from "uccontrols/controls/Splitter.uc.boxHandler";
 import { nodeManage } from "uccontrols/controls/Splitter.uc.nodeManage";
-import { controlOpt, objectOpt, arrayOpt } from "ucbuilder/build/common.js";
+import { controlOpt, objectOpt, arrayOpt } from "@ucbuilder/build/common.js";
 import { SpliterType, splitterCell, SplitterMeasurementRow, TabChilds, tabChilds, SplitterCell } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
-import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
+import { intenseGenerator } from "@ucbuilder/intenseGenerator.js";
 import { Designer } from "uccontrols/_designer/controls/Splitter.uc.designer";
 import { resizeHandler } from "uccontrols/controls/Splitter.uc.resizeHandler";
-import { jqFeatures } from "ucbuilder/global/jqFeatures.js";
+import { jqFeatures } from "@ucbuilder/global/jqFeatures.js";
 
 export class Splitter extends Designer {
     SESSION_DATA: {

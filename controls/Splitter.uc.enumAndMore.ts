@@ -1,6 +1,6 @@
-import { CommonEvent } from "ucbuilder/global/commonEvent.js";
-import { Usercontrol } from "ucbuilder/Usercontrol.js";
-import { MeasurementRow } from "ucbuilder/global/GridResizer.js";
+import { CommonEvent } from "@ucbuilder/global/commonEvent.js";
+import { Usercontrol } from "@ucbuilder/Usercontrol.js";
+import { MeasurementRow } from "@ucbuilder/global/GridResizer.js";
 
 export interface TabChilds {
     index: number;

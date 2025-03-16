@@ -1,7 +1,7 @@
-import { Usercontrol } from "ucbuilder/Usercontrol.js";
-import { intenseGenerator } from "ucbuilder/intenseGenerator.js";
-import { IUcOptions } from "ucbuilder/enumAndMore.js";
-import { VariableList } from "ucbuilder/lib/stylers/StylerRegs.js";
+import { Usercontrol } from "@ucbuilder/Usercontrol.js";
+import { intenseGenerator } from "@ucbuilder/intenseGenerator.js";
+import { IUcOptions } from "@ucbuilder/enumAndMore.js";
+import { VariableList } from "@ucbuilder/lib/stylers/StylerRegs.js";
 import { winFrame } from 'uccontrols/controls/winFrame.uc';
 
 /**

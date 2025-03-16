@@ -1,11 +1,11 @@
-import { resizeManage } from "ucbuilder/global/resizer/resizeManage.js";
+import { resizeManage } from "@ucbuilder/global/resizer/resizeManage.js";
 import { Designer } from "uccontrols/_designer/controls/datagrid.uc.designer.js";
-import { pagerLV } from "ucbuilder/global/listUI/pagerLV.js";
-import { TemplateNode } from "ucbuilder/Template.js";
-import { intenseGenerator } from "ucbuilder/intenseGenerator.js.js";
-import { newObjectOpt } from "ucbuilder/global/objectOpt.js.js";
-import { simpleScroll } from "ucbuilder/global/listUI/pager/scrollNodes/simpleScroll.js";
-import { newPagerScroll } from "ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js";
+import { pagerLV } from "@ucbuilder/global/listUI/pagerLV.js";
+import { TemplateNode } from "@ucbuilder/Template.js";
+import { intenseGenerator } from "@ucbuilder/intenseGenerator.js.js";
+import { newObjectOpt } from "@ucbuilder/global/objectOpt.js.js";
+import { simpleScroll } from "@ucbuilder/global/listUI/pager/scrollNodes/simpleScroll.js";
+import { newPagerScroll } from "@ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js";
 interface DatagridFillArguments {
     addHeader: boolean,
     headerRow: {},

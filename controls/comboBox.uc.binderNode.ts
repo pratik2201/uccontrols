@@ -1,9 +1,9 @@
-import { CommonEvent } from "ucbuilder/global/commonEvent.js";
-import { Rect } from "ucbuilder/global/drawing/shapes.js.js";
-import { Template, TemplateNode } from "ucbuilder/Template.js";
+import { CommonEvent } from "@ucbuilder/global/commonEvent.js";
+import { Rect } from "@ucbuilder/global/drawing/shapes.js.js";
+import { Template, TemplateNode } from "@ucbuilder/Template.js";
 import {LinearList} from "uccontrols/controls/LinearList.uc";
 import { Positionar } from "uccontrols/controls/comboBox.uc.positionar";
-import { KeyboardKeys } from "ucbuilder/lib/hardware.js";
+import { KeyboardKeys } from "@ucbuilder/lib/hardware.js";
 
 export class binderNode {
     private boundElement: HTMLElement;

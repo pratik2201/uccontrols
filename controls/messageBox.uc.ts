@@ -1,5 +1,5 @@
-import { KeyboardKeys } from "ucbuilder/lib/hardware.js";
-import { intenseGenerator } from "ucbuilder/intenseGenerator.js.js";
+import { KeyboardKeys } from "@ucbuilder/lib/hardware.js";
+import { intenseGenerator } from "@ucbuilder/intenseGenerator.js.js";
 import { Designer } from "uccontrols/_designer/controls/MessageBox.uc.designer";
 
 export type MessageBoxResult = "none" | "yes" | "no" | "ok" | "cancel" | "abort" | "retry" | "ignore";

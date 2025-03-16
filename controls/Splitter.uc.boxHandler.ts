@@ -1,9 +1,9 @@
 import {  dropIndictors,PossiblePlaces, splitterMeasurementRow,SplitterMeasurementRow } from "uccontrols/controls/Splitter.uc.enumAndMore";
 import { dragHandler } from "uccontrols/controls/Splitter.uc.dragHandler";
-import { Usercontrol } from "ucbuilder/Usercontrol.js";
+import { Usercontrol } from "@ucbuilder/Usercontrol.js";
 import {Splitter} from "uccontrols/controls/Splitter.uc";
-import { DragHelper } from "ucbuilder/global/drag/dragHelper.js";
-import { objectOpt, controlOpt } from "ucbuilder/build/common.js";
+import { DragHelper } from "@ucbuilder/global/drag/dragHelper.js";
+import { objectOpt, controlOpt } from "@ucbuilder/build/common.js";
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
 
 export class boxHandler {

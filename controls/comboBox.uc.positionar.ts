@@ -1,4 +1,4 @@
-import { Rect } from "ucbuilder/global/drawing/shapes.js.js";
+import { Rect } from "@ucbuilder/global/drawing/shapes.js.js";
 
 export class Positionar {
     direction: "left" | "top" | "right" | "bottom" = "bottom";

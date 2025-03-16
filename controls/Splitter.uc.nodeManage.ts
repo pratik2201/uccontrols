@@ -1,5 +1,5 @@
 import { splitersGrid } from "uccontrols/controls/Splitter.uc.splitersGrid";
-import { intenseGenerator } from "ucbuilder/intenseGenerator.js.js";
+import { intenseGenerator } from "@ucbuilder/intenseGenerator.js.js";
 import { SpliterType } from 'uccontrols/controls/Splitter.uc.enumAndMore.js';
 import { boxHandler } from 'uccontrols/controls/Splitter.uc.boxHandler.js';
 import { Splitter } from 'uccontrols/controls/Splitter.uc';
