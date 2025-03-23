@@ -2,7 +2,7 @@ import { Designer } from "uccontrols/_designer/controls/lv/ListView.uc.designer"
 import { TemplateNode } from "@ucbuilder/Template.js";
 import { Size } from "@ucbuilder/global/drawing/shapes.js";
 import { SourceManage } from "@sharepnl/util/datasources/SourceManage.js";
-import { eventHandler } from "uccontrols/controls/lv/ListView.uc.events";
+import { eventHandler } from "uccontrols/controls/lv/ListView.uc.eve.js";
 import { SourceProperties } from "@sharepnl/util/datasources/PropertiesHandler.js";
 import { SourceScrollHandler } from "@sharepnl/util/datasources/ScrollHandler.js";
 
