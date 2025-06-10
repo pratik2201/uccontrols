@@ -1,7 +1,7 @@
 import { CommonEvent } from "@ucbuilder/global/commonEvent.js";
 import { KeyboardKeys } from "@ucbuilder/lib/hardware.js";
 import { ListView } from "uccontrols/controls/lv/ListView.uc";
-import { SourceProperties } from "@sharepnl/util/datasources/PropertiesHandler.js";
+import { SourceProperties } from "@sharepnl/src/util/datasources/PropertiesHandler.js";
 import { TabIndexManager } from "@ucbuilder/lib/TabIndexManager.js";
 export class eventHandler {
   //#region  EVENT DECLARATION
