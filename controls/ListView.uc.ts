@@ -30,8 +30,8 @@ export class ListView extends Designer {
         // this.lvUI.scroller.scrollBox.hScrollbar;
         //let hnodes = cbox.hScrollbar.nodes;
         /*let vnodes = cbox.vScrollbar.nodes;
-        //hnodes.scrollbar = hnodes.scrollbar.$();
-        vnodes.scrollbar = vnodes.scrollbar.$();
+        //hnodes.scrollbar = hnodes.scrollbar.async $();
+        vnodes.scrollbar = vnodes.scrollbar.async $();
         vnodes.beginText = this.begin_scroll_text;
         vnodes.endText = this.end_scroll_text;
         //this.hscrollbar1.appendChild(hnodes.scrollbar);

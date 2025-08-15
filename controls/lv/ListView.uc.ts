@@ -78,7 +78,7 @@ export class ListView extends Designer {
         this.scrollbar = this.source.scrollbar;
         this.sconfig.refUC = this;
     }
-    $() {
+    async $() {
         this.Events.main = this;
         let config = this.sconfig;
         config.container = this.ll_view;

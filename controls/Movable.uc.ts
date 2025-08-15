@@ -51,7 +51,7 @@ export class Movable extends Designer {
     get DragEvents() { return this.dragMoveEvent.Events; }
     dragMoveEvent: ResizeMoveEvent;
    
-    $(){
+    async $(){
         this.ucExtends.session.autoLoadSession = true;
 
         this.dragMoveEvent = new ResizeMoveEvent();

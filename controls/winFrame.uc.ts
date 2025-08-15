@@ -27,7 +27,7 @@ export class winFrame extends Designer {
     dragMoveEvent: ResizeMoveEvent;
     resizer: objectResizer;
     mover: objectMover;
-    $() {
+    async $() {
         this.ucExtends.session.autoLoadSession = true;
         this.init();
         this.dragMoveEvent = new ResizeMoveEvent();
