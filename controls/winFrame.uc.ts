@@ -5,7 +5,7 @@ import { ResizeMoveEvent } from "@ucbuilder/global/draging/ResizeMoveEvent.js";
 import { objectMover } from "@ucbuilder/global/draging/objectMover.js";
 import { CommonEvent } from "@ucbuilder/global/commonEvent.js";
 export type winStates = "maximize" | "normal";
-export class winFrame extends Designer {
+export class winFrame extends winFrame$Designer {
     private _backgroundOpacity: number = 0.500;
     set backgroundOpacity(val: number) { this._backgroundOpacity = val > 1 ? val / 1000 : val }
     get backgroundOpacity(): number { return this._backgroundOpacity; }

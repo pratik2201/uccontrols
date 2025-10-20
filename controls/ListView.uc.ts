@@ -1,4 +1,4 @@
-import { Designer } from "uccontrols/_designer/controls/ListView.uc.designer.js";
+
 import { propOpt } from "@ucbuilder/build/common.js.js";
 import { intenseGenerator } from "@ucbuilder/intenseGenerator.js";
 import { pagerLV } from "@ucbuilder/global/listUI/pagerLV.js";
@@ -6,7 +6,7 @@ import { simpleScroll } from "@ucbuilder/global/listUI/pager/scrollNodes/simpleS
 import { newPagerScroll } from "@ucbuilder/global/listUI/pager/scrollNodes/newPagerScroll.js.js";
 import { Template, TemplateNode } from "@ucbuilder/Template.js.js";
 
-export class ListView extends Designer {
+export class ListView extends ListView$Designer {
 
     accessKey: string = ATTR_OF.X_NAME;
     lvUI = new pagerLV();

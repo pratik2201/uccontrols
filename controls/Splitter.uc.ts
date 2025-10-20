@@ -9,7 +9,7 @@ import { Designer } from "uccontrols/_designer/controls/Splitter.uc.designer";
 import { resizeHandler } from "uccontrols/controls/Splitter.uc.resizeHandler";
 import { jqFeatures } from "@ucbuilder/global/jqFeatures.js";
 
-export class Splitter extends Designer {
+export class Splitter extends Splitter$Designer {
     SESSION_DATA: {
         measurement: SplitterMeasurementRow[];
         attribList: string;

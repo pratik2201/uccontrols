@@ -6,7 +6,7 @@ import { ResourcesUC } from "@ucbuilder/ResourcesUC.js.js";
 import { Usercontrol } from "@ucbuilder/Usercontrol.js.js";
 import { Designer } from "uccontrols/_designer/controls/tabControl/itemNode.tpt.designer";
 
-export class itemNode extends Designer {
+export class itemNode extends itemNode$Designer {
     main: tabControl;
     dragVisibility(isVisible: boolean, tarEle: HTMLElement): void {
         if (isVisible) {

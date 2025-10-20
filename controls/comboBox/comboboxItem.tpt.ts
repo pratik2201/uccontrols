@@ -1,5 +1,5 @@
 import { Designer } from 'uccontrols/_designer/controls/comboBox/comboboxItem.tpt.designer';
-export class comboboxItem extends Designer {
+export class comboboxItem extends comboboxItem$Designer {
     constructor() {
         super(arguments);
         

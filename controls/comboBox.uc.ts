@@ -6,7 +6,7 @@ import { intenseGenerator } from "@ucbuilder/intenseGenerator.js";
 import { Designer } from 'uccontrols/_designer/controls/comboBox.uc.designer';
 import { binderNode } from 'uccontrols/controls/comboBox.uc.binderNode';
 
-export class comboBox extends Designer {
+export class comboBox extends comboBox$Designer {
     private _source: any;
     private _itemTemplate: TemplateNode;
     private _seletecteditemTemplate: TemplateNode;

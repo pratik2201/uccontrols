@@ -1,5 +1,5 @@
 import { resizeManage } from "@ucbuilder/global/resizer/resizeManage.js";
-import { Designer } from "uccontrols/_designer/controls/datagrid.uc.designer.js";
+
 import { pagerLV } from "@ucbuilder/global/listUI/pagerLV.js";
 import { TemplateNode } from "@ucbuilder/Template.js";
 import { intenseGenerator } from "@ucbuilder/intenseGenerator.js.js";
@@ -20,7 +20,7 @@ interface DatagridFillArguments {
     addFooter: false,
     footerRow: {},
   }
-export class datagrid extends Designer {
+export class datagrid extends datagrid$Designer {
   constructor() {
     super();
     this.initializecomponent(arguments, this);

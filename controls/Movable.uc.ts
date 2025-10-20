@@ -6,7 +6,7 @@ import { Usercontrol } from "@ucbuilder/Usercontrol.js";
 import { DragHelper } from "@ucbuilder/global/drag/dragHelper.js";
 import { ResizeMoveEvent } from "@ucbuilder/global/draging/ResizeMoveEvent.js";
 
-export class Movable extends Designer {
+export class Movable extends Movable$Designer {
 
     private _backgroundOpacity: number = 0.500;
     set backgroundOpacity(val: number) { this._backgroundOpacity = val > 1 ? val / 1000 : val }

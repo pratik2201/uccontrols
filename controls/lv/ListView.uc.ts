@@ -7,7 +7,7 @@ import { SourceProperties } from "@sharepnl/src/util/datasources/PropertiesHandl
 import { SourceScrollHandler } from "@sharepnl/src/util/datasources/ScrollHandler.js";
 
 
-export class ListView extends Designer {
+export class ListView extends ListView$Designer {
 
     public get itemTemplate(): TemplateNode {
         return this.source.nodes.template;

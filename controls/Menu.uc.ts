@@ -1,5 +1,5 @@
 import { Designer } from "uccontrols/_designer/controls/Menu.uc.designer";
-export class Menu extends Designer{
+export class Menu extends Menu$Designer{
     constructor() { super();  this.initializecomponent(arguments,this);
         
         

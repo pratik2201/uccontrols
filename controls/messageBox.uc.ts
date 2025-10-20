@@ -6,7 +6,7 @@ export type MessageBoxResult = "none" | "yes" | "no" | "ok" | "cancel" | "abort"
 
 export type MessageBoxButtonTypes = "Ok" | "OkCancel" | "AbortRetryIgnore" | "YesNoCancel" | "YesNo" | "RetryCancel";
 
-export class MessageBox extends Designer {
+export class MessageBox extends MessageBox$Designer {
 
     static Show(
         message: string = "",
